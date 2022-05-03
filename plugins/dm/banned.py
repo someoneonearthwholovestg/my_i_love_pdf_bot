@@ -3,6 +3,7 @@
 
 from pyrogram import filters
 from Configs.dm import Config
+from pyrogram.types import Message
 from Configs.group import groupConfig
 from pyrogram import Client as ILovePDF
 from pyrogram.types import InlineKeyboardButton
@@ -39,7 +40,7 @@ button=InlineKeyboardMarkup(
 #--------> LOCAL FUNCTIONs
 #------------------->
 
-async def bannedUsers(_, __, message):
+async def bannedUsers(_, __, message: Message):
     if (message.from_user.id in BANNED_USERS) or 
         ((ADMIN_ONLY) and (message.from_user.id not in ADMINS)) or
         ((BANNED_USR_DB) and (message.from_user.id not in BANNED_USR_DB)):
