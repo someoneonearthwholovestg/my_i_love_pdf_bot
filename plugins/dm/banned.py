@@ -41,9 +41,11 @@ button=InlineKeyboardMarkup(
 #------------------->
 
 async def bannedUsers(_, __, message: Message):
-    return True if (message.from_user.id in BANNED_USERS) or 
+    if (message.from_user.id in BANNED_USERS) or 
         ((ADMIN_ONLY) and (message.from_user.id not in ADMINS)) or
-        ((BANNED_USR_DB) and (message.from_user.id not in BANNED_USR_DB)) else return False
+        ((BANNED_USR_DB) and (message.from_user.id not in BANNED_USR_DB)):
+        return True
+    return False
 
 banned_user=filters.create(bannedUsers)
 
