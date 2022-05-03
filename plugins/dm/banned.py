@@ -50,9 +50,9 @@ async def bannedUsers(_, __, message: Message):
 banned_user=filters.create(bannedUsers)
 
 async def bannedGroups(_, __, message: Message):
-    if (message.chat.id in BANNED_GROUP) or
-        ((ONLY_GROUP) and (message.chat.id not in ONLY_GROUP)) or
-        ((BANNED_GRP_DB) and (message.chat.id not in BANNED_GRP_DB)):
+    if (message.chat.id in BANNED_GROUP) or (
+        (ONLY_GROUP) and (message.chat.id not in ONLY_GROUP)) or (
+        (BANNED_GRP_DB) and (message.chat.id not in BANNED_GRP_DB)):
         return True
     return False
 
