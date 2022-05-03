@@ -39,7 +39,7 @@ button=InlineKeyboardMarkup(
 #--------> LOCAL FUNCTIONs
 #------------------->
 
-async def bannedUsers(_, __, message: Message):
+async def bannedUsers(_, __, message):
     if (message.from_user.id in BANNED_USERS) or 
         ((ADMIN_ONLY) and (message.from_user.id not in ADMINS)) or
         ((BANNED_USR_DB) and (message.from_user.id not in BANNED_USR_DB)):
