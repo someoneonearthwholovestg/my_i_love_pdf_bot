@@ -64,8 +64,6 @@ suprtedPdfFile2 = [
 #--------> LOCAL VARIABLES
 #------------------->
 
-UCantUse = "For Some Reason You Can't Use This Bot 🛑"
-
 pdfReplyMsg = """`What shall i wanted to do with this file.?`
 
 File Name : `{}`
@@ -94,17 +92,6 @@ Due To The Huge Traffic Only Channel Members Can Use this Bot 🚶
 This Means You Need To Join The Below Mentioned Channel for Using Me!
 
 hit on "retry ♻️" after joining.. 😅"""
-
-button=InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton(
-                    "😉 Create your Own 😉",
-                    url="https://github.com/nabilanavab/ilovepdf"
-                )
-            ]
-       ]
-    )
 
 #--------------->
 #--------> PDF REPLY BUTTON
@@ -147,9 +134,6 @@ pdfReply=InlineKeyboardMarkup(
 #------------------->
 
 UPDATE_CHANNEL=Config.UPDATE_CHANNEL
-BANNED_USERS=Config.BANNED_USERS
-ADMIN_ONLY=Config.ADMIN_ONLY
-ADMINS=Config.ADMINS
 
 #--------------->
 #--------> REPLY TO DOCUMENTS/FILES
@@ -187,15 +171,6 @@ async def documents(bot, message):
                     )
                 )
                 return
-        # CHECKS IF USER BANNED/ADMIN..
-        if (message.chat.id in BANNED_USERS) or (
-            (ADMIN_ONLY) and (message.chat.id not in ADMINS)
-        ):
-            await message.reply_text(
-                UCantUse,
-                reply_markup=button
-            )
-            return
         
         isPdfOrImg = message.document.file_name        # file name
         fileSize = message.document.file_size          # file size
