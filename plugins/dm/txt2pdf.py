@@ -15,28 +15,12 @@ from pyrogram.types import InlineKeyboardMarkup
 #------------------->
 
 PDF_THUMBNAIL=Config.PDF_THUMBNAIL
-BANNED_USERS=Config.BANNED_USERS
-ADMIN_ONLY=Config.ADMIN_ONLY
-ADMINS=Config.ADMINS
 
 #--------------->
 #--------> LOCAL VARIABLES
 #------------------->
 
 TXT = {}
-
-UCantUse = "For Some Reason You Can't Use This Bot 🛑"
-
-button=InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton(
-                    "😉 Create your Own 😉",
-                    url="https://github.com/nabilanavab/ilovepdf"
-                )
-            ]
-       ]
-    )
 
 #--------------->
 #--------> REPLY TO /txt2pdf
@@ -46,13 +30,6 @@ button=InlineKeyboardMarkup(
 async def feedback(bot, message):
     try:
         await message.reply_chat_action("typing")
-        if (message.chat.id in BANNED_USERS) or (
-            (ADMIN_ONLY) and (message.chat.id not in ADMINS)
-        ):
-            await message.reply_text(
-                UCantUse, reply_markup=button, quote=True
-            )
-            return
         await message.reply_text(
             text="__Now, Please Select A Font Style »__",
             reply_markup=InlineKeyboardMarkup(
