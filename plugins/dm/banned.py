@@ -20,7 +20,7 @@ BANNED_USERS=Config.BANNED_USERS
 ADMIN_ONLY=Config.ADMIN_ONLY
 ADMINS=Config.ADMINS
 
-PIC="/IMAGES/banned.jpeg"
+PIC="./IMAGES/banned.jpeg"
 
 UCantUse="Hey {}\nFOR SOME REASON YOU CANT USE THIS BOT :("
 
@@ -66,7 +66,7 @@ async def bannedUsr(bot, message):
         if message.from_user.id in BANNED_USR_DB:
             ban=await db.get_ban_status(message.from_user.id)
             await message.reply_photo(
-                photo=PIC, caption=UCantUse.format(message.from_user.mention)+f"\n\nREASON: {ban["ban_reason"]}",
+                photo=PIC, caption=UCantUse.format(message.from_user.mention)+f'\n\nREASON: {ban["ban_reason"]}',
                 reply_markup=button, quote=True
             )
             return
@@ -85,7 +85,7 @@ async def bannedGrp(bot, message):
         if message.chat.id in BANNED_GRP_DB:
             ban=await db.get_ban_status(message.chat.id)
             toPin=await message.reply_photo(
-                photo=PIC, caption=GroupCantUse.format(message.chat.mention)+f"\n\nREASON: {ban["ban_reason"]}",
+                photo=PIC, caption=GroupCantUse.format(message.chat.mention)+f'\n\nREASON: {ban["ban_reason"]}',
                 reply_markup=button, quote=True
             )
         else:
