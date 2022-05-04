@@ -17,7 +17,7 @@ class dataBASE(object):
     MONGODB_URI=os.environ.get("MONGODB_URI", False)
     if MONGODB_URI:
         isMONGOexist=True
-        userBANNED_db, groupBANNED_db=await db.get_banned()
+        userBANNED_db, groupBANNED_db=db.get_banned()
         BANNED_USR_DB=userBANNED_db
         BANNED_GRP_DB=groupBANNED_db
     
