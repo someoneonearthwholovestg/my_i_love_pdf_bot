@@ -20,7 +20,6 @@ class dataBASE(object):
         userBANNED_db, groupBANNED_db=db.get_banned()
         BANNED_USR_DB=userBANNED_db
         BANNED_GRP_DB=groupBANNED_db
-    print("test: ", MONGODB_URI
     
     LOG_CHANNEL=os.environ.get("LOG_CHANNEL", False)
 
