@@ -107,7 +107,7 @@ async def start(bot, message):
                         chat_id=LOG_CHANNEL,
                         text=LOG_TEXT.format(message.from_user.id, message.from_user.mention),
                         reply_markup=InlineKeyboardMarkup(
-                            [[InlineKeyboardButton("«« B@N ««", callback_data=f"banU|{chat_id}"]]
+                            [[InlineKeyboardButton("«« B@N ««", callback_data=f"banU|{chat_id}")]]
                         )
                     )
         # CHECK USER IN CHANNEL (IF UPDATE_CHANNEL ADDED)
