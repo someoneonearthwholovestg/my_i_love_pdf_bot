@@ -2,7 +2,11 @@
 # copyright ©️ 2021 nabilanavab
 
 import os
-import database
+
+try:
+  import database
+except:
+  pass
 
 #--------------->
 #--------> CONFIG VAR.
