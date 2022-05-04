@@ -2,7 +2,7 @@
 # copyright ©️ 2021 nabilanavab
 
 import shutil
-import psutil
+import psutil as p
 from database import db
 from pyrogram import filters
 from Configs.dm import Config
