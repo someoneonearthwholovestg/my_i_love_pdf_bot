@@ -2,9 +2,6 @@
 # copyright ©️ 2021 nabilanavab
 
 import os
-
-BANNED_USR_DB, BANNED_GRP_DB = [], []
-
 import database
 
 #--------------->
