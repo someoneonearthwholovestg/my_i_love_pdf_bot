@@ -8,7 +8,6 @@ from Configs.group import groupConfig
 from pyrogram import Client as ILovePDF
 from pyrogram.types import InlineKeyboardButton
 from pyrogram.types import InlineKeyboardMarkup
-from Configs.db import BANNED_USR_DB, BANNED_GRP_DB
 
 #--------------->
 #--------> config vars
