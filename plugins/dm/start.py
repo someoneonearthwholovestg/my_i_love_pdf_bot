@@ -124,9 +124,9 @@ async def start(bot, message):
                                  "\n\nContact Bot Owner 🤐",
                          reply_markup=InlineKeyboardMarkup(
                             [[InlineKeyboardButton("Owner 🎊", url="https://t.me/nabilanavab")]]
-                        )
-                    )
-                    return
+                         )
+                     )
+                     return
             except UserNotParticipant:
                 if invite_link==None:
                     invite_link=await bot.create_chat_invite_link(int(UPDATE_CHANNEL))
