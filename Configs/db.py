@@ -8,7 +8,7 @@ import database
 #--------> CONFIG VAR.
 #------------------->
 
-BANNED_USR_DB, BANNED_GRP_DB = [], []
+BANNED_USR_DB=[]; BANNED_GRP_DB=[]
 
 class dataBASE(object):
     
