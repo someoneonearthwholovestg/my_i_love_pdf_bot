@@ -69,7 +69,8 @@ LOG_TEXT="#newUser\nID: {}\nName: {}"
 
 button=InlineKeyboardMarkup(
         [[
-            InlineKeyboardButton("🌍 SET LANG 🌍", callback_data="underDev"),
+            InlineKeyboardButton("🌍 SET LANG 🌍", callback_data="underDev")
+        ],[
             InlineKeyboardButton("📌 SET THUMB 📌", callback_data="underDev"),
             InlineKeyboardButton("💩 SET API 💩", callback_data="underDev")
         ],[
