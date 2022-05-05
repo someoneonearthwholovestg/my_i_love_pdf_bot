@@ -4,12 +4,13 @@
 from pdf import invite_link
 from pyrogram import filters
 from Configs.dm import Config
-from Configs.db import dataBASE
 from pyrogram import Client as ILovePDF
+from Configs.db import isMONGOexist, LOG_CHANNEL
 from pyrogram.types import InlineKeyboardButton
 from pyrogram.types import InlineKeyboardMarkup
 
-if dataBASE.isMONGOexist:
+print("test: " ,isMONGOexist)
+if isMONGOexist:
     from database import db
 
 #--------> LOCAL VARIABLES
@@ -86,7 +87,7 @@ button=InlineKeyboardMarkup(
 
 PIC="./IMAGES/start.jpeg"
 
-LOG_CHANNEL=dataBASE.LOG_CHANNEL
+LOG_CHANNEL=LOG_CHANNEL
 UPDATE_CHANNEL=Config.UPDATE_CHANNEL
 
 #--------------->
@@ -99,7 +100,7 @@ async def start(bot, message):
         global invite_link
         await message.reply_chat_action("typing")
         # CHECK IF USER IN DATABASE
-        if dataBASE.isMONGOexist:
+        if isMONGOexist:
             if not await db.is_user_exist(message.from_user.id):
                 await db.add_user(message.from_user.id, message.from_user.first_name)
                 if not LOG_CHANNEL:
