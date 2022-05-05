@@ -145,6 +145,7 @@ class Database:
     async def get_db_size(self):
         return (await self.db.command("dbstats"))['dataSize']
 
-db=Database(dataBASE.MONGODB_URI, "nabilanavab-iLovePDF")
+if dataBASE.isMONGOexist:
+    db=Database(dataBASE.MONGODB_URI, "nabilanavab-iLovePDF")
 
 #                                                                             Telegram: @nabilanavab
