@@ -9,7 +9,6 @@ from Configs.db import isMONGOexist, LOG_CHANNEL
 from pyrogram.types import InlineKeyboardButton
 from pyrogram.types import InlineKeyboardMarkup
 
-print("test: " ,isMONGOexist)
 if isMONGOexist:
     from database import db
 
@@ -160,8 +159,8 @@ async def start(bot, message):
         )
         # DELETES /start MESSAGE
         await message.delete()
-    except Exception as e:
-        print("start error: ", e)
+    except Exception:
+        pass
 
 #--------------->
 #--------> START CALLBACKS
@@ -181,8 +180,8 @@ async def _hlp(bot, callbackQuery):
                 [[InlineKeyboardButton("« BACK «", callback_data="back")]]
             )
         )
-    except Exception:
-        pass
+    except Exception as e:
+        print(e)
 
 @ILovePDF.on_callback_query(back)
 async def _back(bot, callbackQuery):
@@ -194,8 +193,8 @@ async def _back(bot, callbackQuery):
             ),
             reply_markup=button
         )
-    except Exception:
-        pass
+    except Exception as e:
+        print(e)
 
 @ILovePDF.on_callback_query(refresh)
 async def _refresh(bot, callbackQuery):
