@@ -159,8 +159,8 @@ async def start(bot, message):
         )
         # DELETES /start MESSAGE
         await message.delete()
-    except Exception:
-        pass
+    except Exception as e:
+        print("start error: ", e)
 
 #--------------->
 #--------> START CALLBACKS
