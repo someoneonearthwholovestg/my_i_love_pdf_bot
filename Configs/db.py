@@ -7,6 +7,8 @@ isMONGOexist=False
 if os.environ.get("MONGODB_URI", False):
     isMONGOexist=True
 
+LOG_CHANNEL=os.environ.get("LOG_CHANNEL", False)
+
 BANNED_USR_DB, BANNED_GRP_DB = [], []
 
 import database
@@ -23,7 +25,5 @@ class dataBASE(object):
         userBANNED_db, groupBANNED_db = db.get_banned()
         BANNED_USR_DB=userBANNED_db
         BANNED_GRP_DB=groupBANNED_db
-    
-    LOG_CHANNEL=os.environ.get("LOG_CHANNEL", False)
 
 #                                                                             Telegram: @nabilanavab
