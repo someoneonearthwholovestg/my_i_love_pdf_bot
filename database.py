@@ -5,7 +5,7 @@
 
 import datetime
 import motor.motor_asyncio
-from Configs.db import dataBASE
+from Configs.db import isMONGOexist
 
 class Database:
     
@@ -145,7 +145,7 @@ class Database:
     async def get_db_size(self):
         return (await self.db.command("dbstats"))['dataSize']
 
-if dataBASE.isMONGOexist:
+if isMONGOexist:
     db=Database(dataBASE.MONGODB_URI, "nabilanavab-iLovePDF")
 
 #                                                                             Telegram: @nabilanavab
