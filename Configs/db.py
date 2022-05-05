@@ -3,9 +3,7 @@
 
 import os
 
-isMONGOexist=False
-if os.environ.get("MONGODB_URI", False):
-    isMONGOexist=True
+isMONGOexist=False if os.environ.get("MONGODB_URI", False) else isMONGOexist=True
 
 BANNED_USR_DB, BANNED_GRP_DB = [], []
 
