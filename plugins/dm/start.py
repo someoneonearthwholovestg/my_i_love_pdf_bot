@@ -174,6 +174,7 @@ hlp = filters.create(lambda _, __, query: query.data == "help")
 @ILovePDF.on_callback_query(hlp)
 async def _hlp(bot, callbackQuery):
     try:
+        await callbackQuery.answer("help message 💃🏻")
         await callbackQuery.edit_message_caption(
             caption=helpMessage,
             reply_markup=InlineKeyboardMarkup(
