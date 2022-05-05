@@ -3,12 +3,14 @@
 
 import shutil
 import psutil
-from database import db
 from pyrogram import filters
 from Configs.dm import Config
-from Configs.db import dataBASE
+from Configs.db import isMONGOexist
 from pyrogram import Client as ILovePDF
 from plugins.fileSize import get_size_format as gSF
+
+if isMONGOexist:
+    from database import db
 
 @ILovePDF.on_message(filters.private & filters.command(["server"]) & ~filters.edited & filters.user(Config.ADMINS))
 async def server(bot, message):
@@ -20,7 +22,7 @@ async def server(bot, message):
         cpu_usage=psutil.cpu_percent()
         ram_usage=psutil.virtual_memory().percent
         disk_usage=psutil.disk_usage('/').percent
-        if dataBASE.MONGODB_URI:
+        if isMONGOexist:
             total_users=await db.total_users_count()
         else:
             total_users="Not Counted yet.. 🥱"
