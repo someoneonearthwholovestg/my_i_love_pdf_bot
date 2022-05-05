@@ -2,6 +2,11 @@
 # copyright ©️ 2021 nabilanavab
 
 import os
+
+isMONGOexist=False
+if os.environ.get("MONGODB_URI", False):
+    isMONGOexist=True
+
 import database
 
 #--------------->
@@ -10,11 +15,9 @@ import database
 
 class dataBASE(object):
     
-    isMONGOexist=False
     # mongoDB Url (Optional)
     MONGODB_URI=os.environ.get("MONGODB_URI", False)
     if MONGODB_URI:
-        isMONGOexist=True
         userBANNED_db, groupBANNED_db = db.get_banned()
         BANNED_USR_DB=userBANNED_db
         BANNED_GRP_DB=groupBANNED_db
