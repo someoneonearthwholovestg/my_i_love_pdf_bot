@@ -73,7 +73,7 @@ button=InlineKeyboardMarkup(
             InlineKeyboardButton("📌 SET THUMB 📌", callback_data="underDev"),
             InlineKeyboardButton("💩 SET API 💩", callback_data="underDev")
         ],[
-            InlineKeyboardButton("🔎 HELP 🔎", callback_data="hlp")
+            InlineKeyboardButton("🔎 HELP 🔎", callback_data="help")
         ],[
             InlineKeyboardButton("🌟 SOURCE CODE 🌟", url="https://github.com/nabilanavab/ilovepdf")
         ],[
