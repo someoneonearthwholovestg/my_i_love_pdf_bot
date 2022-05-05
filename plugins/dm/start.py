@@ -36,7 +36,7 @@ This Means You Need To Join The Below Mentioned Channel for Using Me!
 
 hit on `retry ♻️` after joining.. 😅"""
 
-helpMessage="""Hey {}.! this is a HELP MESSAGE:
+helpMessage="""Hey  [{}](tg://user?id={}).! this is a HELP MESSAGE:
 
 This Bot will Helps you to do many things with pdfs
 Some of the main features are:
@@ -174,9 +174,10 @@ hlp = filters.create(lambda _, __, query: query.data == "help")
 @ILovePDF.on_callback_query(hlp)
 async def _hlp(bot, callbackQuery):
     try:
-        await callbackQuery.answer("help message 💃🏻")
         await callbackQuery.edit_message_caption(
-            caption=helpMessage,
+            caption=helpMessage.format(
+                callbackQuery.from_user.first_name, callbackQuery.message.chat.id
+            ),
             reply_markup=InlineKeyboardMarkup(
                 [[InlineKeyboardButton("« BACK «", callback_data="back")]]
             )
