@@ -51,10 +51,6 @@ Some of the main features are:
     ~ Zip / Rar PDF pages
     ~ Encrypt PDF
     ~ Decrypt PDF
-    ~ OCR PDF
-    ~ Rename PDF
-    ~ A4 FORMATTER
-    ~ and Much More..
 """
 
 foolRefresh="വിളച്ചിലെടുക്കല്ലേ കേട്ടോ 😐"
