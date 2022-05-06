@@ -72,7 +72,7 @@ button=InlineKeyboardMarkup(
         ],[
             InlineKeyboardButton("🌟 SOURCE CODE 🌟", url="https://github.com/nabilanavab/ilovepdf")
         ],[
-            InlineKeyboardButton("🤖 BOT CHANNEL 🤖", url="https://telegram.dog/ilovepdf_bot"),
+            InlineKeyboardButton("🤖 CHANNEL 🤖", url="https://telegram.dog/ilovepdf_bot"),
             InlineKeyboardButton("📝 FEEDBACK 📝", url="https://t.me/ilovepdf_bot/14?comment=10000")
         ],[
             InlineKeyboardButton("➕ ADD TO GROUP ➕", callback_data="underDev")
