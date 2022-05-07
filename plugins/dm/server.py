@@ -26,14 +26,14 @@ async def server(bot, message):
         if isMONGOexist:
             total_users=await db.total_users_count()
         else:
-            total_users="Not Counted yet.. 🥱"
+            total_users="not counted yet..🤓"
         await message.reply_text(
-            text=f"**Total Disk Space:** `{total}` \n"
-                 f"**Used Space:** `{used}({disk_usage}%)` \n"
-                 f"**Free Space:** `{free}` \n"
-                 f"**CPU Usage:** `{cpu_usage}`% \n"
-                 f"**RAM Usage:** `{ram_usage}`%\n"
-                 f"**Total Users in DB:** `{total_users}`",
+            text=f"**◍ Total Space:** `{total}` \n"
+                 f"**◍ Used Space :** `{used}({disk_usage}%)` \n"
+                 f"**◍ Free Space :** `{free}` \n"
+                 f"**◍ CPU Usage  :** `{cpu_usage}`% \n"
+                 f"**◍ RAM Usage  :** `{ram_usage}`%\n"
+                 f"**◍ DB Users   :** `{total_users}`",
             quote=True
         )
     except Exception as e:
