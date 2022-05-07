@@ -3,6 +3,7 @@
 
 import shutil
 import psutil
+from pdf import PROCESS
 from pyrogram import filters
 from Configs.dm import Config
 from Configs.db import isMONGOexist
@@ -33,6 +34,7 @@ async def server(bot, message):
                  f"**◍ Free Space :** `{free}` \n"
                  f"**◍ CPU Usage  :** `{cpu_usage}`% \n"
                  f"**◍ RAM Usage  :** `{ram_usage}`%\n"
+                 f"**◍ TOTAL QUEUE:** `{len(PROCESS)}`\n"
                  f"**◍ DB Users   :** `{total_users}`",
             quote=True
         )
