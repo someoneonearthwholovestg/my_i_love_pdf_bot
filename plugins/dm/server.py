@@ -35,8 +35,8 @@ async def server(bot, message):
                  f"**◍ Free Space  :** `{free}` \n"
                  f"**◍ CPU Usage  :** `{cpu_usage}`% \n"
                  f"**◍ RAM Usage :** `{ram_usage}`%\n"
-                 f"**◍ Work QUEUE:** `{len(PROCESS)}`\n"
-                 f"**◍ DB Users   :** `{total_users}`",
+                 f"**◍ Current Work:** `{len(PROCESS)}`\n"
+                 f"**◍ DB Users     :** `{total_users}`",
             reply_markup=InlineKeyboardMarkup(
                 [[
                     InlineKeyboardButton("⟨ CLOSE ⟩", callback_data="closeALL")
