@@ -29,12 +29,12 @@ async def server(bot, message):
         else:
             total_users="not counted yet..🤓"
         await message.reply_text(
-            text=f"**◍ Total Space:** `{total}` \n"
+            text=f"**◍ Total Space :** `{total}` \n"
                  f"**◍ Used Space :** `{used}({disk_usage}%)` \n"
-                 f"**◍ Free Space :** `{free}` \n"
+                 f"**◍ Free Space  :** `{free}` \n"
                  f"**◍ CPU Usage  :** `{cpu_usage}`% \n"
-                 f"**◍ RAM Usage  :** `{ram_usage}`%\n"
-                 f"**◍ TOTAL QUEUE:** `{len(PROCESS)}`\n"
+                 f"**◍ RAM Usage :** `{ram_usage}`%\n"
+                 f"**◍ Work QUEUE:** `{len(PROCESS)}`\n"
                  f"**◍ DB Users   :** `{total_users}`",
             quote=True
         )
