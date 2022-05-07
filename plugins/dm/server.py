@@ -9,6 +9,7 @@ from Configs.dm import Config
 from Configs.db import isMONGOexist
 from pyrogram import Client as ILovePDF
 from plugins.fileSize import get_size_format as gSF
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 if isMONGOexist:
     from database import db
@@ -36,6 +37,11 @@ async def server(bot, message):
                  f"**◍ RAM Usage :** `{ram_usage}`%\n"
                  f"**◍ Work QUEUE:** `{len(PROCESS)}`\n"
                  f"**◍ DB Users   :** `{total_users}`",
+            reply_markup=InlineKeyboardMarkup(
+                [[
+                    InlineKeyboardButton("⟨ CLOSE ⟩", callback_data="closeALL")
+                ]]
+            ),
             quote=True
         )
     except Exception as e:
