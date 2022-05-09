@@ -29,7 +29,7 @@ Due To The Huge Traffic Only Channel Members Can Use this Bot 🚶
 
 This Means You Need To Join The Below Mentioned Channel for Using Me!
 
-hit on `retry ♻️` after joining.. 😅"""
+Hit on `"♻️retry♻️"` after joining.. 😅"""
 
 helpMessage="""Hey  [{}](tg://user?id={}).! this is a HELP MESSAGE:
 
