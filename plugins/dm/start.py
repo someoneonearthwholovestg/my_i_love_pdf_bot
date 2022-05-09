@@ -127,7 +127,7 @@ async def start(bot, message):
                     photo=PIC,
                     caption=forceSubMsg.format(
                         message.from_user.first_name, message.chat.id
-                    )+f"\n{e}",
+                    ),
                     reply_markup=InlineKeyboardMarkup(
                         [[
                             InlineKeyboardButton("🌟 JOIN CHANNEL 🌟", url = invite_link.invite_link)
