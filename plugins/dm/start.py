@@ -138,8 +138,8 @@ async def start(bot, message):
                 )
                 await message.delete()
                 return
-            except Exception:
-                pass
+            except Exception as e:
+                print(e)
         # IF NO FORCE SUBSCRIPTION
         await message.reply_photo(
             photo=PIC,
