@@ -28,7 +28,7 @@ async def server(bot, message):
         if isMONGOexist:
             total_users=await db.total_users_count()
         else:
-            total_users="not counted yet..🤓"
+            total_users="No DB"
         await message.reply_text(
             text=f"**◍ Total Space   :** `{total}` \n"
                  f"**◍ Used Space   :** `{used}({disk_usage}%)` \n"
