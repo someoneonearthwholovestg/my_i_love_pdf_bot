@@ -110,9 +110,8 @@ async def start(bot, message):
                 userStatus = await bot.get_chat_member(
                     str(UPDATE_CHANNEL), message.chat.id
                 )
-                await message.reply(f"{userStatus}")
                 # IF USER BANNED FROM CHANNEL
-                if userStatus.status == 'kicked':
+                if userStatus.status=='banned':
                      await message.reply_photo(
                          photo=PIC,
                          caption="For Some Reason You Can't Use This Bot"
@@ -213,8 +212,8 @@ async def _refresh(bot, callbackQuery):
                 callbackQuery.id, text=foolRefresh,
                 show_alert=True, cache_time=0
             )
-        except Exception:
-            pass
+        except Exception as e:
+            await message.reply(f"{e}")
     except Exception:
         pass
 
