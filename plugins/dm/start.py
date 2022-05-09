@@ -106,7 +106,7 @@ async def start(bot, message):
         # CHECK USER IN CHANNEL (IF UPDATE_CHANNEL ADDED)
         if UPDATE_CHANNEL:
             try:
-                await bot.get_chat_member(
+                userStatus = await bot.get_chat_member(
                     str(UPDATE_CHANNEL), message.chat.id
                 )
                 # IF USER BANNED FROM CHANNEL
