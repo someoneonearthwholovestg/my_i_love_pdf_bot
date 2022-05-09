@@ -120,7 +120,8 @@ async def start(bot, message):
                          )
                      )
                      return
-             """except UserNotParticipant:
+             """
+             except UserNotParticipant:
                 if invite_link==None:
                     invite_link=await bot.create_chat_invite_link(int(UPDATE_CHANNEL))
                 await message.reply_photo(
@@ -137,7 +138,8 @@ async def start(bot, message):
                     )
                 )
                 await message.delete()
-                return"""
+                return
+            """
             except Exception as e:
                 if invite_link==None:
                     invite_link=await bot.create_chat_invite_link(int(UPDATE_CHANNEL))
