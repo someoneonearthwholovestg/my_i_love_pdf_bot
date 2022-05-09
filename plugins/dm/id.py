@@ -21,15 +21,6 @@ async def userId(bot, message):
     except Exception:
         pass
 
-
-@ILovePDF.on_message(filters.private & ~filters.edited & filters.command(["message"]))
-async def _cancelI2P(bot, message):
-    try:
-        await message.reply_text(f"message_id: `{message.message_id}` 🎭", quote=True)
-    except Exception:
-        pass
-
-
 @ILovePDF.on_message(filters.private & filters.command(["feedback"]) & ~filters.edited)
 async def feedback(bot, message):
     try:
