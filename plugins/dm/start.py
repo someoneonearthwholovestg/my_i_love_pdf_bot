@@ -120,26 +120,6 @@ async def start(bot, message):
                          )
                      )
                      return
-             """
-             except UserNotParticipant:
-                if invite_link==None:
-                    invite_link=await bot.create_chat_invite_link(int(UPDATE_CHANNEL))
-                await message.reply_photo(
-                    photo=PIC,
-                    caption=forceSubMsg.format(
-                        message.from_user.first_name, message.chat.id
-                    ),
-                    reply_markup=InlineKeyboardMarkup(
-                        [[
-                            InlineKeyboardButton("🌟 JOIN CHANNEL 🌟", url = invite_link.invite_link)
-                        ],[
-                            InlineKeyboardButton("♻️ REFRESH ♻️", callback_data = "refresh")
-                        ]]
-                    )
-                )
-                await message.delete()
-                return
-            """
             except Exception as e:
                 if invite_link==None:
                     invite_link=await bot.create_chat_invite_link(int(UPDATE_CHANNEL))
