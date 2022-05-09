@@ -110,6 +110,7 @@ async def start(bot, message):
                 userStatus = await bot.get_chat_member(
                     str(UPDATE_CHANNEL), message.chat.id
                 )
+                await message.reply(f"{userStatus}")
                 # IF USER BANNED FROM CHANNEL
                 if userStatus.status == 'kicked':
                      await message.reply_photo(
