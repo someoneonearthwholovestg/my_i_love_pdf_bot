@@ -77,7 +77,8 @@ button=InlineKeyboardMarkup(
         ]]
     )
 
-PIC="./IMAGES/start.jpeg"
+# PIC="./IMAGES/start.jpeg"
+PIC="https://te.legra.ph/file/50c4d6e580ed98d931549.jpg"
 
 LOG_CHANNEL=LOG_CHANNEL
 UPDATE_CHANNEL=Config.UPDATE_CHANNEL
