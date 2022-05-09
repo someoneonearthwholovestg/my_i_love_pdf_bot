@@ -205,17 +205,15 @@ async def _refresh(bot, callbackQuery):
             ),
             reply_markup=button
         )
-    except UserNotParticipant:
+    except Exception:
         try:
             # IF NOT USER ALERT MESSAGE (AFTER CALLBACK)
             await bot.answer_callback_query(
                 callbackQuery.id, text=foolRefresh,
                 show_alert=True, cache_time=0
             )
-        except Exception as e:
-            await message.reply(f"{e}")
-    except Exception:
-        pass
+        except Exception:
+            pass
 
 @ILovePDF.on_callback_query(close)
 async def _close(bot, callbackQuery):
