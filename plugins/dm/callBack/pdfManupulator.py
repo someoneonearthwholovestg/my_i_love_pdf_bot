@@ -183,19 +183,19 @@ async def _pdfManupulator(bot, callbackQuery):
                 if not caption:
                     PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
                     return
-            if data.startswith(tuple(["decrypt", "Kdecrypt"]):
+            if data.startswith(tuple(["decrypt", "Kdecrypt"])):
                 downloadMessage.edit("Started Decrypting.. 🔓", reply_markup=cancelBtn)
                 caption=await decryptPDF(downloadMessage, message_id, password)
                 if not caption:
                     PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
                     return
-            if data.startswith(tuple(["encrypt", "Kencrypt"]):
+            if data.startswith(tuple(["encrypt", "Kencrypt"])):
                 downloadMessage.edit("Started Encrypting.. 🔐", reply_markup=cancelBtn)
                 caption=await encryptPDF(downloadMessage, message_id, password)
                 if not caption:
                     PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
                     return
-            if data.startswith(tuple(["ocr", "Kocr"]):
+            if data.startswith(tuple(["ocr", "Kocr"])):
                 if number_of_pages>5:
                     await downloadMessage.edit("__Send me a file less than 5 images__ 😅")
                     PROCESS.remove(chat_id)
@@ -207,7 +207,7 @@ async def _pdfManupulator(bot, callbackQuery):
                     if not caption:
                         PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
                         return
-            if data.startswith(tuple(["format", "Kformat"]):
+            if data.startswith(tuple(["format", "Kformat"])):
                 if number_of_pages>5:
                     await downloadMessage.edit("__Send me a file less than 5 images__ 😅")
                     PROCESS.remove(chat_id)
@@ -219,7 +219,7 @@ async def _pdfManupulator(bot, callbackQuery):
                     if not caption:
                         PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
                         return
-            if data.startswith(tuple(["rename", "Krename"]):
+            if data.startswith(tuple(["rename", "Krename"])):
                 downloadMessage.edit("Renameing PDf.. ✏️", reply_markup=cancelBtn)
                 asyncio.sleep(3)
         else:
