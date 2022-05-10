@@ -238,6 +238,7 @@ async def _pdfManupulator(bot, callbackQuery):
         shutil.rmtree(f"{message_id}")
     except Exception as e:
         try:
+            downloadMessage.edit(e)
             print("plugins/dm/callBack/pdfManupulator: " , e)
             shutil.rmtree(f"{message_id}")
             PROCESS.remove(chat_id)
