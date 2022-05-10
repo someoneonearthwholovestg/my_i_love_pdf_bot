@@ -180,6 +180,7 @@ async def _pdfManupulator(bot, callbackQuery):
             if data in ["compress", "Kcompress"]:
                 await downloadMessage.edit("Started Compressing.. 🌡️", reply_markup=cancelBtn)
                 caption=await compressPDF(downloadMessage, message_id)
+                await downloadMessage.edit(f"{caption}", reply_markup=cancelBtn)
                 if caption==False:
                     PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
                     return
