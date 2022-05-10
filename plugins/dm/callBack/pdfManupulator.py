@@ -38,7 +38,7 @@ cancelBtn=InlineKeyboardMarkup([[InlineKeyboardButton("« Cancel »", callback_d
 #--------> PYRO FILTERS
 #------------------->
 
-KpdfInfo=filters.create(lambda _, __, query: query.data.startswith("KpdfInfo"))
+pdfInfo=filters.create(lambda _, __, query: query.data.startswith("KpdfInfo"))
 ocr=filters.create(lambda _, __, query: query.data.startswith(tuple(["ocr", "Kocr"])))
 compress=filters.create(lambda _, __, query: query.data in ["compress", "Kcompress"])
 decrypt=filters.create(lambda _, __, query: query.data.startswith(tuple(["decrypt", "Kdecrypt"])))
@@ -49,10 +49,9 @@ formatter=filters.create(lambda _, __, query: query.data.startswith(tuple(["form
 #--------> CALLBACK QUERY
 #------------------->
 
-@ILovePDF.on_callback_query(compress)
+@ILovePDF.on_callback_query(pdfInfo | ocr | compress | decrypt | encrypt | formatter)
 async def _pdfManupulator(bot, callbackQuery):
     try:
-        print("cb")
         chat_id=callbackQuery.message.chat.id
         message_id=callbackQuery.message.message_id
         
