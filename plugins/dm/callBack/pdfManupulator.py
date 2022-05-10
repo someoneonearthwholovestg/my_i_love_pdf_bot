@@ -228,7 +228,7 @@ async def _pdfManupulator(bot, callbackQuery):
         
         await downloadMessage.edit("`Started Uploading..` 🏋️", reply_markup=cancelBtn)
         await callbackQuery.message.reply_chat_action("upload_document")
-        with open(output_file, "rb") aa output
+        with open(output_file, "rb") as output:
             await callbackQuery.message.reply_document(
                 file_name=f"{fileNm}.pdf", quote=True,
                 document=output, thumb=PDF_THUMBNAIL,
