@@ -67,17 +67,16 @@ async def _closeALL(bot, callbackQuery):
     except Exception:
         pass
 
-# Cancel Pdf/Zip to Images
+# Cancel Pdf to Images, Images to Zip
 @ILovePDF.on_callback_query(cancelP2I)
 async def _cancelP2I(bot, callbackQuery):
     try:
         await callbackQuery.message.edit_reply_markup(
-            InlineKeyboardMarkup([[InlineKeyboardButton("💤 CANCELING.. 💤", callback_data="n")]])
+            InlineKeyboardMarkup([[InlineKeyboardButton("💤 CANCELLING.. 💤", callback_data="n")]])
         )
         PROCESS.remove(callbackQuery.message.chat.id)
     except Exception:
         pass
-
 
 @ILovePDF.on_callback_query(canceled)
 async def _canceled(bot, callbackQuery):
@@ -86,10 +85,11 @@ async def _canceled(bot, callbackQuery):
     except Exception:
         pass
 
-
 @ILovePDF.on_callback_query(completed)
 async def _completed(bot, callbackQuery):
     try:
         await callbackQuery.answer("🎉 Completed.. 🏃")
     except Exception:
         pass
+
+#                                                                                             Telegram: @nabilanavab
