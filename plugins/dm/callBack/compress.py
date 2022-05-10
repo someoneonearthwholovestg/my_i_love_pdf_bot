@@ -45,10 +45,10 @@ async def compressPDF(message, message_id):
         ratio=(1-(compressedSize/initialSize))*100
         
         # sends only if compressed more than 10mb or ratio >= 5%
-        if True: #compressedSize>1000000 or ratio>=5:
-            return "compressedCaption" #.format(
-                   # await gSF(initialSize), await gSF(compressedSize), ratio
-               # )
+        if compressedSize>1000000 or ratio>=5:
+            return compressedCaption.format(
+                    await gSF(initialSize), await gSF(compressedSize), ratio
+                )
         else:
             await message.edit(cantCompressMore)
             return False
