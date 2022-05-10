@@ -41,7 +41,7 @@ async def toKnown(callbackQuery, number_of_pages):
                     InlineKeyboardButton("🔐 ENCRYPT 🔐", callback_data=f"Kencrypt|{number_of_pages}"),
                     InlineKeyboardButton("🔓 DECRYPT 🔓", callback_data=f"notEncrypted")
                 ],[
-                    InlineKeyboardButton("🗜️ COMPRESS 🗜️", callback_data=f"Kcompress"),
+                    InlineKeyboardButton("🗜️ COMPRESS 🗜️", callback_data=f"Kcompress|{number_of_pages}"),
                     InlineKeyboardButton("🤸 ROTATE 🤸", callback_data=f"Krotate|{number_of_pages}")
                 ],[
                     InlineKeyboardButton("✂️ SPLIT ✂️", callback_data=f"Ksplit|{number_of_pages}"),
