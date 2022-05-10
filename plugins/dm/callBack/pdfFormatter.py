@@ -1,23 +1,17 @@
 # fileName : plugins/dm/callBack/pdfFormatter.py
 # copyright ©️ 2021 nabilanavab
 
-import os
-import time
+# import os
 import fitz
-import shutil
-from PIL import Image
-from time import sleep
-from pdf import PROCESS
-from pyrogram import filters
-from Configs.dm import Config
-from plugins.checkPdf import checkPdf
-from plugins.progress import progress
-from pyrogram import Client as ILovePDF
-from plugins.fileSize import get_size_format as gSF
 
 #--------------->
 #--------> LOCAL VARIABLES
 #------------------->
+
+# IG NO Need 🥱
+pgNoError="""__For Some Reason A4 FORMATTING Supports for pdfs with less than 5 Pages__"
+
+Total Pages: {} ⭐"""
 
 # NB:
 #    A4 paper size in pixels with a resolution of 72 PPI is 595 x 842 px.
@@ -26,81 +20,24 @@ from plugins.fileSize import get_size_format as gSF
 #    In a resolution of 300 PPI A4 is 2480 x 3508 px.
 #    For printing you often use 200-300 PPI
 
-PDF_THUMBNAIL=Config.PDF_THUMBNAIL
-
 #--------------->
 #--------> PDF FORMATTER
 #------------------->
 
-a4format=["format", "Kformat"]
-formatter=filters.create(lambda _, __, query: query.data.startswith(tuple(a4format)))
-
-@ILovePDF.on_callback_query(formatter)
-async def _formatter(bot, callbackQuery):
+async def formatterPDF(message, message_id):
     try:
-        # CHECKS IF BOT DOING ANY WORK
-        if callbackQuery.message.chat.id in PROCESS:
-            await callbackQuery.answer(
-                "Work in progress.. 🙇"
-            )
-            return
-        # CALLBACK DATA
-        data=callbackQuery.data
-        # DOWNLOAD MESSSAGE
-        # IF PDF PAGE MORE THAN 5(PROCESS CANCEL)
-        if data[0]=="K":
-            _, number_of_pages=callbackQuery.data.split("|")
-            if int(number_of_pages) >= 5:
-                await callbackQuery.answer("Send Me A File Less Than 5 Pages..🏃")
-                return
-        # ADD TO PROCESS
-        PROCESS.append(callbackQuery.message.chat.id)
-        downloadMessage=await callbackQuery.message.reply_text(
-            "`Downloding your pdf..` ⏳", quote=True
-        )
-        input_file=f"{callbackQuery.message.message_id}/unFormated.pdf"
-        output_file = f"{callbackQuery.message.message_id}/formatted.pdf"
-        file_id=callbackQuery.message.reply_to_message.document.file_id
-        fileSize=callbackQuery.message.reply_to_message.document.file_size
-        fileNm=callbackQuery.message.reply_to_message.document.file_name
-        fileNm, fileExt=os.path.splitext(fileNm)        # seperates name & extension
+        input_file=f"{message_id}/inPut.pdf"
+        output_file=f"{message_id}/outPut.pdf"
         
-        # STARTED DOWNLOADING
-        c_time=time.time()
-        downloadLoc=await bot.download_media(
-            message=file_id,
-            file_name=input_file,
-            progress=progress,
-            progress_args=(
-                fileSize, downloadMessage, c_time
-            )
-        )
-        # CHECKS PDF DOWNLOADED OR NOT
-        if downloadLoc is None:
-            PROCESS.remove(callbackQuery.message.chat.id)
-            return
-        await downloadMessage.edit("`Started Formatting..` 📖")
-        # CHECK PDF OR NOT(HERE compressed, SO PG UNKNOWN)
-        if data=="format":
-            checked=await checkPdf(input_file, callbackQuery)
-            if not(checked=="pass"):
-                await downloadMessage.delete()
-                return
-        unFormated=f'{callbackQuery.message.message_id}/unFormated.jpeg'
         # OPEN INPUT PDF
         r=fitz.Rect(0,0,0,0)
         with fitz.open(input_file) as inPDF:
             # OPENING AN OUTPUT PDF OBJECT
             with fitz.open() as outPDF:
                 nOfPages=inPDF.pageCount
-                if nOfPages > 5:
-                    await downloadMessage.edit(
-                        text="__For Some Reason A4 FORMATTING Supports for pdfs with less than 5 Pages__"
-                             f"\n\nTotal Pages: {nOfPages} ⭐"
-                    )
-                    PROCESS.remove(callbackQuery.message.chat.id)
-                    shutil.rmtree(f"{callbackQuery.message.message_id}")
-                    return
+                if nOfPages>5:
+                    await message.edit(pgNoError.format(nOfPages))
+                    return False
                 # ITERATE THROUGH PAGE NUMBERS
                 for _ in range(nOfPages):
                     outPDF.new_page(pno=-1, width=595, height=842)
@@ -111,8 +48,8 @@ async def _formatter(bot, callbackQuery):
                     with open(unFormated,'wb'):
                         pix.save(unFormated)
                     with Image.open(unFormated) as img:
-                        imgWidth, imgHeight = img.size
-                        if imgWidth == imgHeight:
+                        imgWidth, imgHeight=img.size
+                        if imgWidth==imgHeight:
                             neWidth=595
                             newHeight=neWidth*imgHeight/imgWidth
                             newImage=img.resize((neWidth, int(newHeight)))
@@ -140,24 +77,10 @@ async def _formatter(bot, callbackQuery):
                     )
                     os.remove(unFormated)
                 outPDF.save(output_file)
-        await callbackQuery.message.reply_chat_action("upload_document")
-        await downloadMessage.edit("`Started Uploading..` 🏋️")
-        await callbackQuery.message.reply_document(
-            file_name=f"{fileNm}.pdf", quote=True,
-            document=open(output_file, "rb"),
-            thumb=PDF_THUMBNAIL, caption="formated PDF (A4)"
-        )
-        await downloadMessage.delete()
-        PROCESS.remove(callbackQuery.message.chat.id)
-        shutil.rmtree(f"{callbackQuery.message.message_id}")
+        return "__a4 formatted pdf__"
     except Exception as e:
-        try:
-            print("FormatToA4: " , e)
-            await downloadMessage.edit(f"ERROR: `{e}`")
-            shutil.rmtree(f"{callbackQuery.message.message_id}")
-            PROCESS.remove(callbackQuery.message.chat.id)
-        except Exception:
-            pass
+        print("FormatToA4: " , e)
+        return False
 
 #       ______                                                
 #      |      |   _________    __    ___                      
