@@ -6,12 +6,12 @@ import time
 import shutil
 import asyncio
 from pdf import PROCESS
-# from pyromod import listen
+from pyromod import listen
 from pyrogram import filters
 from Configs.dm import Config
 from plugins.checkPdf import checkPdf
 from plugins.progress import progress
-# from pyrogram.types import ForceReply
+from pyrogram.types import ForceReply
 from pyrogram import Client as ILovePDF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
