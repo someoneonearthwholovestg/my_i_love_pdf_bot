@@ -52,7 +52,7 @@ formatter=filters.create(lambda _, __, query: query.data.startswith(tuple(["form
 @ILovePDF.on_callback_query(ocr or compress or decrypt or encrypt or formatter or KpdfInfo)
 async def _pdfManupulator(bot, callbackQuery):
     try:
-        await callbackQuery.message.reply(callBack.data)
+        print("cb")
         chat_id=callbackQuery.message.chat.id
         message_id=callbackQuery.message.message_id
         
