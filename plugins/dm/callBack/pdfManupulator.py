@@ -22,9 +22,9 @@ from plugins.dm.callBack.compress import compressPDF
 from plugins.dm.callBack.pdfFormatter import formatterPDF
 
 # checks if ocr works (nabilanavab==False)
-from plugins.dm.ocr import nabilanavab
+from plugins.dm.callBack.ocr import nabilanavab
 if nabilanavab==False:
-    from plugins.dm.ocr import ocrPDF
+    from plugins.dm.callBack.ocr import ocrPDF
 
 #--------------->
 #--------> LOCAL VARIABLES
