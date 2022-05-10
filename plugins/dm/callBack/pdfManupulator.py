@@ -16,10 +16,10 @@ from pyrogram import Client as ILovePDF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 # Importing Pdf Process Funs.
-from plugins.dm.encrypt import encryptPDF
-from plugins.dm.decrypt import decryptPDF
-from plugins.dm.compress import compressPDF
-from plugins.dm.pdfFormatter import formatterPDF
+from plugins.dm.callBack.encrypt import encryptPDF
+from plugins.dm.callBack.decrypt import decryptPDF
+from plugins.dm.callBack.compress import compressPDF
+from plugins.dm.callBack.pdfFormatter import formatterPDF
 
 # checks if ocr works (nabilanavab==False)
 from plugins.dm.ocr import nabilanavab
