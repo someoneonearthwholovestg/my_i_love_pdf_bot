@@ -76,7 +76,7 @@ async def _compress(bot, callbackQuery):
         )
         # CHECK PDF OR NOT(HERE compressed, SO PG UNKNOWN)
         if data == "compress":
-            checked=await checkPdf(input_file, callbackQuery)
+            checked, _ =await checkPdf(input_file, callbackQuery)
             if not(checked=="pass"):
                 await downloadMessage.delete()
                 return
