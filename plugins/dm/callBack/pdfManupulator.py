@@ -40,10 +40,10 @@ cancelBtn=InlineKeyboardMarkup([[InlineKeyboardButton("« Cancel »", callback_d
 
 pdfInfo=filters.create(lambda _, __, query: query.data.startswith("KpdfInfo"))
 ocr=filters.create(lambda _, __, query: query.data.startswith(tuple(["ocr", "Kocr"])))
-compress=filters.create(lambda _, __, query: query.data in ["compress", "Kcompress"])
 decrypt=filters.create(lambda _, __, query: query.data.startswith(tuple(["decrypt", "Kdecrypt"])))
 encrypt=filters.create(lambda _, __, query: query.data.startswith(tuple(["encrypt", "Kencrypt"])))
 formatter=filters.create(lambda _, __, query: query.data.startswith(tuple(["format", "Kformat"])))
+compress=filters.create(lambda _, __, query: query.data.startswith(tuple(["compress", "Kcompress"])))
 
 #--------------->
 #--------> CALLBACK QUERY
