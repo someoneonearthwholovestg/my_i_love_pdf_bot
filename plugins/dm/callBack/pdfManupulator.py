@@ -94,7 +94,7 @@ async def _pdfManupulator(bot, callbackQuery):
         
         # ↓ ADD TO PROCESS       ↓ CALLBACK DATA
         PROCESS.append(chat_id); data=callbackQuery.data
-        await callbackQuery.answer("⚙️ Processing..")
+        await callbackQuery.answer("⚙️ Processing...")
         
         if data[0]=="K":
             _, number_of_pages=callbackQuery.data.split("|")
