@@ -226,13 +226,14 @@ async def _pdfManupulator(bot, callbackQuery):
             shutil.rmtree(f"{message_id}")
             return
         
-        await callbackQuery.message.reply_chat_action("upload_document")
         await downloadMessage.edit("`Started Uploading..` 🏋️", reply_markup=cancelBtn)
-        await callbackQuery.message.reply_document(
-            file_name=f"{fileNm}.pdf", quote=True,
-            document=open(output_file, "rb"), thumb=PDF_THUMBNAIL,
-            caption=caption
-        )
+        await callbackQuery.message.reply_chat_action("upload_document")
+        with open(output_file, "rb") aa output
+            await callbackQuery.message.reply_document(
+                file_name=f"{fileNm}.pdf", quote=True,
+                document=output, thumb=PDF_THUMBNAIL,
+                caption=caption
+            )
         await downloadMessage.delete()
         PROCESS.remove(chat_id)
         shutil.rmtree(f"{message_id}")
