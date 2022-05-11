@@ -36,9 +36,9 @@ async def encryptPDF(message_id, password):
                     fitz.PDF_PERM_ANNOTATE
                 )
             )
-            return encryptedFileCaption.format(number_of_pages, password.text)
+        return encryptedFileCaption.format(number_of_pages, password.text)
     except Exception as e:
         print("Encrypt: ", e)
-        return e
+        return False
 
 #                                                                                  Telegram: @nabilanavab
