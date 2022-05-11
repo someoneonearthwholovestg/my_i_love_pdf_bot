@@ -25,12 +25,11 @@ async def decryptPDF(message, message_id, password):
         try:
             with fitz.open(input_file) as encrptPdf:
                 encrptPdf.authenticate(f"{password.text}")
-                encrptPdf.save(output_pdf)
+                encrptPdf.save(output_file)
                 return decrypted
         except Exception:
             await downloadMessage.edit(passwordError.format(password.text))
             return False
-        
     except Exception as e:
         print("Decrypt: ", e)
         return False
