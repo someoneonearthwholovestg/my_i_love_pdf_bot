@@ -9,7 +9,7 @@ from pyrogram.types import Message
 #--------> LOCAL VARIABLES
 #------------------->
 
-passwordError="Cannot Decrypt the file with `{}` 🕸️"
+passwordError="__Cannot Decrypt the file with__ `{}` 🕸️"
 
 decrypted="__Decrypted File__"
 
@@ -28,7 +28,7 @@ async def decryptPDF(message, message_id, password):
                 encrptPdf.save(output_file)
                 return decrypted
         except Exception:
-            await downloadMessage.edit(passwordError.format(password.text))
+            await message.edit(passwordError.format(password.text))
             return False
     except Exception as e:
         print("Decrypt: ", e)
