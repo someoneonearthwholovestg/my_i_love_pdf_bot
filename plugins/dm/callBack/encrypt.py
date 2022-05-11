@@ -8,7 +8,7 @@ import fitz
 #--------> LOCAL VARIABLES
 #------------------->
 
-encryptedFileCaption="Page Number : {}\nkey 🔐 : ||{}||"
+encryptedFileCaption="__Page Number__: {}\n__key__ 🔐: ||{}||"
 
 #--------------->
 #--------> PDF ENCRYPTION
