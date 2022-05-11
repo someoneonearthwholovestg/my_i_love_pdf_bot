@@ -192,7 +192,7 @@ async def _pdfManupulator(bot, callbackQuery):
                     return
             if data.startswith(tuple(["encrypt", "Kencrypt"])):
                 await downloadMessage.edit("Started Encrypting.. 🔐", reply_markup=cancelBtn)
-                caption=await encryptPDF(downloadMessage, message_id, password)
+                caption=await encryptPDF(message_id, password)
                 if not caption:
                     PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
                     return
