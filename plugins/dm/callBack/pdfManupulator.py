@@ -231,7 +231,9 @@ async def _pdfManupulator(bot, callbackQuery):
         await downloadMessage.edit("`Started Uploading..` 🏋️", reply_markup=cancelBtn)
         await callbackQuery.message.reply_chat_action("upload_document")
         if chat_id in PROCESS:
-            with open(output_file, "rb") as output:
+            with open(
+                output_file if not data.startswith(tuple(["rename", "Krename"])) else input_file, "rb"
+            ) as output:
                 await callbackQuery.message.reply_document(
                     file_name=f"{fileNm}.pdf", quote=True,
                     document=output, thumb=PDF_THUMBNAIL,
