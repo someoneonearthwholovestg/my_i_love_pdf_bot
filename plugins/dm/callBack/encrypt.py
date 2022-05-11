@@ -3,7 +3,6 @@
 
 # import os
 import fitz
-from pyrogram.types import Message
 
 #--------------->
 #--------> LOCAL VARIABLES
