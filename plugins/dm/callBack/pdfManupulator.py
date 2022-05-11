@@ -193,7 +193,7 @@ async def _pdfManupulator(bot, callbackQuery):
             if data.startswith(tuple(["encrypt", "Kencrypt"])):
                 await downloadMessage.edit("Started Encrypting.. 🔐", reply_markup=cancelBtn)
                 caption=await encryptPDF(message_id, password)
-                await downloadMessage.edit(f"`{caption}` 🏋️", reply_markup=cancelBtn); asyncio.sleep(10)
+                await downloadMessage.edit(f"`{caption}` 🏋️", reply_markup=cancelBtn); await asyncio.sleep(10)
                 if not caption:
                     PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
                     return
@@ -223,7 +223,7 @@ async def _pdfManupulator(bot, callbackQuery):
                         return
             if data.startswith(tuple(["rename", "Krename"])):
                 await downloadMessage.edit("Renameing PDf.. ✏️", reply_markup=cancelBtn)
-                asyncio.sleep(3)
+                await asyncio.sleep(3)
         else:
             shutil.rmtree(f"{message_id}")
             return
