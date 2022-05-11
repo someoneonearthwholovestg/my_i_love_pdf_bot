@@ -229,18 +229,18 @@ async def _pdfManupulator(bot, callbackQuery):
         
         await downloadMessage.edit("`Started Uploading..` 🏋️", reply_markup=cancelBtn)
         await callbackQuery.message.reply_chat_action("upload_document")
-        with open(output_file, "rb") as output:
-            await callbackQuery.message.reply_document(
-                file_name=f"{fileNm}.pdf", quote=True,
-                document=output, thumb=PDF_THUMBNAIL,
-                caption=caption
-            )
+        if chat_id in PROCESS:
+            with open(output_file, "rb") as output:
+                await callbackQuery.message.reply_document(
+                    file_name=f"{fileNm}.pdf", quote=True,
+                    document=output, thumb=PDF_THUMBNAIL,
+                    caption=caption
+                )
         await downloadMessage.delete()
         PROCESS.remove(chat_id)
         shutil.rmtree(f"{message_id}")
     except Exception as e:
         try:
-            downloadMessage.edit(e)
             print("plugins/dm/callBack/pdfManupulator: " , e)
             shutil.rmtree(f"{message_id}")
             PROCESS.remove(chat_id)
