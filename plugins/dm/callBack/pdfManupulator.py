@@ -40,6 +40,7 @@ cancelBtn=InlineKeyboardMarkup([[InlineKeyboardButton("« Cancel »", callback_d
 
 pdfInfo=filters.create(lambda _, __, query: query.data.startswith("KpdfInfo"))
 ocr=filters.create(lambda _, __, query: query.data.startswith(tuple(["ocr", "Kocr"])))
+rename=filters.create(lambda _, __, query: query.data.startswith(tuple(["rename", "Krename"])))
 decrypt=filters.create(lambda _, __, query: query.data.startswith(tuple(["decrypt", "Kdecrypt"])))
 encrypt=filters.create(lambda _, __, query: query.data.startswith(tuple(["encrypt", "Kencrypt"])))
 formatter=filters.create(lambda _, __, query: query.data.startswith(tuple(["format", "Kformat"])))
@@ -49,7 +50,7 @@ compress=filters.create(lambda _, __, query: query.data.startswith(tuple(["compr
 #--------> CALLBACK QUERY
 #------------------->
 
-@ILovePDF.on_callback_query(pdfInfo | ocr | compress | decrypt | encrypt | formatter)
+@ILovePDF.on_callback_query(pdfInfo | ocr | compress | decrypt | encrypt | formatter | rename)
 async def _pdfManupulator(bot, callbackQuery):
     try:
         chat_id=callbackQuery.message.chat.id
