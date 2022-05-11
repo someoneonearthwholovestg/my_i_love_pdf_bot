@@ -141,6 +141,13 @@ async def _pdfManupulator(bot, callbackQuery):
         )
         input_file=f"{message_id}/inPut.pdf"
         output_file=f"{message_id}/outPut.pdf"
+        # Bot not using os.rename, just send input file with new name ;)
+
+        if data.startswith(tuple(["rename", "Krename"])):
+
+            output_file=input_file
+
+        
         file_id=callbackQuery.message.reply_to_message.document.file_id
         fileSize=callbackQuery.message.reply_to_message.document.file_size
         if not fileNm:
