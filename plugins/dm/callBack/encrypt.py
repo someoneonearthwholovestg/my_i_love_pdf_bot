@@ -15,7 +15,7 @@ encryptedFileCaption="Page Number : {}\nkey 🔐 : ||{}||"
 #--------> PDF ENCRYPTION
 #------------------->
 
-async def encryptPDF(message, message_id, password):
+async def encryptPDF(message_id, password):
     try:
         swd=f"abi"
         input_file=f"{message_id}/inPut.pdf"
