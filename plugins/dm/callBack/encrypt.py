@@ -39,6 +39,6 @@ async def encryptPDF(message_id, password):
         return encryptedFileCaption.format(number_of_pages, password.text)
     except Exception as e:
         print("Encrypt: ", e)
-        return False
+        return e
 
 #                                                                                  Telegram: @nabilanavab
