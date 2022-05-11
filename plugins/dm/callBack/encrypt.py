@@ -24,7 +24,7 @@ async def encryptPDF(message_id, password):
         with fitz.open(input_file) as encrptPdf:
             number_of_pages=encrptPdf.pageCount
             encrptPdf.save(
-                output_pdf,
+                output_file,
                 # strongest algorithm
                 encryption=fitz.PDF_ENCRYPT_AES_256,
                 owner_pw=_pswd,
