@@ -178,7 +178,7 @@ async def _pdfManupulator(bot, callbackQuery):
                     return
         
         if chat_id in PROCESS:
-            if data in ["compress", "Kcompress"]:
+            if data.startswith(tuple(["compress", "Kcompress"])):
                 await downloadMessage.edit("Started Compressing.. 🌡️", reply_markup=cancelBtn)
                 caption=await compressPDF(downloadMessage, message_id)
                 if not caption:
