@@ -1,4 +1,4 @@
-# fileName : plugins/dm/Callback/pdfInfo.py
+# fileName : plugins/dm/Callback/pdfMetaData.py
 # copyright ©️ 2021 nabilanavab
 
 import fitz
@@ -155,7 +155,7 @@ async def _pdfInfo(bot, callbackQuery):
                 f"SOMETHING went WRONG.. 🐉\n\nERROR: {e}",
                 reply_markup=InlineKeyboardMarkup(
                     [[
-                        InlineKeyboardButton("❌ Error in file ❌", callback_data = f"error")
+                        InlineKeyboardButton("❌ Error in file ❌", callback_data=f"error")
                     ],[
                         InlineKeyboardButton("🚫 CLOSE 🚫", callback_data="closeALL")
                     ]]
