@@ -47,7 +47,7 @@ async def images(bot, message):
                 # IF USER BANNED FROM CHANNEL
                 if userStatus.status=='banned':
                      await message.reply_photo(
-                         photo=PIC,
+                         photo=PIC, quote=True,
                          caption="For Some Reason You Can't Use This Bot"
                                  "\n\nContact Bot Owner 🤐",
                          reply_markup=InlineKeyboardMarkup(
@@ -59,7 +59,7 @@ async def images(bot, message):
                 if invite_link==None:
                     invite_link=await bot.create_chat_invite_link(int(UPDATE_CHANNEL))
                 await message.reply_photo(
-                    photo=PIC,
+                    photo=PIC, quote=True,
                     caption=forceSubMsg.format(
                         message.from_user.first_name, message.chat.id
                     ),
