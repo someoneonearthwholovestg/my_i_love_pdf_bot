@@ -33,7 +33,6 @@ if Config.MAX_FILE_SIZE:
 else:
     MAX_FILE_SIZE=False
 
-
 PDF_THUMBNAIL=Config.PDF_THUMBNAIL
 
 #--------------->
@@ -83,7 +82,7 @@ ERROR: `{}`
 
 For bot updates join @ilovepdf_bot"""
 
-feedbackMsg="[Write a feedback 📋](https://t.me/nabilanavabchannel/17?comment=10)"
+feedbackMsg="[Write a feedback 📋](https://t.me/ILovePDF_bot)"
 
 forceSubMsg="""Wait [{}](tg://user?id={})..!!
 
