@@ -4,7 +4,7 @@
 import os
 import time
 import shutil
-from time import sleep
+import asyncio
 from pdf import PROCESS
 from pyromod import listen
 from pyrogram import filters
@@ -102,9 +102,9 @@ async def _merge(bot, callbackQuery):
         # GET /merge, REACHES MAX FILE SIZE OR MAX NO OF PDF
         if nabilanavab==False:
             # DISPLAY TOTAL PDFS FOR MERGING
-            downloadMessage=await callbackQuery.message.reply_text(
+            downloadMessage=await askPDF.reply_text(
                 f"`Total PDF's : {len(MERGE[chat_id])}`.. 💡", quote=True)
-            sleep(.5); i=0
+            asyncio.sleep(.5); i=0
             # ITERATIONS THROUGH FILE ID'S AND DOWNLOAD
             for iD in MERGE[chat_id]:
                 await downloadMessage.edit(
