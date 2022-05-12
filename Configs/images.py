@@ -15,3 +15,5 @@ WELCOME_IMAGE="https://te.legra.ph/file/50c4d6e580ed98d931549.jpg"
 # BANNED IMAGE
 # BANNED_MESSAGE="./images/banned.jpeg"
 BANNED_MESSAGE="https://te.legra.ph/file/50c4d6e580ed98d931549.jpg"
+
+#                                                             @nabilanavab
