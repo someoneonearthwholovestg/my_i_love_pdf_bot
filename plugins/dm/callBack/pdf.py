@@ -270,7 +270,7 @@ async def _pdf(bot, callbackQuery):
             shutil.rmtree(f"{message_id}")
             return
         
-        await downloadMessage.edit("`Started Uploading..` 🏋️", reply_markup=cancelBtn)
+        await downloadMessage.edit(f"`Started Uploading..` 🏋️\n{output_file}", reply_markup=cancelBtn)
         await callbackQuery.message.reply_chat_action("upload_document")
         if chat_id in PROCESS:
             with open(output_file, "rb") as output:
