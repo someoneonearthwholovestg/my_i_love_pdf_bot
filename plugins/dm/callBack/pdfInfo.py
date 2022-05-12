@@ -1,4 +1,4 @@
-# fileName : plugins/dm/Callback/pdfMetaData.py
+# fileName : plugins/dm/Callback/pdfInfo.py
 # copyright ©️ 2021 nabilanavab
 
 import fitz
