@@ -37,6 +37,6 @@ class Config(object):
         BANNED_USERS=[]
     
     # thumbnail
-    PDF_THUMBNAIL="./IMAGES/thumbnail.jpeg"
+    PDF_THUMBNAIL="https://te.legra.ph/file/50c4d6e580ed98d931549.jpg"
 
 #                                                                             Telegram: @nabilanavab
