@@ -22,7 +22,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 #--------> LOCAL VARIABLES
 #------------------->
 
-PDF_THUMBNAIL = Config.PDF_THUMBNAIL
+PDF_THUMBNAIL=Config.PDF_THUMBNAIL
 
 cancel=InlineKeyboardMarkup([[InlineKeyboardButton("💤 CANCEL 💤", callback_data="cancelP2I")]])
 canceled=InlineKeyboardMarkup([[InlineKeyboardButton("🍄 CANCELED 🍄", callback_data="canceled")]])
@@ -55,15 +55,18 @@ KZIPandTAR=filters.create(lambda _, __, query: query.data.startswith(tuple(KzipA
 @ILovePDF.on_callback_query(ZIPandTAR)
 async def _ZIPandTAR(bot, callbackQuery):
     try:
+        chat_id=callbackQuery.message.chat.id
+        message_id=callbackQuery.message.message_id
+        
         # CHECK USER PROCESS
-        if callbackQuery.message.chat.id in PROCESS:
+        if chat_id in PROCESS:
             await callbackQuery.answer("Work in progress.. 🙇")
             return
-        # ADD USER TO PROCESS
-        PROCESS.append(callbackQuery.message.chat.id)
-        # CALLBACK DATA
-        data=callbackQuery.data
-        # ACCEPTING PAGE NUMBER
+        
+        # ↓ ADD TO PROCESS       ↓ CALLBACK DATA
+        PROCESS.append(chat_id); data=callbackQuery.data
+        await callbackQuery.answer("⚙️ Processing...")
+        
         if data in ["zipA", "tarA"]:
             nabilanavab=False
         # RANGE (START:END)
@@ -72,35 +75,24 @@ async def _ZIPandTAR(bot, callbackQuery):
             # 5 EXCEPTION, BREAK MERGE PROCESS
             while(nabilanavab):
                 if i >= 5:
-                    await bot.send_message(
-                        callbackQuery.message.chat.id,
-                        "`5 attempt over.. Process canceled..`😏"
-                    )
+                    await callbackQuery.message.reply_text("`5 attempt over.. Process canceled..`😏")
                     break
                 i+=1
                 # PYROMOD ADD-ON (PG NO REQUEST)
                 needPages=await bot.ask(
                     text="__Pdf - Zip » Pages:\nNow, Enter the range (start:end) :__\n\n/exit __to cancel__",
-                    chat_id=callbackQuery.message.chat.id,
-                    reply_to_message_id=callbackQuery.message.message_id,
-                    filters=filters.text,
-                    reply_markup=ForceReply(True)
+                    chat_id=chat_id, reply_to_message_id=message_id,
+                    filters=filters.text, reply_markup=ForceReply(True)
                 )
                 # EXIT PROCESS
                 if needPages.text=="/exit":
-                    await bot.send_message(
-                        callbackQuery.message.chat.id,
-                        "`Process Canceled..` 😏"
-                    )
+                    await needPages.message.reply("`Process Canceled..` 😏", quote=True)
                     break
                 # SPLIT STRING TO START & END
                 pageStartAndEnd=list(needPages.text.replace('-',':').split(':'))
                 # IF STRING HAVE MORE THAN 2 LIMITS
                 if len(pageStartAndEnd) > 2:
-                    await bot.send_message(
-                        callbackQuery.message.chat.id,
-                        "`Syntax Error: justNeedStartAndEnd `🚶"
-                    )
+                    await callbackQuery.message.reply("`Syntax Error: justNeedStartAndEnd `🚶")
                 # CORRECT FORMAT
                 elif len(pageStartAndEnd)==2:
                     start=pageStartAndEnd[0]
@@ -111,55 +103,33 @@ async def _ZIPandTAR(bot, callbackQuery):
                                 nabilanavab=False
                                 break
                             else:
-                                await bot.send_message(
-                                    callbackQuery.message.chat.id,
-                                    "`Syntax Error: errorInEndingPageNumber `🚶"
-                                )
+                                await callbackQuery.message.reply("`Syntax Error: errorInEndingPageNumber `🚶")
                         else:
-                            await bot.send_message(
-                                callbackQuery.message.chat.id,
-                                "`Syntax Error: errorInStartingPageNumber `🚶"
-                            )
+                            await callbackQuery.message.reply("`Syntax Error: errorInStartingPageNumber `🚶")
                     else:
-                        await bot.send_message(
-                           callbackQuery.message.chat.id,
-                            "`Syntax Error: pageNumberMustBeADigit` 🧠"
-                        )
-                # ERPOR MESSAGE
+                        await callbackQuery.message.reply("`Syntax Error: pageNumberMustBeADigit` 🧠")
                 else:
-                    await bot.send_message(
-                        callbackQuery.message.chat.id,
-                        "`Syntax Error: noEndingPageNumber Or notADigit` 🚶"
-                    )
+                    await callbackQuery.message.reply("`Syntax Error: noEndingPageNumber Or notADigit` 🚶")
         # SINGLE PAGES
         else:
-            newList=[]
-            nabilanavab=True; i=0
+            newList=[]; nabilanavab=True; i=0
             # 5 REQUEST LIMIT
             while(nabilanavab):
                 if i>=5:
-                    await bot.send_message(
-                        callbackQuery.message.chat.id,
-                        "`5 attempt over.. Process canceled..`😏"
-                    )
+                    await callbackQuery.message.reply("`5 attempt over.. Process canceled..`😏")
                     break
                 i+=1
                 # PYROMOD ADD-ON
                 needPages=await bot.ask(
                     text="__Pdf - Zip » Pages:\nNow, Enter the Page Numbers seperated by__ (,) :\n\n/exit __to cancel__",
-                    chat_id=callbackQuery.message.chat.id,
-                    reply_to_message_id=callbackQuery.message.message_id,
-                    filters=filters.text,
-                    reply_markup=ForceReply(True)
+                    chat_id=chat_id, reply_to_message_id=message_id,
+                    filters=filters.text, reply_markup=ForceReply(True)
                 )
                 # SPLIT PAGE NUMBERS (,)
                 singlePages=list(needPages.text.replace(',',':').split(':'))
                 # PROCESS CANCEL
                 if needPages.text=="/exit":
-                    await bot.send_message(
-                        callbackQuery.message.chat.id,
-                        "`Process Canceled..` 😏"
-                    )
+                    await needPages.message.reply("`Process Canceled..` 😏", quote=True)
                     break
                 # PAGE NUMBER LESS THAN 100
                 elif 1 <= len(singlePages) <= 100:
@@ -172,19 +142,16 @@ async def _ZIPandTAR(bot, callbackQuery):
                         break
                     # AFTER SORTING (IF NO DIGIT PAGES RETURN)
                     elif newList==[]:
-                        await bot.send_message(
-                            callbackQuery.message.chat.id,
-                            "`Cant find any number..`😏"
-                        )
+                        await callbackQuery.message.reply("`Cant find any number..`😏")
                         continue
                 else:
-                    await bot.send_message(
-                        callbackQuery.message.chat.id,
-                        "`Something went Wrong..`😅"
-                    )
+                    await callbackQuery.message.reply("`Something went Wrong..`😅")
         if nabilanavab==True:
-            PROCESS.remove(callbackQuery.message.chat.id)
+            PROCESS.remove(chat_id)
             return
+        
+        input_file=f"{message_id}/inPut.pdf"
+        
         if nabilanavab==False:
             # DOWNLOAD MESSAGE
             downloadMessage=await callbackQuery.message.reply_text(text="`Downloding your pdf..` ⏳", quote=True)
@@ -193,27 +160,21 @@ async def _ZIPandTAR(bot, callbackQuery):
             # DOWNLOAD PROGRESS
             c_time=time.time()
             downloadLoc=await bot.download_media(
-                message=file_id,
-                file_name=f"{callbackQuery.message.message_id}/pdf.pdf",
-                progress=progress,
-                progress_args=(
-                    fileSize, downloadMessage, c_time
-                )
+                message=file_id, file_name=input_file, progress=progress,
+                progress_args=(fileSize, downloadMessage, c_time)
             )
             # CHECK DOWNLOAD COMPLETED/CANCELED
             if downloadLoc is None:
-                PROCESS.remove(callbackQuery.message.chat.id)
+                PROCESS.remove(chat_id)
                 return
             # CHECK PDF CODEC, ENCRYPTION..
-            checked=await checkPdf(
-                f'{callbackQuery.message.message_id}/pdf.pdf', callbackQuery
-            )
+            checked, number_of_pages=await checkPdf(input_file, callbackQuery)
             if not(checked=="pass"):
                 await downloadMessage.delete()
                 return
             await downloadMessage.edit("`Zipping File..` 😅")
             # OPEN PDF WITH FITZ
-            doc=fitz.open(f'{callbackQuery.message.message_id}/pdf.pdf')
+            doc=fitz.open(input_file)
             number_of_pages=doc.pageCount
             if data in ["zipA", "tarA"]:
                 if number_of_pages > 50:
@@ -228,14 +189,10 @@ async def _ZIPandTAR(bot, callbackQuery):
                     await asyncio.sleep(5)
                     pageStartAndEnd=[int(pageStartAndEnd[0]), int(pageStartAndEnd[0])+50]
                 if not(int(pageStartAndEnd[1]) <= int(number_of_pages)):
-                    await downloadMessage.edit(
-                        f"`PDF only have {number_of_pages} pages` 💩"
-                    )
-                    PROCESS.remove(callbackQuery.message.chat.id)
-                    shutil.rmtree(f"{callbackQuery.message.message_id}")
+                    await downloadMessage.edit(f"`PDF only have {number_of_pages} pages` 💩")
+                    PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
                     return
-            zoom=2
-            mat=fitz.Matrix(zoom, zoom)
+            zoom=2; mat=fitz.Matrix(zoom, zoom)
             if data in ["zipA", "zipR", "tarA", "tarR"]:
                 await downloadMessage.edit(
                     text=f"`Total pages: {int(pageStartAndEnd[1])+1 - int(pageStartAndEnd[0])}..⏳`",
@@ -248,19 +205,12 @@ async def _ZIPandTAR(bot, callbackQuery):
                     if 1 <= int(i) <= number_of_pages:
                         totalPgList.append(i)
                 if len(totalPgList) < 1:
-                    await downloadMessage.edit(
-                        text=f"`PDF Only have {number_of_pages} page(s) `😏"
-                    )
-                    PROCESS.remove(callbackQuery.message.chat.id)
-                    shutil.rmtree(f'{callbackQuery.message.message_id}')
-                    doc.close()
+                    await downloadMessage.edit(text=f"`PDF Only have {number_of_pages} page(s) `😏")
+                    PROCESS.remove(chat_id); shutil.rmtree(f'{message_id}'); doc.close()
                     return
-                await downloadMessage.edit(
-                    text=f"`Total pages: {len(totalPgList)}..⏳`",
-                    reply_markup=cancel
-                )
+                await downloadMessage.edit(text=f"`Total pages: {len(totalPgList)}..⏳`", reply_markup=cancel)
             cnvrtpg=0
-            os.mkdir(f'{callbackQuery.message.message_id}/pgs')
+            os.mkdir(f'{message_id}/pgs')
             for i in totalPgList:
                 page=doc.load_page(int(i)-1)
                 pix=page.get_pixmap(matrix=mat)
@@ -270,13 +220,13 @@ async def _ZIPandTAR(bot, callbackQuery):
                         text=f"`Converted: {cnvrtpg}/{int(pageStartAndEnd[1])+1 - int(pageStartAndEnd[0])} pages.. 🤞`",
                         reply_markup=cancel
                     )
-                    if await notInPROCESS(callbackQuery.message.chat.id, downloadMessage, callbackQuery.message.message_id):
+                    if await notInPROCESS(chat_id, downloadMessage, message_id):
                         return
                 with open(
-                    f'{callbackQuery.message.message_id}/pgs/{i}.jpg','wb'
+                    f'{message_id}/pgs/{i}.jpg','wb'
                 ):
-                    pix.save(f'{callbackQuery.message.message_id}/pgs/{i}.jpg')
-            directory=f'{callbackQuery.message.message_id}/pgs'
+                    pix.save(f'{message_id}/pgs/{i}.jpg')
+            directory=f'{message_id}/pgs'
             imag=[os.path.join(directory, file) for file in os.listdir(directory)]
             imag.sort(key=os.path.getctime)
             for file in imag:
@@ -284,23 +234,17 @@ async def _ZIPandTAR(bot, callbackQuery):
                 for i in range(200):
                     if os.path.getsize(file)>=1000000:
                         picture=Image.open(file)
-                        picture.save(
-                            file, "JPEG",
-                            optimize=True,
-                            quality=qualityRate
-                        )
+                        picture.save(file, "JPEG", optimize=True, quality=qualityRate)
                         qualityRate-=5
                     else:
                         break
-            output_file=f'{callbackQuery.message.message_id}/zipORtar'
+            output_file=f'{message_id}/zipORtar'
             if data in ["zipA", "zipR", "zipS"]:
                 shutil.make_archive(output_file, 'zip', directory)
             if data in ["tarA", "tarR", "tarS"]:
                 path=shutil.make_archive(output_file, 'tar', directory)
             await downloadMessage.edit("`Started Uploading..` 🏋️")
-            await bot.send_chat_action(
-                callbackQuery.message.chat.id, "upload_document"
-            )
+            await callbackQuery.message.reply_chat_action("upload_document")
             # Getting File Name
             fileNm=callbackQuery.message.reply_to_message.document.file_name
             fileNm, fileExt=os.path.splitext(fileNm)        # seperates name & extension
@@ -309,15 +253,12 @@ async def _ZIPandTAR(bot, callbackQuery):
                 document=open(f"{output_file}.zip" if data.startswith("zip") else f"{output_file}.tar", "rb"),
                 thumb=PDF_THUMBNAIL, caption="__Zip File__" if data.startswith("zip") else "__Tar File__"
             )
-            PROCESS.remove(callbackQuery.message.chat.id)
-            doc.close()
+            PROCESS.remove(chat_id); doc.close()
             await downloadMessage.delete()
-            shutil.rmtree(f'{callbackQuery.message.message_id}')
+            shutil.rmtree(f'{message_id}')
     except Exception as e:
         try:
-            print("zipANDtar: ", e)
-            PROCESS.remove(callbackQuery.message.chat.id)
-            shutil.rmtree(f'{callbackQuery.message.message_id}')
+            print("zipANDtar: ", e); PROCESS.remove(chat_id); shutil.rmtree(f'{message_id}')
         except Exception:
             pass
 
@@ -325,43 +266,36 @@ async def _ZIPandTAR(bot, callbackQuery):
 @ILovePDF.on_callback_query(KZIPandTAR)
 async def _KZIPandTAR(bot, callbackQuery):
     try:
-        if callbackQuery.message.chat.id in PROCESS:
+        chat_id=callbackQuery.message.chat.id
+        message_id=callbackQuery.message.message_id
+        
+        if chat_id in PROCESS:
             await callbackQuery.answer("Work in progress.. 🙇")
             return
         data=callbackQuery.data[:5]
+        
         _, number_of_pages=callbackQuery.data.split("|")
-        PROCESS.append(callbackQuery.message.chat.id)
+        PROCESS.append(chat_id)
         if data in ["KzipA", "KtarA"]:
-            nabilanavab = False
+            nabilanavab=False
         elif data in ["KzipR", "KtarR"]:
             nabilanavab=True; i=0
             while(nabilanavab):
                 if i >= 5:
-                    await bot.send_message(
-                        callbackQuery.message.chat.id,
-                        "`5 attempt over.. Process canceled..`😏"
-                    )
+                    await callbackQuery.message.reply("`5 attempt over.. Process canceled..`😏")
                     break
                 i+=1
                 needPages=await bot.ask(
                     text="__Pdf - Zip » Pages:\nNow, Enter the range (start:end) :__\n\n/exit __to cancel__",
-                    chat_id=callbackQuery.message.chat.id,
-                    reply_to_message_id=callbackQuery.message.message_id,
-                    filters=filters.text,
-                    reply_markup=ForceReply(True)
+                    chat_id=chat_id, reply_to_message_id=message_id,
+                    filters=filters.text, reply_markup=ForceReply(True)
                 )
                 if needPages.text=="/exit":
-                    await bot.send_message(
-                        callbackQuery.message.chat.id,
-                        "`Process Canceled..` 😏"
-                    )
+                    await callbackQuery.message.reply("`Process Canceled..` 😏")
                     break
                 pageStartAndEnd=list(needPages.text.replace('-',':').split(':'))
                 if len(pageStartAndEnd) > 2:
-                    await bot.send_message(
-                        callbackQuery.message.chat.id,
-                        "`Syntax Error: justNeedStartAndEnd `🚶"
-                    )
+                    await callbackQuery.message.reply("`Syntax Error: justNeedStartAndEnd `🚶")
                 elif len(pageStartAndEnd)==2:
                     start=pageStartAndEnd[0]
                     end=pageStartAndEnd[1]
@@ -371,49 +305,28 @@ async def _KZIPandTAR(bot, callbackQuery):
                                 nabilanavab=False
                                 break
                             else:
-                                await bot.send_message(
-                                    callbackQuery.message.chat.id,
-                                    "`Syntax Error: errorInEndingPageNumber `🚶"
-                                )
+                                await callbackQuery.message.reply("`Syntax Error: errorInEndingPageNumber `🚶")
                         else:
-                            await bot.send_message(
-                                callbackQuery.message.chat.id,
-                                "`Syntax Error: errorInStartingPageNumber `🚶"
-                            )
+                            await callbackQuery.message.reply("`Syntax Error: errorInStartingPageNumber `🚶")
                     else:
-                        await bot.send_message(
-                           callbackQuery.message.chat.id,
-                            "`Syntax Error: pageNumberMustBeADigit` 🧠"
-                        )
+                        await callbackQuery.message.reply("`Syntax Error: pageNumberMustBeADigit` 🧠")
                 else:
-                    await bot.send_message(
-                        callbackQuery.message.chat.id,
-                        "`Syntax Error: noEndingPageNumber Or notADigit` 🚶"
-                    )
+                    await callbackQuery.message.reply("`Syntax Error: noEndingPageNumber Or notADigit` 🚶")
         elif data in ["KzipS", "KtarS"]:
-            newList=[]
-            nabilanavab=True; i=0
+            newList=[]; nabilanavab=True; i=0
             while(nabilanavab):
                 if i >= 5:
-                    await bot.send_message(
-                        callbackQuery.message.chat.id,
-                        "`5 attempt over.. Process canceled..`😏"
-                    )
+                    await callbackQuery.message.reply("`5 attempt over.. Process canceled..`😏")
                     break
                 i+=1
                 needPages=await bot.ask(
                     text="__Pdf - Img›Doc » Pages:\nNow, Enter the Page Numbers seperated by__ (,) :\n\n/exit __to cancel__",
-                    chat_id=callbackQuery.message.chat.id,
-                    reply_to_message_id=callbackQuery.message.message_id,
-                    filters=filters.text,
-                    reply_markup=ForceReply(True)
+                    chat_id=chat_id, reply_to_message_id=message_id,
+                    filters=filters.text, reply_markup=ForceReply(True)
                 )
                 singlePages=list(needPages.text.replace(',',':').split(':'))
                 if needPages.text=="/exit":
-                    await bot.send_message(
-                        callbackQuery.message.chat.id,
-                        "`Process Canceled..` 😏"
-                    )
+                    await callbackQuery.message.reply("`Process Canceled..` 😏")
                     break
                 elif 1 <= len(singlePages) <= 100:
                     for i in singlePages:
@@ -423,40 +336,31 @@ async def _KZIPandTAR(bot, callbackQuery):
                         nabilanavab=False
                         break
                     elif newList==[]:
-                        await bot.send_message(
-                            callbackQuery.message.chat.id,
-                            "`Cant find any number..`😏"
-                        )
+                        await callbackQuery.message.reply("`Cant find any number..`😏")
                         continue
                 else:
-                    await bot.send_message(
-                        callbackQuery.message.chat.id,
-                        "`100 page is enough..`😅"
-                    )
+                    await callbackQuery.message.reply("`100 page is enough..`😅")
         if nabilanavab==True:
-            PROCESS.remove(callbackQuery.message.chat.id)
+            PROCESS.remove(chat_id)
             return
+        
+        input_file=f"{message_id}/inPut.pdf"
+        
         if nabilanavab==False:
-            downloadMessage=await callbackQuery.message.reply_text(
-                text="`Downloding your pdf..` ⏳", quote=True
-            )
+            downloadMessage=await callbackQuery.message.reply_text(text="`Downloding your pdf..` ⏳", quote=True)
             file_id=callbackQuery.message.reply_to_message.document.file_id
             fileSize=callbackQuery.message.reply_to_message.document.file_size
             # DOWNLOAD PROGRESS
             c_time=time.time()
             downloadLoc=await bot.download_media(
-                message=file_id,
-                file_name=f"{callbackQuery.message.message_id}/pdf.pdf",
-                progress=progress,
-                progress_args=(
-                    fileSize, downloadMessage, c_time
-                )
+                message=file_id, file_name=input_file, progress=progress,
+                progress_args=(fileSize, downloadMessage, c_time)
             )
             if downloadLoc is None:
-                PROCESS.remove(callbackQuery.message.chat.id)
+                PROCESS.remove(chat_id)
                 return
             await downloadMessage.edit("`Zipping File..` 😅")
-            doc=fitz.open(f'{callbackQuery.message.message_id}/pdf.pdf')
+            doc=fitz.open(input_file)
             number_of_pages=doc.pageCount
             if data in ["KzipA", "KtarA"]:
                 if number_of_pages > 50:
@@ -471,14 +375,10 @@ async def _KZIPandTAR(bot, callbackQuery):
                     await asyncio.sleep(5)
                     pageStartAndEnd=[int(pageStartAndEnd[0]), int(pageStartAndEnd[0])+50]
                 if not(int(pageStartAndEnd[1]) <= int(number_of_pages)):
-                    await downloadMessage.edit(
-                        text=f"`PDF only have {number_of_pages} pages` 💩"
-                    )
-                    PROCESS.remove(callbackQuery.message.chat.id)
-                    shutil.rmtree(f"{callbackQuery.message.message_id}")
+                    await downloadMessage.edit(text=f"`PDF only have {number_of_pages} pages` 💩")
+                    PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
                     return
-            zoom=2
-            mat=fitz.Matrix(zoom, zoom)
+            zoom=2; mat=fitz.Matrix(zoom, zoom)
             if data in ["KzipA", "KzipR", "KtarA", "KtarR"]:
                 await downloadMessage.edit(
                     text=f"`Total pages: {int(pageStartAndEnd[1])+1 - int(pageStartAndEnd[0])}..⏳`",
@@ -491,19 +391,11 @@ async def _KZIPandTAR(bot, callbackQuery):
                     if 1 <= int(i) <= number_of_pages:
                         totalPgList.append(i)
                 if len(totalPgList) < 1:
-                    await downloadMessage.edit(
-                        text=f"`PDF Only have {number_of_pages} page(s) `😏"
-                    )
-                    PROCESS.remove(callbackQuery.message.chat.id)
-                    shutil.rmtree(f'{callbackQuery.message.message_id}')
-                    doc.close()
+                    await downloadMessage.edit(f"`PDF Only have {number_of_pages} page(s) `😏")
+                    PROCESS.remove(chat_id); shutil.rmtree(f'{message_id}'); doc.close()
                     return
-                await downloadMessage.edit(
-                    text=f"`Total pages: {len(totalPgList)}..⏳`",
-                    reply_markup=cancel
-                )
-            cnvrtpg=0
-            os.mkdir(f'{callbackQuery.message.message_id}/pgs')
+                await downloadMessage.edit(text=f"`Total pages: {len(totalPgList)}..⏳`", reply_markup=cancel)
+            cnvrtpg=0; os.mkdir(f'{message_id}/pgs')
             for i in totalPgList:
                 page=doc.load_page(int(i)-1)
                 pix=page.get_pixmap(matrix=mat)
@@ -513,13 +405,13 @@ async def _KZIPandTAR(bot, callbackQuery):
                         text=f"`Converted: {cnvrtpg}/{int(pageStartAndEnd[1])+1 - int(pageStartAndEnd[0])} pages.. 🤞`",
                         reply_markup=cancel
                     )
-                    if await notInPROCESS(callbackQuery.message.chat.id, downloadMessage, callbackQuery.message.message_id):
+                    if await notInPROCESS(chat_id, downloadMessage, message_id):
                         return
                 with open(
-                    f'{callbackQuery.message.message_id}/pgs/{i}.jpg','wb'
+                    f'{message_id}/pgs/{i}.jpg','wb'
                 ):
-                    pix.save(f'{callbackQuery.message.message_id}/pgs/{i}.jpg')
-            directory=f'{callbackQuery.message.message_id}/pgs'
+                    pix.save(f'{message_id}/pgs/{i}.jpg')
+            directory=f'{message_id}/pgs'
             imag=[os.path.join(directory, file) for file in os.listdir(directory)]
             imag.sort(key=os.path.getctime)
             for file in imag:
@@ -527,23 +419,17 @@ async def _KZIPandTAR(bot, callbackQuery):
                 for i in range(200):
                     if os.path.getsize(file)>=1000000:
                         picture=Image.open(file)
-                        picture.save(
-                            file, "JPEG",
-                            optimize=True,
-                            quality=qualityRate
-                        )
+                        picture.save(file, "JPEG", optimize=True, quality=qualityRate)
                         qualityRate-=5
                     else:
                         break
-            output_file=f'{callbackQuery.message.message_id}/zipORtar'
+            output_file=f'{message_id}/zipORtar'
             if data in ["KzipA", "KzipR", "KzipS"]:
                 shutil.make_archive(output_file, 'zip', directory)
             if data in ["KtarA", "KtarR", "KtarS"]:
                 shutil.make_archive(output_file, 'tar', directory)
             await downloadMessage.edit("`Started Uploading..` 🏋️")
-            await bot.send_chat_action(
-                callbackQuery.message.chat.id, "upload_document"
-            )
+            await callbackQuery.message.reply_chat_action("upload_document")
             # Getting File Name
             fileNm=callbackQuery.message.reply_to_message.document.file_name
             fileNm, fileExt=os.path.splitext(fileNm)        # seperates name & extension
@@ -552,16 +438,13 @@ async def _KZIPandTAR(bot, callbackQuery):
                 document=open(f"{output_file}.zip" if data.startswith("Kzip") else f"{output_file}.tar", "rb"),
                 thumb=PDF_THUMBNAIL, caption="__Zip File__" if data.startswith("Kzip") else "__Tar File__"
             )
-            PROCESS.remove(callbackQuery.message.chat.id)
-            doc.close()
+            PROCESS.remove(chat_id); doc.close()
             await downloadMessage.delete()
-            shutil.rmtree(f'{callbackQuery.message.message_id}')
+            shutil.rmtree(f'{message_id}')
     except Exception as e:
         try:
-            print("zipANDtar: ", e)
-            PROCESS.remove(callbackQuery.message.chat.id)
-            shutil.rmtree(f'{callbackQuery.message.message_id}')
+            print("zipANDtar: ", e); PROCESS.remove(chat_id); shutil.rmtree(f'{message_id}')
         except Exception:
             pass
 
-#                                                                                  Telegram: @nabilanavab
+#                                                                                              Telegram: @nabilanavab
