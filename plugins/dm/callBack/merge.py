@@ -150,7 +150,7 @@ async def _merge(bot, callbackQuery):
             await callbackQuery.message.reply_chat_action("upload_document")
             # SEND DOCUMENT
             with open(output_pdf, "rb") as outPut:
-                await callbackQuery.message.reply_document(
+                await askPDF.reply_document(
                     file_name=f"{fileNm}.pdf",
                     document=outPut, thumb=PDF_THUMBNAIL,
                     caption="__merged pdf__"
