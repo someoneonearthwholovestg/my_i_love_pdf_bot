@@ -177,6 +177,8 @@ async def _splitROrS(bot, callbackQuery):
 @ILovePDF.on_callback_query(splitS)
 async def _splitS(bot, callbackQuery):
     try:
+        chat_id=callbackQuery.message.chat.id
+        message_id=callbackQuery.message.message_id
         if chat_id in PROCESS:
             await callbackQuery.answer("Work in progress..🙇")
             return
@@ -262,6 +264,8 @@ async def _splitS(bot, callbackQuery):
 @ILovePDF.on_callback_query(KsplitR)
 async def _KsplitR(bot, callbackQuery):
     try:
+        chat_id=callbackQuery.message.chat.id
+        message_id=callbackQuery.message.message_id
         if chat_id in PROCESS:
             await callbackQuery.answer("Work in progress..🙇")
             return
@@ -348,6 +352,8 @@ async def _KsplitR(bot, callbackQuery):
 @ILovePDF.on_callback_query(KsplitS)
 async def _KsplitS(bot, callbackQuery):
     try:
+        chat_id=callbackQuery.message.chat.id
+        message_id=callbackQuery.message.message_id
         if chat_id in PROCESS:
             await callbackQuery.answer("Work in progress..🙇")
             return
