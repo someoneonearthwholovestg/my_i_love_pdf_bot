@@ -17,7 +17,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 # ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
-pdfInfoMsg = """`What shall i wanted to do with this file.?`
+pdfInfoMsg="""`What shall i wanted to do with this file.?`
 
 File Name: `{}`
 File Size: `{}`
@@ -25,37 +25,33 @@ File Size: `{}`
 `Number of Pages: {}`✌️
 """
 
-PDF_THUMBNAIL = Config.PDF_THUMBNAIL
+PDF_THUMBNAIL=Config.PDF_THUMBNAIL
 
 # ----- ----- ----- ----- ----- ----- ----- CALLBACK SPLITTING PDF ----- ----- ----- ----- ----- ----- -----
 
-split = filters.create(lambda _, __, query: query.data == "split")
-Ksplit = filters.create(lambda _, __, query: query.data.startswith("Ksplit|"))
+split=filters.create(lambda _, __, query: query.data=="split")
+Ksplit=filters.create(lambda _, __, query: query.data.startswith("Ksplit|"))
 
-splitR = filters.create(lambda _, __, query: query.data == "splitR")
-splitS = filters.create(lambda _, __, query: query.data == "splitS")
+splitR=filters.create(lambda _, __, query: query.data=="splitR")
+splitS=filters.create(lambda _, __, query: query.data=="splitS")
 
-KsplitR = filters.create(lambda _, __, query: query.data.startswith("KsplitR|"))
-KsplitS = filters.create(lambda _, __, query: query.data.startswith("KsplitS|"))
-
-
+KsplitR=filters.create(lambda _, __, query: query.data.startswith("KsplitR|"))
+KsplitS=filters.create(lambda _, __, query: query.data.startswith("KsplitS|"))
 
 # Split pgNo (with unknown pdf page number)
 @ILovePDF.on_callback_query(split)
 async def _split(bot, callbackQuery):
     try:
         await callbackQuery.edit_message_text(
-            "__Split pdf » Pages:            \n\nTotal Page Number(s):__ `unknown`",
+            "__Split pdf » Pages:\n\nTotal Page Number(s):__ `unknown`",
             reply_markup = InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton("With In Range 🦞", callback_data="splitR")
-                    ],[
-                        InlineKeyboardButton("Single Page 🐛", callback_data="splitS")
-                    ],[
-                        InlineKeyboardButton("« Back «", callback_data="BTPM")
-                    ]
-                ]
+                [[
+                    InlineKeyboardButton("With In Range 🦞", callback_data="splitR")
+                ],[
+                    InlineKeyboardButton("Single Page 🐛", callback_data="splitS")
+                ],[
+                    InlineKeyboardButton("« Back «", callback_data="BTPM")
+                ]]
             )
         )
     except Exception:
@@ -65,19 +61,17 @@ async def _split(bot, callbackQuery):
 @ILovePDF.on_callback_query(Ksplit)
 async def _Ksplit(bot, callbackQuery):
     try:
-        _, number_of_pages = callbackQuery.data.split("|")
+        _, number_of_pages=callbackQuery.data.split("|")
         await callbackQuery.edit_message_text(
-            f"Split pdf » Pages:          \n\nTotal Page Number(s): {number_of_pages}__ 🌟",
+            f"Split pdf » Pages:\n\nTotal Page Number(s): {number_of_pages}__ 🌟",
             reply_markup = InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton("With In Range 🦞", callback_data=f"KsplitR|{number_of_pages}")
-                    ],[
-                        InlineKeyboardButton("Single Page 🐛", callback_data=f"KsplitS|{number_of_pages}")
-                    ],[
-                        InlineKeyboardButton("« Back «", callback_data=f"KBTPM|{number_of_pages}")
-                    ]
-                ]
+                [[
+                    InlineKeyboardButton("With In Range 🦞", callback_data=f"KsplitR|{number_of_pages}")
+                ],[
+                    InlineKeyboardButton("Single Page 🐛", callback_data=f"KsplitS|{number_of_pages}")
+                ],[
+                    InlineKeyboardButton("« Back «", callback_data=f"KBTPM|{number_of_pages}")
+                ]]
             )
         )
     except Exception:
@@ -87,134 +81,95 @@ async def _Ksplit(bot, callbackQuery):
 @ILovePDF.on_callback_query(splitR)
 async def _splitROrS(bot, callbackQuery):
     try:
+        chat_id=callbackQuery.message.chat.id
+        message_id=callbackQuery.message.message_id
         # CHECKS IF USER IN PROCESS
-        if callbackQuery.message.chat.id in PROCESS:
-            await callbackQuery.answer(
-                "Work in progress..🙇"
-            )
+        if chat_id in PROCESS:
+            await callbackQuery.answer("Work in progress..🙇")
             return
         # ADD TO PROCESS
-        PROCESS.append(callbackQuery.message.chat.id)
-        # PYROMOD (ADD-ON)
-        nabilanavab = True; i = 0
+        PROCESS.append(chat_id); nabilanavab=True; i=0
         while(nabilanavab):
             # REQUEST FOR PG NUMBER (MAX. LIMIT 5)
-            if i >= 5:
-                await bot.send_message(
-                    callbackQuery.message.chat.id,
-                    "`5 attempt over.. Process canceled..`😏"
-                )
+            if i>=5:
+                await callbackQuery.message.reply("`5 attempt over.. Process canceled..`😏")
                 break
-            i += 1
-            needPages = await bot.ask(
+            i+=1
+            needPages=await bot.ask(
                 text="__Pdf Split » By Range\nNow, Enter the range (start:end) :__\n\n/exit __to cancel__",
-                chat_id=callbackQuery.message.chat.id,
-                reply_to_message_id=callbackQuery.message.message_id,
+                chat_id=chat_id, reply_to_message_id=message_id,
                 filters=filters.text, reply_markup=ForceReply(True)
             )
             # IF /exit PROCESS CANCEL
-            if needPages.text == "/exit":
-                await bot.send_message(
-                    callbackQuery.message.chat.id,
-                    "`Process Cancelled..` 😏"
-                )
+            if needPages.text=="/exit":
+                await needPages.reply("`Process Cancelled..` 😏", quote=True)
                 break
             pageStartAndEnd=list(needPages.text.replace('-',':').split(':'))
             if len(pageStartAndEnd) > 2:
-                await bot.send_message(
-                    callbackQuery.message.chat.id,
-                    "`Syntax Error: justNeedStartAndEnd `🚶"
-                )
-            elif len(pageStartAndEnd) == 2:
-                start = pageStartAndEnd[0]
-                end = pageStartAndEnd[1]
+                await callbackQuery.message.reply("`Syntax Error: justNeedStartAndEnd `🚶")
+            elif len(pageStartAndEnd)==2:
+                start=pageStartAndEnd[0]; end=pageStartAndEnd[1]
                 if start.isdigit() and end.isdigit():
                     if (1 <= int(pageStartAndEnd[0])):
                         if (int(pageStartAndEnd[0]) < int(pageStartAndEnd[1])):
-                            nabilanavab = False
+                            nabilanavab=False
                             break
                         else:
-                            await bot.send_message(
-                                callbackQuery.message.chat.id,
-                                "`Syntax Error: errorInEndingPageNumber `🚶"
-                            )
+                            await callbackQuery.message.reply("`Syntax Error: errorInEndingPageNumber `🚶")
                     else:
-                        await bot.send_message(
-                            callbackQuery.message.chat.id,
-                            "`Syntax Error: errorInStartingPageNumber `🚶"
-                        )
+                        await callbackQuery.message.reply("`Syntax Error: errorInStartingPageNumber `🚶")
                 else:
-                    await bot.send_message(
-                        callbackQuery.message.chat.id,
-                        "`Syntax Error: pageNumberMustBeADigit` 🧠"
-                    )
+                    await callbackQuery.message.reply("`Syntax Error: pageNumberMustBeADigit` 🧠")
             else:
-                await bot.send_message(
-                    callbackQuery.message.chat.id,
-                    "`Syntax Error: noEndingPageNumber Or notADigit` 🚶"
-                )
+                await callbackQuery.message.reply("`Syntax Error: noEndingPageNumber Or notADigit` 🚶")
         # nabilanavab=True iff AN ERROR OCCURS
-        if nabilanavab == True:
-            PROCESS.remove(callbackQuery.message.chat.id)
-        if nabilanavab == False:
-            downloadMessage = await callbackQuery.message.reply_text(
-                text="`Downloding your pdf..` ⏳", quote=True
-            )
+        if nabilanavab==True:
+            PROCESS.remove(chat_id)
+        if nabilanavab==False:
+            input_file=f"{message_id}/inPut.pdf"
+            output_file=f"{message_id}/outPut.pdf"
+            
+            downloadMessage=await callbackQuery.message.reply_text(text="`Downloding your pdf..` ⏳", quote=True)
             file_id=callbackQuery.message.reply_to_message.document.file_id
             fileSize=callbackQuery.message.reply_to_message.document.file_size
             c_time=time.time()
-            downloadLoc = await bot.download_media(
-                message=file_id,
-                file_name=f"{callbackQuery.message.message_id}/pdf.pdf",
-                progress=progress,
-                progress_args=(
-                    fileSize,
-                    downloadMessage,
-                    c_time
-                )
+            downloadLoc=await bot.download_media(
+                message=file_id, file_name=input_file, progress=progress,
+                progress_args=(fileSize, downloadMessage, c_time)
             )
             if downloadLoc is None:
-                PROCESS.remove(callbackQuery.message.chat.id)
+                PROCESS.remove(chat_id)
                 return
-            await downloadMessage.edit(
-                "`Downloading Completed..🤞`"
-            )
-            checked = await checkPdf(f'{callbackQuery.message.message_id}/pdf.pdf', callbackQuery)
-            if not(checked == "pass"):
+            await downloadMessage.edit("`Downloading Completed..🤞`")
+            checked, number_of_pages=await checkPdf(input_file, callbackQuery)
+            if not(checked=="pass"):
                 await downloadMessage.delete()
                 return
-            splitInputPdf = PdfFileReader(f"{callbackQuery.message.message_id}/pdf.pdf")
-            number_of_pages = splitInputPdf.getNumPages()
+            splitInputPdf=PdfFileReader(input_file)
+            number_of_pages=splitInputPdf.getNumPages()
             if not(int(pageStartAndEnd[1]) <= int(number_of_pages)):
-                await bot.send_message(
-                    callbackQuery.message.chat.id,
-                    "`1st Check Number of pages` 😏"
-                )
-                PROCESS.remove(callbackQuery.message.chat.id)
-                shutil.rmtree(f"{callbackQuery.message.message_id}")
+                await callbackQuery.message.reply("`1st Check Number of pages` 😏")
+                PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
                 return
-            splitOutput = PdfFileWriter()
+            splitOutput=PdfFileWriter()
             for i in range(int(pageStartAndEnd[0])-1, int(pageStartAndEnd[1])):
                 splitOutput.addPage(
                     splitInputPdf.getPage(i)
                 )
-            file_path=f"{callbackQuery.message.message_id}/split.pdf"
-            with open(file_path, "wb") as output_stream:
+            with open(output_file, "wb") as output_stream:
                 splitOutput.write(output_stream)
+            fileNm=callbackQuery.message.reply_to_message.document.file_name
             await callbackQuery.message.reply_chat_action("upload_document")
             await callbackQuery.message.reply_document(
-                file_name="SPLITED.pdf", thumb=PDF_THUMBNAIL, quote=True,
-                document=f"{callbackQuery.message.message_id}/split.pdf",
-                caption=f"from `{pageStartAndEnd[0]}` to `{pageStartAndEnd[1]}`"
+                file_name=fileNm, thumb=PDF_THUMBNAIL, quote=True, document=output_file,
+                caption=f"__from __`{pageStartAndEnd[0]}`__ to __`{pageStartAndEnd[1]}`"
             )
             await downloadMessage.delete()
-            PROCESS.remove(callbackQuery.message.chat.id)
-            shutil.rmtree(f"{callbackQuery.message.message_id}")
+            PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
     except Exception as e:
         try:
-            print("SplitR: ",e)
-            PROCESS.remove(callbackQuery.message.chat.id)
-            shutil.rmtree(f"{callbackQuery.message.message_id}")
+            print("SplitR: ", e)
+            PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
         except Exception:
             pass
 
@@ -222,86 +177,63 @@ async def _splitROrS(bot, callbackQuery):
 @ILovePDF.on_callback_query(splitS)
 async def _splitS(bot, callbackQuery):
     try:
-        if callbackQuery.message.chat.id in PROCESS:
-            await callbackQuery.answer(
-                "Work in progress..🙇"
-            )
+        if chat_id in PROCESS:
+            await callbackQuery.answer("Work in progress..🙇")
             return
-        PROCESS.append(callbackQuery.message.chat.id)
-        newList = []
-        nabilanavab = True; i = 0
+        PROCESS.append(chat_id)
+        newList=[]; nabilanavab = True; i = 0
         while(nabilanavab):
-            if i >= 5:
-                bot.send_message(
-                    callbackQuery.message.chat.id,
-                    "`5 attempt over.. Process canceled..`😏"
-                )
+            if i>=5:
+                await callbackQuery.message.reply("`5 attempt over.. Process canceled..`😏")
                 break
-            i += 1
-            needPages = await bot.ask(
+            i+=1
+            needPage=await bot.ask(
                 text="__Pdf Split » By Pages\nNow, Enter Page Numbers seperate by__ (,) :\n\n/exit __to cancel__",
-                chat_id=callbackQuery.message.chat.id,
-                reply_to_message_id=callbackQuery.message.message_id,
+                chat_id=chat_id, reply_to_message_id=message_id,
                 filters=filters.text, reply_markup=ForceReply(True)
             )
-            singlePages = list(needPages.text.replace(',',':').split(':'))
-            if needPages.text == "/exit":
-                await bot.send_message(
-                    callbackQuery.message.chat.id,
-                    "`Process Cancelled..` 😏"
-                )
+            singlePages=list(needPages.text.replace(',',':').split(':'))
+            if needPages.text=="/exit":
+                await needPages.reply("`Process Cancelled..` 😏")
                 break
             elif 1 <= len(singlePages) <= 100:
                 try:
                     for i in singlePages:
                         if i.isdigit():
                             newList.append(i)
-                    if newList != []:
-                        nabilanavab = False
+                    if newList!=[]:
+                        nabilanavab=False
                         break
-                    elif newList == []:
-                        await bot.send_message(
-                            callbackQuery.message.chat.id,
-                            "`Cant find any number..`😏"
-                        )
+                    elif newList==[]:
+                        await callbackQuery.message.reply("`Cant find any number..`😏")
                         continue
                 except Exception:
                     pass
             else:
-                await bot.send_message(
-                    callbackQuery.message.chat.id,
-                    "`Something went Wrong..`😅"
-                )
-        if nabilanavab == True:
-            PROCESS.remove(callbackQuery.message.chat.id)
-        if nabilanavab == False:
-            downloadMessage = await callbackQuery.message.reply_text(
-                text="`Downloding your pdf..`⏳", quote=True
-            )
+                await callbackQuery.message.reply("`Something went Wrong..`😅")
+        if nabilanavab==True:
+            PROCESS.remove(chat_id)
+        if nabilanavab==False:
+            input_file=f"{message_id}/inPut.pdf"
+            output_file=f"{message_id}/outPut.pdf"
+            
+            downloadMessage=await callbackQuery.message.reply_text(text="`Downloding your pdf..`⏳", quote=True)
             file_id=callbackQuery.message.reply_to_message.document.file_id
             fileSize=callbackQuery.message.reply_to_message.document.file_size
             c_time=time.time()
-            downloadLoc = await bot.download_media(
-                message=file_id,
-                file_name=f"{callbackQuery.message.message_id}/pdf.pdf",
-                progress=progress,
-                progress_args=(
-                    fileSize,
-                    downloadMessage,
-                    c_time
-                )
+            downloadLoc=await bot.download_media(
+                message=file_id, file_name=input_file, progress=progress,
+                progress_args=(fileSize, downloadMessage, c_time)
             )
             if downloadLoc is None:
-                PROCESS.remove(callbackQuery.message.chat.id)
+                PROCESS.remove(chat_id)
                 return
-            await downloadMessage.edit(
-                "`Downloading Completed..🤞`"
-            )
-            checked = await checkPdf(f'{callbackQuery.message.message_id}/pdf.pdf', callbackQuery)
-            if not(checked == "pass"):
+            await downloadMessage.edit("`Downloading Completed..🤞`")
+            checked, number_of_pages=await checkPdf(input_file, callbackQuery)
+            if not(checked=="pass"):
                 await downloadMessage.delete()
                 return
-            splitInputPdf=PdfFileReader(f'{callbackQuery.message.message_id}/pdf.pdf')
+            splitInputPdf=PdfFileReader(input_file)
             number_of_pages=splitInputPdf.getNumPages()
             splitOutput=PdfFileWriter()
             for i in newList:
@@ -311,24 +243,18 @@ async def _splitS(bot, callbackQuery):
                             int(i)-1
                         )
                     )
-            with open(
-                f"{callbackQuery.message.message_id}/split.pdf", "wb"
-            ) as output_stream:
+            with open(output_file, "wb") as output_stream:
                 splitOutput.write(output_stream)
+            fileNm=callbackQuery.message.reply_to_message.document.file_name
             await callbackQuery.message.reply_chat_action("upload_document")
             await callbackQuery.message.reply_document(
-                file_name="SPLITED.pdf", thumb=PDF_THUMBNAIL,
-                document=f"{callbackQuery.message.message_id}/split.pdf",
-                caption=f"Pages : `{newList}`", quote=True
+                file_name=fileNm, thumb=PDF_THUMBNAIL, document=output_file,
+                caption=f"__Pages: __`{newList}`", quote=True
             )
-            await downloadMessage.delete()
-            PROCESS.remove(callbackQuery.message.chat.id)
-            shutil.rmtree(f"{callbackQuery.message.message_id}")
+            await downloadMessage.delete(); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
     except Exception as e:
         try:
-            print("splitS ;", e)
-            PROCESS.remove(callbackQuery.message.chat.id)
-            shutil.rmtree(f"{callbackQuery.message.message_id}")
+            print("splitS ;", e); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
         except Exception:
             pass
 
@@ -336,42 +262,29 @@ async def _splitS(bot, callbackQuery):
 @ILovePDF.on_callback_query(KsplitR)
 async def _KsplitR(bot, callbackQuery):
     try:
-        if callbackQuery.message.chat.id in PROCESS:
-            await callbackQuery.answer(
-                "Work in progress..🙇"
-            )
+        if chat_id in PROCESS:
+            await callbackQuery.answer("Work in progress..🙇")
             return
-        PROCESS.append(callbackQuery.message.chat.id)
         _, number_of_pages=callbackQuery.data.split("|")
         number_of_pages=int(number_of_pages)
-        nabilanavab = True; i = 0
+        PROCESS.append(chat_id); nabilanavab=True; i=0
         while(nabilanavab):
-            if i >= 5:
-                await bot.send_message(
-                    callbackQuery.message.chat.id,
-                    "`5 attempt over.. Process canceled..`😏"
-                )
+            if i>=5:
+                await callbackQuery.message.reply("`5 attempt over.. Process canceled..`😏")
                 break
-            i += 1
-            needPages = await bot.ask(
+            i+=1
+            needPages=await bot.ask(
                 text=f"__Pdf Split » By Range\nNow, Enter the range (start:end) :\nTotal Pages : __`{number_of_pages}` 🌟\n\n/exit __to cancel__",
-                chat_id=callbackQuery.message.chat.id,
-                reply_to_message_id=callbackQuery.message.message_id,
+                chat_id=chat_id, reply_to_message_id=message_id,
                 filters=filters.text, reply_markup=ForceReply(True)
             )
             if needPages.text == "/exit":
-                await bot.send_message(
-                    callbackQuery.message.chat.id,
-                    "`Process Cancelled..` 😏"
-                )
+                await callbackQuery.message.reply("`Process Cancelled..` 😏")
                 break
             pageStartAndEnd=list(needPages.text.replace('-',':').split(':'))
             if len(pageStartAndEnd) > 2:
-                await bot.send_message(
-                    callbackQuery.message.chat.id,
-                    "`Syntax Error: justNeedStartAndEnd `🚶"
-                )
-            elif len(pageStartAndEnd) == 2:
+                await callbackQuery.message.reply("`Syntax Error: justNeedStartAndEnd `🚶")
+            elif len(pageStartAndEnd)==2:
                 start = pageStartAndEnd[0]
                 end = pageStartAndEnd[1]
                 if start.isdigit() and end.isdigit():
@@ -380,82 +293,54 @@ async def _KsplitR(bot, callbackQuery):
                             nabilanavab = False
                             break
                         else:
-                            await bot.send_message(
-                                callbackQuery.message.chat.id,
-                                "`Syntax Error: errorInEndingPageNumber `🚶"
-                            )
+                            await callbackQuery.message.reply("`Syntax Error: errorInEndingPageNumber `🚶")
                     else:
-                        await bot.send_message(
-                            callbackQuery.message.chat.id,
-                            "`Syntax Error: errorInStartingPageNumber `🚶"
-                        )
+                        await callbackQuery.message.reply("`Syntax Error: errorInStartingPageNumber `🚶")
                 else:
-                    await bot.send_message(
-                        callbackQuery.message.chat.id,
-                        "`Syntax Error: pageNumberMustBeADigit` 🚶"
-                    )
+                    await callbackQuery.message.reply("`Syntax Error: pageNumberMustBeADigit` 🚶")
             else:
-                await bot.send_message(
-                    callbackQuery.message.chat.id,
-                    "`Syntax Error: noSuchPageNumbers` 🚶"
-                )
-        if nabilanavab == True:
-            PROCESS.remove(callbackQuery.message.chat.id)
-        if nabilanavab == False:
-            downloadMessage = await callbackQuery.message.reply_text(
-                text="`Downloding your pdf..` ⏳", quote=True
-            )
+                await callbackQuery.message.reply("`Syntax Error: noSuchPageNumbers` 🚶")
+        if nabilanavab==True:
+            PROCESS.remove(chat_id)
+        if nabilanavab==False:
+            input_file=f"{message_id}/inPut.pdf"
+            output_file=f"{message_id}/outPut.pdf"
+            
+            downloadMessage=await callbackQuery.message.reply_text(text="`Downloding your pdf..` ⏳", quote=True)
             file_id=callbackQuery.message.reply_to_message.document.file_id
             fileSize=callbackQuery.message.reply_to_message.document.file_size
             c_time=time.time()
-            downloadLoc = await bot.download_media(
-                message=file_id,
-                file_name=f"{callbackQuery.message.message_id}/pdf.pdf",
-                progress=progress,
-                progress_args=(
-                    fileSize,
-                    downloadMessage,
-                    c_time
-                )
+            downloadLoc=await bot.download_media(
+                message=file_id, file_name=input_file, progress=progress,
+                progress_args=(fileSize, downloadMessage, c_time)
             )
             if downloadLoc is None:
-                PROCESS.remove(callbackQuery.message.chat.id)
+                PROCESS.remove(chat_id)
                 return
-            await downloadMessage.edit(
-                "`Downloading Completed..🤞`"
-            )
-            splitInputPdf = PdfFileReader(f"{callbackQuery.message.message_id}/pdf.pdf")
-            number_of_pages = splitInputPdf.getNumPages()
+            await downloadMessage.edit("`Downloading Completed..🤞`")
+            splitInputPdf=PdfFileReader(input_file)
+            number_of_pages=splitInputPdf.getNumPages()
             if not(int(pageStartAndEnd[1]) <= int(number_of_pages)):
-                await bot.send_message(
-                    callbackQuery.message.chat.id,
-                    "`1st Check the Number of pages` 😏"
-                )
-                PROCESS.remove(callbackQuery.message.chat.id)
-                shutil.rmtree(f"{callbackQuery.message.message_id}")
+                await callbackQuery.message.reply("`1st Check the Number of pages` 😏")
+                PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
                 return
-            splitOutput = PdfFileWriter()
+            splitOutput=PdfFileWriter()
             for i in range(int(pageStartAndEnd[0])-1, int(pageStartAndEnd[1])):
                 splitOutput.addPage(
                     splitInputPdf.getPage(i)
                 )
-            file_path=f"{callbackQuery.message.message_id}/split.pdf"
-            with open(file_path, "wb") as output_stream:
+            with open(output_file, "wb") as output_stream:
                 splitOutput.write(output_stream)
+            fileNm=callbackQuery.message.reply_to_message.document.file_name
             await callbackQuery.message.reply_chat_action("upload_document")
             await callbackQuery.message.reply_document(
-                file_name="SPLITED.pdf", thumb=PDF_THUMBNAIL, quote=True,
-                document=f"{callbackQuery.message.message_id}/split.pdf",
-                caption=f"from `{pageStartAndEnd[0]}` to `{pageStartAndEnd[1]}`"
+                file_name=fileNm, thumb=PDF_THUMBNAIL, quote=True, document=output_file,
+                caption=f"__from __`{pageStartAndEnd[0]}`__ to __`{pageStartAndEnd[1]}`"
             )
-            await downloadMessage.delete()
-            PROCESS.remove(callbackQuery.message.chat.id)
-            shutil.rmtree(f"{callbackQuery.message.message_id}")
+            await downloadMessage.delete(); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
     except Exception as e:
         try:
-            print("KsplitR :", e)
-            PROCESS.remove(callbackQuery.message.chat.id)
-            shutil.rmtree(f"{callbackQuery.message.message_id}")
+            print("KsplitR :", e); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
         except Exception:
             pass
 
@@ -463,34 +348,25 @@ async def _KsplitR(bot, callbackQuery):
 @ILovePDF.on_callback_query(KsplitS)
 async def _KsplitS(bot, callbackQuery):
     try:
-        if callbackQuery.message.chat.id in PROCESS:
-            await callbackQuery.answer(
-                "Work in progress..🙇"
-            )
+        if chat_id in PROCESS:
+            await callbackQuery.answer("Work in progress..🙇")
             return
-        PROCESS.append(callbackQuery.message.chat.id)
-        _, number_of_pages = callbackQuery.data.split("|")
-        newList = []
-        nabilanavab = True; i = 0
+        PROCESS.append(chat_id)
+        _, number_of_pages=callbackQuery.data.split("|")
+        newList=[]; nabilanavab=True; i=0
         while(nabilanavab):
-            if i >= 5:
-                bot.send_message(
-                    callbackQuery.message.chat.id,
-                    "`5 attempt over.. Process canceled..`😏"
-                )
+            if i>=5:
+                await callbackQuery.message.reply("`5 attempt over.. Process canceled..`😏")
                 break
-            i += 1
-            needPages = await bot.ask(
+            i+=1
+            needPages=await bot.ask(
                 text=f"__Pdf Split » By Pages\nEnter Page Numbers seperate by__ (,) :\n__Total Pages : __`{number_of_pages}` 🌟\n\n/exit __to cancel__",
-                chat_id=callbackQuery.message.chat.id,
-                reply_to_message_id=callbackQuery.message.message_id,
+                chat_id=chat_id, reply_to_message_id=message_id,
                 filters=filters.text, reply_markup=ForceReply(True)
             )
-            singlePages = list(needPages.text.replace(',',':').split(':'))
-            if needPages.text == "/exit":
-                await bot.send_message(
-                    callbackQuery.message.chat.id,
-                    "`Process Cancelled..` 😏"
+            singlePages=list(needPages.text.replace(',',':').split(':'))
+            if needPages.text=="/exit":
+                await needPages.reply("`Process Cancelled..` 😏"
                 )
                 break
             elif 1 <= int(len(singlePages)) and int(len(singlePages)) <= 100:
@@ -499,10 +375,7 @@ async def _KsplitS(bot, callbackQuery):
                         if (i.isdigit() and int(i) <= int(number_of_pages)):
                             newList.append(i)
                     if newList == []:
-                        await bot.send_message(
-                             callbackQuery.message.chat.id,
-                            f"`Enter Numbers less than {number_of_pages}..`😏"
-                        )
+                        await callbackQuery.message.reply(f"`Enter Numbers less than {number_of_pages}..`😏")
                         continue
                     else:
                         nabilanavab = False
@@ -510,38 +383,28 @@ async def _KsplitS(bot, callbackQuery):
                 except Exception:
                     pass
             else:
-                await bot.send_message(
-                    callbackQuery.message.chat.id,
-                    "`Something went Wrong..`😅"
-                )
-        if nabilanavab == True:
-            PROCESS.remove(callbackQuery.message.chat.id)
-        if nabilanavab == False:
-            downloadMessage = await callbackQuery.message.reply_text(
-                text="`Downloding your pdf..`⏳", quote=True
-            )
+                await callbackQuery.message.reply("`Something went Wrong..`😅")
+        if nabilanavab==True:
+            PROCESS.remove(chat_id)
+        if nabilanavab==False:
+            input_file=f"{message_id}/inPut.pdf"
+            output_file=f"{message_id}/outPut.pdf"
+            
+            downloadMessage=await callbackQuery.message.reply_text(text="`Downloding your pdf..`⏳", quote=True)
             file_id=callbackQuery.message.reply_to_message.document.file_id
             fileSize=callbackQuery.message.reply_to_message.document.file_size
             c_time=time.time()
-            downloadLoc = await bot.download_media(
-                message=file_id,
-                file_name=f"{callbackQuery.message.message_id}/pdf.pdf",
-                progress=progress,
-                progress_args=(
-                    fileSize,
-                    downloadMessage,
-                    c_time
-                )
+            downloadLoc=await bot.download_media(
+                message=file_id, file_name=output_file, progress=progress,
+                progress_args=(fileSize, downloadMessage, c_time)
             )
             if downloadLoc is None:
-                PROCESS.remove(callbackQuery.message.chat.id)
+                PROCESS.remove(chat_id)
                 return
-            await downloadMessage.edit(
-                "`Downloading Completed..🤞`"
-            )
-            splitInputPdf = PdfFileReader(f'{callbackQuery.message.message_id}/pdf.pdf')
-            number_of_pages = splitInputPdf.getNumPages()
-            splitOutput = PdfFileWriter()
+            await downloadMessage.edit("`Downloading Completed..🤞`")
+            splitInputPdf=PdfFileReader(input_file)
+            number_of_pages=splitInputPdf.getNumPages()
+            splitOutput=PdfFileWriter()
             for i in newList:
                 if int(i) <= int(number_of_pages):
                     splitOutput.addPage(
@@ -549,24 +412,18 @@ async def _KsplitS(bot, callbackQuery):
                             int(i)-1
                         )
                     )
-            with open(
-                f"{callbackQuery.message.message_id}/split.pdf", "wb"
-            ) as output_stream:
+            with open(output_file) as output_stream:
                 splitOutput.write(output_stream)
+            fileNm=callbackQuery.message.reply_to_message.document.file_name
             await callbackQuery.message.reply_chat_action("upload_document")
             await callbackQuery.message.reply_document(
-                file_name="SPLITED.pdf", thumb=PDF_THUMBNAIL,
-                document=f"{callbackQuery.message.message_id}/split.pdf",
-                caption=f"Pages : `{newList}`", quote=True
+                file_name=fileNm, thumb=PDF_THUMBNAIL, document=output_file,
+                caption=f"__Pages: __`{newList}`", quote=True
             )
-            await downloadMessage.delete()
-            PROCESS.remove(callbackQuery.message.chat.id)
-            shutil.rmtree(f"{callbackQuery.message.message_id}")
+            await downloadMessage.delete(); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
     except Exception as e:
         try:
-            print("Ksplits: ", e)
-            PROCESS.remove(callbackQuery.message.chat.id)
-            shutil.rmtree(f"{callbackQuery.message.message_id}")
+            print("Ksplits: ", e); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
         except Exception:
             pass
 
