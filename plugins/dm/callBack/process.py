@@ -212,7 +212,7 @@ async def textPDF(data, message, message_id):
                         out.write(bytes((12,)))                     # write page delimiter (form feed 0x0C)
             return "__html file__"
         
-        if data in ["J", "KJ"]
+        if data in ["J", "KJ"]:
             with fitz.open(input_file) as doc:
                 with open(output_file, "wb") as out: # open text output
                     for page in doc:                                # iterate the document pages
