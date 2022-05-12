@@ -15,7 +15,7 @@ if isMONGOexist:
 #--------> LOCAL VARIABLES
 #------------------->
 
-welcomeMsg = """Hey [{}](tg://user?id={})..!!
+welcomeMsg="""Hey [{}](tg://user?id={})..!!
 This bot will helps you to do many things with pdf's 🥳
 
 Some of the main features are:
@@ -23,7 +23,7 @@ Some of the main features are:
 ◍ `Convert PDF to images`
 ◍ `Convert files to pdf`"""
 
-forceSubMsg = """Wait [{}](tg://user?id={})..!!
+forceSubMsg="""Wait [{}](tg://user?id={})..!!
 
 Due To The Huge Traffic Only Channel Members Can Use this Bot 🚶
 
@@ -157,10 +157,10 @@ async def start(bot, message):
 #--------> START CALLBACKS
 #------------------->
 
-refresh = filters.create(lambda _, __, query: query.data == "refresh")
-close = filters.create(lambda _, __, query: query.data == "close")
-back = filters.create(lambda _, __, query: query.data == "back")
-hlp = filters.create(lambda _, __, query: query.data == "help")
+refresh=filters.create(lambda _, __, query: query.data == "refresh")
+close=filters.create(lambda _, __, query: query.data == "close")
+back=filters.create(lambda _, __, query: query.data == "back")
+hlp=filters.create(lambda _, __, query: query.data == "help")
 
 @ILovePDF.on_callback_query(hlp)
 async def _hlp(bot, callbackQuery):
