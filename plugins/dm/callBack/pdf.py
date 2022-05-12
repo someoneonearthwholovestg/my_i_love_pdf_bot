@@ -156,6 +156,7 @@ async def _pdf(bot, callbackQuery):
         # Bot not using os.rename, just send input file with new name ;)
         if data.startswith(tuple(["rename", "Krename"])):
             output_file=input_file
+            caption=f"__New Name:__ `{fileNm}`"
         # Output file name of pdf to .txt, html, json file
         elif data in ["T", "KT"]:
             output_file=f"{message_id}/outPut.txt"
