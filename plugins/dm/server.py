@@ -14,7 +14,6 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 if isMONGOexist:
     from database import db
 
-
 @ILovePDF.on_message(filters.private & filters.command(["server"]) & ~filters.edited & filters.user(Config.ADMINS))
 async def server(bot, message):
     try:
