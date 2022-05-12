@@ -19,9 +19,9 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from plugins.dm.callBack.process import textPDF, rotatePDF, encryptPDF, decryptPDF, compressPDF, formatterPDF
 
 # checks if ocr works (nabilanavab==False)
-from plugins.dm.callBack.ocr import nabilanavab
+from plugins.dm.callBack.process import nabilanavab
 if nabilanavab==False:
-    from plugins.dm.callBack.ocr import ocrPDF
+    from plugins.dm.callBack.process import ocrPDF
 
 #--------------->
 #--------> LOCAL VARIABLES
