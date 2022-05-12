@@ -35,9 +35,6 @@ pdfReply=InlineKeyboardMarkup(
                 InlineKeyboardButton("📝 OCR 📝", callback_data="ocr"),
                 InlineKeyboardButton("🥷 A4 FORMAT 🥷", callback_data="format")
             ],[
-                InlineKeyboardButton("🤐 ZIP 🤐", callback_data="zip"),
-                InlineKeyboardButton("🎯 TAR 🎯", callback_data="tar")
-            ],[
                 InlineKeyboardButton("🚫 CLOSE 🚫",callback_data="closeALL")
             ]
         ]
