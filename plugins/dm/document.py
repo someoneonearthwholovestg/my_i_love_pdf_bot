@@ -40,16 +40,16 @@ PDF_THUMBNAIL=Config.PDF_THUMBNAIL
 #--------> FILES TO PDF SUPPORTED CODECS
 #------------------->
 
-suprtedFile = [
+suprtedFile=[
     ".jpg", ".jpeg", ".png"
 ]                                       # Img to pdf file support
 
-suprtedPdfFile = [
+suprtedPdfFile=[
     ".epub", ".xps", ".oxps",
     ".cbz", ".fb2"
 ]                                      # files to pdf (zero limits)
 
-suprtedPdfFile2 = [
+suprtedPdfFile2=[
     ".csv", ".doc", ".docx", ".dot",
     ".dotx", ".log", ".mpp", ".mpt",
     ".odt", ".pot", ".potx", ".pps",
@@ -64,28 +64,28 @@ suprtedPdfFile2 = [
 #--------> LOCAL VARIABLES
 #------------------->
 
-pdfReplyMsg = """`What shall i wanted to do with this file.?`
+pdfReplyMsg="""`What shall i wanted to do with this file.?`
 
 File Name : `{}`
 File Size : `{}`"""
 
-bigFileUnSupport = """Due to Overload, Owner limits {}mb for pdf files 🙇
+bigFileUnSupport="""Due to Overload, Owner limits {}mb for pdf files 🙇
 
 `please Send me a file less than {}mb Size` 🙃"""
 
-imageAdded = """`Added {} page/'s to your pdf..`🤓
+imageAdded="""`Added {} page/'s to your pdf..`🤓
 
 /generate to generate PDF 🤞"""
 
-errorEditMsg = """Something went wrong..😐
+errorEditMsg="""Something went wrong..😐
 
 ERROR: `{}`
 
 For bot updates join @ilovepdf_bot"""
 
-feedbackMsg = "[Write a feedback 📋](https://t.me/nabilanavabchannel/17?comment=10)"
+feedbackMsg="[Write a feedback 📋](https://t.me/nabilanavabchannel/17?comment=10)"
 
-forceSubMsg = """Wait [{}](tg://user?id={})..!!
+forceSubMsg="""Wait [{}](tg://user?id={})..!!
 
 Due To The Huge Traffic Only Channel Members Can Use this Bot 🚶
 
@@ -121,9 +121,6 @@ pdfReply=InlineKeyboardMarkup(
                 InlineKeyboardButton("📝 OCR 📝", callback_data="ocr"),
                 InlineKeyboardButton("🥷 A4 FORMAT 🥷", callback_data="format")
             ],[
-                InlineKeyboardButton("🤐 ZIP 🤐", callback_data="zip"),
-                InlineKeyboardButton("🎯 TAR 🎯", callback_data="tar")
-            ],[
                 InlineKeyboardButton("🚫 CLOSE 🚫", callback_data="closeALL")
             ]
         ]
@@ -134,6 +131,9 @@ pdfReply=InlineKeyboardMarkup(
 #------------------->
 
 UPDATE_CHANNEL=Config.UPDATE_CHANNEL
+
+# PIC="./IMAGES/start.jpeg"
+PIC="https://te.legra.ph/file/50c4d6e580ed98d931549.jpg"
 
 #--------------->
 #--------> REPLY TO DOCUMENTS/FILES
@@ -147,48 +147,53 @@ async def documents(bot, message):
         # CHECK USER IN CHANNEL (IF UPDATE_CHANNEL ADDED)
         if UPDATE_CHANNEL:
             try:
-                await bot.get_chat_member(
-                    str(UPDATE_CHANNEL), message.chat.id
-                )
+                userStatus=await bot.get_chat_member(str(UPDATE_CHANNEL), message.chat.id)
+                # IF USER BANNED FROM CHANNEL
+                if userStatus.status=='banned':
+                     await message.reply_photo(
+                         photo=PIC,
+                         caption="For Some Reason You Can't Use This Bot"
+                                 "\n\nContact Bot Owner 🤐",
+                         reply_markup=InlineKeyboardMarkup(
+                            [[InlineKeyboardButton("Owner 🎊", url="https://t.me/nabilanavab")]]
+                         )
+                     )
+                     return
             except Exception:
-                if invite_link == None:
+                if invite_link==None:
                     invite_link=await bot.create_chat_invite_link(
                         int(UPDATE_CHANNEL)
                     )
-                await bot.send_message(
-                    message.chat.id,
-                    forceSubMsg.format(
+                await message.reply_photo(
+                    photo=PIC,
+                    caption=forceSubMsg.format(
                         message.from_user.first_name, message.chat.id
                     ),
                     reply_markup=InlineKeyboardMarkup(
-                        [
-                            [
-                                InlineKeyboardButton("🌟 JOIN CHANNEL 🌟", url=invite_link.invite_link)
-                            ],[
-                                InlineKeyboardButton("Refresh ♻️", callback_data="refresh")
-                            ]
-                        ]
+                        [[
+                            InlineKeyboardButton("🌟 JOIN CHANNEL 🌟", url=invite_link.invite_link)
+                        ],[
+                            InlineKeyboardButton("Refresh ♻️", callback_data="refresh")
+                        ]]
                     )
                 )
                 return
         
-        isPdfOrImg = message.document.file_name        # file name
-        fileSize = message.document.file_size          # file size
-        fileNm, fileExt = os.path.splitext(isPdfOrImg) # seperate name & extension
+        isPdfOrImg=message.document.file_name        # file name
+        fileSize=message.document.file_size          # file size
+        fileNm, fileExt=os.path.splitext(isPdfOrImg) # seperate name & extension
         
         # REPLY TO LAGE FILES/DOCUMENTS
         if MAX_FILE_SIZE and fileSize >= int(MAX_FILE_SIZE_IN_kiB):
-            await message.reply_text(
-                bigFileUnSupport.format(MAX_FILE_SIZE, MAX_FILE_SIZE), quote=True,
+            await message.reply_photo(
+                photo=PIC,
+                caption=bigFileUnSupport.format(
+                    MAX_FILE_SIZE, MAX_FILE_SIZE
+                ),
                 reply_markup=InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                "💎 Create 2Gb Support Bot 💎",
-                                url="https://github.com/nabilanavab/ilovepdf"
-                            )
-                        ]
-                    ]
+                    [[
+                        InlineKeyboardButton("💎 Create 2Gb Support Bot 💎", url="https://github.com/nabilanavab/ilovepdf")
+                    ]]
                 )
             )
             return
@@ -196,7 +201,7 @@ async def documents(bot, message):
         # IMAGE AS FILES (ADDS TO PDF FILE)
         elif fileExt.lower() in suprtedFile:
             try:
-                imageDocReply = await message.reply_text(
+                imageDocReply=await message.reply_text(
                     "`Downloading your Image..⏳`", quote=True
                 )
                 if not isinstance(PDF.get(message.chat.id), list):
@@ -204,7 +209,7 @@ async def documents(bot, message):
                 await message.download(
                     f"{message.chat.id}/{message.chat.id}.jpg"
                 )
-                img = Image.open(
+                img=Image.open(
                     f"{message.chat.id}/{message.chat.id}.jpg"
                 ).convert("RGB")
                 PDF[message.chat.id].append(img)
@@ -217,9 +222,9 @@ async def documents(bot, message):
                 )
             
         # REPLY TO .PDF FILE EXTENSION
-        elif fileExt.lower() == ".pdf":
+        elif fileExt.lower()==".pdf":
             try:
-                pdfMsgId = await message.reply_text(
+                pdfMsgId=await message.reply_text(
                     "Processing..🚶", quote=True
                 )
                 await asyncio.sleep(0.5)
@@ -235,7 +240,7 @@ async def documents(bot, message):
         # FILES TO PDF (PYMUPDF/FITZ)
         elif fileExt.lower() in suprtedPdfFile:
             try:
-                pdfMsgId = await message.reply_text(
+                pdfMsgId=await message.reply_text(
                     "`Downloading your file..⏳`", quote=True
                 )
                 await message.download(
@@ -256,9 +261,7 @@ async def documents(bot, message):
                 await pdfMsgId.edit(
                     "`Started Uploading..`🏋️"
                 )
-                await bot.send_chat_action(
-                    message.chat.id, "upload_document"
-                )
+                await message.reply_chat_action("upload_document")
                 await message.reply_document(
                     file_name=f"{fileNm}.pdf",
                     document=open(f"{message.message_id}/{fileNm}.pdf", "rb"),
@@ -269,33 +272,26 @@ async def documents(bot, message):
                 await pdfMsgId.delete()
                 shutil.rmtree(f"{message.message_id}")
                 await asyncio.sleep(5)
-                await bot.send_chat_action(
-                    message.chat.id, "typing"
-                )
-                await bot.send_message(
-                    message.chat.id, feedbackMsg,
-                    disable_web_page_preview = True
-                )
+                await message.reply_chat_action("typing")
+                await message.reply(feedbackMsg, disable_web_page_preview=True)
             except Exception as e:
                 try:
                     shutil.rmtree(f"{message.message_id}")
-                    await pdfMsgId.edit(
-                        errorEditMsg.format(e)
-                    )
+                    await pdfMsgId.edit(errorEditMsg.format(e))
                 except Exception:
                     pass
         
         # FILES TO PDF (CONVERTAPI)
         elif fileExt.lower() in suprtedPdfFile2:
             if Config.CONVERT_API is None:
-                pdfMsgId = await message.reply_text(
+                pdfMsgId=await message.reply_text(
                     "`Owner Forgot to add ConvertAPI.. contact Owner 😒`",
                     quote=True
                 )
                 return
             else:
                 try:
-                    pdfMsgId = await message.reply_text(
+                    pdfMsgId=await message.reply_text(
                         "`Downloading your file..⏳`", quote=True
                     )
                     await message.download(
@@ -308,7 +304,7 @@ async def documents(bot, message):
                             {
                                 "File": f"{message.message_id}/{isPdfOrImg}"
                             },
-                            from_format = fileExt[1:],
+                            from_format=fileExt[1:],
                         ).save_files(
                             f"{message.message_id}/{fileNm}.pdf"
                         )
@@ -321,9 +317,7 @@ async def documents(bot, message):
                             return
                         except Exception:
                             pass
-                    await bot.send_chat_action(
-                        message.chat.id, "upload_document"
-                    )
+                    await message.reply_chat_action("upload_document")
                     await message.reply_document(
                         file_name=f"{fileNm}.pdf",
                         document=open(f"{message.message_id}/{fileNm}.pdf", "rb"),
@@ -334,22 +328,15 @@ async def documents(bot, message):
                     await pdfMsgId.delete()
                     shutil.rmtree(f"{message.message_id}")
                     await asyncio.sleep(5)
-                    await bot.send_chat_action(
-                        message.chat.id, "typing"
-                    )
-                    await bot.send_message(
-                        message.chat.id, feedbackMsg,
-                        disable_web_page_preview=True
-                    )
+                    await message.reply_chat_action("typing")
+                    await message.reply_text(feedbackMsg, disable_web_page_preview=True)
                 except Exception:
                     pass
         
         # UNSUPPORTED FILES
         else:
             try:
-                await message.reply_text(
-                    "`unsupported file..🙄`", quote=True
-                )
+                await message.reply_text("`unsupported file..🙄`", quote=True)
             except Exception:
                 pass
     
