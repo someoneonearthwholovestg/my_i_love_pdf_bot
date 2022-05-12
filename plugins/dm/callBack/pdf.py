@@ -1,4 +1,4 @@
-# fileName : plugins/dm/callBack/pdfManupulator.py
+# fileName : plugins/dm/callBack/pdf.py
 # copyright ©️ 2021 nabilanavab
 
 import os
@@ -16,6 +16,8 @@ from pyrogram import Client as ILovePDF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 # Importing Pdf Process Funs.
+from plugins.dm.callBack.text import textPDF
+from plugins.dm.callBack.rotate import rotatePDF
 from plugins.dm.callBack.encrypt import encryptPDF
 from plugins.dm.callBack.decrypt import decryptPDF
 from plugins.dm.callBack.compress import compressPDF
@@ -38,7 +40,14 @@ cancelBtn=InlineKeyboardMarkup([[InlineKeyboardButton("« Cancel »", callback_d
 #--------> PYRO FILTERS
 #------------------->
 
+M=filters.create(lambda _, __, query: query.data in ["M", "KM"])
+T=filters.create(lambda _, __, query: query.data in ["T", "KT"])
+J=filters.create(lambda _, __, query: query.data in ["J", "KJ"])
+H=filters.create(lambda _, __, query: query.data in ["H", "KH"])
+
+rot360=filters.create(lambda _, __, query: query.data=="rot360")
 pdfInfo=filters.create(lambda _, __, query: query.data.startswith("KpdfInfo"))
+rot=filters.create(lambda _, __, query: query.data in ["rot90", "rot180", "rot270"])
 ocr=filters.create(lambda _, __, query: query.data.startswith(tuple(["ocr", "Kocr"])))
 rename=filters.create(lambda _, __, query: query.data.startswith(tuple(["rename", "Krename"])))
 decrypt=filters.create(lambda _, __, query: query.data.startswith(tuple(["decrypt", "Kdecrypt"])))
@@ -50,11 +59,17 @@ compress=filters.create(lambda _, __, query: query.data.startswith(tuple(["compr
 #--------> CALLBACK QUERY
 #------------------->
 
-@ILovePDF.on_callback_query(pdfInfo | ocr | compress | decrypt | encrypt | formatter | rename)
-async def _pdfManupulator(bot, callbackQuery):
+@ILovePDF.on_callback_query(
+    pdfInfo | ocr | compress | decrypt | encrypt | formatter | rename | rot | rot360 | M | T | J | H
+)
+async def _pdf(bot, callbackQuery):
     try:
         chat_id=callbackQuery.message.chat.id
         message_id=callbackQuery.message.message_id
+        
+        if callbackQuery.data=="rot360":
+            await callbackQuery.answer("You have Some big Problem..🙂")
+            return
         
         # Never Work OCR if nabilanavab==True
         # Deploy From Docker Files (else OCR never works)
@@ -97,7 +112,7 @@ async def _pdfManupulator(bot, callbackQuery):
         PROCESS.append(chat_id); data=callbackQuery.data
         await callbackQuery.answer("⚙️ Processing...")
         
-        if data[0]=="K":
+        if (data[0]=="K") and ("|" in data):
             _, number_of_pages=callbackQuery.data.split("|")
         
         # Asks password for encryption, decryption
@@ -139,40 +154,53 @@ async def _pdfManupulator(bot, callbackQuery):
         downloadMessage=await callbackQuery.message.reply_text(
             "`Downloding your pdf..` ⏳", reply_markup=cancelBtn, quote=True
         )
+        
+        # input and output file paths
         input_file=f"{message_id}/inPut.pdf"
         output_file=f"{message_id}/outPut.pdf"
         # Bot not using os.rename, just send input file with new name ;)
-
         if data.startswith(tuple(["rename", "Krename"])):
-
             output_file=input_file
-
+        # Output file name of pdf to .txt, html, json file
+        elif data in ["T", "KT"]:
+            output_file=f"{message_id}/outPut.txt"
+        elif data in ["J", "KJ"]:
+            output_file=f"{message_id}/outPut.json"
+        elif data in ["H", "KH"]:
+            output_file=f"{message_id}/outPut.html"
         
         file_id=callbackQuery.message.reply_to_message.document.file_id
         fileSize=callbackQuery.message.reply_to_message.document.file_size
+        
+        # Output fileName
         if not fileNm:
             fileNm=callbackQuery.message.reply_to_message.document.file_name
             fileNm, fileExt=os.path.splitext(fileNm)        # seperates name & extension
+            if data in ["T", "KT"]:
+                fileNm=f"{fileNm}.txt"
+            if data in ["J", "KJ"]:
+                fileNm=f"{fileNm}.json"
+            if data in ["H", "KH"]:
+                fileNm=f"{fileNm}.html"
+            else:
+                fileNm=f"{fileNm}.pdf"
         
         # STARTED DOWNLOADING
         c_time=time.time()
         downloadLoc=await bot.download_media(
-            message=file_id,
-            file_name=input_file,
-            progress=progress,
-            progress_args=(
-                fileSize,
-                downloadMessage,
-                c_time
+            message=file_id, file_name=input_file,
+            progress=progress, progress_args=(
+                fileSize, downloadMessage, c_time
             )
         )
         # CHECKS PDF DOWNLOADED OR NOT
         if downloadLoc is None:
             PROCESS.remove(chat_id)
             return
+        
         await downloadMessage.edit("⚙️`Started Processing..`", reply_markup=cancelBtn)
         # CHECK PDF OR NOT(HERE compressed, SO PG UNKNOWN)
-        if data[0]!='K':
+        if (data[0]!='K') or not (data in ["rot180", "rot90", "rot270"]):
             # check file encryption, codec.
             checked, number_of_pages=await checkPdf(input_file, callbackQuery)
             if data.startswith("decrypt"):
@@ -230,7 +258,19 @@ async def _pdfManupulator(bot, callbackQuery):
                         return
             if data.startswith(tuple(["rename", "Krename"])):
                 await downloadMessage.edit("Renameing PDf.. ✏️", reply_markup=cancelBtn)
-                await asyncio.sleep(3)
+                await asyncio.sleep(1)
+            if data.startswith(tuple(["rot90", "rot180", "rot270"])):
+                await downloadMessage.edit("Rotating PDf.. 🤸", reply_markup=cancelBtn)
+                caption=await rototatePDF(data, message_id)
+                if not caption:
+                    PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
+                    return
+            if data in ["T", "H", "J", "M", "KT", "KH", "KJ", "KM"]:
+                await downloadMessage.edit("Converting PDf.. 🐾", reply_markup=cancelBtn)
+                caption=await textPDF(data, downloadMessage, message_id)
+                if not caption:
+                    PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
+                    downloadMessage.delete(); return
         else:
             shutil.rmtree(f"{message_id}")
             return
@@ -240,7 +280,7 @@ async def _pdfManupulator(bot, callbackQuery):
         if chat_id in PROCESS:
             with open(output_file, "rb") as output:
                 await callbackQuery.message.reply_document(
-                    file_name=f"{fileNm}.pdf", quote=True,
+                    file_name=fileNm, quote=True,
                     document=output, thumb=PDF_THUMBNAIL,
                     caption=caption
                 )
@@ -249,7 +289,7 @@ async def _pdfManupulator(bot, callbackQuery):
         shutil.rmtree(f"{message_id}")
     except Exception as e:
         try:
-            print("plugins/dm/callBack/pdfManupulator: " , e)
+            print("plugins/dm/callBack/pdf.py: " , e)
             shutil.rmtree(f"{message_id}")
             PROCESS.remove(chat_id)
         except Exception:
