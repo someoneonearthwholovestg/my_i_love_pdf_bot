@@ -14,7 +14,7 @@
 
 import logging
 from pyromod import listen
-from Configs.dm import Config
+from configs.dm import Config
 from pyrogram import Client, idle
 
 # LOGGING INFO: DEBUG
