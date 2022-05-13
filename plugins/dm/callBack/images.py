@@ -190,7 +190,7 @@ async def _EXTRACT(bot, callbackQuery):
             zoom=2; mat=fitz.Matrix(zoom, zoom)
             if data in ["IA", "DA", "IR", "DR"]:
                 if int(int(pageStartAndEnd[1])+1 - int(pageStartAndEnd[0])) >= 11:
-                    await downloadMessage.pin(disable_notification=True)
+                    await downloadMessage.pin(disable_notification=True, both_sides=True)
                 await downloadMessage.edit(
                     text=f"`Total pages: {int(pageStartAndEnd[1])+1 - int(pageStartAndEnd[0])}..⏳`",
                     reply_markup=cancel
@@ -278,7 +278,7 @@ async def _EXTRACT(bot, callbackQuery):
                 shutil.rmtree(f'{message_id}')
             if data in ["IS", "DS"]:
                 if int(len(newList)) >= 11:
-                    await downloadMessage.pin(disable_notification=True)
+                    await downloadMessage.pin(disable_notification=True, both_sides=True)
                 totalPgList=[]
                 for i in newList:
                     if 1 <= int(i) <= number_of_pages:
@@ -495,7 +495,7 @@ async def _KEXTRACT(bot, callbackQuery):
             mat=fitz.Matrix(zoom, zoom)
             if data in ["KIA", "KDA", "KIR", "KDR"]:
                 if int(int(pageStartAndEnd[1])+1 - int(pageStartAndEnd[0])) >= 11:
-                    await downloadMessage.pin(disable_notification=True)
+                    await downloadMessage.pin(disable_notification=True, both_sides=True)
                 await downloadMessage.edit(
                     text=f"`Total pages: {int(pageStartAndEnd[1])+1 - int(pageStartAndEnd[0])}..⏳`",
                     reply_markup=cancel
@@ -586,7 +586,7 @@ async def _KEXTRACT(bot, callbackQuery):
                 shutil.rmtree(f'{message_id}')
             if data in ["KIS", "KDS"]:
                 if int(len(newList)) >= 11:
-                    await downloadMessage.pin(disable_notification=True)
+                    await downloadMessage.pin(disable_notification=True, both_sides=True)
                 totalPgList=[]
                 for i in newList:
                     if 1 <= int(i) <= number_of_pages:
