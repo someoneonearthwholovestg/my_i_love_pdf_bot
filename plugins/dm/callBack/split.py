@@ -6,11 +6,11 @@ import shutil
 from pdf import PROCESS
 from pyromod import listen
 from pyrogram import filters
-from Configs.dm import Config
 from plugins.checkPdf import checkPdf
 from plugins.progress import progress
 from pyrogram.types import ForceReply
 from pyrogram import Client as ILovePDF
+from configs.images import PDF_THUMBNAIL
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from plugins.fileSize import get_size_format as gSF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -24,8 +24,6 @@ File Size: `{}`
 
 `Number of Pages: {}`✌️
 """
-
-PDF_THUMBNAIL=Config.PDF_THUMBNAIL
 
 # ----- ----- ----- ----- ----- ----- ----- CALLBACK SPLITTING PDF ----- ----- ----- ----- ----- ----- -----
 
