@@ -8,11 +8,11 @@ import asyncio
 from pdf import PROCESS
 from pyromod import listen
 from pyrogram import filters
-from Configs.dm import Config
 from plugins.checkPdf import checkPdf
 from plugins.progress import progress
 from pyrogram.types import ForceReply
 from pyrogram import Client as ILovePDF
+from configs.images import PDF_THUMBNAIL
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 # Importing Pdf Process Funs.
@@ -26,8 +26,6 @@ if nabilanavab==False:
 #--------------->
 #--------> LOCAL VARIABLES
 #------------------->
-
-PDF_THUMBNAIL=Config.PDF_THUMBNAIL
 
 cancelBtn=InlineKeyboardMarkup([[InlineKeyboardButton("« Cancel »", callback_data="closeme")]])
 
