@@ -6,14 +6,14 @@ import shutil
 import asyncio
 from pdf import PDF
 from pyrogram import filters
-from Configs.dm import Config
 from pyrogram import Client as ILovePDF
+from configs.images import PDF_THUMBNAIL
 
 #--------------->
 #--------> LOCAL VARIABLES
 #------------------->
 
-feedbackMsg = "[Write a feedback 📋](https://t.me/ILovePDF_bot)"
+feedbackMsg="[Write a feedback 📋](https://t.me/ILovePDF_bot)"
 
 #--------------->
 #--------> REPLY TO /generate MESSAGE
@@ -22,19 +22,19 @@ feedbackMsg = "[Write a feedback 📋](https://t.me/ILovePDF_bot)"
 @ILovePDF.on_message(filters.private & filters.command(["generate"]) & ~filters.edited)
 async def generate(bot, message):
     try:
+        chat_id=message.chat.id
         # newName : new file name(/generate ___)
         newName=str(message.text.replace("/generate", ""))
-        images=PDF.get(message.chat.id)
+        images=PDF.get(chat_id)
         if isinstance(images, list):
-            pgnmbr=len(PDF[message.chat.id])
-            del PDF[message.chat.id]
+            pgnmbr=len(PDF[chat_id])
+            del PDF[chat_id]
         
         # IF NO IMAGES SEND BEFORE
         if not images:
             await message.reply_chat_action("typing")
             imagesNotFounded=await message.reply_text("`No image founded.!!`😒")
-            await asyncio.sleep(5)
-            await message.delete()
+            await asyncio.sleep(5); await message.delete()
             await imagesNotFounded.delete()
             return
         gnrtMsgId=await message.reply_text(f"`Generating pdf..`💚")
@@ -46,27 +46,24 @@ async def generate(bot, message):
         elif len(newName) > 45:
             fileName=f"{message.from_user.first_name}"+".pdf"
         else:
-            fileName=f"{message.chat.id}"+".pdf"
+            fileName=f"{chat_id}"+".pdf"
         
-        images[0].save(fileName, save_all=True, append_images=images[1:])
+        filePath=f"{message.chat.id}.pdf"
+        images[0].save(filePath, save_all=True, append_images=images[1:])
         await gnrtMsgId.edit("`Uploading pdf.. `🏋️")
         await message.reply_chat_action("upload_document")
-        generated=await bot.send_document(
-            chat_id=message.chat.id,
-            document=open(fileName, "rb"),
-            thumb=Config.PDF_THUMBNAIL,
-            caption=f"file Name: `{fileName}`\n\n`Total pg's: {pgnmbr}`"
-        )
+        with open(filePath, "rb") as pdf:
+            generated=await message.reply_document(
+                file_name=fileName, document=pdf, thumb=PDF_THUMBNAIL,
+                caption=f"file Name: `{fileName}`\n`Total pg's: {pgnmbr}`"
+            )
         await gnrtMsgId.edit("`Successfully Uploaded.. `🤫")
-        os.remove(fileName)
-        shutil.rmtree(f"{message.chat.id}")
-        await asyncio.sleep(5)
+        shutil.rmtree(f"{chat_id}"); await asyncio.sleep(5)
         await message.reply_chat_action("typing")
         await message.reply_text(feedbackMsg, disable_web_page_preview=True)
     except Exception:
         try:
-            os.remove(fileName)
-            shutil.rmtree(f"{message.chat.id}")
+            shutil.rmtree(f"{chat_id}")
         except Exception:
             pass
 
