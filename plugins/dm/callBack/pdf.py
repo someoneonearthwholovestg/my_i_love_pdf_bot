@@ -113,7 +113,7 @@ async def _pdf(bot, callbackQuery):
             # PYROMOD ADD-ON (ASK'S PASSWORD)
             password=await bot.ask(
                 chat_id=chat_id, reply_to_message_id=message_id,
-                text="__PDF Decryption »\nNow, please enter the password :__\n\n/exit __to cancel__",
+                text=f"__PDF {"Decryption" if data.startswith(tuple(["decrypt", "Kdecrypt"])) else "Decryption"} »\nNow, please enter the password :__\n\n/exit __to cancel__",
                 filters=filters.text, reply_markup=ForceReply(True)
             )
             # CANCEL DECRYPTION PROCESS IF MESSAGE == /exit
