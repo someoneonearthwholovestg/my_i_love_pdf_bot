@@ -180,8 +180,7 @@ async def _splitS(bot, callbackQuery):
         if chat_id in PROCESS:
             await callbackQuery.answer("Work in progress..🙇")
             return
-        PROCESS.append(chat_id)
-        newList=[]; nabilanavab = True; i = 0
+        PROCESS.append(chat_id); newList=[]; nabilanavab = True; i = 0
         while(nabilanavab):
             if i>=5:
                 await callbackQuery.message.reply("`5 attempt over.. Process canceled..`😏")
