@@ -372,7 +372,6 @@ async def _EXTRACT(bot, callbackQuery):
                 shutil.rmtree(f'{message_id}')
     except Exception as e:
         try:
-            await downloadMessage.edit(e)
             print("image: ", e); PROCESS.remove(chat_id); shutil.rmtree(f'{message_id}')
         except Exception:
             pass
