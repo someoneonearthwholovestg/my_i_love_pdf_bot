@@ -10,11 +10,11 @@ from PIL import Image
 from pdf import PROCESS
 from pyromod import listen
 from pyrogram import filters
-from Configs.dm import Config
 from plugins.checkPdf import checkPdf
 from plugins.progress import progress
 from pyrogram.types import ForceReply
 from pyrogram import Client as ILovePDF
+from configs.images import PDF_THUMBNAIL
 from plugins.fileSize import get_size_format as gSF
 from pyrogram.types import InputMediaPhoto, InputMediaDocument
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -22,8 +22,6 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 #--------------->
 #--------> LOCAL VARIABLES
 #------------------->
-
-PDF_THUMBNAIL=Config.PDF_THUMBNAIL
 
 mediaDoc={}; media={}
 
@@ -192,10 +190,7 @@ async def _EXTRACT(bot, callbackQuery):
             zoom=2; mat=fitz.Matrix(zoom, zoom)
             if data in ["IA", "DA", "IR", "DR"]:
                 if int(int(pageStartAndEnd[1])+1 - int(pageStartAndEnd[0])) >= 11:
-                    await bot.pin_chat_message(
-                        chat_id=chat_id, message_id=downloadMessage.message_id,
-                        disable_notification=True, both_sides=True
-                    )
+                    await downloadMessage.pin(disable_notification=True)
                 await downloadMessage.edit(
                     text=f"`Total pages: {int(pageStartAndEnd[1])+1 - int(pageStartAndEnd[0])}..⏳`",
                     reply_markup=cancel
@@ -283,10 +278,7 @@ async def _EXTRACT(bot, callbackQuery):
                 shutil.rmtree(f'{message_id}')
             if data in ["IS", "DS"]:
                 if int(len(newList)) >= 11:
-                    await bot.pin_chat_message(
-                        chat_id=chat_id, message_id=downloadMessage.message_id,
-                        disable_notification=True, both_sides=True
-                    )
+                    await downloadMessage.pin(disable_notification=True)
                 totalPgList=[]
                 for i in newList:
                     if 1 <= int(i) <= number_of_pages:
@@ -502,10 +494,7 @@ async def _KEXTRACT(bot, callbackQuery):
             mat=fitz.Matrix(zoom, zoom)
             if data in ["KIA", "KDA", "KIR", "KDR"]:
                 if int(int(pageStartAndEnd[1])+1 - int(pageStartAndEnd[0])) >= 11:
-                    await bot.pin_chat_message(
-                        chat_id=chat_id, message_id=downloadMessage.message_id,
-                        disable_notification=True, both_sides=True
-                    )
+                    await downloadMessage.pin(disable_notification=True)
                 await downloadMessage.edit(
                     text=f"`Total pages: {int(pageStartAndEnd[1])+1 - int(pageStartAndEnd[0])}..⏳`",
                     reply_markup=cancel
@@ -596,10 +585,7 @@ async def _KEXTRACT(bot, callbackQuery):
                 shutil.rmtree(f'{message_id}')
             if data in ["KIS", "KDS"]:
                 if int(len(newList)) >= 11:
-                    await bot.pin_chat_message(
-                        chat_id=chat_id, message_id=downloadMessage.message_id,
-                        disable_notification=True, both_sides=True
-                    )
+                    await downloadMessage.pin(disable_notification=True)
                 totalPgList=[]
                 for i in newList:
                     if 1 <= int(i) <= number_of_pages:
