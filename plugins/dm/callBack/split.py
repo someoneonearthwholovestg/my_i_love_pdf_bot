@@ -160,7 +160,7 @@ async def _splitROrS(bot, callbackQuery):
             await callbackQuery.message.reply_chat_action("upload_document")
             await callbackQuery.message.reply_document(
                 file_name=fileNm, thumb=PDF_THUMBNAIL, quote=True, document=output_file,
-                caption=f"__from __`{pageStartAndEnd[0]}`__ to __`{pageStartAndEnd[1]}`"
+                caption=f"__from __`{pageStartAndEnd[0]}`__ to  __`{pageStartAndEnd[1]}`"
             )
             await downloadMessage.delete()
             PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
@@ -337,7 +337,7 @@ async def _KsplitR(bot, callbackQuery):
             await callbackQuery.message.reply_chat_action("upload_document")
             await callbackQuery.message.reply_document(
                 file_name=fileNm, thumb=PDF_THUMBNAIL, quote=True, document=output_file,
-                caption=f"__from __`{pageStartAndEnd[0]}`__ to __`{pageStartAndEnd[1]}`"
+                caption=f"__from __`{pageStartAndEnd[0]}`__ to  __`{pageStartAndEnd[1]}`"
             )
             await downloadMessage.delete(); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
     except Exception as e:
@@ -399,7 +399,7 @@ async def _KsplitS(bot, callbackQuery):
             fileSize=callbackQuery.message.reply_to_message.document.file_size
             c_time=time.time()
             downloadLoc=await bot.download_media(
-                message=file_id, file_name=output_file, progress=progress,
+                message=file_id, file_name=input_file, progress=progress,
                 progress_args=(fileSize, downloadMessage, c_time)
             )
             if downloadLoc is None:
