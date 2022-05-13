@@ -11,17 +11,18 @@ from PIL import Image
 from time import sleep
 from pdf import invite_link
 from pyrogram import filters
-from Configs.dm import Config
+from configs.dm import Config
 from pyrogram import Client as ILovePDF
 from plugins.fileSize import get_size_format as gSF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from configs.images import WELCOME_PIC, BANNED_PIC, BIG_FILE, PDF_THUMBNAIL
 
 #--------------->
 #--------> convertAPI instance
 #------------------->
 
 if Config.CONVERT_API is not None:
-    convertapi.api_secret = Config.CONVERT_API
+    convertapi.api_secret=Config.CONVERT_API
 
 #--------------->
 #--------> MAXIMUM FILE SIZE (IF IN config var.)
@@ -32,8 +33,6 @@ if Config.MAX_FILE_SIZE:
     MAX_FILE_SIZE_IN_kiB=MAX_FILE_SIZE * (10 **6 )
 else:
     MAX_FILE_SIZE=False
-
-PDF_THUMBNAIL=Config.PDF_THUMBNAIL
 
 #--------------->
 #--------> FILES TO PDF SUPPORTED CODECS
@@ -131,9 +130,6 @@ pdfReply=InlineKeyboardMarkup(
 
 UPDATE_CHANNEL=Config.UPDATE_CHANNEL
 
-# PIC="./IMAGES/start.jpeg"
-PIC="https://te.legra.ph/file/50c4d6e580ed98d931549.jpg"
-
 #--------------->
 #--------> REPLY TO DOCUMENTS/FILES
 #------------------->
@@ -150,7 +146,7 @@ async def documents(bot, message):
                 # IF USER BANNED FROM CHANNEL
                 if userStatus.status=='banned':
                      await message.reply_photo(
-                         photo=PIC,
+                         photo=BANNED_PIC,
                          caption="For Some Reason You Can't Use This Bot"
                                  "\n\nContact Bot Owner 🤐",
                          reply_markup=InlineKeyboardMarkup(
@@ -164,7 +160,7 @@ async def documents(bot, message):
                         int(UPDATE_CHANNEL)
                     )
                 await message.reply_photo(
-                    photo=PIC,
+                    photo=WELCOME_PIC,
                     caption=forceSubMsg.format(
                         message.from_user.first_name, message.chat.id
                     ),
@@ -185,7 +181,7 @@ async def documents(bot, message):
         # REPLY TO LAGE FILES/DOCUMENTS
         if MAX_FILE_SIZE and fileSize >= int(MAX_FILE_SIZE_IN_kiB):
             await message.reply_photo(
-                photo=PIC,
+                photo=BIG_FILE,
                 caption=bigFileUnSupport.format(
                     MAX_FILE_SIZE, MAX_FILE_SIZE
                 ),
@@ -257,9 +253,7 @@ async def documents(bot, message):
                     deflate=True,
                 )
                 pdf.close()
-                await pdfMsgId.edit(
-                    "`Started Uploading..`🏋️"
-                )
+                await pdfMsgId.edit("`Started Uploading..`🏋️")
                 await message.reply_chat_action("upload_document")
                 await message.reply_document(
                     file_name=f"{fileNm}.pdf",
