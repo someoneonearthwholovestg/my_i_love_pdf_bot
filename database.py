@@ -5,7 +5,7 @@
 
 import datetime
 import motor.motor_asyncio
-from Configs.db import isMONGOexist
+from configs.db import isMONGOexist
 
 class Database:
     
