@@ -415,7 +415,7 @@ async def _KsplitS(bot, callbackQuery):
                             int(i)-1
                         )
                     )
-            with open(output_file) as output_stream:
+            with open(output_file, "wb") as output_stream:
                 splitOutput.write(output_stream)
             fileNm=callbackQuery.message.reply_to_message.document.file_name
             await callbackQuery.message.reply_chat_action("upload_document")
