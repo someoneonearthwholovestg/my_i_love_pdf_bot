@@ -13,14 +13,14 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 #--------> LOCAL VAR.
 #------------------->
 
-encryptedMsg = """`FILE IS ENCRYPTED` 🔐
+encryptedMsg="""`FILE IS ENCRYPTED` 🔐
 
 File Name: `{}`
 File Size: `{}`
 
 `Number of Pages: {}`✌️"""
 
-codecMsg = """__I don't do anything with this file__ 😏
+codecMsg="""__I don't do anything with this file__ 😏
 
 🐉  `CODEC ERROR`  🐉"""
 
