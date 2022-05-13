@@ -254,7 +254,7 @@ async def _splitS(bot, callbackQuery):
             await downloadMessage.delete(); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
     except Exception as e:
         try:
-            print("splitS ;", e); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
+            downloadMessage.edit(e); print("splitS ;", e); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
         except Exception:
             pass
 
@@ -427,7 +427,7 @@ async def _KsplitS(bot, callbackQuery):
             await downloadMessage.delete(); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
     except Exception as e:
         try:
-            print("Ksplits: ", e); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
+            downloadMessage(e); print("Ksplits: ", e); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
         except Exception:
             pass
 
