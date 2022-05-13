@@ -3,11 +3,12 @@
 
 from pdf import invite_link
 from pyrogram import filters
-from Configs.dm import Config
+from configs.dm import Config
 from pyrogram import Client as ILovePDF
-from Configs.db import isMONGOexist, LOG_CHANNEL
+from configs.db import isMONGOexist, LOG_CHANNEL
 from pyrogram.types import InlineKeyboardButton
 from pyrogram.types import InlineKeyboardMarkup
+from configs.images import WELCOME_PIC, BANNED_PIC
 
 if isMONGOexist:
     from database import db
@@ -77,10 +78,6 @@ button=InlineKeyboardMarkup(
         ]]
     )
 
-# PIC="./IMAGES/start.jpeg"
-PIC="https://te.legra.ph/file/50c4d6e580ed98d931549.jpg"
-
-LOG_CHANNEL=LOG_CHANNEL
 UPDATE_CHANNEL=Config.UPDATE_CHANNEL
 
 #--------------->
@@ -107,13 +104,13 @@ async def start(bot, message):
         # CHECK USER IN CHANNEL (IF UPDATE_CHANNEL ADDED)
         if UPDATE_CHANNEL:
             try:
-                userStatus = await bot.get_chat_member(
+                userStatus=await bot.get_chat_member(
                     str(UPDATE_CHANNEL), message.chat.id
                 )
                 # IF USER BANNED FROM CHANNEL
                 if userStatus.status=='banned':
                      await message.reply_photo(
-                         photo=PIC,
+                         photo=BANNED_PIC,
                          caption="For Some Reason You Can't Use This Bot"
                                  "\n\nContact Bot Owner 🤐",
                          reply_markup=InlineKeyboardMarkup(
@@ -125,7 +122,7 @@ async def start(bot, message):
                 if invite_link==None:
                     invite_link=await bot.create_chat_invite_link(int(UPDATE_CHANNEL))
                 await message.reply_photo(
-                    photo=PIC,
+                    photo=WELCOME_PIC,
                     caption=forceSubMsg.format(
                         message.from_user.first_name, message.chat.id
                     ),
@@ -141,7 +138,7 @@ async def start(bot, message):
                 return
         # IF NO FORCE SUBSCRIPTION
         await message.reply_photo(
-            photo=PIC,
+            photo=WELCOME_PIC,
             caption=welcomeMsg.format(
                 message.from_user.first_name,
                 message.chat.id
