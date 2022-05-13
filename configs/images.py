@@ -7,8 +7,8 @@
 # ❌ DEFAULT THUMBNAIL ❌
 
 # from Configs.images import PDF_THUMBNAIL
-# PDF_THUMBNAIL="./images/thumbnail.jpeg"
-PDF_THUMBNAIL="https://te.legra.ph/file/a8d60720a33c2d4442bad.jpg"
+PDF_THUMBNAIL="./images/thumbnail.jpeg"
+# PDF_THUMBNAIL="https://te.legra.ph/file/a8d60720a33c2d4442bad.jpg"
 
 
 # ❌ WELCOME IMAGE ❌
