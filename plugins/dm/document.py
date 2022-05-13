@@ -101,8 +101,8 @@ pdfReply=InlineKeyboardMarkup(
                 InlineKeyboardButton("⭐ META£ATA ⭐", callback_data="pdfInfo"),
                 InlineKeyboardButton("🗳️ PREVIEW 🗳️", callback_data="preview")
             ],[
-                InlineKeyboardButton("🖼️ toIMAGES 🖼️", callback_data="toImage"),
-                InlineKeyboardButton("✏️ toTEXT ✏️", callback_data="toText")
+                InlineKeyboardButton("🖼️ IMAGES 🖼️", callback_data="toImage"),
+                InlineKeyboardButton("✏️ TEXT ✏️", callback_data="toText")
             ],[
                 InlineKeyboardButton("🔐 ENCRYPT 🔐", callback_data="encrypt"),
                 InlineKeyboardButton("🔒 DECRYPT 🔓",callback_data="decrypt")
