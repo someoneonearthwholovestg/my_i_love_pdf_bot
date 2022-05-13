@@ -8,10 +8,10 @@ import shutil
 from time import sleep
 from pdf import PROCESS
 from pyrogram import filters
-from Configs.dm import Config
 from plugins.checkPdf import checkPdf
 from plugins.progress import progress
 from pyrogram import Client as ILovePDF
+from configs.images import PDF_THUMBNAIL
 from plugins.fileSize import get_size_format as gSF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -44,8 +44,6 @@ STAMP ANNOTATIONS: [pymuPdf/fituz](annot)
 COLOR: [RGB]
 r = red, g = green, b = blue
 """
-
-PDF_THUMBNAIL=Config.PDF_THUMBNAIL
 
 #--------------->
 #--------> PDF COMPRESSION
