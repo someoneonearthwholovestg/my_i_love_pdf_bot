@@ -10,19 +10,17 @@ from PIL import Image            # COMPRESS LARGE FILES
 from pdf import PROCESS          # CHECKS CURRENT PROCESS
 from pyromod import listen       # ADD-ON (Q/A)
 from pyrogram import filters     # CUSTOM FILTERS FOR CALLBACK
-from Configs.dm import Config
 from plugins.checkPdf import checkPdf    # CHECK CODEC
 from plugins.progress import progress    # DOWNLOAD PROGRESS
 from pyrogram.types import ForceReply    # FORCE REPLY
 from pyrogram import Client as ILovePDF
+from configs.images import PDF_THUMBNAIL
 from plugins.fileSize import get_size_format as gSF    # HUMAN READABLE FILE SIZE
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 #--------------->
 #--------> LOCAL VARIABLES
 #------------------->
-
-PDF_THUMBNAIL=Config.PDF_THUMBNAIL
 
 cancel=InlineKeyboardMarkup([[InlineKeyboardButton("💤 CANCEL 💤", callback_data="cancelP2I")]])
 canceled=InlineKeyboardMarkup([[InlineKeyboardButton("🍄 CANCELED 🍄", callback_data="canceled")]])
