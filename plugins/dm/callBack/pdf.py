@@ -64,10 +64,10 @@ async def _pdf(bot, callbackQuery):
             await callbackQuery.answer("You have Some big Problem..🙂")
             return
         #🥺
-        await callbackQuery.answer(str(nabilanavab))
         # Never Work OCR if nabilanavab==True
         # Deploy From Docker Files (else OCR never works)
         if callbackQuery.data.startswith(tuple(["ocr", "Kocr"])):
+            await callbackQuery.answer(str(nabilanavab))
             if nabilanavab:
                 await callbackQuery.answer("Owner Restricted 😎🤏")
                 return
