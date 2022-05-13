@@ -8,7 +8,7 @@
 
 # from Configs.images import PDF_THUMBNAIL
 # PDF_THUMBNAIL="./images/thumbnail.jpeg"
-PDF_THUMBNAIL="https://te.legra.ph/file/50c4d6e580ed98d931549.jpg"
+PDF_THUMBNAIL="https://te.legra.ph/file/a8d60720a33c2d4442bad.jpg"
 
 
 # ❌ WELCOME IMAGE ❌
