@@ -369,8 +369,7 @@ async def _KsplitS(bot, callbackQuery):
             )
             singlePages=list(needPages.text.replace(',',':').split(':'))
             if needPages.text=="/exit":
-                await needPages.reply("`Process Cancelled..` 😏"
-                )
+                await needPages.reply("`Process Cancelled..` 😏")
                 break
             elif 1 <= int(len(singlePages)) and int(len(singlePages)) <= 100:
                 try:
@@ -379,7 +378,7 @@ async def _KsplitS(bot, callbackQuery):
                             newList.append(i)
                     if newList == []:
                         await callbackQuery.message.reply(f"`Enter Numbers less than {number_of_pages}..`😏")
-                        continue
+                        # continue
                     else:
                         nabilanavab = False
                         break
