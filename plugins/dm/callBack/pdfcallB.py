@@ -17,8 +17,8 @@ pdfReply=InlineKeyboardMarkup(
                 InlineKeyboardButton("⭐ META£ATA ⭐", callback_data="pdfInfo"),
                 InlineKeyboardButton("🗳️ PREVIEW 🗳️", callback_data="preview")
             ],[
-                InlineKeyboardButton("🖼️ toIMAGES 🖼️", callback_data="toImage"),
-                InlineKeyboardButton("✏️ toTEXT ✏️", callback_data="toText")
+                InlineKeyboardButton("🖼️ IMAGES 🖼️", callback_data="toImage"),
+                InlineKeyboardButton("✏️ TEXT ✏️", callback_data="toText")
             ],[
                 InlineKeyboardButton("🔐 ENCRYPT 🔐", callback_data="encrypt"),
                 InlineKeyboardButton("🔓 DECRYPT 🔓", callback_data="decrypt")
@@ -205,17 +205,17 @@ async def _KD(bot, callbackQuery):
 async def _toImage(bot, callbackQuery):
     try:
         await callbackQuery.edit_message_text(
-            "__Send pdf Images as:           \nTotal pages: unknown__ 😐",
+            "__Send pdf Images as:\nTotal pages: unknown__ 😐",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(" 🖼IMAGES 🖼", callback_data="I")
+                        InlineKeyboardButton(" 🖼 IMAGES 🖼", callback_data="I")
                     ],[
                         InlineKeyboardButton("📂 DOCUMENT 📂", callback_data="D")
                     ],[
-                        InlineKeyboardButton("🤐 ZIP 🤐", callback_data="zip"),
+                        InlineKeyboardButton("🤐 ZIP FILE 🤐", callback_data="zip"),
                     ],[
-                        InlineKeyboardButton("🎯 TAR 🎯", callback_data="tar")
+                        InlineKeyboardButton("🎯 TAR FILE 🎯", callback_data="tar")
                     ],[
                         InlineKeyboardButton("« Back «", callback_data="BTPM")
                     ]
@@ -239,9 +239,9 @@ async def _KtoImage(bot, callbackQuery):
                     ],[
                         InlineKeyboardButton("📂 DOCUMENT 📂", callback_data=f"KD|{number_of_pages}")
                     ],[
-                        InlineKeyboardButton("🤐 ZIP 🤐", callback_data=f"Kzip|{number_of_pages}"),
+                        InlineKeyboardButton("🤐 ZIP FILE 🤐", callback_data=f"Kzip|{number_of_pages}"),
                     ],[
-                        InlineKeyboardButton("🎯 TAR 🎯", callback_data=f"Ktar|{number_of_pages}")
+                        InlineKeyboardButton("🎯 TAR FILE 🎯", callback_data=f"Ktar|{number_of_pages}")
                     ],[
                         InlineKeyboardButton("« Back «", callback_data=f"KBTPM|{number_of_pages}")
                     ]
@@ -380,8 +380,8 @@ async def _KBTPM(bot, callbackQuery):
                         InlineKeyboardButton("⭐ META£ATA ⭐", callback_data=f"KpdfInfo|{number_of_pages}"),
                         InlineKeyboardButton("🗳️ PREVIEW 🗳️", callback_data="Kpreview")
                     ],[
-                        InlineKeyboardButton("🖼️ toIMAGES 🖼️", callback_data=f"KtoImage|{number_of_pages}"),
-                        InlineKeyboardButton("✏️ ToTEXT ✏️", callback_data=f"KtoText|{number_of_pages}")
+                        InlineKeyboardButton("🖼️ IMAGES 🖼️", callback_data=f"KtoImage|{number_of_pages}"),
+                        InlineKeyboardButton("✏️ TEXT ✏️", callback_data=f"KtoText|{number_of_pages}")
                     ],[
                         InlineKeyboardButton("🔐 ENCRYPT 🔐", callback_data=f"Kencrypt|{number_of_pages}"),
                         InlineKeyboardButton("🔓 DECRYPT 🔓", callback_data=f"notEncrypted")
@@ -455,7 +455,7 @@ async def _Krotate(bot, callbackQuery):
 async def _toText(bot, callbackQuery):
     try:
         await callbackQuery.edit_message_text(
-            "__Pdf » Text\nTotal Pages: unknown 😐         \nNow, Specify the format:__",
+            "__Pdf » Text\nTotal Pages: unknown 😐\nNow, Specify the format:__",
             reply_markup=InlineKeyboardMarkup(
                 [[
                     InlineKeyboardButton("Messages 📜", callback_data="M"),
