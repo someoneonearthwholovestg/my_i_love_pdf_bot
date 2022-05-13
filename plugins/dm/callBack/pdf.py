@@ -63,7 +63,8 @@ async def _pdf(bot, callbackQuery):
         if callbackQuery.data=="rot360":
             await callbackQuery.answer("You have Some big Problem..🙂")
             return
-        
+        #🥺
+        await callbackQuery.answer(callbackQuery.data)
         # Never Work OCR if nabilanavab==True
         # Deploy From Docker Files (else OCR never works)
         if callbackQuery.data.startswith(tuple(["ocr", "Kocr"])):
