@@ -35,8 +35,8 @@ async def toKnown(callbackQuery, number_of_pages):
                     InlineKeyboardButton("⭐ META£ATA ⭐", callback_data=f"KpdfInfo|{number_of_pages}"),
                     InlineKeyboardButton("🗳️ PREVIEW 🗳️", callback_data="Kpreview")
                 ],[
-                    InlineKeyboardButton("🖼️ toIMAGES 🖼️", callback_data=f"KtoImage|{number_of_pages}"),
-                    InlineKeyboardButton("✏️ toTEXT ✏️", callback_data=f"KtoText|{number_of_pages}")
+                    InlineKeyboardButton("🖼️ IMAGES 🖼️", callback_data=f"KtoImage|{number_of_pages}"),
+                    InlineKeyboardButton("✏️ TEXT ✏️", callback_data=f"KtoText|{number_of_pages}")
                 ],[
                     InlineKeyboardButton("🔐 ENCRYPT 🔐", callback_data=f"Kencrypt|{number_of_pages}"),
                     InlineKeyboardButton("🔓 DECRYPT 🔓", callback_data=f"notEncrypted")
