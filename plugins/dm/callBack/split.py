@@ -377,7 +377,7 @@ async def _KsplitS(bot, callbackQuery):
                         if (i.isdigit() and int(i) <= int(number_of_pages)):
                             newList.append(i)
                     if newList == []:
-                        await callbackQuery.message.reply(f"`Enter Numbers less than {number_of_pages}..`😏")
+                        await needPages.reply(f"`Enter Numbers less than {number_of_pages}..`😏")
                         # continue
                     else:
                         nabilanavab = False
