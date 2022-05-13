@@ -6,6 +6,7 @@
 
 # ❌ DEFAULT THUMBNAIL ❌
 
+# NB: Thumbnails can’t be reused and can be only uploaded as a new file.
 # from Configs.images import PDF_THUMBNAIL
 PDF_THUMBNAIL="./IMAGES/thumbnail.jpeg"
 # PDF_THUMBNAIL="https://te.legra.ph/file/a8d60720a33c2d4442bad.jpg"
