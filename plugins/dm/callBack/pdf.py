@@ -63,15 +63,14 @@ async def _pdf(bot, callbackQuery):
         if callbackQuery.data=="rot360":
             await callbackQuery.answer("You have Some big Problem..🙂")
             return
-        #🥺
+        
         # Never Work OCR if nabilanavab==True
         # Deploy From Docker Files (else OCR never works)
         if callbackQuery.data.startswith(tuple(["ocr", "Kocr"])):
-            await callbackQuery.answer(str(nabilanavab))
             if nabilanavab:
                 await callbackQuery.answer("Owner Restricted 😎🤏")
                 return
-            if data[0]=="K":
+            if callbackQuery.data[0]=="K":
                 _, number_of_pages=callbackQuery.data.split("|")
                 if int(number_of_pages)>=5:
                     await callbackQuery.answer("send a pdf file less than 5 pages.. 🙄")
