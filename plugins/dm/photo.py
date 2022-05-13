@@ -6,8 +6,9 @@ from pdf import PDF
 from PIL import Image
 from pdf import invite_link
 from pyrogram import filters
-from Configs.dm import Config
+from configs.dm import Config
 from pyrogram import Client as ILovePDF
+from configs.images import WELCOME_PIC, BANNED_PIC
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 UPDATE_CHANNEL=Config.UPDATE_CHANNEL
@@ -16,20 +17,17 @@ UPDATE_CHANNEL=Config.UPDATE_CHANNEL
 #--------> LOCAL VARIABLES
 #------------------->
 
-imageAdded = """`Added {} page/'s to your pdf..`🤓
+imageAdded="""`Added {} page/'s to your pdf..`🤓
 
 /generate to generate PDF 🤞"""
 
-forceSubMsg = """Wait [{}](tg://user?id={})..!!
+forceSubMsg="""Wait [{}](tg://user?id={})..!!
 
 Due To The Huge Traffic Only Channel Members Can Use this Bot 🚶
 
 This Means You Need To Join The Below Mentioned Channel for Using Me!
 
 hit on "retry ♻️" after joining.. 😅"""
-
-# PIC="./IMAGES/start.jpeg"
-PIC="https://te.legra.ph/file/50c4d6e580ed98d931549.jpg"
 
 #--------------->
 #--------> REPLY TO IMAGES
@@ -47,7 +45,7 @@ async def images(bot, message):
                 # IF USER BANNED FROM CHANNEL
                 if userStatus.status=='banned':
                      await message.reply_photo(
-                         photo=PIC, quote=True,
+                         photo=BANNED_PIC, quote=True,
                          caption="For Some Reason You Can't Use This Bot"
                                  "\n\nContact Bot Owner 🤐",
                          reply_markup=InlineKeyboardMarkup(
@@ -59,7 +57,7 @@ async def images(bot, message):
                 if invite_link==None:
                     invite_link=await bot.create_chat_invite_link(int(UPDATE_CHANNEL))
                 await message.reply_photo(
-                    photo=PIC, quote=True,
+                    photo=WELCOME_PIC, quote=True,
                     caption=forceSubMsg.format(
                         message.from_user.first_name, message.chat.id
                     ),
