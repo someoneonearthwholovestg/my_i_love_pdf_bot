@@ -133,9 +133,9 @@ async def _pdf(bot, callbackQuery):
                 text="__Rename PDF »\nNow, please enter the new name:__\n\n/exit __to cancel__",
                 filters=filters.text, reply_markup=ForceReply(True)
             )
-            # CANCEL DECRYPTION PROCESS IF MESSAGE == /exit
+            # CANCEL RENAME PROCESS IF MESSAGE == /exit
             if newName.text=="/exit":
-                await password.reply("`process canceled.. `😏", quote=True)
+                await newName.reply("`process canceled.. `😏", quote=True)
                 PROCESS.remove(chat_id)
                 return
             else:
