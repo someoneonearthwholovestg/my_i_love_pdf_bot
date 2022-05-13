@@ -193,7 +193,7 @@ async def _splitS(bot, callbackQuery):
             )
             singlePages=list(needPages.text.replace(',',':').split(':'))
             if needPages.text=="/exit":
-                await needPages.reply("`Process Cancelled..` 😏")
+                await needPages.reply("`Process Cancelled..` 😏", quote=True)
                 break
             elif 1 <= len(singlePages) <= 100:
                 try:
@@ -280,18 +280,18 @@ async def _KsplitR(bot, callbackQuery):
                 filters=filters.text, reply_markup=ForceReply(True)
             )
             if needPages.text == "/exit":
-                await callbackQuery.message.reply("`Process Cancelled..` 😏")
+                await needPages.reply("`Process Cancelled..` 😏", quite=True)
                 break
             pageStartAndEnd=list(needPages.text.replace('-',':').split(':'))
             if len(pageStartAndEnd) > 2:
                 await callbackQuery.message.reply("`Syntax Error: justNeedStartAndEnd `🚶")
             elif len(pageStartAndEnd)==2:
-                start = pageStartAndEnd[0]
-                end = pageStartAndEnd[1]
+                start=pageStartAndEnd[0]
+                end=pageStartAndEnd[1]
                 if start.isdigit() and end.isdigit():
                     if (int(1) <= int(start) and int(start) < number_of_pages):
                         if (int(start) < int(end) and int(end) <= number_of_pages):
-                            nabilanavab = False
+                            nabilanavab=False
                             break
                         else:
                             await callbackQuery.message.reply("`Syntax Error: errorInEndingPageNumber `🚶")
@@ -336,7 +336,7 @@ async def _KsplitR(bot, callbackQuery):
             await callbackQuery.message.reply_chat_action("upload_document")
             await callbackQuery.message.reply_document(
                 file_name=fileNm, thumb=PDF_THUMBNAIL, quote=True, document=output_file,
-                caption=f"__from __`{pageStartAndEnd[0]}`__ to  __`{pageStartAndEnd[1]}`"
+                caption=f"__from __`{pageStartAndEnd[0]}`__ to__ `{pageStartAndEnd[1]}`"
             )
             await downloadMessage.delete(); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
     except Exception as e:
@@ -378,7 +378,7 @@ async def _KsplitS(bot, callbackQuery):
                             newList.append(i)
                     if newList == []:
                         await needPages.reply(f"`Enter Numbers less than {number_of_pages}..`😏", quote=True)
-                        # continue
+                        break
                     else:
                         nabilanavab = False
                         break
