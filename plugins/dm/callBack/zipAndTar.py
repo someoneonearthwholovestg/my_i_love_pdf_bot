@@ -84,7 +84,7 @@ async def _ZIPandTAR(bot, callbackQuery):
                 )
                 # EXIT PROCESS
                 if needPages.text=="/exit":
-                    await needPages.message.reply("`Process Canceled..` 😏", quote=True)
+                    await needPages.reply("`Process Canceled..` 😏", quote=True)
                     break
                 # SPLIT STRING TO START & END
                 pageStartAndEnd=list(needPages.text.replace('-',':').split(':'))
@@ -127,7 +127,7 @@ async def _ZIPandTAR(bot, callbackQuery):
                 singlePages=list(needPages.text.replace(',',':').split(':'))
                 # PROCESS CANCEL
                 if needPages.text=="/exit":
-                    await needPages.message.reply("`Process Canceled..` 😏", quote=True)
+                    await needPages.reply("`Process Canceled..` 😏", quote=True)
                     break
                 # PAGE NUMBER LESS THAN 100
                 elif 1 <= len(singlePages) <= 100:
@@ -289,7 +289,7 @@ async def _KZIPandTAR(bot, callbackQuery):
                     filters=filters.text, reply_markup=ForceReply(True)
                 )
                 if needPages.text=="/exit":
-                    await callbackQuery.message.reply("`Process Canceled..` 😏")
+                    await needPages.reply("`Process Canceled..` 😏", quote=True)
                     break
                 pageStartAndEnd=list(needPages.text.replace('-',':').split(':'))
                 if len(pageStartAndEnd) > 2:
@@ -324,7 +324,7 @@ async def _KZIPandTAR(bot, callbackQuery):
                 )
                 singlePages=list(needPages.text.replace(',',':').split(':'))
                 if needPages.text=="/exit":
-                    await callbackQuery.message.reply("`Process Canceled..` 😏")
+                    await needPages.reply("`Process Canceled..` 😏", quote=True)
                     break
                 elif 1 <= len(singlePages) <= 100:
                     for i in singlePages:
