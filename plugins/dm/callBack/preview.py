@@ -8,7 +8,6 @@ import shutil
 from PIL import Image
 from pdf import PROCESS
 from pyrogram import filters
-from Configs.dm import Config
 from plugins.checkPdf import checkPdf
 from plugins.progress import progress
 from pyrogram.types import ForceReply
@@ -19,7 +18,6 @@ from pyrogram.types import InputMediaPhoto
 #--------> LOCAL VARIABLES
 #------------------->
 
-PDF_THUMBNAIL=Config.PDF_THUMBNAIL
 media={}
 
 #--------------->
