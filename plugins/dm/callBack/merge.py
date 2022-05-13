@@ -8,11 +8,12 @@ import asyncio
 from pdf import PROCESS
 from pyromod import listen
 from pyrogram import filters
-from Configs.dm import Config
+from configs.dm import Config
 from PyPDF2 import PdfFileMerger
 from plugins.checkPdf import checkPdf
 from plugins.progress import progress
 from pyrogram import Client as ILovePDF
+from configs.images import PDF_THUMBNAIL
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 #--------------->
@@ -26,8 +27,6 @@ if Config.MAX_FILE_SIZE:
     MAX_FILE_SIZE_IN_kiB=MAX_FILE_SIZE * (10**6)
 else:
     MAX_FILE_SIZE=False
-
-PDF_THUMBNAIL=Config.PDF_THUMBNAIL
 
 #--------------->
 #--------> MERGE PDFS
