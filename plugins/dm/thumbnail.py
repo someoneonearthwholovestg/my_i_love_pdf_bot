@@ -56,7 +56,8 @@ async def _thumbnail(bot, message):
                                                   callback_data="deleteThumbnail")]]
                                      ))
             return
-
+    except Exception:
+        pass
 
 geThumb=filters.create(lambda _, __, query: query.data=="getThumb")
 addThumb=filters.create(lambda _, __, query: query.data=="addThumb")
