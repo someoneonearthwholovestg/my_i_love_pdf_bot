@@ -378,7 +378,6 @@ async def _KsplitS(bot, callbackQuery):
                             newList.append(i)
                     if newList == []:
                         await needPages.reply(f"`Enter Numbers less than {number_of_pages}..`😏", quote=True)
-                        break
                     else:
                         nabilanavab = False
                         break
@@ -387,7 +386,7 @@ async def _KsplitS(bot, callbackQuery):
             else:
                 await callbackQuery.message.reply("`Something went Wrong..`😅")
         if nabilanavab==True:
-            PROCESS.remove(chat_id)
+            PROCESS.remove(chat_id); return
         if nabilanavab==False:
             input_file=f"{message_id}/inPut.pdf"
             output_file=f"{message_id}/outPut.pdf"
