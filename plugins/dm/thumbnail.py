@@ -104,7 +104,7 @@ async def _getThumb(bot, callbackQuery):
                                                                  callback_data="back")]]
                                                     ))
             return
-    except Exception, e:
+    except Exception:
         pass
 
 @ILovePDF.on_callback_query(addThumb)
@@ -147,7 +147,7 @@ async def _addThumb(bot, callbackQuery):
                                   getThumb.photo.file_id
                                   )
             await getThumb.delete()
-    except Exception, e:
+    except Exception:
         pass
 
 @ILovePDF.on_callback_query(delThumb)
@@ -158,7 +158,7 @@ async def _delThumb(bot, callbackQuery):
                                   )
         await _back(bot, callbackQuery)
         await db.set_thumbnail(callbackQuery.from_user.id, None)
-    except Exception, e:
+    except Exception:
         pass
 
 #                                                                                  Telegram: @nabilanavab
