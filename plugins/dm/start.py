@@ -62,7 +62,7 @@ button=InlineKeyboardMarkup(
         [[
             InlineKeyboardButton("🌍 SET LANG 🌍", callback_data="underDev")
         ],[
-            InlineKeyboardButton("📌 SET THUMB 📌", callback_data="underDev"),
+            InlineKeyboardButton("📌 SET THUMB 📌", callback_data="getThumb"),
             InlineKeyboardButton("💩 SET API 💩", callback_data="underDev")
         ],[
             InlineKeyboardButton("🔎 HELP 🔎", callback_data="help")
