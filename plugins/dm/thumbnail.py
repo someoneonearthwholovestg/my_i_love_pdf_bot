@@ -115,7 +115,7 @@ async def _addThumb(bot, callbackQuery):
                                                 caption="Now, Send me a Image..",
                                                 reply_markup=InlineKeyboardMarkup(
                                                     [[InlineKeyboardButton("Waiting.. 🥱",
-                                                             callback_data="noResponse"]]
+                                                             callback_data="noResponse")]]
                                                 ))
         await asyncio.sleep(1)
         await callbackQuery.edit_message_caption(
@@ -123,7 +123,7 @@ async def _addThumb(bot, callbackQuery):
                                                         "Don't have enough time, send me fast 😏",
                                                 reply_markup=InlineKeyboardMarkup(
                                                     [[InlineKeyboardButton("Waiting.. 🥱",
-                                                             callback_data="noResponse"]]
+                                                             callback_data="noResponse")]]
                                                 ))
         getThumb=await bot.listen(callbackQuery.from_user.id)
         if not getThumb.photo:
