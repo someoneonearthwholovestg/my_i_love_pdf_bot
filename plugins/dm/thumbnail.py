@@ -1,7 +1,7 @@
 # fileName : plugins/dm/thumbnail.py
 # copyright ©️ 2021 nabilanavab
 
-from .. import _back
+from plugins.dm.start import _back
 from pyromod import listen
 from pyrogram import filters
 from configs.db import isMONGOexist
