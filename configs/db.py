@@ -3,9 +3,9 @@
 
 import os
 
-isMONGOexist=False
-if os.environ.get("MONGODB_URI", False):
-    isMONGOexist=True
+isMONGOexist=os.environ.get("MONGODB_URI", False)
+# if os.environ.get("MONGODB_URI", False):
+#     isMONGOexist=True
 
 LOG_CHANNEL=os.environ.get("LOG_CHANNEL", False)
 
