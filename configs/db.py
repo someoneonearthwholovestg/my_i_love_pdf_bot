@@ -11,8 +11,6 @@ LOG_CHANNEL=os.environ.get("LOG_CHANNEL", False)
 
 BANNED_USR_DB, BANNED_GRP_DB = [], []
 
-import database
-
 #--------------->
 #--------> CONFIG VAR.
 #------------------->
