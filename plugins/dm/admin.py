@@ -13,11 +13,18 @@ from configs.images import BANNED_PIC
 from pyrogram import Client as ILovePDF
 from pyrogram.types import InlineKeyboardButton
 from pyrogram.types import InlineKeyboardMarkup
-from configs.db import BANNED_USR_DB, BANNED_GRP_DB
+# from configs.db import BANNED_USR_DB, BANNED_GRP_DB
 from plugins.fileSize import get_size_format as gSF
 
 if isMONGOexist:
     from database import db
+
+BANNED_USR_DB, BANNED_GRP_DB = [], []
+
+if MONGODB_URI:
+    userBANNED_db, groupBANNED_db = db.get_banned()
+    BANNED_USR_DB=userBANNED_db
+    BANNED_GRP_DB=groupBANNED_db
 
 #--------------->
 #--------> config vars
