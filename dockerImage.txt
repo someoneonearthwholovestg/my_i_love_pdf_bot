@@ -10,3 +10,4 @@ fpdf==1.7.2
 ocrmypdf==13.4.0
 motor==2.5.1
 psutil==5.9.0
+pymongo[srv]
