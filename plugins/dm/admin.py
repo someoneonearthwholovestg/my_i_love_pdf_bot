@@ -23,7 +23,7 @@ if isMONGOexist:
 BANNED_USR_DB, BANNED_GRP_DB = [], []
 
 if dataBASE.MONGODB_URI:
-    userBANNED_db, groupBANNED_db = db.get_banned()
+    userBANNED_db, groupBANNED_db = await db.get_banned()
     BANNED_USR_DB=userBANNED_db
     BANNED_GRP_DB=groupBANNED_db
 
