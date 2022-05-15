@@ -6,6 +6,7 @@ import psutil
 from pdf import PROCESS
 from pyrogram import filters
 from configs.dm import Config
+from configs.db import dataBASE
 from pyrogram.types import Message
 from configs.db import isMONGOexist
 from configs.group import groupConfig
@@ -21,7 +22,7 @@ if isMONGOexist:
 
 BANNED_USR_DB, BANNED_GRP_DB = [], []
 
-if MONGODB_URI:
+if dataBASE.MONGODB_URI:
     userBANNED_db, groupBANNED_db = db.get_banned()
     BANNED_USR_DB=userBANNED_db
     BANNED_GRP_DB=groupBANNED_db
