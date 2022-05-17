@@ -15,16 +15,6 @@ from PyPDF2 import PdfFileWriter, PdfFileReader
 from plugins.fileSize import get_size_format as gSF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-# ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
-
-pdfInfoMsg="""`What shall i wanted to do with this file.?`
-
-File Name: `{}`
-File Size: `{}`
-
-`Number of Pages: {}`✌️
-"""
-
 # ----- ----- ----- ----- ----- ----- ----- CALLBACK SPLITTING PDF ----- ----- ----- ----- ----- ----- -----
 
 split=filters.create(lambda _, __, query: query.data=="split")
@@ -36,13 +26,15 @@ splitS=filters.create(lambda _, __, query: query.data=="splitS")
 KsplitR=filters.create(lambda _, __, query: query.data.startswith("KsplitR|"))
 KsplitS=filters.create(lambda _, __, query: query.data.startswith("KsplitS|"))
 
+# ----- ----- ----- ----- ----- ----- ----- ----- SPLITTING PDF ----- ----- ----- ----- ----- ----- -----
+
 # Split pgNo (with unknown pdf page number)
 @ILovePDF.on_callback_query(split)
 async def _split(bot, callbackQuery):
     try:
         await callbackQuery.edit_message_text(
-            "__Split pdf » Pages:\n\nTotal Page Number(s):__ `unknown`",
-            reply_markup = InlineKeyboardMarkup(
+            "__Split pdf » Pages:            \n\nTotal Page Number(s):__ `unknown`",
+            reply_markup=InlineKeyboardMarkup(
                 [[
                     InlineKeyboardButton("With In Range 🦞", callback_data="splitR")
                 ],[
@@ -61,7 +53,7 @@ async def _Ksplit(bot, callbackQuery):
     try:
         _, number_of_pages=callbackQuery.data.split("|")
         await callbackQuery.edit_message_text(
-            f"Split pdf » Pages:\n\nTotal Page Number(s): {number_of_pages}__ 🌟",
+            f"Split pdf » Pages:          \n\nTotal Page Number(s): {number_of_pages}__ 🌟",
             reply_markup = InlineKeyboardMarkup(
                 [[
                     InlineKeyboardButton("With In Range 🦞", callback_data=f"KsplitR|{number_of_pages}")
@@ -77,7 +69,7 @@ async def _Ksplit(bot, callbackQuery):
 
 # Split (with unknown pdf page number)
 @ILovePDF.on_callback_query(splitR)
-async def _splitROrS(bot, callbackQuery):
+async def _splitR(bot, callbackQuery):
     try:
         chat_id=callbackQuery.message.chat.id
         message_id=callbackQuery.message.message_id
@@ -103,7 +95,7 @@ async def _splitROrS(bot, callbackQuery):
                 await needPages.reply("`Process Cancelled..` 😏", quote=True)
                 break
             pageStartAndEnd=list(needPages.text.replace('-',':').split(':'))
-            if len(pageStartAndEnd) > 2:
+            if len(pageStartAndEnd)>2:
                 await callbackQuery.message.reply("`Syntax Error: justNeedStartAndEnd `🚶")
             elif len(pageStartAndEnd)==2:
                 start=pageStartAndEnd[0]; end=pageStartAndEnd[1]
@@ -127,14 +119,14 @@ async def _splitROrS(bot, callbackQuery):
             input_file=f"{message_id}/inPut.pdf"
             output_file=f"{message_id}/outPut.pdf"
             
-            downloadMessage=await callbackQuery.message.reply_text(text="`Downloding your pdf..` ⏳", quote=True)
+            downloadMessage=await callbackQuery.message.reply_text("`Downloding your pdf..` ⏳", quote=True)
             file_id=callbackQuery.message.reply_to_message.document.file_id
             fileSize=callbackQuery.message.reply_to_message.document.file_size
             c_time=time.time()
             downloadLoc=await bot.download_media(
-                message=file_id, file_name=input_file, progress=progress,
-                progress_args=(fileSize, downloadMessage, c_time)
-            )
+                              message=file_id, file_name=input_file, progress=progress,
+                              progress_args=(fileSize, downloadMessage, c_time
+                              ))
             if downloadLoc is None:
                 PROCESS.remove(chat_id)
                 return
@@ -143,7 +135,7 @@ async def _splitROrS(bot, callbackQuery):
             if not(checked=="pass"):
                 await downloadMessage.delete()
                 return
-            splitInputPdf=PdfFileReader(input_file)
+            splitInputPdf=PdfFileReader(output_file)
             number_of_pages=splitInputPdf.getNumPages()
             if not(int(pageStartAndEnd[1]) <= int(number_of_pages)):
                 await callbackQuery.message.reply("`1st Check Number of pages` 😏")
@@ -160,7 +152,7 @@ async def _splitROrS(bot, callbackQuery):
             await callbackQuery.message.reply_chat_action("upload_document")
             await callbackQuery.message.reply_document(
                 file_name=fileNm, thumb=PDF_THUMBNAIL, quote=True, document=output_file,
-                caption=f"__from __`{pageStartAndEnd[0]}`__ to  __`{pageStartAndEnd[1]}`"
+                caption=f"from `{pageStartAndEnd[0]}` to `{pageStartAndEnd[1]}`"
             )
             await downloadMessage.delete()
             PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
@@ -180,20 +172,20 @@ async def _splitS(bot, callbackQuery):
         if chat_id in PROCESS:
             await callbackQuery.answer("Work in progress..🙇")
             return
-        PROCESS.append(chat_id); newList=[]; nabilanavab = True; i = 0
+        PROCESS.append(chat_id); newList=[]; nabilanavab=True; i=0
         while(nabilanavab):
             if i>=5:
                 await callbackQuery.message.reply("`5 attempt over.. Process canceled..`😏")
                 break
             i+=1
-            needPage=await bot.ask(
+            needPages=await bot.ask(
                 text="__Pdf Split » By Pages\nNow, Enter Page Numbers seperate by__ (,) :\n\n/exit __to cancel__",
                 chat_id=chat_id, reply_to_message_id=message_id,
                 filters=filters.text, reply_markup=ForceReply(True)
             )
             singlePages=list(needPages.text.replace(',',':').split(':'))
             if needPages.text=="/exit":
-                await needPages.reply("`Process Cancelled..` 😏", quote=True)
+                await callbackQuery.message.reply("`Process Cancelled..` 😏")
                 break
             elif 1 <= len(singlePages) <= 100:
                 try:
@@ -216,14 +208,14 @@ async def _splitS(bot, callbackQuery):
             input_file=f"{message_id}/inPut.pdf"
             output_file=f"{message_id}/outPut.pdf"
             
-            downloadMessage=await callbackQuery.message.reply_text(text="`Downloding your pdf..`⏳", quote=True)
+            downloadMessage=await callbackQuery.message.reply("`Downloding your pdf..`⏳", quote=True)
             file_id=callbackQuery.message.reply_to_message.document.file_id
             fileSize=callbackQuery.message.reply_to_message.document.file_size
             c_time=time.time()
             downloadLoc=await bot.download_media(
-                message=file_id, file_name=input_file, progress=progress,
-                progress_args=(fileSize, downloadMessage, c_time)
-            )
+                              message=file_id, file_name=input_file, progress=progress,
+                              progress_args=(fileSize, downloadMessage, c_time
+                              ))
             if downloadLoc is None:
                 PROCESS.remove(chat_id)
                 return
@@ -247,13 +239,13 @@ async def _splitS(bot, callbackQuery):
             fileNm=callbackQuery.message.reply_to_message.document.file_name
             await callbackQuery.message.reply_chat_action("upload_document")
             await callbackQuery.message.reply_document(
-                file_name=fileNm, thumb=PDF_THUMBNAIL, document=output_file,
-                caption=f"__Pages: __`{newList}`", quote=True
+                              file_name=fileNm, thumb=PDF_THUMBNAIL, document=output_file,
+                              caption=f"Pages : `{newList}`", quote=True
             )
             await downloadMessage.delete(); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
     except Exception as e:
         try:
-            await downloadMessage.edit(e); print("splitS ;", e); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
+            print("splitS ;", e); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
         except Exception:
             pass
 
@@ -279,15 +271,14 @@ async def _KsplitR(bot, callbackQuery):
                 chat_id=chat_id, reply_to_message_id=message_id,
                 filters=filters.text, reply_markup=ForceReply(True)
             )
-            if needPages.text == "/exit":
-                await needPages.reply("`Process Cancelled..` 😏", quite=True)
+            if needPages.text=="/exit":
+                await needPages.reply("`Process Cancelled..` 😏", quote=True)
                 break
             pageStartAndEnd=list(needPages.text.replace('-',':').split(':'))
-            if len(pageStartAndEnd) > 2:
+            if len(pageStartAndEnd)>2:
                 await callbackQuery.message.reply("`Syntax Error: justNeedStartAndEnd `🚶")
             elif len(pageStartAndEnd)==2:
-                start=pageStartAndEnd[0]
-                end=pageStartAndEnd[1]
+                start=pageStartAndEnd[0]; end=pageStartAndEnd[1]
                 if start.isdigit() and end.isdigit():
                     if (int(1) <= int(start) and int(start) < number_of_pages):
                         if (int(start) < int(end) and int(end) <= number_of_pages):
@@ -307,14 +298,14 @@ async def _KsplitR(bot, callbackQuery):
             input_file=f"{message_id}/inPut.pdf"
             output_file=f"{message_id}/outPut.pdf"
             
-            downloadMessage=await callbackQuery.message.reply_text(text="`Downloding your pdf..` ⏳", quote=True)
+            downloadMessage=await callbackQuery.message.reply("`Downloding your pdf..` ⏳", quote=True)
             file_id=callbackQuery.message.reply_to_message.document.file_id
             fileSize=callbackQuery.message.reply_to_message.document.file_size
             c_time=time.time()
             downloadLoc=await bot.download_media(
-                message=file_id, file_name=input_file, progress=progress,
-                progress_args=(fileSize, downloadMessage, c_time)
-            )
+                              message=file_id, file_name=input_file, progress=progress,
+                              progress_args=(fileSize, downloadMessage, c_time
+                              ))
             if downloadLoc is None:
                 PROCESS.remove(chat_id)
                 return
@@ -322,7 +313,7 @@ async def _KsplitR(bot, callbackQuery):
             splitInputPdf=PdfFileReader(input_file)
             number_of_pages=splitInputPdf.getNumPages()
             if not(int(pageStartAndEnd[1]) <= int(number_of_pages)):
-                await callbackQuery.message.reply("`1st Check the Number of pages` 😏")
+                await downloadMessage.edit("`1st Check the Number of pages` 😏")
                 PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
                 return
             splitOutput=PdfFileWriter()
@@ -335,8 +326,8 @@ async def _KsplitR(bot, callbackQuery):
             fileNm=callbackQuery.message.reply_to_message.document.file_name
             await callbackQuery.message.reply_chat_action("upload_document")
             await callbackQuery.message.reply_document(
-                file_name=fileNm, thumb=PDF_THUMBNAIL, quote=True, document=output_file,
-                caption=f"__from __`{pageStartAndEnd[0]}`__ to__ `{pageStartAndEnd[1]}`"
+                          file_name=fileNm, thumb=PDF_THUMBNAIL, quote=True, document=output_file,
+                          caption=f"from `{pageStartAndEnd[0]}` to `{pageStartAndEnd[1]}`"
             )
             await downloadMessage.delete(); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
     except Exception as e:
@@ -364,7 +355,7 @@ async def _KsplitS(bot, callbackQuery):
             i+=1
             needPages=await bot.ask(
                 text=f"__Pdf Split » By Pages\nEnter Page Numbers seperate by__ (,) :\n__Total Pages : __`{number_of_pages}` 🌟\n\n/exit __to cancel__",
-                chat_id=chat_id, reply_to_message_id=message_id,
+                chat_id=chat_id,reply_to_message_id=message_id,
                 filters=filters.text, reply_markup=ForceReply(True)
             )
             singlePages=list(needPages.text.replace(',',':').split(':'))
@@ -376,29 +367,30 @@ async def _KsplitS(bot, callbackQuery):
                     for i in singlePages:
                         if (i.isdigit() and int(i) <= int(number_of_pages)):
                             newList.append(i)
-                    if newList == []:
-                        await needPages.reply(f"`Enter Numbers less than {number_of_pages}..`😏", quote=True)
+                    if newList==[]:
+                        await callbackQuery.message.reply(f"`Enter Numbers less than {number_of_pages}..`😏")
+                        continue
                     else:
-                        nabilanavab = False
+                        nabilanavab=False
                         break
                 except Exception:
                     pass
             else:
                 await callbackQuery.message.reply("`Something went Wrong..`😅")
         if nabilanavab==True:
-            PROCESS.remove(chat_id); return
+            PROCESS.remove(chat_id)
         if nabilanavab==False:
             input_file=f"{message_id}/inPut.pdf"
             output_file=f"{message_id}/outPut.pdf"
             
-            downloadMessage=await callbackQuery.message.reply_text(text="`Downloding your pdf..`⏳", quote=True)
+            downloadMessage=await callbackQuery.message.reply_text("`Downloding your pdf..`⏳", quote=True)
             file_id=callbackQuery.message.reply_to_message.document.file_id
             fileSize=callbackQuery.message.reply_to_message.document.file_size
             c_time=time.time()
             downloadLoc=await bot.download_media(
                 message=file_id, file_name=input_file, progress=progress,
-                progress_args=(fileSize, downloadMessage, c_time)
-            )
+                progress_args=(fileSize, downloadMessage, c_time
+                ))
             if downloadLoc is None:
                 PROCESS.remove(chat_id)
                 return
@@ -419,12 +411,12 @@ async def _KsplitS(bot, callbackQuery):
             await callbackQuery.message.reply_chat_action("upload_document")
             await callbackQuery.message.reply_document(
                 file_name=fileNm, thumb=PDF_THUMBNAIL, document=output_file,
-                caption=f"__Pages: __`{newList}`", quote=True
+                caption=f"Pages : `{newList}`", quote=True
             )
             await downloadMessage.delete(); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
     except Exception as e:
         try:
-            await downloadMessage.edit(e); print("Ksplits: ", e); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
+            print("Ksplits: ", e); PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
         except Exception:
             pass
 
