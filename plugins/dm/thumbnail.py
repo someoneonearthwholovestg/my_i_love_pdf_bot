@@ -38,6 +38,11 @@ async def _thumbnail(bot, message):
                                                   callback_data="deleteThumbnail")]]
                                ))
             return
+        elif message.reply_to_message:
+            await message.reply(
+                               "reply to a document", quote=True
+                               )
+            return
         else:
             # Get Thumbnail from DB
             thumbnail=await db.get_thumbnail(message.from_user.id)
@@ -56,8 +61,8 @@ async def _thumbnail(bot, message):
                                                   callback_data="deleteThumbnail")]]
                                      ))
             return
-    except Exception:
-        pass
+    except Exception as e:
+        await message.reply(e)
 
 geThumb=filters.create(lambda _, __, query: query.data=="getThumb")
 addThumb=filters.create(lambda _, __, query: query.data=="addThumb")
