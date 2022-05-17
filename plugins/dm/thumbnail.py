@@ -76,8 +76,11 @@ async def _getThumb(bot, callbackQuery):
                                       "wait.! Let me think.. 🤔"
                                       )
             thumbnail=await db.get_thumbnail(callbackQuery.message.from_user.id)
-            if thumbnail==None:
-                await callbackQuery.edit_media(PDF_THUMBNAIL)
+            if not thumbnail:
+                try:
+                    await callbackQuery.edit_media(PDF_THUMBNAIL)
+                except Exception:
+                    pass
                 await callbackQuery.edit_message_caption(
                                                         caption="🌟 CURRENT THUMBNAIL 🌟 (DEFAULT)\n\n"
                                                                 "You didn't set any custom thumbnail!\n\n"
@@ -105,7 +108,7 @@ async def _getThumb(bot, callbackQuery):
                                                     ))
             return
     except Exception as e:
-        await callbackQuery.message.reply(e) #♥️
+        await callbackQuery.message.reply(thumbnail, e) #♥️
 
 @ILovePDF.on_callback_query(addThumb)
 async def _addThumb(bot, callbackQuery):
