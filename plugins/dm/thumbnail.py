@@ -45,7 +45,7 @@ async def _thumbnail(bot, message):
             return
         else:
             # Get Thumbnail from DB
-            thumbnail=await db.get_thumbnail(message.from_user.id)
+            thumbnail=await db.get_thumbnail(message.chat.id)
             if not thumbnail:
                 await message.reply(
                                     "You didn't set custom thumbnail!\n"
