@@ -147,7 +147,8 @@ async def start(bot, message):
         )
         # DELETES /start MESSAGE
         await message.delete()
-    except Exception:
+    except Exception as e:
+        await message.reply(e) #♥️
         pass
 
 #--------------->
