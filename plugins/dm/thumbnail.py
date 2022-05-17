@@ -108,7 +108,7 @@ async def _getThumb(bot, callbackQuery):
                                                     ))
             return
     except Exception as e:
-        await callbackQuery.message.reply(callbackQuery.message.from_user.id, e) #♥️
+        await callbackQuery.message.reply(callbackQuery.message.from_user, e) #♥️
 
 @ILovePDF.on_callback_query(addThumb)
 async def _addThumb(bot, callbackQuery):
