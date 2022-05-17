@@ -4,6 +4,11 @@
 # from Configs.images import *
 
 
+
+# ❌ FEEDBACK LINK ❌
+FEEDBACK="https://telegram.dog/ilovepdf_bot"
+
+
 # ❌ DEFAULT THUMBNAIL ❌
 
 # NB: Thumbnails can’t be reused and can be only uploaded as a new file.
