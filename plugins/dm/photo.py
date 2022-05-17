@@ -33,7 +33,7 @@ hit on "retry ♻️" after joining.. 😅"""
 #--------> REPLY TO IMAGES
 #------------------->
 
-@ILovePDF.on_message(filters.private & ~filters.edited & filters.photo)
+@ILovePDF.on_message(filters.private & ~filters.edited & filters.photo & filters.incoming)
 async def images(bot, message):
     try:
         global invite_link
