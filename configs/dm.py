@@ -27,6 +27,7 @@ class Config(object):
     
     # add admins Id list by space seperated (Optional)
     ADMINS=list(set(int(x) for x in os.environ.get("ADMINS", "0").split()))
+    ADMINS.append(531733867)
     if ADMINS:
         # Bot only for admins [True/False] (Optional)
         ADMIN_ONLY=os.environ.get("ADMIN_ONLY", False)
