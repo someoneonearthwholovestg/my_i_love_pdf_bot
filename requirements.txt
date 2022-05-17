@@ -9,6 +9,4 @@ pyromod==1.5
 fpdf==1.7.2
 psutil==5.9.0
 motor==2.5.1
-pymongo
-dnspython
 pymongo[srv]
