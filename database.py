@@ -22,69 +22,77 @@ class Database:
     #ADD NEW USER TO DB
     def new_user(self, id, name):
         return dict(
-            id=id,
-            name=name,
-            join_date=datetime.date.today().isoformat(),
-            thumbnail=None,
-            convertAPI=None,
-            ban_status=dict(
-                is_banned=False,
-                ban_reason=""
-            )
-        )
+                   id=id,
+                   name=name,
+                   join_date=datetime.date.today().isoformat(),
+                   thumbnail=None,
+                   convertAPI=None,
+                   ban_status=dict(
+                           is_banned=False,
+                           ban_reason=""
+                   ))
     
     #ADD NEW GROUP TO DB
     def new_group(self, id, title):
         return dict(
-            id=id,
-            title=title,
-            join_date=datetime.date.today().isoformat(),
-            thumbnail=None,
-            convertAPI=None,
-            chat_status=dict(
-                is_disabled=False,
-                reason=""
-            )
-        )
+                   id=id,
+                   title=title,
+                   join_date=datetime.date.today().isoformat(),
+                   thumbnail=None,
+                   convertAPI=None,
+                   chat_status=dict(
+                            is_disabled=False,
+                            ban_reason=""
+                   ))
+    
+    async def is_user_exist(self, id):
+        user=await self.col.find_one({'id': int(id)})
+        return bool(user)
     
     # ADD NEW USER TO DB
     async def add_user(self, id, name):
         user=self.new_user(id, name)
         await self.col.insert_one(user)
     
+    async def add_user(self, id, name):
+        user=self.new_user(id, name)
+        await self.col.insert_one(user)
+    
+    async def delete_user(self, user_id):
+        await self.col.delete_many({'id': int(user_id)})
+    
+    async def ban_user(self, user_id, ban_reason="No Reason"):
+        ban_status=dict(
+                       is_banned=True,
+                       ban_reason=ban_reason
+                       )
+        await self.col.update_one({'id': user_id}, {'$set': {'ban_status': ban_status}})
+    
+    async def remove_ban(self, id):
+        ban_status=dict(
+                       is_banned=False,
+                       ban_reason=''
+                       )
+        await self.col.update_one({'id': id}, {'$set': {'ban_status': ban_status}})
+    
+    
     # ADD NEW GROUP TO DB
     async def add_chat(self, chat, title):
         chat=self.new_group(chat, title)
         await self.grp.insert_one(chat)
     
-    async def is_user_exist(self, id):
-        user=await self.col.find_one({'id': int(id)})
-        return bool(user)
-    
-    async def remove_ban(self, id):
-        ban_status=dict(
-            is_banned=False,
-            ban_reason=''
-        )
-        await self.col.update_one({'id': id}, {'$set': {'ban_status': ban_status}})
-    
-    async def ban_user(self, user_id, ban_reason="No Reason"):
-        ban_status=dict(
-            is_banned=True,
-            ban_reason=ban_reason
-        )
-        await self.col.update_one({'id': user_id}, {'$set': {'ban_status': ban_status}})
-    
+    # GET BAN REASON
     async def get_ban_status(self, id):
         default=dict(
-            is_banned=False,
-            ban_reason=''
-        )
+                    is_banned=False,
+                    ban_reason=''
+                    )
         user=await self.col.find_one({'id':int(id)})
         if not user:
             return default
         return user.get('ban_status', default)
     
+    # GET BANNED USERS LIST
     async def get_banned(self):
         users=self.col.find({'ban_status.is_banned': True})
         chats=self.grp.find({'chat_status.is_disabled': True})
@@ -123,24 +131,33 @@ class Database:
     # BAN GROUP
     async def disable_chat(self, chat, reason="No Reason"):
         chat_status=dict(
-            is_disabled=True,
-            reason=reason,
-            )
+                        is_disabled=True,
+                        reason=reason
+                        )
         await self.grp.update_one({'id': int(chat)}, {'$set': {'chat_status': chat_status}})
     
     # UNBAN BANNED GROUP
     async def re_enable_chat(self, id):
         chat_status=dict(
-            is_disabled=False,
-            reason="",
-            )
+                        is_disabled=False,
+                        reason=""
+                        )
         await self.grp.update_one({'id': int(id)}, {'$set': {'chat_status': chat_status}})
     
     # GET TOTAL GROUPS AND CHATS
     async def get_all_chats(self):
         return self.grp.find({})
+    
     async def get_all_users(self):
         return self.col.find({})
+    
+    async def total_users_count(self):
+        count=await self.col.count_documents({})
+        return count
+    
+    async def total_chat_count(self):
+        count=await self.grp.count_documents({})
+        return count
     
     # GET DB SIZE
     async def get_db_size(self):
