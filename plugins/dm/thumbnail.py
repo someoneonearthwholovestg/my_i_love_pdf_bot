@@ -75,7 +75,7 @@ async def _getThumb(bot, callbackQuery):
             await callbackQuery.answer(
                                       "wait.! Let me think.. 🤔"
                                       )
-            thumbnail=await db.get_thumbnail(callbackQuery.message.from_user.id)
+            thumbnail=await db.get_thumbnail(callbackQuery.message.chat.id)
             if not thumbnail:
                 try:
                     await callbackQuery.edit_media(PDF_THUMBNAIL)
@@ -108,7 +108,7 @@ async def _getThumb(bot, callbackQuery):
                                                     ))
             return
     except Exception as e:
-        await callbackQuery.message.reply(callbackQuery.message.from_user, e) #♥️
+        await callbackQuery.message.reply(e)
 
 @ILovePDF.on_callback_query(addThumb)
 async def _addThumb(bot, callbackQuery):
