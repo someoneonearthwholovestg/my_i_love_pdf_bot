@@ -6,12 +6,15 @@ from pyromod import listen
 from pyrogram import filters
 from configs.db import isMONGOexist
 from pyrogram import Client as ILovePDF
+from pyrogram.types import InputMediaPhoto
 from configs.images import PDF_THUMBNAIL, WELCOME_PIC
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram.types import InputMediaPhoto, InputMediaVideo, InputMediaAudio
 
 if isMONGOexist:
     from database import db
+
+# NB: lots and lots and lots of time wasted.. 😓
+# https://docs.pyrogram.org/api/methods/edit_message_media
 
 # CUSTOM THUMBNAIL 
 @ILovePDF.on_message(
@@ -84,11 +87,11 @@ async def _getThumb(bot, callbackQuery):
             thumbnail=await db.get_thumbnail(callbackQuery.message.chat.id)
             if not thumbnail:
                 try:
-                    await callbackQuery.edit_message_media(PDF_THUMBNAIL)
+                    await callbackQuery.edit_message_media(InputMediaPhoto((PDF_THUMBNAIL))
                 except Exception:
                     pass
                 await callbackQuery.edit_message_caption(
-                                                        "🌟 CURRENT THUMBNAIL 🌟 (DEFAULT)\n\n"
+                                                        caption="🌟 CURRENT THUMBNAIL 🌟 (DEFAULT)\n\n"
                                                                 "You didn't set any custom thumbnail!\n\n"
                                                                 "/thumbnail :to get current thumbnail"
                                                                 "Reply to a photo to set custom thumbnail",
@@ -99,10 +102,9 @@ async def _getThumb(bot, callbackQuery):
                                                                      callback_data="back")]]
                                                         ))
                 return
-            #thumb=await bot.download_media(thumbnail)
             await callbackQuery.edit_message_media(InputMediaPhoto(thumbnail))
             await callbackQuery.edit_message_caption(
-                                                    "🌟 CURRENT THUMBNAIL 🌟\n\n"
+                                                    caption="🌟 CURRENT THUMBNAIL 🌟\n\n"
                                                             "/thumbnail :to get current thumbnail"
                                                             "Reply to a photo to set custom thumbnail",
                                                     reply_markup=InlineKeyboardMarkup(
