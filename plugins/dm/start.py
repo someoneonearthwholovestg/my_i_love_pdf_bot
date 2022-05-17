@@ -93,8 +93,8 @@ async def start(bot, message):
         if isMONGOexist:
             if not await db.is_user_exist(message.from_user.id):
                 await db.add_user(message.from_user.id, message.from_user.first_name)
-                if not LOG_CHANNEL:
-                    await client.send_message(
+                if LOG_CHANNEL:
+                    await bot.send_message(
                         chat_id=LOG_CHANNEL,
                         text=LOG_TEXT.format(message.from_user.id, message.from_user.mention),
                         reply_markup=InlineKeyboardMarkup(
