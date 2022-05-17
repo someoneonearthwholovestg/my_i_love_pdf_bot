@@ -11,7 +11,7 @@ from pyrogram.types import InlineKeyboardMarkup
 #--------> PDF REPLY BUTTON
 #------------------->
 
-@ILovePDF.on_message(filters.private & ~filters.edited)
+@ILovePDF.on_message(filters.private & ~filters.edited & filters.incoming)
 async def spam(bot, message):
     try:
         await message.reply_chat_action("typing")
