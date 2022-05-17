@@ -78,7 +78,7 @@ async def _getThumb(bot, callbackQuery):
             thumbnail=await db.get_thumbnail(callbackQuery.message.chat.id)
             if not thumbnail:
                 try:
-                    await callbackQuery.edit_media(PDF_THUMBNAIL)
+                    await callbackQuery.message.edit_media(PDF_THUMBNAIL)
                 except Exception:
                     pass
                 await callbackQuery.edit_message_caption(
