@@ -6,7 +6,7 @@ from pyromod import listen
 from pyrogram import filters
 from configs.db import isMONGOexist
 from pyrogram import Client as ILovePDF
-from configs.images import PDF_THUMBNAIL
+from configs.images import PDF_THUMBNAIL, WELCOME_PIC
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 if isMONGOexist:
@@ -14,9 +14,9 @@ if isMONGOexist:
 
 # CUSTOM THUMBNAIL 
 @ILovePDF.on_message(
-                  filters.command("thumbnail") &
-                  filters.private & ~filters.edited
-                  )
+                    filters.command("thumbnail") &
+                    filters.private & ~filters.edited
+                    )
 async def _thumbnail(bot, message):
     try:
         if not isMONGOexist:
@@ -156,6 +156,7 @@ async def _delThumb(bot, callbackQuery):
         await callbackQuery.answer(
                                   "Deleted.. 😎"
                                   )
+        await callbackQuery.edit_media(WELCOME_PIC)
         await _back(bot, callbackQuery)
         await db.set_thumbnail(callbackQuery.from_user.id, None)
     except Exception:
