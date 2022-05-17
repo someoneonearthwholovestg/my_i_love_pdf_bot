@@ -19,7 +19,7 @@ feedbackMsg="[Write a feedback 📋](https://t.me/ILovePDF_bot)"
 #--------> REPLY TO /generate MESSAGE
 #------------------->
 
-@ILovePDF.on_message(filters.private & filters.command(["generate"]) & ~filters.edited)
+@ILovePDF.on_message(filters.private & filters.command(["generate"]) & filters.incoming)
 async def generate(bot, message):
     try:
         chat_id=message.chat.id
