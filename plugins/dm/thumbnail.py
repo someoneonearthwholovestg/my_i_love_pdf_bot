@@ -30,24 +30,7 @@ async def _thumbnail(bot, message):
                                quote=True
                                )
             return
-        elif message.reply_to_message.photo:
-            # set thumbnail
-            await db.set_thumbnail(
-                message.from_user.id, message.reply_to_message.photo.file_id
-            )
-            await message.reply("Okay,\n"
-                               "I will use this image as custom thumbnail.. 🖐️",
-                               reply_markup=InlineKeyboardMarkup(
-                                   [[InlineKeyboardButton("Delete Thumbnail",
-                                                  callback_data="deleteThumbnail")]]
-                               ))
-            return
-        elif message.reply_to_message:
-            await message.reply(
-                               "reply to a document", quote=True
-                               )
-            return
-        else:
+        elif not message.reply_to_message.photo:
             # Get Thumbnail from DB
             thumbnail=await db.get_thumbnail(message.chat.id)
             if not thumbnail:
@@ -64,6 +47,23 @@ async def _thumbnail(bot, message):
                                          [[InlineKeyboardButton("Delete Thumbnail",
                                                   callback_data="deleteThumbnail")]]
                                      ))
+            return
+        elif message.reply_to_message.photo:
+            # set thumbnail
+            await db.set_thumbnail(
+                message.from_user.id, message.reply_to_message.photo.file_id
+            )
+            await message.reply("Okay,\n"
+                               "I will use this image as custom thumbnail.. 🖐️",
+                               reply_markup=InlineKeyboardMarkup(
+                                   [[InlineKeyboardButton("Delete Thumbnail",
+                                                  callback_data="deleteThumbnail")]]
+                               ))
+            return
+        else:
+            await message.reply(
+                               "reply to a document", quote=True
+                               )
             return
     except Exception as e:
         await message.reply(e)
