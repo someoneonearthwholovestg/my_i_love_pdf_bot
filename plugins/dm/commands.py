@@ -6,14 +6,15 @@ import shutil
 from pdf import PDF
 from pdf import PROCESS
 from pyrogram import filters
+from configs.images import FEEDBACK
 from pyrogram import Client as ILovePDF
 
 
-feedbackMsg="[Write a feedback 📋](https://t.me/ilovepdf_bot)"
+feedbackMsg=f"[Write a feedback 📋]({FEEDBACK})"
 
 
 # ❌ CANCELS CURRENT PDF TO IMAGES WORK ❌
-@ILovePDF.on_message(filters.private & ~filters.edited & filters.command(["cancel"]))
+@ILovePDF.on_message(filters.private & filters.command(["cancel"]) & filters.incoming)
 async def cancelP2I(bot, message):
     try:
         PROCESS.remove(message.chat.id)
@@ -26,7 +27,7 @@ async def cancelP2I(bot, message):
             pass
 
 # ❌ DELETS CURRENT IMAGES TO PDF QUEUE (/delete) ❌
-@ILovePDF.on_message(filters.command(["delete"]))
+@ILovePDF.on_message(filters.private & filters.command(["delete"]) & filters.incoming)
 async def _cancelI2P(bot, message):
     try:
         await message.reply_chat_action("typing")
@@ -37,7 +38,7 @@ async def _cancelI2P(bot, message):
         await message.reply_text("`No Queue founded..`😲", quote=True)
 
 # ❌ GET USER ID (/id) ❌
-@ILovePDF.on_message(filters.private & ~filters.edited & filters.command(["id"]))
+@ILovePDF.on_message(filters.private & filters.command(["id"]) & filters.incoming)
 async def userId(bot, message):
     try:
         await message.reply_text(f'Your Id: `{message.chat.id}`', quote=True)
@@ -45,7 +46,7 @@ async def userId(bot, message):
         pass
 
 # ❌ GET FEEDBACK MESSAGE ❌
-@ILovePDF.on_message(filters.private & filters.command(["feedback"]) & ~filters.edited)
+@ILovePDF.on_message(filters.private & filters.command(["feedback"]) & filters.incoming)
 async def feedback(bot, message):
     try:
         await message.reply_text(feedbackMsg, disable_web_page_preview=True)
