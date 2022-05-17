@@ -95,7 +95,7 @@ async def _getThumb(bot, callbackQuery):
                 return
             await callbackQuery.edit_message_media(thumbnail)
             await callbackQuery.edit_message_caption(
-                                                    caption="🌟 CURRENT THUMBNAIL 🌟\n\n"
+                                                    "🌟 CURRENT THUMBNAIL 🌟\n\n"
                                                             "/thumbnail :to get current thumbnail"
                                                             "Reply to a photo to set custom thumbnail",
                                                     reply_markup=InlineKeyboardMarkup(
