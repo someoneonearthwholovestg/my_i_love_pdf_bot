@@ -76,7 +76,7 @@ async def _getThumb(bot, callbackQuery):
                                       "wait.! Let me think.. 🤔"
                                       )
             thumbnail=await db.get_thumbnail(callbackQuery.message.from_user.id)
-            if not thumbnail:
+            if thumbnail==none:
                 await callbackQuery.edit_media(PDF_THUMBNAIL)
                 await callbackQuery.edit_message_caption(
                                                         caption="🌟 CURRENT THUMBNAIL 🌟 (DEFAULT)\n\n"
