@@ -8,6 +8,7 @@ from configs.db import isMONGOexist
 from pyrogram import Client as ILovePDF
 from configs.images import PDF_THUMBNAIL, WELCOME_PIC
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InputMediaPhoto, InputMediaVideo, InputMediaAudio
 
 if isMONGOexist:
     from database import db
@@ -98,8 +99,8 @@ async def _getThumb(bot, callbackQuery):
                                                                      callback_data="back")]]
                                                         ))
                 return
-            thumb=await bot.download_media(thumbnail)
-            await callbackQuery.edit_message_media(thumb)
+            #thumb=await bot.download_media(thumbnail)
+            await callbackQuery.edit_message_media(thumbnail)
             await callbackQuery.edit_message_caption(
                                                     "🌟 CURRENT THUMBNAIL 🌟\n\n"
                                                             "/thumbnail :to get current thumbnail"
