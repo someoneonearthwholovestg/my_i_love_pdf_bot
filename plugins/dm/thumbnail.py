@@ -82,7 +82,7 @@ async def _getThumb(bot, callbackQuery):
                 except Exception:
                     pass
                 await callbackQuery.edit_message_caption(
-                                                        caption="🌟 CURRENT THUMBNAIL 🌟 (DEFAULT)\n\n"
+                                                        "🌟 CURRENT THUMBNAIL 🌟 (DEFAULT)\n\n"
                                                                 "You didn't set any custom thumbnail!\n\n"
                                                                 "/thumbnail :to get current thumbnail"
                                                                 "Reply to a photo to set custom thumbnail",
