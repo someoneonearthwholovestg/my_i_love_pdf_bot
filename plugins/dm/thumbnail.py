@@ -98,7 +98,8 @@ async def _getThumb(bot, callbackQuery):
                                                                      callback_data="back")]]
                                                         ))
                 return
-            await callbackQuery.edit_message_media(str(thumbnail))
+            await callbackQuery.message.reply("ebada")
+            await callbackQuery.edit_message_media(thumbnail)
             await callbackQuery.edit_message_caption(
                                                     "🌟 CURRENT THUMBNAIL 🌟\n\n"
                                                             "/thumbnail :to get current thumbnail"
