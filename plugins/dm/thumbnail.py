@@ -98,7 +98,7 @@ async def _getThumb(bot, callbackQuery):
                                                                      callback_data="back")]]
                                                         ))
                 return
-            thumb=await bot.download(thumbnail)
+            thumb=await bot.download_media(thumbnail)
             await callbackQuery.edit_message_media(thumb)
             await callbackQuery.edit_message_caption(
                                                     "🌟 CURRENT THUMBNAIL 🌟\n\n"
