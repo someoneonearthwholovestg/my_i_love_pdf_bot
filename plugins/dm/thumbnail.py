@@ -116,8 +116,8 @@ async def _getThumb(bot, callbackQuery):
                                                                  callback_data="back")]]
                                                     ))
             return
-    except Exception as e:
-        await callbackQuery.message.reply(e)
+    except Exception:
+        pass
 
 @ILovePDF.on_callback_query(addThumb)
 async def _addThumb(bot, callbackQuery):
