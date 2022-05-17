@@ -81,8 +81,6 @@ ERROR: `{}`
 
 For bot updates join @ilovepdf_bot"""
 
-feedbackMsg="[Write a feedback 📋](https://t.me/ILovePDF_bot)"
-
 forceSubMsg="""Wait [{}](tg://user?id={})..!!
 
 Due To The Huge Traffic Only Channel Members Can Use this Bot 🚶
@@ -96,32 +94,30 @@ hit on "retry ♻️" after joining.. 😅"""
 #------------------->
 
 pdfReply=InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton("⭐ META£ATA ⭐", callback_data="pdfInfo"),
-                InlineKeyboardButton("🗳️ PREVIEW 🗳️", callback_data="preview")
-            ],[
-                InlineKeyboardButton("🖼️ IMAGES 🖼️", callback_data="toImage"),
-                InlineKeyboardButton("✏️ TEXT ✏️", callback_data="toText")
-            ],[
-                InlineKeyboardButton("🔐 ENCRYPT 🔐", callback_data="encrypt"),
-                InlineKeyboardButton("🔒 DECRYPT 🔓",callback_data="decrypt")
-            ],[
-                InlineKeyboardButton("🗜️ COMPRESS 🗜️", callback_data="compress"),
-                InlineKeyboardButton("🤸 ROTATE 🤸", callback_data="rotate")
-            ],[
-                InlineKeyboardButton("✂️ SPLIT ✂️", callback_data="split"),
-                InlineKeyboardButton("🧬 MERGE 🧬", callback_data="merge")
-            ],[
-                InlineKeyboardButton("™️ STAMP ™️", callback_data="stamp"),
-                InlineKeyboardButton("✏️ RENAME ✏️", callback_data="rename")
-            ],[
-                InlineKeyboardButton("📝 OCR 📝", callback_data="ocr"),
-                InlineKeyboardButton("🥷 A4 FORMAT 🥷", callback_data="format")
-            ],[
-                InlineKeyboardButton("🚫 CLOSE 🚫", callback_data="closeALL")
-            ]
-        ]
+        [[
+            InlineKeyboardButton("⭐ META£ATA ⭐", callback_data="pdfInfo"),
+            InlineKeyboardButton("🗳️ PREVIEW 🗳️", callback_data="preview")
+        ],[
+            InlineKeyboardButton("🖼️ IMAGES 🖼️", callback_data="toImage"),
+            InlineKeyboardButton("✏️ TEXT ✏️", callback_data="toText")
+        ],[
+            InlineKeyboardButton("🔐 ENCRYPT 🔐", callback_data="encrypt"),
+            InlineKeyboardButton("🔒 DECRYPT 🔓",callback_data="decrypt")
+        ],[
+            InlineKeyboardButton("🗜️ COMPRESS 🗜️", callback_data="compress"),
+            InlineKeyboardButton("🤸 ROTATE 🤸", callback_data="rotate")
+        ],[
+            InlineKeyboardButton("✂️ SPLIT ✂️", callback_data="split"),
+            InlineKeyboardButton("🧬 MERGE 🧬", callback_data="merge")
+        ],[
+            InlineKeyboardButton("™️ STAMP ™️", callback_data="stamp"),
+            InlineKeyboardButton("✏️ RENAME ✏️", callback_data="rename")
+        ],[
+            InlineKeyboardButton("📝 OCR 📝", callback_data="ocr"),
+            InlineKeyboardButton("🥷 A4 FORMAT 🥷", callback_data="format")
+        ],[
+            InlineKeyboardButton("🚫 CLOSE 🚫", callback_data="closeALL")
+        ]]
     )
 
 #--------------->
@@ -134,7 +130,7 @@ UPDATE_CHANNEL=Config.UPDATE_CHANNEL
 #--------> REPLY TO DOCUMENTS/FILES
 #------------------->
 
-@ILovePDF.on_message(filters.private & filters.document & ~filters.edited)
+@ILovePDF.on_message(filters.private & filters.document & ~filters.edited & filters.incoming)
 async def documents(bot, message):
     try:
         global invite_link
@@ -146,32 +142,30 @@ async def documents(bot, message):
                 # IF USER BANNED FROM CHANNEL
                 if userStatus.status=='banned':
                      await message.reply_photo(
-                         photo=BANNED_PIC,
-                         caption="For Some Reason You Can't Use This Bot"
-                                 "\n\nContact Bot Owner 🤐",
-                         reply_markup=InlineKeyboardMarkup(
-                            [[InlineKeyboardButton("Owner 🎊", url="https://t.me/nabilanavab")]]
-                         )
-                     )
+                                         photo=BANNED_PIC,
+                                         caption="For Some Reason You Can't Use This Bot"
+                                                 "\n\nContact Bot Owner 🤐",
+                                         reply_markup=InlineKeyboardMarkup(
+                                             [[InlineKeyboardButton("Owner 🎊", url="https://t.me/nabilanavab")]]
+                                         ))
                      return
             except Exception:
                 if invite_link==None:
                     invite_link=await bot.create_chat_invite_link(
-                        int(UPDATE_CHANNEL)
-                    )
+                                         int(UPDATE_CHANNEL)
+                                         )
                 await message.reply_photo(
-                    photo=WELCOME_PIC,
-                    caption=forceSubMsg.format(
-                        message.from_user.first_name, message.chat.id
-                    ),
-                    reply_markup=InlineKeyboardMarkup(
-                        [[
-                            InlineKeyboardButton("🌟 JOIN CHANNEL 🌟", url=invite_link.invite_link)
-                        ],[
-                            InlineKeyboardButton("Refresh ♻️", callback_data="refresh")
-                        ]]
-                    )
-                )
+                                    photo=WELCOME_PIC,
+                                    caption=forceSubMsg.format(
+                                            message.from_user.first_name, message.chat.id
+                                    ),
+                                    reply_markup=InlineKeyboardMarkup(
+                                         [[
+                                               InlineKeyboardButton("🌟 JOIN CHANNEL 🌟", url=invite_link.invite_link)
+                                         ],[
+                                               InlineKeyboardButton("Refresh ♻️", callback_data="refresh")
+                                         ]]
+                                    ))
                 return
         
         isPdfOrImg=message.document.file_name        # file name
@@ -181,54 +175,53 @@ async def documents(bot, message):
         # REPLY TO LAGE FILES/DOCUMENTS
         if MAX_FILE_SIZE and fileSize >= int(MAX_FILE_SIZE_IN_kiB):
             await message.reply_photo(
-                photo=BIG_FILE,
-                caption=bigFileUnSupport.format(
-                    MAX_FILE_SIZE, MAX_FILE_SIZE
-                ),
-                reply_markup=InlineKeyboardMarkup(
-                    [[
-                        InlineKeyboardButton("💎 Create 2Gb Support Bot 💎", url="https://github.com/nabilanavab/ilovepdf")
-                    ]]
-                )
-            )
+                                photo=BIG_FILE,
+                                caption=bigFileUnSupport.format(
+                                        MAX_FILE_SIZE, MAX_FILE_SIZE
+                                ),
+                                reply_markup=InlineKeyboardMarkup(
+                                     [[
+                                          InlineKeyboardButton("💎 Create 2Gb Support Bot 💎", url="https://github.com/nabilanavab/ilovepdf")
+                                     ]]
+                                ))
             return
         
         # IMAGE AS FILES (ADDS TO PDF FILE)
         elif fileExt.lower() in suprtedFile:
             try:
                 imageDocReply=await message.reply_text(
-                    "`Downloading your Image..⏳`", quote=True
-                )
+                              "`Downloading your Image..⏳`", quote=True
+                              )
                 if not isinstance(PDF.get(message.chat.id), list):
                     PDF[message.chat.id]=[]
                 await message.download(
-                    f"{message.chat.id}/{message.chat.id}.jpg"
-                )
+                      f"{message.chat.id}/{message.chat.id}.jpg"
+                      )
                 img=Image.open(
                     f"{message.chat.id}/{message.chat.id}.jpg"
                 ).convert("RGB")
                 PDF[message.chat.id].append(img)
                 await imageDocReply.edit(
-                    imageAdded.format(len(PDF[message.chat.id]))
-                )
+                      imageAdded.format(len(PDF[message.chat.id]))
+                      )
             except Exception as e:
                 await imageDocReply.edit(
-                    errorEditMsg.format(e)
-                )
-            
+                      errorEditMsg.format(e)
+                      )
+        
         # REPLY TO .PDF FILE EXTENSION
         elif fileExt.lower()==".pdf":
             try:
                 pdfMsgId=await message.reply_text(
-                    "Processing..🚶", quote=True
-                )
+                         "Processing..🚶", quote=True
+                         )
                 await asyncio.sleep(0.5)
                 await pdfMsgId.edit(
-                    text=pdfReplyMsg.format(
-                        isPdfOrImg, await gSF(fileSize)
-                    ),
-                    reply_markup=pdfReply
-                )
+                      text=pdfReplyMsg.format(
+                           isPdfOrImg, await gSF(fileSize)
+                      ),
+                      reply_markup=pdfReply
+                      )
             except Exception:
                 pass
         
@@ -236,37 +229,34 @@ async def documents(bot, message):
         elif fileExt.lower() in suprtedPdfFile:
             try:
                 pdfMsgId=await message.reply_text(
-                    "`Downloading your file..⏳`", quote=True
-                )
+                         "`Downloading your file..⏳`", quote=True
+                         )
                 await message.download(
-                    f"{message.message_id}/{isPdfOrImg}"
-                )
+                      f"{message.message_id}/{isPdfOrImg}"
+                      )
                 await pdfMsgId.edit("`Work in Progress.. It might take some time.. 💛`")
                 Document=fitz.open(
-                    f"{message.message_id}/{isPdfOrImg}"
-                )
+                                  f"{message.message_id}/{isPdfOrImg}"
+                                  )
                 b=Document.convert_to_pdf()
                 pdf=fitz.open("pdf", b)
                 pdf.save(
-                    f"{message.message_id}/{fileNm}.pdf",
-                    garbage=4,
-                    deflate=True,
-                )
+                        f"{message.message_id}/{fileNm}.pdf",
+                        garbage=4,
+                        deflate=True,
+                        )
                 pdf.close()
                 await pdfMsgId.edit("`Started Uploading..`🏋️")
                 await message.reply_chat_action("upload_document")
                 await message.reply_document(
-                    file_name=f"{fileNm}.pdf",
-                    document=open(f"{message.message_id}/{fileNm}.pdf", "rb"),
-                    thumb=PDF_THUMBNAIL,
-                    caption=f"`Converted: {fileExt} to pdf`",
-                    quote=True
-                )
+                                   file_name=f"{fileNm}.pdf",
+                                   document=open(f"{message.message_id}/{fileNm}.pdf", "rb"),
+                                   thumb=PDF_THUMBNAIL,
+                                   caption=f"`Converted: {fileExt} to pdf`",
+                                   quote=True
+                                   )
                 await pdfMsgId.delete()
                 shutil.rmtree(f"{message.message_id}")
-                await asyncio.sleep(5)
-                await message.reply_chat_action("typing")
-                await message.reply(feedbackMsg, disable_web_page_preview=True)
             except Exception as e:
                 try:
                     shutil.rmtree(f"{message.message_id}")
@@ -278,51 +268,48 @@ async def documents(bot, message):
         elif fileExt.lower() in suprtedPdfFile2:
             if Config.CONVERT_API is None:
                 pdfMsgId=await message.reply_text(
-                    "`Owner Forgot to add ConvertAPI.. contact Owner 😒`",
-                    quote=True
-                )
+                               "`Owner Forgot to add ConvertAPI.. contact Owner 😒`",
+                               quote=True
+                               )
                 return
             else:
                 try:
                     pdfMsgId=await message.reply_text(
-                        "`Downloading your file..⏳`", quote=True
-                    )
+                                   "`Downloading your file..⏳`", quote=True
+                                   )
                     await message.download(
-                        f"{message.message_id}/{isPdfOrImg}"
-                    )
+                          f"{message.message_id}/{isPdfOrImg}"
+                          )
                     await pdfMsgId.edit("`Work in Progress.. It might take some time..`💛")
                     try:
                         convertapi.convert(
-                            "pdf",
-                            {
-                                "File": f"{message.message_id}/{isPdfOrImg}"
-                            },
-                            from_format=fileExt[1:],
-                        ).save_files(
-                            f"{message.message_id}/{fileNm}.pdf"
-                        )
+                                          "pdf",
+                                              {
+                                                  "File": f"{message.message_id}/{isPdfOrImg}"
+                                              },
+                                              from_format=fileExt[1:],
+                                          ).save_files(
+                                              f"{message.message_id}/{fileNm}.pdf"
+                                          )
                     except Exception:
                         try:
                             shutil.rmtree(f"{message.message_id}")
                             await pdfMsgId.edit(
-                                "ConvertAPI limit reaches.. contact Owner"
-                            )
+                                  "ConvertAPI limit reaches.. contact Owner"
+                                  )
                             return
                         except Exception:
                             pass
                     await message.reply_chat_action("upload_document")
                     await message.reply_document(
-                        file_name=f"{fileNm}.pdf",
-                        document=open(f"{message.message_id}/{fileNm}.pdf", "rb"),
-                        thumb=PDF_THUMBNAIL,
-                        caption=f"`Converted: {fileExt} to pdf`",
-                        quote=True
-                    )
+                                       file_name=f"{fileNm}.pdf",
+                                       document=open(f"{message.message_id}/{fileNm}.pdf", "rb"),
+                                       thumb=PDF_THUMBNAIL,
+                                       caption=f"`Converted: {fileExt} to pdf`",
+                                       quote=True
+                                       )
                     await pdfMsgId.delete()
                     shutil.rmtree(f"{message.message_id}")
-                    await asyncio.sleep(5)
-                    await message.reply_chat_action("typing")
-                    await message.reply_text(feedbackMsg, disable_web_page_preview=True)
                 except Exception:
                     pass
         
