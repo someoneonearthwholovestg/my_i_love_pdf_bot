@@ -127,7 +127,7 @@ async def bannedGrp(bot, message):
 async def server(bot, message):
     try:
         try:
-            await await banUsr()
+            await banUsr()
             await message.reply(BANNED_USR_DB)
         except Exception as e:
             await message.reply(e)
