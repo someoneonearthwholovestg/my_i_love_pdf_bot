@@ -126,6 +126,11 @@ async def bannedGrp(bot, message):
 @ILovePDF.on_message(filters.private & filters.command(["server"]) & filters.incoming & filters.user(Config.ADMINS))
 async def server(bot, message):
     try:
+        try:
+            await await banUsr()
+            await message.reply(BANNED_USR_DB)
+        except Exception as e:
+            await message.reply(e)
         total, used, free = shutil.disk_usage(".")
         total=await gSF(total);used=await gSF(used); free=await gSF(free)
         cpu_usage=psutil.cpu_percent()
