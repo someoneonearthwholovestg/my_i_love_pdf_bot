@@ -15,6 +15,7 @@
 import logging
 from pyromod import listen
 from configs.dm import Config
+from plugins.dm.admin import start
 from pyrogram import Client, idle
 
 # LOGGING INFO: DEBUG
@@ -47,3 +48,4 @@ bot = Client(
 bot.start()
 idle()
 bot.stop()
+asyncio.run(start())
