@@ -15,7 +15,6 @@
 import logging
 from pyromod import listen
 from configs.dm import Config
-from plugins.dm.admin import start
 from pyrogram import Client, idle
 
 # LOGGING INFO: DEBUG
@@ -26,26 +25,25 @@ logging.basicConfig(
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
 
 # GLOBAL VARIABLES
-PDF = {}            # save images for generating pdf
-PROCESS = []        # to check current process
-invite_link = None
+PDF={}            # save images for generating pdf
+PROCESS=[]        # to check current process
+invite_link=None
 
 # PLUGIN DIRECTORY
-plugin = dict(
-    root = "plugins"
+plugin=dict(
+    root="plugins"
 )
 
 # PYROGRAM BOT AUTHENTIFICATION
-bot = Client(
+bot=Client(
     "ILovePDF",
-    plugins = plugin,
-    api_id = Config.API_ID,
-    parse_mode = "markdown",
-    api_hash = Config.API_HASH,
-    bot_token = Config.API_TOKEN
+    plugins=plugin,
+    api_id=Config.API_ID,
+    parse_mode="markdown",
+    api_hash=Config.API_HASH,
+    bot_token=Config.API_TOKEN
 )
 
 bot.start()
 idle()
 bot.stop()
-asyncio.run(start())
