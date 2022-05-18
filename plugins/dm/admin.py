@@ -26,7 +26,6 @@ async def start():
         userBANNED_db, groupBANNED_db=await db.get_banned()
         BANNED_USR_DB=userBANNED_db
         BANNED_GRP_DB=groupBANNED_db
-        await super().start()
 
 #--------------->
 #--------> config vars
@@ -57,6 +56,7 @@ button=InlineKeyboardMarkup(
 #------------------->
 
 async def bannedUsers(_, __, message: Message):
+    await start()
     if (message.from_user.id in BANNED_USERS) or (
                (ADMIN_ONLY) and (message.from_user.id not in ADMINS)) or (
                (BANNED_USR_DB) and (message.from_user.id in BANNED_USR_DB)):
