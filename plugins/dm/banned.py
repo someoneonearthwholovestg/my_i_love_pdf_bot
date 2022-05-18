@@ -71,8 +71,8 @@ async def _banUser(bot, message):
             await procs.edit(
                             f"Successfully banned {userINFO.mention}"
                             )
-    except Exception:
-        pass
+    except Exception as e:
+        await procs.edit(e)
 
 
 @ILovePDF.on_message(
