@@ -1,4 +1,4 @@
-# fileName : plugins/dm/banned.py
+# fileName: plugins/dm/banned.py
 # copyright ©️ 2021 nabilanavab
 
 import os
