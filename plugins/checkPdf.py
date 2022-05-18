@@ -3,7 +3,7 @@
 
 import fitz
 import shutil
-from pdf import PROCESS
+from configs.global import PROCESS
 from pyrogram.types import Message
 from plugins.toKnown import toKnown
 from plugins.fileSize import get_size_format as gSF
