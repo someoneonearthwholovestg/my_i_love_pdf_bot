@@ -43,7 +43,9 @@ async def _thumbnail(bot, message):
                                      reply_markup=InlineKeyboardMarkup(
                                              [[InlineKeyboardButton("Delete Thumbnail",
                                                       callback_data="delThumb")]]
-                                     ))
+                                     ),
+                                     quote=True
+                                     )
             return
         else:
             # Get Thumbnail from DB
