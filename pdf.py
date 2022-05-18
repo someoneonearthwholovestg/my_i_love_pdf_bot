@@ -18,6 +18,7 @@ from configs.dm import Config
 #from pyrogram import Client, idle
 from pyrogram import Client as ILovePDF
 from configs.db import isMONGOexist
+from plugins.dm.admin import BANNED_USR_DB, BANNED_GRP_DB
 
 if isMONGOexist:
     from database import db
@@ -55,8 +56,8 @@ class Bot(ILovePDF):
         if isMONGOexist:
             from database import db
             b_users, b_chats = await db.get_banned()
-            temp.BANNED_USERS = b_users
-            temp.BANNED_CHATS = b_chats
+            BANNED_USR_DB=b_users
+            BANNED_GRP_DB=b_chats
             await super().start()
     
     async def stop(self, *args):
