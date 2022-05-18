@@ -20,13 +20,13 @@ BANNED_USR_DB, BANNED_GRP_DB=[], []
 
 if isMONGOexist:
     from database import db
-    
+"""   
 async def banUsr():
     if isMONGOexist:
         userBANNED_db, groupBANNED_db=await db.get_banned()
         BANNED_USR_DB=userBANNED_db
         BANNED_GRP_DB=groupBANNED_db
-
+"""
 #--------------->
 #--------> config vars
 #------------------->
@@ -129,8 +129,8 @@ async def bannedGrp(bot, message):
 async def server(bot, message):
     try:
         try:
-            await banUsr()
-            await message.reply(userBANNED_db, BANNED_USR_DB)
+            #await banUsr()
+            await message.reply(BANNED_USR_DB)
         except Exception as e:
             await message.reply(e)
         total, used, free = shutil.disk_usage(".")
