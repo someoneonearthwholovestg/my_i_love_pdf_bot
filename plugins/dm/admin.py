@@ -20,13 +20,14 @@ BANNED_USR_DB, BANNED_GRP_DB=[], []
 
 if isMONGOexist:
     from database import db
-"""   
-async def banUsr():
+ 
+async def start():
     if isMONGOexist:
         userBANNED_db, groupBANNED_db=await db.get_banned()
         BANNED_USR_DB=userBANNED_db
         BANNED_GRP_DB=groupBANNED_db
-"""
+        await super().start()
+
 #--------------->
 #--------> config vars
 #------------------->
@@ -56,9 +57,6 @@ button=InlineKeyboardMarkup(
 #------------------->
 
 async def bannedUsers(_, __, message: Message):
-    #if isMONGOexist:
-    #    await banUsr()
-    BANNED_USR_DB, BANNED_GRP_DB = await db.get_banned()
     if (message.from_user.id in BANNED_USERS) or (
                (ADMIN_ONLY) and (message.from_user.id not in ADMINS)) or (
                (BANNED_USR_DB) and (message.from_user.id in BANNED_USR_DB)):
