@@ -55,7 +55,6 @@ class Bot(ILovePDF, New):
     
     async def start(self):
         if isMONGOexist:
-            from database import db
             b_users, b_chats = await db.get_banned()
             BANNED_USR_DB=b_users
             BANNED_GRP_DB=b_chats
