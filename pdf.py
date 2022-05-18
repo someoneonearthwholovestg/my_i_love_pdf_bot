@@ -19,6 +19,7 @@ from configs.dm import Config
 from pyrogram import Client as ILovePDF
 from configs.db import isMONGOexist
 from configs.db import BANNED_USR_DB, BANNED_GRP_DB
+from bot.core.new import New
 
 if isMONGOexist:
     from database import db
@@ -41,7 +42,7 @@ plugin=dict(
     root="plugins"
 )"""
 
-class Bot(ILovePDF):
+class Bot(ILovePDF, New):
 
     def __init__(self):
         super().__init__(
