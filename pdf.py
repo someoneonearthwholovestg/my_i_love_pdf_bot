@@ -44,6 +44,8 @@ bot=Client(
     bot_token=Config.API_TOKEN
 )
 
+bot.run()
+"""
 bot.start()
 idle()
-bot.stop()
+bot.stop()"""
