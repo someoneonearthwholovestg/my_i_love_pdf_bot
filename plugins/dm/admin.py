@@ -27,7 +27,6 @@ async def start():
         userBANNED_db, groupBANNED_db=await db.get_banned()
         BANNED_USR_DB=userBANNED_db
         BANNED_GRP_DB=groupBANNED_db
-asyncio.run(start())
 
 #--------------->
 #--------> config vars
