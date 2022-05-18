@@ -159,8 +159,8 @@ async def _addThumb(bot, callbackQuery):
                                   getThumb.photo.file_id
                                   )
             await getThumb.delete()
-    except Exception:
-        pass
+    except Exception as e
+        await callbackQuery.message.reply(e)
 
 @ILovePDF.on_callback_query(delThumb)
 async def _delThumb(bot, callbackQuery):
