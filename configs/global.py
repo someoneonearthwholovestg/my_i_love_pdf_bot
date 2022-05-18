@@ -1,3 +1,4 @@
+# GLOBAL VARIABLE
 # save images for generating pdf
 PDF={}
 
