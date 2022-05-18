@@ -129,7 +129,7 @@ async def server(bot, message):
     try:
         try:
             await banUsr()
-            await message.reply(BANNED_USR_DB)
+            await message.reply(userBANNED_db, BANNED_USR_DB)
         except Exception as e:
             await message.reply(e)
         total, used, free = shutil.disk_usage(".")
