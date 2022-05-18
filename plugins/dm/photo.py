@@ -2,12 +2,11 @@
 # copyright ©️ 2021 nabilanavab
 
 import os
-from pdf import PDF
 from PIL import Image
-from pdf import invite_link
 from pyrogram import filters
 from configs.dm import Config
 from pyrogram import Client as ILovePDF
+from configs.global import PDF, invite_link
 from configs.images import WELCOME_PIC, BANNED_PIC
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
