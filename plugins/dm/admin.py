@@ -26,7 +26,7 @@ if isMONGOexist:
         BANNED_USR_DB=userBANNED_db
         BANNED_GRP_DB=groupBANNED_db
     
-    # await banUsr()
+    await banUsr()
 
 #--------------->
 #--------> config vars
