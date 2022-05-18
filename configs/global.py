@@ -1,3 +1,8 @@
-PDF={}            # save images for generating pdf
-PROCESS=[]        # to check current process
+# save images for generating pdf
+PDF={}
+
+# save userID to check current process
+PROCESS=[]
+
+# creates only one invitation link
 invite_link=None
