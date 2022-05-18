@@ -6,12 +6,12 @@ import fitz
 import shutil
 import asyncio
 import convertapi
-from pdf import PDF
 from PIL import Image
 from time import sleep
-from pdf import invite_link
 from pyrogram import filters
 from configs.dm import Config
+from configs.global import PDF
+from configs.global import invite_link
 from pyrogram import Client as ILovePDF
 from plugins.fileSize import get_size_format as gSF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
