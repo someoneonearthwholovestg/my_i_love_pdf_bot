@@ -21,7 +21,8 @@ BANNED_USR_DB, BANNED_GRP_DB=[], []
 if isMONGOexist:
     from database import db
     
-    async def banUsr():
+async def banUsr():
+    if isMONGOexist:
         userBANNED_db, groupBANNED_db=await db.get_banned()
         BANNED_USR_DB=userBANNED_db
         BANNED_GRP_DB=groupBANNED_db
