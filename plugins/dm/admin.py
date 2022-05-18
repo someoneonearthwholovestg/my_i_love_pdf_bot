@@ -3,6 +3,7 @@
 
 import shutil
 import psutil
+import asyncio
 from pdf import PROCESS
 from pyrogram import filters
 from configs.dm import Config
@@ -26,6 +27,7 @@ async def start():
         userBANNED_db, groupBANNED_db=await db.get_banned()
         BANNED_USR_DB=userBANNED_db
         BANNED_GRP_DB=groupBANNED_db
+asyncio.run(start())
 
 #--------------->
 #--------> config vars
@@ -56,7 +58,6 @@ button=InlineKeyboardMarkup(
 #------------------->
 
 async def bannedUsers(_, __, message: Message):
-    await start()
     if (message.from_user.id in BANNED_USERS) or (
                (ADMIN_ONLY) and (message.from_user.id not in ADMINS)) or (
                (BANNED_USR_DB) and (message.from_user.id in BANNED_USR_DB)):
@@ -126,11 +127,6 @@ async def bannedGrp(bot, message):
 @ILovePDF.on_message(filters.private & filters.command(["server"]) & filters.incoming & filters.user(Config.ADMINS))
 async def server(bot, message):
     try:
-        try:
-            #await banUsr()
-            await message.reply(BANNED_USR_DB)
-        except Exception as e:
-            await message.reply(e)
         total, used, free = shutil.disk_usage(".")
         total=await gSF(total);used=await gSF(used); free=await gSF(free)
         cpu_usage=psutil.cpu_percent()
