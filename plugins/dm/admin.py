@@ -15,8 +15,7 @@ from pyrogram import Client as ILovePDF
 from pyrogram.types import InlineKeyboardButton
 from pyrogram.types import InlineKeyboardMarkup
 from plugins.fileSize import get_size_format as gSF
-
-BANNED_USR_DB, BANNED_GRP_DB=[], []
+from configs.db import BANNED_USR_DB, BANNED_GRP_DB
 
 if isMONGOexist:
     from database import db
