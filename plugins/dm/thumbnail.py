@@ -141,7 +141,7 @@ async def _addThumb(bot, callbackQuery):
         if not getThumb.photo:
             await getThumb.delete()
         else:
-            await callbackQuery.edit_media(getThumb.photo.file_id)
+            await callbackQuery.edit_message_media(InputMediaPhoto(getThumb.photo.file_id))
             await callbackQuery.edit_message_caption(
                                                     caption="🌟 CURRENT THUMBNAIL 🌟\n\n"
                                                             "/thumbnail :to get current thumbnail"
@@ -168,7 +168,7 @@ async def _delThumb(bot, callbackQuery):
         await callbackQuery.answer(
                                   "Deleted.. 😎"
                                   )
-        await callbackQuery.edit_media(WELCOME_PIC)
+        await callbackQuery.edit_message_media(InputMediaPhoto(WELCOME_PIC))
         await _back(bot, callbackQuery)
         await db.set_thumbnail(callbackQuery.from_user.id, None)
     except Exception:
