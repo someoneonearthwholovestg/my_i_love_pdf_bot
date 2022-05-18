@@ -22,83 +22,46 @@ if isMONGOexist:
                     filters.command("thumbnail") &
                     filters.private & ~filters.edited
                     )
-
 async def _thumbnail(bot, message):
-
     try:
-
         if not isMONGOexist:
-
             # if No mongoDB Url
-
             await message.reply(
-
                                "Can't Use This Feature 🤧",
-
                                quote=True
-
                                )
-
             return
-
         elif message.reply_to_message and message.reply_to_message.photo:
-
             # set thumbnail
-
             await db.set_thumbnail(
-
                 message.from_user.id, message.reply_to_message.photo.file_id
-
             )
-
-            await message.reply("Okay,\n"
-
-                               "I will use this image as custom thumbnail.. 🖐️",
-
-                               reply_markup=InlineKeyboardMarkup(
-
-                                   [[InlineKeyboardButton("Delete Thumbnail",
-
-                                                  callback_data="deleteThumbnail")]]
-
-                               ))
-
-            return
-
-        else:
-
-            # Get Thumbnail from DB
-
-            thumbnail=await db.get_thumbnail(message.from_user.id)
-
-            if not thumbnail:
-
-                await message.reply(
-
-                                    "You didn't set custom thumbnail!\n"
-
-                                    "reply /thumbnail to set thumbnail",
-
-                                    quote=True
-
-                                    )
-
-                return
-
             await message.reply_photo(
-
-                                     photo=thumbnail, caption="Custom Thumbnail",
-
-                                     quote=True,
-
+                                     photo=message.reply_to_message.photo.file_id,
+                                     caption="Okay,\n"
+                                             "I will use this image as custom thumbnail.. 🖐️",
                                      reply_markup=InlineKeyboardMarkup(
-
-                                         [[InlineKeyboardButton("Delete Thumbnail",
-
-                                                  callback_data="deleteThumbnail")]]
-
+                                             [[InlineKeyboardButton("Delete Thumbnail",
+                                                      callback_data="delThumb")]]
                                      ))
-
+            return
+        else:
+            # Get Thumbnail from DB
+            thumbnail=await db.get_thumbnail(message.from_user.id)
+            if not thumbnail:
+                await message.reply(
+                                    "You didn't set custom thumbnail!\n"
+                                    "reply /thumbnail to set thumbnail",
+                                    quote=True
+                                    )
+                return
+            await message.reply_photo(
+                                     photo=thumbnail, caption="Custom Thumbnail",
+                                     quote=True,
+                                     reply_markup=InlineKeyboardMarkup(
+                                         [[InlineKeyboardButton("Delete Thumbnail",
+                                                  callback_data="delThumb")]]
+                                     ))
             return
     except Exception as e:
         await message.reply(e)
