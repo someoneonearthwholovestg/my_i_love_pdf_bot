@@ -141,6 +141,7 @@ async def _addThumb(bot, callbackQuery):
         getThumb=await bot.listen(callbackQuery.from_user.id)
         if not getThumb.photo:
             await getThumb.delete()
+            await _back(bot, callbackQuery)
         else:
             await callbackQuery.edit_message_media(InputMediaPhoto(getThumb.photo.file_id))
             await callbackQuery.edit_message_caption(
@@ -172,7 +173,7 @@ async def _delThumb(bot, callbackQuery):
         await callbackQuery.edit_message_media(InputMediaPhoto(WELCOME_PIC))
         await _back(bot, callbackQuery)
         await db.set_thumbnail(callbackQuery.from_user.id, None)
-    except Exception:
-        pass
+    except Exception as e:
+        await callbackQuery.message.reply(e)
 
 #                                                                                  Telegram: @nabilanavab
