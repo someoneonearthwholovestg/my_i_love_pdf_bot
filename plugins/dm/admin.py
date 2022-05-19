@@ -6,7 +6,7 @@ import psutil
 from pyrogram import filters
 from configs.dm import Config
 from configs.db import dataBASE
-from configs.global import PROCESS
+from configs.global.GlobaL import PROCESS
 from pyrogram.types import Message
 from configs.db import isMONGOexist
 from configs.group import groupConfig
