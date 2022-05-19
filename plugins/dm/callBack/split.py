@@ -3,9 +3,9 @@
 
 import time
 import shutil
-from pdf import PROCESS
 from pyromod import listen
 from pyrogram import filters
+from configs.global import PROCESS
 from plugins.checkPdf import checkPdf
 from plugins.progress import progress
 from pyrogram.types import ForceReply
