@@ -1,11 +1,12 @@
 # GLOBAL VARIABLE
 import os
 
-# save images for generating pdf
-PDF={}
+# PDF={} : save images for generating pdf
+# PROCESS=[] : save userID to check current process
+# invite_link=None : creates only one invitation link
 
-# save userID to check current process
-global PROCESS=[]
 
-# creates only one invitation link
-invite_link=None
+class GlobaL(object):
+    PROCESS=[]
+    PDF={}
+    invite_link=None
