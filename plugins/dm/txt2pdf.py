@@ -3,8 +3,8 @@
 
 import os
 from fpdf import FPDF
-from pdf import PROCESS
 from pyrogram import filters
+from configs.global import PROCESS
 from pyrogram import Client as ILovePDF
 from configs.images import PDF_THUMBNAIL
 from pyrogram.types import InlineKeyboardButton
