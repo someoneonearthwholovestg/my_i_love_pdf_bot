@@ -15,7 +15,6 @@
 import logging
 from pyromod import listen
 from configs.dm import Config
-#from pyrogram import Client, idle
 from pyrogram import Client as ILovePDF
 from configs.db import isMONGOexist
 from configs.db import BANNED_USR_DB, BANNED_GRP_DB
