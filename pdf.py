@@ -66,7 +66,7 @@ app.run()
 
 """
 # PYROGRAM BOT AUTHENTIFICATION
-bot=Client(
+bot=ILovePDF(
     "ILovePDF",
     plugins=plugin,
     api_id=Config.API_ID,
