@@ -7,9 +7,9 @@ import time
 import shutil
 import asyncio
 from PIL import Image
+from pdf import PROCESS
 from pyromod import listen
 from pyrogram import filters
-from configs.global import PROCESS
 from plugins.checkPdf import checkPdf
 from plugins.progress import progress
 from pyrogram.types import ForceReply
