@@ -35,11 +35,6 @@ PDF={}            # save images for generating pdf
 PROCESS=[]        # to check current process
 invite_link=None
 
-
-# PLUGIN DIRECTORY
-plugin=dict(root="plugins")
-
-
 class Bot(ILovePDF):
 
     def __init__(self):
@@ -53,9 +48,9 @@ class Bot(ILovePDF):
     
     if isMONGOexist:
         async def start(self):
-            b_users, b_chats = await db.get_banned()
-            BANNED_USR_DB=b_users
-            BANNED_GRP_DB=b_chats
+            BANNED_USR_DB, BANNED_GRP_DB = await db.get_banned()
+            # BANNED_USR_DB=b_users
+            # BANNED_GRP_DB=b_chats
             await super().start()
     
     async def stop(self, *args):
