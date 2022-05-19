@@ -1,4 +1,6 @@
 # GLOBAL VARIABLE
+import os
+
 # save images for generating pdf
 PDF={}
 
