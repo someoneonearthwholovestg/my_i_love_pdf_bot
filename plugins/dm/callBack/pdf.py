@@ -256,7 +256,7 @@ async def _pdf(bot, callbackQuery):
                 await asyncio.sleep(1)
             if data.startswith(tuple(["rot90", "rot180", "rot270"])):
                 await downloadMessage.edit("Rotating PDf.. 🤸", reply_markup=cancelBtn)
-                caption=await rototatePDF(data, message_id)
+                caption=await rotatePDF(data, message_id)
                 if not caption:
                     PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
                     return
