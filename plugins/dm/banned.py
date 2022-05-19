@@ -127,7 +127,7 @@ async def _unbanUser(bot, message):
             await db.remove_ban(userINFO.id)
             BANNED_USR_DB.remove(userINFO.id)
             await procs.edit(
-                            f"Successfully unbanned {k.mention}"
+                            f"Successfully unbanned {userINFO.mention}"
                             )
     except Exception as e:
         await procs.edit(e)
