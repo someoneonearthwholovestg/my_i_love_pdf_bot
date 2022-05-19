@@ -4,8 +4,8 @@
 import os
 import shutil
 from pdf import PDF
+from pdf import PROCESS
 from pyrogram import filters
-from configs.global import PROCESS
 from configs.images import FEEDBACK
 from pyrogram import Client as ILovePDF
 
