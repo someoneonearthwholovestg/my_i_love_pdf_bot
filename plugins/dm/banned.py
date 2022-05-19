@@ -8,7 +8,7 @@ from configs.dm import Config
 from configs.db import isMONGOexist
 from pyrogram import Client as ILovePDF
 from pyrogram.errors import ChatAdminRequired
-from plugins.dm.admin import BANNED_USR_DB, BANNED_GRP_DB
+from configs.db import BANNED_USR_DB, BANNED_GRP_DB
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors.exceptions.bad_request_400 import MessageTooLong, PeerIdInvalid
 
