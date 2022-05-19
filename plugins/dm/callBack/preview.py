@@ -6,8 +6,8 @@ import fitz
 import time
 import shutil
 from PIL import Image
+from pdf import PROCESS
 from pyrogram import filters
-from configs.global import PROCESS
 from plugins.checkPdf import checkPdf
 from plugins.progress import progress
 from pyrogram.types import ForceReply
