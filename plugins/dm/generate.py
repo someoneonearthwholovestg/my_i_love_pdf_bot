@@ -4,8 +4,8 @@
 import os
 import shutil
 import asyncio
+from pdf import PDF
 from pyrogram import filters
-from configs.global import PDF
 from pyrogram import Client as ILovePDF
 from configs.images import PDF_THUMBNAIL
 
