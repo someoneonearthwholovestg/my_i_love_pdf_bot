@@ -29,7 +29,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
-"""
+
 # GLOBAL VARIABLES
 PDF={}            # save images for generating pdf
 PROCESS=[]        # to check current process
@@ -80,4 +80,4 @@ bot=Client(
 bot.start()
 idle()
 bot.stop()
-"""
+
