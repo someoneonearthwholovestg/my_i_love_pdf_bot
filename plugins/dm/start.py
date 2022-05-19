@@ -1,9 +1,9 @@
 # fileName : plugins/dm/start.py
 # copyright ©️ 2021 nabilanavab
 
+from pdf import invite_link
 from pyrogram import filters
 from configs.dm import Config
-from configs.global import invite_link
 from pyrogram import Client as ILovePDF
 from configs.db import isMONGOexist, LOG_CHANNEL
 from pyrogram.types import InlineKeyboardButton
