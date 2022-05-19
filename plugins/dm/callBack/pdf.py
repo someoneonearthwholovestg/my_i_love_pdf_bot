@@ -173,9 +173,9 @@ async def _pdf(bot, callbackQuery):
             fileNm, fileExt=os.path.splitext(fileNm)        # seperates name & extension
             if data in ["T", "KT"]:
                 fileNm=f"{fileNm}.txt"
-            if data in ["J", "KJ"]:
+            elif data in ["J", "KJ"]:
                 fileNm=f"{fileNm}.json"
-            if data in ["H", "KH"]:
+            elif data in ["H", "KH"]:
                 fileNm=f"{fileNm}.html"
             else:
                 fileNm=f"{fileNm}.pdf"
