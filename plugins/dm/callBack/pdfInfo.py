@@ -4,8 +4,8 @@
 import fitz
 import time
 import shutil
+from pdf import PROCESS
 from pyrogram import filters
-from configs.global import PROCESS
 from plugins.progress import progress
 from pyrogram import Client as ILovePDF
 from plugins.fileSize import get_size_format as gSF
