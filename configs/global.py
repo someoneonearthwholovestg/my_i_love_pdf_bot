@@ -5,7 +5,7 @@ import os
 PDF={}
 
 # save userID to check current process
-PROCESS=[]
+global PROCESS=[]
 
 # creates only one invitation link
 invite_link=None
