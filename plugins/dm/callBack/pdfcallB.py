@@ -1,8 +1,8 @@
 # fileName : plugins/dm/callBack/pdfcallB.py
 # copyright ©️ 2021 nabilanavab
 
-from pdf import PROCESS
 from pyrogram import filters
+from configs.global import PROCESS
 from pyrogram import Client as ILovePDF
 from plugins.fileSize import get_size_format as gSF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
