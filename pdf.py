@@ -37,10 +37,9 @@ invite_link=None
 
 
 # PLUGIN DIRECTORY
-plugin=dict(
-    root="plugins"
-)"""
+plugin=dict(root="plugins")
 
+"""
 class Bot(ILovePDF):
 
     def __init__(self):
