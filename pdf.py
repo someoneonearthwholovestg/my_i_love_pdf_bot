@@ -99,6 +99,7 @@ import logging
 from pyromod import listen
 from configs.dm import Config
 from pyrogram import Client, idle
+from configs import global
 
 # LOGGING INFO: DEBUG
 logging.basicConfig(
