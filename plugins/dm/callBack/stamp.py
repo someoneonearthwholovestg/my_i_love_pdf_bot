@@ -6,8 +6,8 @@ import time
 import fitz
 import shutil
 from time import sleep
-from pdf import PROCESS
 from pyrogram import filters
+from configs.global import PROCESS
 from plugins.checkPdf import checkPdf
 from plugins.progress import progress
 from pyrogram import Client as ILovePDF
