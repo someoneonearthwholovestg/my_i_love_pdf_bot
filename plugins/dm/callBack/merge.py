@@ -5,11 +5,11 @@ import os
 import time
 import shutil
 import asyncio
-from pdf import PROCESS
 from pyromod import listen
 from pyrogram import filters
 from configs.dm import Config
 from PyPDF2 import PdfFileMerger
+from configs.global import PROCESS
 from plugins.checkPdf import checkPdf
 from plugins.progress import progress
 from pyrogram import Client as ILovePDF
