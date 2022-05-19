@@ -48,9 +48,9 @@ class Bot(ILovePDF):
     
     if isMONGOexist:
         async def start(self):
-            BANNED_USR_DB, BANNED_GRP_DB = await db.get_banned()
-            # BANNED_USR_DB=b_users
-            # BANNED_GRP_DB=b_chats
+            b_users, b_chats = await db.get_banned()
+            BANNED_USR_DB.extend(b_users)
+            BANNED_GRP_DB.extend(b_chats)
             await super().start()
     
     async def stop(self, *args):
