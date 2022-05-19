@@ -5,8 +5,8 @@ import os
 from PIL import Image
 from pyrogram import filters
 from configs.dm import Config
+from pdf import PDF, invite_link
 from pyrogram import Client as ILovePDF
-from configs.global import PDF, invite_link
 from configs.images import WELCOME_PIC, BANNED_PIC
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
