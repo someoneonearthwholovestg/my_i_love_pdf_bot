@@ -7,9 +7,9 @@ import fitz                      # PDF IMAGE EXTRACTION
 import shutil                    # DLT DIR, DIR TO ZIP
 import asyncio                   # asyncronic sleep
 from PIL import Image            # COMPRESS LARGE FILES
-from pdf import PROCESS          # CHECKS CURRENT PROCESS
 from pyromod import listen       # ADD-ON (Q/A)
 from pyrogram import filters     # CUSTOM FILTERS FOR CALLBACK
+from configs.global import PROCESS
 from plugins.checkPdf import checkPdf    # CHECK CODEC
 from plugins.progress import progress    # DOWNLOAD PROGRESS
 from pyrogram.types import ForceReply    # FORCE REPLY
