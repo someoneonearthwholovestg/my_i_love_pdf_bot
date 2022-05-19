@@ -1,4 +1,4 @@
-"""# !/USR/BIN/PYTHON
+# !/USR/BIN/PYTHON
 # -*- COADING: UTF-8 -*-
 # COPYRIGHT ©️ 2021 NABILANAVAB
 
@@ -10,8 +10,8 @@
                          [Nabil A Navab] 
                          Email: nabilanavab@gmail.com
                          Telegram: @nabilanavab
- '''
-import asyncio
+'''
+
 import logging
 from pyromod import listen
 from configs.dm import Config
@@ -61,24 +61,11 @@ class Bot(ILovePDF):
     async def stop(self, *args):
         await super().stop()
 
-app=Bot()
-app.run()
+if __name__ == "__main__":
+    app=Bot()
+    app.run()
 
 
-# PYROGRAM BOT AUTHENTIFICATION
-bot=ILovePDF(
-    "ILovePDF",
-    plugins=plugin,
-    api_id=Config.API_ID,
-    parse_mode="markdown",
-    api_hash=Config.API_HASH,
-    bot_token=Config.API_TOKEN
-)
-
-
-bot.start()
-idle()
-bot.stop()
 
 """
 # !/USR/BIN/PYTHON
@@ -130,3 +117,4 @@ bot = Client(
 bot.start()
 idle()
 bot.stop()
+"""
