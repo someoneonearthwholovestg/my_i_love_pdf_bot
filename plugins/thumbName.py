@@ -9,8 +9,10 @@ from configs.images import CUSTOM_THUMBNAIL_U
 
 if isMONGOexist:
     from database import db
+
+newName=False
 if DEFAULT_NAME:
-    newName=DEFAULT_NAME
+    newName=True
 
 # return thumbnail and fileName
 async def thumbName(userID, fileName):
