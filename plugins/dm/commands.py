@@ -5,7 +5,7 @@ import os
 import shutil
 from pdf import PDF
 from pdf import PROCESS
-import asyncio import sleep
+from asyncio import sleep
 from pyrogram import filters
 from configs.images import FEEDBACK
 from configs.dm.Config import ADMINS
