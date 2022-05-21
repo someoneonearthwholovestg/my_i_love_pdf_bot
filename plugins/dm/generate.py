@@ -58,9 +58,7 @@ async def generate(bot, message):
                 caption=f"file Name: `{fileName}`\n`Total pg's: {pgnmbr}`"
             )
         await gnrtMsgId.edit("`Successfully Uploaded.. `🤫")
-        shutil.rmtree(f"{chat_id}"); await asyncio.sleep(5)
-        await message.reply_chat_action("typing")
-        await message.reply_text(feedbackMsg, disable_web_page_preview=True)
+        shutil.rmtree(f"{chat_id}")
     except Exception:
         try:
             shutil.rmtree(f"{chat_id}")
