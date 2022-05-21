@@ -58,7 +58,7 @@ logging.basicConfig(
                    level=logging.DEBUG,
                    format="%(levelname)s:%(name)s:%(message)s" # %(asctime)s:
                    )
-logging.getLogger("pyrogram").setLevel(logging.ERROR)
+# logging.getLogger("pyrogram").setLevel(logging.ERROR)
 # SOMEONE TOLD ME HONEY DEV. NEVER USE PRINT FOR TRACKING ERRORS. SO, import logging :|
 
 
