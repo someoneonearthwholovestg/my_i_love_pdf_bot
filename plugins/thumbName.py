@@ -2,6 +2,7 @@
 # copyright ©️ 2021 nabilanavab
 
 import os
+import logging
 from configs.db import isMONGOexist
 from configs.images import DEFAULT_NAME
 from configs.images import PDF_THUMBNAIL   # DEFAULT THUMBNAIL
