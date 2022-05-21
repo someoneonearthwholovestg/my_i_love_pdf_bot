@@ -64,7 +64,7 @@ async def images(bot, message):
                         [[
                             InlineKeyboardButton("🌟 JOIN CHANNEL 🌟", url=invite_link.invite_link)
                         ],[
-                            InlineKeyboardButton("Refresh ♻️", callback_data="refresh")
+                            InlineKeyboardButton("Refresh ♻️", callback_data="refreshImg")
                         ]]
                     )
                 )
