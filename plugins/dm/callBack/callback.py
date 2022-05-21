@@ -111,7 +111,7 @@ notEncrypted=filters.create(lambda _, __, query: query.data=="notEncrypted")
 async def _I(bot, callbackQuery):
     try:
         await callbackQuery.edit_message_text(
-            "__Pdf - Img » as Img » Pages:           \nTotal pages: unknown__ 😐",
+            "__Pdf - Img » as Img » Pages: \nTotal pages: unknown__ 😐",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -134,7 +134,7 @@ async def _I(bot, callbackQuery):
 async def _D(bot, callbackQuery):
     try:
         await callbackQuery.edit_message_text(
-            "__Pdf - Img » as Doc » Pages:           \nTotal pages: unknown__ 😐",
+            "__Pdf - Img » as Doc » Pages: \nTotal pages: unknown__ 😐",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -158,7 +158,7 @@ async def _KI(bot, callbackQuery):
     try:
         _, number_of_pages = callbackQuery.data.split("|")
         await callbackQuery.edit_message_text(
-            f"__Pdf - Img » as Img » Pages:           \nTotal pages: {number_of_pages}__ 🌟",
+            f"__Pdf - Img » as Img » Pages: \nTotal pages: {number_of_pages}__ 🌟",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -182,7 +182,7 @@ async def _KD(bot, callbackQuery):
     try:
         _, number_of_pages = callbackQuery.data.split("|")
         await callbackQuery.edit_message_text(
-            f"__Pdf - Img » as Doc » Pages:           \nTotal pages: {number_of_pages}__ 🌟",
+            f"__Pdf - Img » as Doc » Pages: \nTotal pages: {number_of_pages}__ 🌟",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -209,13 +209,11 @@ async def _toImage(bot, callbackQuery):
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(" 🖼 IMAGES 🖼", callback_data="I")
+                        InlineKeyboardButton("🖼 IMG 🖼", callback_data="I"),
+                        InlineKeyboardButton("📂 DOC 📂", callback_data="D")
                     ],[
-                        InlineKeyboardButton("📂 DOCUMENT 📂", callback_data="D")
-                    ],[
-                        InlineKeyboardButton("🤐 ZIP FILE 🤐", callback_data="zip"),
-                    ],[
-                        InlineKeyboardButton("🎯 TAR FILE 🎯", callback_data="tar")
+                        InlineKeyboardButton("🤐 ZIP 🤐", callback_data="zip"),
+                        InlineKeyboardButton("🎯 TAR 🎯", callback_data="tar")
                     ],[
                         InlineKeyboardButton("« Back «", callback_data="BTPM")
                     ]
@@ -235,13 +233,11 @@ async def _KtoImage(bot, callbackQuery):
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton("🖼 IMAGES 🖼️", callback_data=f"KI|{number_of_pages}")
+                        InlineKeyboardButton("🖼 IMG 🖼️", callback_data=f"KI|{number_of_pages}"),
+                        InlineKeyboardButton("📂 DOC 📂", callback_data=f"KD|{number_of_pages}")
                     ],[
-                        InlineKeyboardButton("📂 DOCUMENT 📂", callback_data=f"KD|{number_of_pages}")
-                    ],[
-                        InlineKeyboardButton("🤐 ZIP FILE 🤐", callback_data=f"Kzip|{number_of_pages}"),
-                    ],[
-                        InlineKeyboardButton("🎯 TAR FILE 🎯", callback_data=f"Ktar|{number_of_pages}")
+                        InlineKeyboardButton("🤐 ZIP 🤐", callback_data=f"Kzip|{number_of_pages}"),
+                        InlineKeyboardButton("🎯 TAR 🎯", callback_data=f"Ktar|{number_of_pages}")
                     ],[
                         InlineKeyboardButton("« Back «", callback_data=f"KBTPM|{number_of_pages}")
                     ]
@@ -272,7 +268,7 @@ async def _BTPM(bot, callbackQuery):
 async def _tar(bot, callbackQuery):
     try:
         await callbackQuery.edit_message_text(
-            "__Pdf - Img » as Tar » Pages:           \nTotal pages: unknown__ 😐",
+            "__Pdf - Img » as Tar » Pages: \nTotal pages: unknown__ 😐",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -296,7 +292,7 @@ async def _Ktar(bot, callbackQuery):
     try:
         _, number_of_pages = callbackQuery.data.split("|")
         await callbackQuery.edit_message_text(
-            f"__Pdf - Img » as Tar» Pages:           \nTotal pages: {number_of_pages}__ 🌟",
+            f"__Pdf - Img » as Tar» Pages: \nTotal pages: {number_of_pages}__ 🌟",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -320,7 +316,7 @@ async def _Ktar(bot, callbackQuery):
 async def _zip(bot, callbackQuery):
     try:
         await callbackQuery.edit_message_text(
-            "__Pdf - Img » as Zip » Pages:           \nTotal pages: unknown__ 😐",
+            "__Pdf - Img » as Zip » Pages: \nTotal pages: unknown__ 😐",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -344,7 +340,7 @@ async def _Kzip(bot, callbackQuery):
     try:
         _, number_of_pages = callbackQuery.data.split("|")
         await callbackQuery.edit_message_text(
-            f"__Pdf - Img » as Zip» Pages:           \nTotal pages: {number_of_pages}__ 🌟",
+            f"__Pdf - Img » as Zip» Pages: \nTotal pages: {number_of_pages}__ 🌟",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
