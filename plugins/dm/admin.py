@@ -123,7 +123,7 @@ async def bannedGrp(bot, message):
 # ❌ MESSAGE BROADCAST ❌
 async def broadcast_messages(user_id, message, info):
     try:
-        if info="c":
+        if info=="c":
             await message.copy(chat_id=user_id)
             return True, "Success"
         else:
