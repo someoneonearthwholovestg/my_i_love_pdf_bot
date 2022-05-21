@@ -170,7 +170,7 @@ async def _broadcast(bot, message):
     users=await db.get_all_users()
     broadcast_msg=message.reply_to_message
     await procs.edit(
-                    text="__⚙️ Broadcasting your messages...__,
+                    text="__⚙️ Broadcasting your messages...__",
                     reply_markup=InlineKeyboardMarkup(
                                 [[InlineKeyboardButton(info, callback_data="")]]
                         ),
