@@ -12,6 +12,7 @@ from pdf import PROCESS
 from pdf import invite_link
 from pyrogram import filters
 from configs.dm import Config
+from plugins.thumbName import thumbName
 from pyrogram import Client as ILovePDF
 from plugins.fileSize import get_size_format as gSF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -163,7 +164,7 @@ async def documents(bot, message):
                                          [[
                                                InlineKeyboardButton("🌟 JOIN CHANNEL 🌟", url=invite_link.invite_link)
                                          ],[
-                                               InlineKeyboardButton("Refresh ♻️", callback_data="refresh")
+                                               InlineKeyboardButton("Refresh ♻️", callback_data="refreshDoc")
                                          ]]
                                     ))
                 return
@@ -246,12 +247,13 @@ async def documents(bot, message):
                         deflate=True,
                         )
                 pdf.close()
+                thumbnail, fileName = await thumbName(message.chat.id, isPdfOrImg)
                 await pdfMsgId.edit("`Started Uploading..`🏋️")
                 await message.reply_chat_action("upload_document")
                 await message.reply_document(
-                                   file_name=f"{fileNm}.pdf",
+                                   file_name=f"{fileName}.pdf",
                                    document=open(f"{message.message_id}/{fileNm}.pdf", "rb"),
-                                   thumb=PDF_THUMBNAIL,
+                                   thumb=thumbnail,
                                    caption=f"`Converted: {fileExt} to pdf`",
                                    quote=True
                                    )
