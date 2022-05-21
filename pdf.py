@@ -100,6 +100,9 @@ class Bot(ILovePDF):
                 if group.get("thumbnail", False):
                     CUSTOM_THUMBNAIL_C.append(group["id"])
             
+            logger.debug(f"Bot Started..")
+            await super().start()
+            
             # Bot Restarted Message to ADMINS
             for admin in Config.ADMINS:
                 try:
@@ -115,9 +118,6 @@ class Bot(ILovePDF):
                                     "{} not started Bot yet: {}".format(admin, e)
                                     )
             
-            logger.debug(f"Bot Started..")
-            await super().start()
-    
     async def stop(self, *args):
         await super().stop()
 
