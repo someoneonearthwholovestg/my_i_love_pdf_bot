@@ -1,6 +1,7 @@
 # fileName : plugins/thumbName.py
 # copyright ©️ 2021 nabilanavab
 
+import os
 from configs.db import isMONGOexist
 from configs.images import DEFAULT_NAME
 from configs.images import PDF_THUMBNAIL   # DEFAULT THUMBNAIL
