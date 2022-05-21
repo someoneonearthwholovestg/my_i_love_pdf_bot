@@ -115,7 +115,7 @@ class Bot(ILovePDF):
                                  "{} not started Bot yet :(".format(admin)
                                  )
             
-            logger(f"Bot Started..")
+            logger.debug(f"Bot Started..")
             await super().start()
     
     async def stop(self, *args):
