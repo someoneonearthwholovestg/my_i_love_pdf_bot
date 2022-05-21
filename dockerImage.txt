@@ -1,17 +1,13 @@
-# fileName : dockerImage.txt
-# copyright ©️ 2021 nabilanavab
-
-
-fpdf==1.7.2
-motor==2.5.1
-pyromod==1.5
-psutil==5.9.0
-pillow==9.0.1
-PyPDF2==1.26.0
 pyrogram==1.4.8
 TgCrypto==1.2.3
+pillow==9.0.1
 PyMuPdf==1.19.6
-ocrmypdf==13.4.0
+PyPDF2==1.26.0
 convertapi==1.4.0
-pymongo[srv]==3.11
 PDFNetPython3==8.1.0
+pyromod==1.5
+fpdf==1.7.2
+ocrmypdf==13.4.0
+motor==2.5.1
+psutil==5.9.0
+pymongo[srv]
