@@ -92,6 +92,7 @@ class Bot(ILovePDF):
             logger.debug("Loading Users having custom thumb..")
             # Loading UsersId with custom THUMBNAIL
             users = await db.get_all_users()   # Get all user Data
+            logging.debug(f"{users}")
             for user in users:
                 if user.get("thumbnail", False):
                     CUSTOM_THUMBNAIL_U.append(user["id"])
