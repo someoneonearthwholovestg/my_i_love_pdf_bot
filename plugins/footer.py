@@ -23,7 +23,7 @@ async def footer(message, file):
     try:
         await sleep(3)
         await message.reply(
-                           f"[Write a Feedback]({FEEDBACK})
+                           f"[Write a Feedback]({FEEDBACK})"
                            )
         if LOG_CHANNEL:
             userINFO=await message.get_users()
