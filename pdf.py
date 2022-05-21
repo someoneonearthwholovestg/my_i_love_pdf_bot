@@ -110,10 +110,10 @@ class Bot(ILovePDF):
                                                 [[InlineKeyboardButton("◍ close ◍",
                                                         callback_data="close")]]
                                           ))
-                except Exception:
-                    logger.debug(
-                                 "{} not started Bot yet :(".format(admin)
-                                 )
+                except Exception as e:
+                    logger.exception(
+                                    "{} not started Bot yet: {}".format(admin, e)
+                                    )
             
             logger.debug(f"Bot Started..")
             await super().start()
