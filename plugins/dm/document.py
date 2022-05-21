@@ -9,9 +9,9 @@ import convertapi
 from PIL import Image
 from time import sleep
 from pdf import PROCESS
-from pdf import invite_link
 from pyrogram import filters
 from configs.dm import Config
+from pdf import PDF, invite_link
 from plugins.thumbName import thumbName
 from pyrogram import Client as ILovePDF
 from plugins.fileSize import get_size_format as gSF
