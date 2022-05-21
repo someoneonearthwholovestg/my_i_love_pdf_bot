@@ -7,8 +7,8 @@ from pdf import PDF
 from pdf import PROCESS
 from asyncio import sleep
 from pyrogram import filters
+from configs.dm import Config
 from configs.images import FEEDBACK
-from configs.dm.Config import ADMINS
 from pyrogram import Client as ILovePDF
 
 
@@ -103,7 +103,7 @@ async def _help(bot, message):
         await sleep(1)
         HELP=userHELP
         await helpMsg.edit(HELP)
-        if message.chat.id in ADMIN:
+        if message.chat.id in Config.ADMINS:
             HELP=userHELP+adminHelp
             await helpMsg.edit(Help)
         await sleep(1)
