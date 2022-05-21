@@ -8,6 +8,7 @@ from plugins.dm.start import _back
 from configs.db import isMONGOexist
 from pyrogram import Client as ILovePDF
 from pyrogram.types import InputMediaPhoto
+from configs.images import CUSTOM_THUMBNAIL_U
 from configs.images import PDF_THUMBNAIL, WELCOME_PIC
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -46,8 +47,16 @@ async def _thumbnail(bot, message):
                                      ),
                                      quote=True
                                      )
+            CUSTOM_THUMBNAIL_U.append(message.chat.id)
             return
         else:
+            if message.chat.id not in CUSTOM_THUMBNAIL_U:
+                await message.reply(
+                                    "You didn't set custom thumbnail!\n"
+                                    "reply /thumbnail to set thumbnail",
+                                    quote=True
+                                    )
+                return
             # Get Thumbnail from DB
             thumbnail=await db.get_thumbnail(message.from_user.id)
             if not thumbnail:
@@ -160,6 +169,9 @@ async def _addThumb(bot, callbackQuery):
                                   getThumb.photo.file_id
                                   )
             await getThumb.delete()
+            CUSTOM_THUMBNAIL_U.append(
+                                     callbackQuery.message.chat.id
+                                     )
     except Exception as e:
         await callbackQuery.message.reply(e)
 
@@ -171,8 +183,14 @@ async def _delThumb(bot, callbackQuery):
                                   )
         await callbackQuery.edit_message_media(InputMediaPhoto(WELCOME_PIC))
         await _back(bot, callbackQuery)
-        await db.set_thumbnail(callbackQuery.from_user.id, None)
+        await db.set_thumbnail(
+                              callbackQuery.from_user.id,
+                              None
+                              )
+        CUSTOM_THUMBNAIL_U.remove(
+                                 callbackQuery.message.chat.id
+                                 )
     except Exception as e:
         await callbackQuery.message.reply(e)
 
-#                                                                                  Telegram: @nabilanavab
+#                                                                                        Telegram: @nabilanavab
