@@ -4,7 +4,8 @@
 from asyncio import sleep
 from pyrogram.types import Message
 from configs.db import LOG_CHANNEL
-from configs.images import isMONGOexist, FEEDBACK
+from configs.db import isMONGOexist
+from configs.images import FEEDBACK
 from pyrogram.types import (
                            InlineKeyboardButton,
                            InlineKeyboardMarkup
