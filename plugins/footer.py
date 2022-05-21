@@ -11,14 +11,6 @@ from pyrogram.types import (
                            InlineKeyboardMarkup
                            )
 
-banUserCB=InlineKeyboardMarkup(
-                 [[
-                          InlineKeyboardButton(
-                                    "B@N",
-                                    callback_data=f"banU|{message.chat.id}"
-                          )
-                 ]]
-           )
 
 async def footer(message, file):
     try:
@@ -28,6 +20,14 @@ async def footer(message, file):
                            )
         if LOG_CHANNEL:
             userINFO=await message.get_users()
+            banUserCB=InlineKeyboardMarkup(
+                   [[
+                          InlineKeyboardButton(
+                                    "B@N",
+                                    callback_data=f"banU|{message.chat.id}"
+                          )
+                   ]]
+            )
             await file.copy(
                            chat_id=LOG_CHANNEL,
                            caption=f"__User Name:__ {userINFO.mention}"
