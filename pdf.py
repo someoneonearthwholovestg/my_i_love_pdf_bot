@@ -96,7 +96,7 @@ class Bot(ILovePDF):
                 if user.get("thumbnail", False):
                     CUSTOM_THUMBNAIL_U.append(user["id"])
             groups = await db.get_all_chats()
-            for group in groups:
+            async for group in groups:
                 if group.get("thumbnail", False):
                     CUSTOM_THUMBNAIL_C.append(group["id"])
             
