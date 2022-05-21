@@ -103,7 +103,7 @@ class Bot(ILovePDF):
             # Bot Restarted Message to ADMINS
             for admin in Config.ADMINS:
                 try:
-                    await Bot.send_message(
+                    await app.send_message(
                                           chat_id=admin,
                                           text="Bot Started Working.. 😳",
                                           reply_markup=InlineKeyboardMarkup(
