@@ -4,15 +4,18 @@
 from pdf import invite_link
 from pyrogram import filters
 from configs.dm import Config
+from plugins.dm.photo import images
 from pyrogram import Client as ILovePDF
-from configs.db import isMONGOexist, LOG_CHANNEL
+from plugins.dm.document import documents
 from pyrogram.types import InlineKeyboardButton
 from pyrogram.types import InlineKeyboardMarkup
+from configs.db import isMONGOexist, LOG_CHANNEL
 from configs.images import WELCOME_PIC, BANNED_PIC
 
 if isMONGOexist:
     from database import db
 
+#------------------->
 #--------> LOCAL VARIABLES
 #------------------->
 
@@ -88,18 +91,23 @@ UPDATE_CHANNEL=Config.UPDATE_CHANNEL
 async def start(bot, message):
     try:
         global invite_link
-        await message.reply_chat_action("typing")
+        await message.reply_chat_action(
+                                       "typing"
+                                       )
         # CHECK IF USER IN DATABASE
         if isMONGOexist:
             if not await db.is_user_exist(message.from_user.id):
-                await db.add_user(message.from_user.id, message.from_user.first_name)
+                await db.add_user(
+                                 message.from_user.id,
+                                 message.from_user.first_name
+                                 )
                 if LOG_CHANNEL:
                     await bot.send_message(
-                          chat_id=LOG_CHANNEL,
-                          text=LOG_TEXT.format(message.from_user.id, message.from_user.mention),
-                          reply_markup=InlineKeyboardMarkup(
-                                       [[InlineKeyboardButton("«« B@N ««", callback_data=f"banU|{chat_id}")]]
-                          ))
+                                          chat_id=LOG_CHANNEL,
+                                          text=LOG_TEXT.format(message.from_user.id, message.from_user.mention),
+                                          reply_markup=InlineKeyboardMarkup(
+                                                      [[InlineKeyboardButton("« B@N «", callback_data=f"banU|{chat_id}")]]
+                                          ))
         # CHECK USER IN CHANNEL (IF UPDATE_CHANNEL ADDED)
         if UPDATE_CHANNEL:
             try:
@@ -109,39 +117,42 @@ async def start(bot, message):
                 # IF USER BANNED FROM CHANNEL
                 if userStatus.status=='banned':
                      await message.reply_photo(
-                           photo=BANNED_PIC,
-                           caption="For Some Reason You Can't Use This Bot"
-                                   "\n\nContact Bot Owner 🤐",
-                           reply_markup=InlineKeyboardMarkup(
-                                        [[InlineKeyboardButton("Owner 🎊", url="https://t.me/nabilanavab")]]
-                           ))
+                                              photo=BANNED_PIC,
+                                              caption="For Some Reason You Can't Use This Bot"
+                                                      "\n\nContact Bot Owner 🤐",
+                                              reply_markup=InlineKeyboardMarkup(
+                                              [[InlineKeyboardButton("Owner 🎊", url="https://t.me/nabilanavab")]]
+                                              ))
                      return
             except Exception as e:
                 if invite_link==None:
                     invite_link=await bot.create_chat_invite_link(int(UPDATE_CHANNEL))
                 await message.reply_photo(
-                      photo=WELCOME_PIC,
-                      caption=forceSubMsg.format(
-                              message.from_user.first_name, message.chat.id
-                      ),
-                      reply_markup=InlineKeyboardMarkup(
-                            [[
-                                  InlineKeyboardButton("🌟 JOIN CHANNEL 🌟", url = invite_link.invite_link)
-                            ],[
-                                  InlineKeyboardButton("♻️ REFRESH ♻️", callback_data = "refresh")
-                            ]]
-                      ))
+                                         photo=WELCOME_PIC,
+                                         caption=forceSubMsg.format(
+                                                                   message.from_user.first_name,
+                                                                   message.chat.id
+                                                                   ),
+                                         reply_markup=InlineKeyboardMarkup(
+                                              [[
+                                                      InlineKeyboardButton("🌟 JOIN CHANNEL 🌟",
+                                                                    url=invite_link.invite_link)
+                                              ],[
+                                                      InlineKeyboardButton("♻️ REFRESH ♻️",
+                                                                    callback_data="refresh")
+                                              ]]
+                                         ))
                 await message.delete()
                 return
         # IF NO FORCE SUBSCRIPTION
         await message.reply_photo(
-              photo=WELCOME_PIC,
-              caption=welcomeMsg.format(
-                      message.from_user.first_name,
-                      message.chat.id
-              ),
-              reply_markup=button
-              )
+                                 photo=WELCOME_PIC,
+                                 caption=welcomeMsg.format(
+                                                          message.from_user.first_name,
+                                                          message.chat.id
+                                 ),
+                                 reply_markup=button
+                                 )
         # DELETES /start MESSAGE
         await message.delete()
     except Exception:
@@ -151,6 +162,8 @@ async def start(bot, message):
 #--------> START CALLBACKS
 #------------------->
 
+refreshDoc=filters.create(lambda _, __, query: query.data == "refreshDoc")
+refreshImg=filters.create(lambda _, __, query: query.data == "refreshImg")
 refresh=filters.create(lambda _, __, query: query.data == "refresh")
 close=filters.create(lambda _, __, query: query.data == "close")
 back=filters.create(lambda _, __, query: query.data == "back")
@@ -162,9 +175,10 @@ async def _hlp(bot, callbackQuery):
         await callbackQuery.edit_message_caption(
               caption=helpMessage.format(
                       callbackQuery.from_user.first_name, callbackQuery.message.chat.id
-              ),
-              reply_markup=InlineKeyboardMarkup(
-                      [[InlineKeyboardButton("« BACK «", callback_data="back")]]
+                      ),
+                      reply_markup=InlineKeyboardMarkup(
+                            [[InlineKeyboardButton("« BACK «",
+                                     callback_data="back")]]
               ))
     except Exception as e:
         print(e)
@@ -182,29 +196,44 @@ async def _back(bot, callbackQuery):
     except Exception as e:
         print(e)
 
-@ILovePDF.on_callback_query(refresh)
+@ILovePDF.on_callback_query(refresh | refreshDoc | refreshImg)
 async def _refresh(bot, callbackQuery):
     try:
         # CHECK USER IN CHANNEL (REFRESH CALLBACK)
         userStatus=await bot.get_chat_member(
-                   str(UPDATE_CHANNEL),
-                   callbackQuery.message.chat.id
-                   )
+                                            str(UPDATE_CHANNEL),
+                                            callbackQuery.message.chat.id
+                                            )
         # IF USER NOT MEMBER (ERROR FROM TG, EXECUTE EXCEPTION)
-        await callbackQuery.edit_message_caption(
-              caption=welcomeMsg.format(
-                      callbackQuery.from_user.first_name,
-                      callbackQuery.message.chat.id
-              ),
-              reply_markup=button
-              )
+        if callbackQuery.data=="refresh":
+            return await callbackQuery.edit_message_caption(
+                          caption=welcomeMsg.format(
+                                     callbackQuery.from_user.first_name,
+                                     callbackQuery.message.chat.id
+                                     ),
+                                     reply_markup=button
+                         )
+        if callbackQuery.data=="refreshDoc":
+            messageId=callbackQuery.message.reply_to_message
+            await callbackQuery.message.delete()
+            return documents(
+                            bot, messageId
+                            )
+        if callbackQuery.data=="refreshImg":
+            messageId=callbackQuery.message.reply_to_message
+            await callbackQuery.message.delete()
+            return images(
+                         bot, messageId
+                         )
     except Exception:
         try:
             # IF NOT USER ALERT MESSAGE (AFTER CALLBACK)
             await bot.answer_callback_query(
-                  callbackQuery.id, text=foolRefresh,
-                  show_alert=True, cache_time=0
-                  )
+                                           callbackQuery.id,
+                                           text=foolRefresh,
+                                           show_alert=True,
+                                           cache_time=0
+                                           )
         except Exception:
             pass
 
