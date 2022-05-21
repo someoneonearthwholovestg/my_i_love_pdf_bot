@@ -1,8 +1,11 @@
 # fileName : plugins/dm/admin.py
 # copyright ©️ 2021 nabilanavab
 
+import time
 import shutil
 import psutil
+import asyncio
+import datetime
 from pdf import PROCESS
 from pyrogram import filters
 from configs.dm import Config
@@ -16,6 +19,10 @@ from pyrogram.types import InlineKeyboardButton
 from pyrogram.types import InlineKeyboardMarkup
 from plugins.fileSize import get_size_format as gSF
 from configs.db import BANNED_USR_DB, BANNED_GRP_DB
+from pyrogram.errors import (
+                            InputUserDeactivated, UserNotParticipant,
+                            FloodWait, UserIsBlocked, PeerIdInvalid 
+                            )
 
 if isMONGOexist:
     from database import db
@@ -50,7 +57,7 @@ button=InlineKeyboardMarkup(
 
 async def bannedUsers(_, __, message: Message):
     if (message.from_user.id in BANNED_USERS) or (
-               (ADMIN_ONLY) and (message.from_user.id not in ADMINS)) or (
+           (ADMIN_ONLY) and (message.from_user.id not in ADMINS)) or (
                (isMONGOexist) and (message.from_user.id in BANNED_USR_DB)):
         return True
     return False
@@ -59,7 +66,7 @@ banned_user=filters.create(bannedUsers)
 
 async def bannedGroups(_, __, message: Message):
     if (message.chat.id in BANNED_GROUP) or (
-               (ONLY_GROUP) and (message.chat.id not in ONLY_GROUP)) or (
+           (ONLY_GROUP) and (message.chat.id not in ONLY_GROUP)) or (
                (isMONGOexist) and (message.chat.id in BANNED_GRP_DB)):
         return True
     return False
@@ -112,6 +119,98 @@ async def bannedGrp(bot, message):
         await bot.leave_chat(message.chat.id)
     except Exception:
         pass
+
+# ❌ MESSAGE BROADCAST ❌
+async def broadcast_messages(user_id, message, info):
+    try:
+        if info="c":
+            await message.copy(chat_id=user_id)
+            return True, "Success"
+        else:
+            await message.forward(chat_id=user_id)
+            return True, "Success"
+    except FloodWait as e:
+        await asyncio.sleep(e.x)
+        return await broadcast_messages(user_id, message, info)
+    except InputUserDeactivated:
+        await db.delete_user(int(user_id))
+        return False, "Deleted"
+    except UserIsBlocked:
+        return False, "Blocked"
+    except PeerIdInvalid:
+        await db.delete_user(int(user_id))
+        return False, "Error"
+    except Exception as e:
+        return False, "Error"
+
+@ILovePDF.on_message(filters.command("broadcast") & filters.user(ADMINS) & filters.private & ~filters.edited & filters.incoming)
+async def _broadcast(bot, message):
+    procs=message.reply(
+                       "⚙️ __Processing..__", quote=True
+                       )
+    if not isMONGOexist:
+        return procs.edit(
+                         "Sorry.! I can't remember my Userlist 😲"
+                         )
+    await asyncio.sleep(1)
+    if len(message.command)==2:
+        info=message.text.split(None, 2)[1]
+        if info not in ["f", "c"]:
+            return procs.edit(
+                             "🥴 Syntax Error:\n\n"
+                             "`/broadcast f`: broadcast message [with quotes]\n"
+                             "`/broadcast c`: broadcast as copy [without quotes]"
+                             )
+    else:
+        return procs.edit(
+                         "🥴 Syntax Error:\n\n"
+                         "`/broadcast f`: broadcast message [with quotes]\n"
+                         "`/broadcast c`: broadcast as copy [without quotes]"
+                         )
+    users=await db.get_all_users()
+    broadcast_msg=message.reply_to_message
+    await procs.edit(
+                    text="__⚙️ Broadcasting your messages...__,
+                    reply_markup=InlineKeyboardMarkup(
+                                [[InlineKeyboardButton(info, callback_data="")]]
+                        ),
+                    quote=True
+                    )
+    start_time=time.time()
+    total_users=await db.total_users_count()
+    done=0; blocked=0; deleted=0; failed=0; success=0
+    async for user in users:
+        iSuccess, feed = await broadcast_messages(int(user['id']), broadcast_msg, info)
+        if iSuccess:
+            success += 1
+        elif iSuccess == False:
+            if feed == "Blocked":
+                blocked+=1
+            elif feed == "Deleted":
+                deleted += 1
+            elif feed == "Error":
+                failed += 1
+        done += 1
+        await asyncio.sleep(2)
+        if not done % 20:
+            await procs.edit(
+                            f"`Broadcast in progress:`\n"
+                            f"__Total Users:__ {total_users}\n"
+                            f"__Completed:__   {done} / {total_users}\n"
+                            f"__Success:__     {success}\n"
+                            f"__Blocked:__     {blocked}\n"
+                            f"__Deleted:__     {deleted}\n"
+                            )    
+    time_taken=datetime.timedelta(seconds=int(time.time()-start_time))
+    await procs.edit(
+                    f"`Broadcast Completed:`\n"
+                    f"__Completed in__ {time_taken} __seconds.__\n\n"
+                    f"__Total Users:__ {total_users}\n"
+                    f"__Completed:__   {done} / {total_users}\n"
+                    f"__Success:__     {success}\n"
+                    f"__Blocked:__     {blocked}\n"
+                    f"__Deleted:__     {deleted}"
+                    )
 
 
 # ❌ ADMIN COMMAND (/server) ❌
