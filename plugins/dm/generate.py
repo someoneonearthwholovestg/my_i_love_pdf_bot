@@ -81,7 +81,7 @@ async def generate(bot, message):
                                                     file_name = fileName,
                                                     document = pdf,
                                                     thumb = PDF_THUMBNAIL,
-                                                    caption = f"file Name: `{fileName}`\n
+                                                    caption = f"file Name: `{fileName}`\n"
                                                               f"`Total pg's: {pgnmbr}`"
             )
         await gnrtMsgId.edit(
