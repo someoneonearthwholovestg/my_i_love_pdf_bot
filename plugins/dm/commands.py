@@ -121,7 +121,7 @@ async def _help(bot, message):
         await helpMsg.edit(HELP)
         if message.from_user.id in Config.ADMINS:
             HELP=userHELP+adminHelp
-            await helpMsg.edit(Help)
+            await helpMsg.edit(HELP)
         await sleep(1)
         HELP+=footer
         await helpMsg.edit(HELP)
