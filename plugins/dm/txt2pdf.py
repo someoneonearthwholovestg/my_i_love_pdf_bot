@@ -1,6 +1,14 @@
 # fileName : Plugins/dm/txt2pdf.py
 # copyright ©️ 2021 nabilanavab
 
+# LOGGING INFO: DEBUG
+import logging
+logger=logging.getLogger(__name__)
+logging.basicConfig(
+                   level=logging.DEBUG,
+                   format="%(levelname)s:%(name)s:%(message)s" # %(asctime)s:
+                   )
+
 import os
 from fpdf import FPDF
 from pdf import PROCESS
@@ -38,7 +46,10 @@ async def feedback(bot, message):
         )
         await message.delete()
     except Exception as e:
-        print(e)
+        logger.exception(
+                        "TXT2PDF:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
 
 txt2pdf=filters.create(lambda _, __, query: query.data.startswith("font"))
 
@@ -59,7 +70,10 @@ async def _txt2pdf(bot, callbackQuery):
             )
         )
     except Exception as e:
-        print(e)
+        logger.exception(
+                        "TXT2PDF_CB:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
 
 txt2pdfBack=filters.create(lambda _, __, query: query.data == "txt2pdfBack")
 
@@ -84,100 +98,154 @@ async def _txt2pdfBack(bot, callbackQuery):
             disable_web_page_preview=True
         )
     except Exception as e:
-        print(e)
+        logger.exception(
+                        "TXT2PDFBACK:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
 
 pgSize=filters.create(lambda _, __, query: query.data.startswith("pgSize"))
 
 @ILovePDF.on_callback_query(pgSize)
 async def _pgSize(bot, callbackQuery):
     try:
-        chat_id=callbackQuery.message.chat.id
-        message_id=callbackQuery.message.message_id
+        chat_id = callbackQuery.message.chat.id
+        message_id = callbackQuery.message.message_id
+        
         if chat_id in PROCESS:
-            await callbackQuery.answer("Work in progress.. 🙇")
-            return
-        bla, _, __=callbackQuery.data.split("|")
-        PROCESS.append(chat_id); TXT[chat_id]=[]
-        nabilanavab=True
+            return await callbackQuery.answer(
+                                             "Work in progress.. 🙇"
+                                             )
+        bla, _, __ = callbackQuery.data.split("|")
+        PROCESS.append(chat_id); TXT[chat_id] = []; nabilanavab=True
         while(nabilanavab):
             # 1st value will be pdf title
-            askPDF=await bot.ask(
-                text="__TEXT TO PDF » Now, please enter a TITLE:__\n\n/exit __to cancel__\n/skip __to skip__",
-                chat_id=chat_id, reply_to_message_id=message_id, filters=None
-            )
-            if askPDF.text=="/exit":
-                await askPDF.reply("`Process Cancelled..` 😏", quote=True)
+            askPDF = await bot.ask(
+                                  text = "__TEXT TO PDF » Now, please enter a TITLE:__\n\n"
+                                         "/exit __to cancel__\n"
+                                         "/skip __to skip__",
+                                  chat_id = chat_id,
+                                  reply_to_message_id = message_id,
+                                  filters = None
+                                  )
+            if askPDF.text == "/exit":
+                await askPDF.reply(
+                                  "`Process Cancelled..` 😏",
+                                  quote = True
+                                  )
                 PROCESS.remove(chat_id); del TXT[chat_id]
                 break
-            elif askPDF.text=="/skip":
-                TXT[chat_id].append(None); nabilanavab=False
+            elif askPDF.text == "/skip":
+                TXT[chat_id].append(None); nabilanavab = False
             elif askPDF.text:
-                TXT[chat_id].append(f"{askPDF.text}"); nabilanavab=False
+                TXT[chat_id].append(f"{askPDF.text}"); nabilanavab = False
         # nabilanavab=True ONLY IF PROCESS CANCELLED
-        if nabilanavab==True:
+        if nabilanavab == True:
             PROCESS.remove(chat_id); TXT.remove(chat_id)
             return
-        nabilanavab=True
+        nabilanavab = True
         while(nabilanavab):
             # other value will be pdf para
-            askPDF=await bot.ask(
-                text=f"__TEXT TO PDF » Now, please enter paragraph {len(TXT[chat_id])-1}:__"
-                      "\n\n/exit __to cancel__\n/create __to create__",
-                chat_id=chat_id, reply_to_message_id=message_id, filters=None
-            )
-            if askPDF.text=="/exit":
-                await askPDF.reply("`Process Cancelled..` 😏", quote=True)
+            askPDF = await bot.ask(
+                                  text = f"__TEXT TO PDF » Now, please enter paragraph {len(TXT[chat_id])-1}:__"
+                                         "\n\n/exit __to cancel__\n"
+                                         "/create __to create__",
+                                  chat_id = chat_id,
+                                  reply_to_message_id = message_id,
+                                  filters = None
+                                  )
+            if askPDF.text == "/exit":
+                await askPDF.reply(
+                                  "`Process Cancelled..` 😏",
+                                  quote = True
+                                  )
                 PROCESS.remove(chat_id); del TXT[chat_id]
                 break
-            elif askPDF.text=="/create":
-                if TXT[chat_id][0]==None and len(TXT[chat_id])==1:
-                    await askPDF.reply("Nothing to create.. 😏", quote=True)
+            elif askPDF.text == "/create":
+                if TXT[chat_id][0] == None and len(TXT[chat_id]) == 1:
+                    await askPDF.reply(
+                                      "Nothing to create.. 😏",
+                                      quote = True
+                                      )
                 else:
-                    processMessage=await askPDF.reply(
-                        "Started Converting txt to Pdf..🎉", quote=True
-                    )
-                    nabilanavab=False
+                    processMessage = await askPDF.reply(
+                                                       "Started Converting txt to Pdf..🎉",
+                                                       quote = True
+                                                       )
+                    nabilanavab = False
             elif askPDF.text:
                 TXT[chat_id].append(f"{askPDF.text}")
         # nabilanavab=True ONLY IF PROCESS CANCELLED
-        if nabilanavab==True:
+        if nabilanavab == True:
             PROCESS.remove(chat_id); TXT.remove(chat_id)
             return
         
         # Started Creating PDF
         if _ == "t":
-            font="Times"
+            font = "Times"
         elif _ == "c":
-            font="Courier"
+            font = "Courier"
         elif _ == "h":
-            font="Helvetica"
+            font = "Helvetica"
         elif _ == "s":
-            font="Symbol"
+            font = "Symbol"
         elif _ == "z":
-            font="ZapfDingbats"
+            font = "ZapfDingbats"
         
-        pdf=FPDF(); pdf.add_page(orientation=__)
-        pdf.set_font(font, "B", size=20)
-        if TXT[chat_id][0]!=None:
-            pdf.cell(200, 20, txt=TXT[chat_id][0], ln=1, align="C")
-        pdf.set_font(font, size=15)
+        pdf = FPDF()
+        pdf.add_page(
+                    orientation = __
+                    )
+        pdf.set_font(
+                    font,
+                    "B",
+                    size = 20
+                    )
+        if TXT[chat_id][0] != None:
+            pdf.cell(
+                    200,
+                    20,
+                    txt = TXT[chat_id][0],
+                    ln = 1,
+                    align = "C"
+                    )
+        pdf.set_font(
+                    font, size = 15
+                    )
         for _ in TXT[chat_id][1:]:
-            pdf.multi_cell(200, 10, txt=_, border=0, align="L")
+            pdf.multi_cell(
+                          200,
+                          10,
+                          txt = _,
+                          border = 0,
+                          align = "L"
+                          )
         pdf.output(f"{message_id}.pdf")
-        await callbackQuery.message.reply_chat_action("upload_document")
-        await processMessage.edit("`Started Uploading..` 🏋️")
+        await callbackQuery.message.reply_chat_action(
+                                                     "upload_document"
+                                                     )
+        await processMessage.edit(
+                                 "`Started Uploading..` 🏋️
+                                 ")
         await callbackQuery.message.reply_document(
-            file_name="txt2.pdf", quote=True,
-            document=open(f"{message_id}.pdf", "rb"),
-            thumb=PDF_THUMBNAIL
-        )
+                                                  file_name = "txt2.pdf",
+                                                  quote = True,
+                                                  document = open(
+                                                                 f"{message_id}.pdf", "rb"
+                                                                 ),
+                                                  thumb = PDF_THUMBNAIL
+                                                  )
         await processMessage.delete(); PROCESS.remove(chat_id)
         os.remove(f"{message_id}"); TXT.remove(chat_id)
     except Exception as e:
+        logger.exception(
+                        "PAGE SIZE:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
         try:
             PROCESS.remove(chat_id); await processMessage.edit(f"`ERROR`: __{e}__")
             os.remove(f"{message_id}.pdf"); TXT.remove(chat_id)
         except Exception:
             pass
+
 
 #                                                                                  Telegram: @nabilanavab
