@@ -378,6 +378,9 @@ async def _asNewDoc(bot, callbackQuery):
             return await callbackQuery.answer(
                                              "WORK IN PROGRESS..🙇"
                                              )
+        await callbackQuery.answer(
+                                  "Downloading..⬇️"
+                                  )
         await documents(bot, callbackQuery.message.reply_to_message)
         await callbackQuery.message.delete()
     except Exception as e:
