@@ -120,9 +120,10 @@ async def _help(bot, message):
         HELP=userHELP
         await helpMsg.edit(HELP)
         if message.from_user.id in Config.ADMINS:
+            await sleep(4)
             HELP=userHELP+adminHelp
             await helpMsg.edit(HELP)
-        await sleep(4)
+        await sleep(2)
         HELP+=footer
         await helpMsg.edit(HELP)
     except Exception as e:
