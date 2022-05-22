@@ -1,6 +1,14 @@
 # fileName : plugins/dm/admin.py
 # copyright ©️ 2021 nabilanavab
 
+# LOGGING INFO: DEBUG
+import logging
+logger=logging.getLogger(__name__)
+logging.basicConfig(
+                   level=logging.DEBUG,
+                   format="%(levelname)s:%(name)s:%(message)s" # %(asctime)s:
+                   )
+
 import time
 import shutil
 import psutil
@@ -31,17 +39,17 @@ if isMONGOexist:
 #--------> config vars
 #------------------->
 
-BANNED_GROUP=groupConfig.BANNED_GROUP
-ONLY_GROUP=groupConfig.ONLY_GROUP
-BANNED_USERS=Config.BANNED_USERS
-ADMIN_ONLY=Config.ADMIN_ONLY
-ADMINS=Config.ADMINS
+BANNED_GROUP = groupConfig.BANNED_GROUP
+ONLY_GROUP = groupConfig.ONLY_GROUP
+BANNED_USERS = Config.BANNED_USERS
+ADMIN_ONLY = Config.ADMIN_ONLY
+ADMINS = Config.ADMINS
 
-UCantUse="Hey {}\nFOR SOME REASON YOU CANT USE THIS BOT :("
+UCantUse = "Hey {}\nFOR SOME REASON YOU CANT USE THIS BOT :("
 
-GroupCantUse="{} NEVER EXPECT A GOOD RESPONSE FROM ME\n\nADMINS RESTRICTED ME FROM WORKING HERE.. 🤭"
+GroupCantUse = "{} NEVER EXPECT A GOOD RESPONSE FROM ME\n\nADMINS RESTRICTED ME FROM WORKING HERE.. 🤭"
 
-button=InlineKeyboardMarkup(
+button = InlineKeyboardMarkup(
         [[
             InlineKeyboardButton("Create your Own Bot", url="https://github.com/nabilanavab/ilovepdf")
         ],[
@@ -81,19 +89,24 @@ async def bannedUsr(bot, message):
         if message.from_user.id in BANNED_USR_DB:
             ban=await db.get_ban_status(message.from_user.id)
             await message.reply_photo(
-                                photo=BANNED_PIC,
-                                caption=UCantUse.format(message.from_user.mention)+f'\n\nREASON: {ban["ban_reason"]}',
-                                reply_markup=button, quote=True
-                                )
+                                     photo = BANNED_PIC,
+                                     caption = UCantUse.format(message.from_user.mention)+f'\n\nREASON: {ban["ban_reason"]}',
+                                     reply_markup = button,
+                                     quote = True
+                                     )
             return
         #IF USER BANNED FROM CONFIG.VAR
         await message.reply_photo(
-                            photo=BANNED_PIC,
-                            caption=UCantUse.format(message.from_user.mention),
-                            reply_markup=button, quote=True
-                            )
-    except Exception:
-        pass
+                                 photo = BANNED_PIC,
+                                 caption = UCantUse.format(message.from_user.mention),
+                                 reply_markup = button,
+                                 quote = True
+                                 )
+    except Exception as e:
+        logger.exception(
+                        "BAN_USER:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
 
 @ILovePDF.on_message(filters.group & banned_group & filters.incoming)
 async def bannedGrp(bot, message):
@@ -102,28 +115,33 @@ async def bannedGrp(bot, message):
         if message.chat.id in BANNED_GRP_DB:
             ban=await db.get_ban_status(message.chat.id)
             toPin=await message.reply_photo(
-                                      photo=BANNED_PIC,
-                                      caption=GroupCantUse.format(message.chat.mention)+f'\n\nREASON: {ban["ban_reason"]}',
-                                      reply_markup=button, quote=True
-                                      )
+                                           photo = BANNED_PIC,
+                                           caption = GroupCantUse.format(message.chat.mention)+f'\n\nREASON: {ban["ban_reason"]}',
+                                           reply_markup = button,
+                                           quote = True
+                                           )
         else:
             toPin=await message.reply_photo(
-                                      photo=BANNED_PIC,
-                                      caption=GroupCantUse.format(message.chat.mention),
-                                      reply_markup=button, quote=True
+                                      photo = BANNED_PIC,
+                                      caption = GroupCantUse.format(message.chat.mention),
+                                      reply_markup = button,
+                                      quote = True
                                       )
         try:
             await toPin.pin()
         except Exception:
             pass
         await bot.leave_chat(message.chat.id)
-    except Exception:
-        pass
+    except Exception as e:
+        logger.exception(
+                        "BANNED_GROUP:CAUSE %(e)s ERROR",
+                        exc_info=True
+                        )
 
 # ❌ MESSAGE BROADCAST ❌
 async def broadcast_messages(user_id, message, info):
     try:
-        if info=="c":
+        if info == "c":
             await message.copy(chat_id=user_id)
             return True, "Success"
         else:
@@ -141,76 +159,86 @@ async def broadcast_messages(user_id, message, info):
         await db.delete_user(int(user_id))
         return False, "Error"
     except Exception as e:
+        logger.exception(
+                        "BROADCAST:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
         return False, "Error"
 
 @ILovePDF.on_message(filters.command("broadcast") & filters.user(ADMINS) & filters.private & ~filters.edited & filters.incoming)
 async def _broadcast(bot, message):
-    procs=message.reply(
-                       "⚙️ __Processing..__", quote=True
-                       )
-    if not isMONGOexist:
-        return procs.edit(
-                         "Sorry.! I can't remember my Userlist 😲"
-                         )
-    await asyncio.sleep(1)
-    if len(message.command)==2:
-        info=message.text.split(None, 2)[1]
-        if info not in ["f", "c"]:
+    try:
+        procs = message.reply(
+                            "⚙️ __Processing..__", quote=True
+                            )
+        if not isMONGOexist:
+            return procs.edit(
+                             "Sorry.! I can't remember my Userlist 😲"
+                             )
+        await asyncio.sleep(1)
+        if len(message.command) == 2:
+            info = message.text.split(None, 2)[1]
+            if info not in ["f", "c"]:
+                return procs.edit(
+                                 "🥴 Syntax Error:\n\n"
+                                 "`/broadcast f`: broadcast message [with quotes]\n"
+                                 "`/broadcast c`: broadcast as copy [without quotes]"
+                                 )
+        else:
             return procs.edit(
                              "🥴 Syntax Error:\n\n"
                              "`/broadcast f`: broadcast message [with quotes]\n"
                              "`/broadcast c`: broadcast as copy [without quotes]"
                              )
-    else:
-        return procs.edit(
-                         "🥴 Syntax Error:\n\n"
-                         "`/broadcast f`: broadcast message [with quotes]\n"
-                         "`/broadcast c`: broadcast as copy [without quotes]"
-                         )
-    users=await db.get_all_users()
-    broadcast_msg=message.reply_to_message
-    await procs.edit(
-                    text="__⚙️ Broadcasting your messages...__",
-                    reply_markup=InlineKeyboardMarkup(
-                                [[InlineKeyboardButton(info, callback_data="")]]
-                        ),
-                    quote=True
-                    )
-    start_time=time.time()
-    total_users=await db.total_users_count()
-    done=0; blocked=0; deleted=0; failed=0; success=0
-    async for user in users:
-        iSuccess, feed = await broadcast_messages(int(user['id']), broadcast_msg, info)
-        if iSuccess:
-            success += 1
-        elif iSuccess == False:
-            if feed == "Blocked":
-                blocked+=1
-            elif feed == "Deleted":
-                deleted += 1
-            elif feed == "Error":
-                failed += 1
-        done += 1
-        await asyncio.sleep(2)
-        if not done % 20:
-            await procs.edit(
-                            f"`Broadcast in progress:`\n"
-                            f"__Total Users:__ {total_users}\n"
-                            f"__Completed:__   {done} / {total_users}\n"
-                            f"__Success:__     {success}\n"
-                            f"__Blocked:__     {blocked}\n"
-                            f"__Deleted:__     {deleted}\n"
-                            )    
-    time_taken=datetime.timedelta(seconds=int(time.time()-start_time))
-    await procs.edit(
-                    f"`Broadcast Completed:`\n"
-                    f"__Completed in__ {time_taken} __seconds.__\n\n"
-                    f"__Total Users:__ {total_users}\n"
-                    f"__Completed:__   {done} / {total_users}\n"
-                    f"__Success:__     {success}\n"
-                    f"__Blocked:__     {blocked}\n"
-                    f"__Deleted:__     {deleted}"
-                    )
+        users = await db.get_all_users()
+        broadcast_msg = message.reply_to_message
+        await procs.edit(
+                        text = "__⚙️ Broadcasting your messages...__",
+                        reply_markup = InlineKeyboardMarkup(
+                                    [[InlineKeyboardButton(info, callback_data="")]]
+                            ),
+                        quote = True
+                        )
+        start_time = time.time()
+        total_users = await db.total_users_count()
+        done = 0; blocked = 0; deleted = 0; failed = 0; success = 0
+        async for user in users:
+            iSuccess, feed = await broadcast_messages(int(user['id']), broadcast_msg, info)
+            if iSuccess:
+                success += 1
+            elif iSuccess == False:
+                if feed == "Blocked":
+                    blocked+=1
+                elif feed == "Deleted":
+                    deleted += 1
+                elif feed == "Error":
+                    failed += 1
+            done += 1
+            await asyncio.sleep(2)
+            if not done % 20:
+                await procs.edit(
+                                f"`Broadcast in progress:`\n"
+                                f"__Total Users:__ {total_users}\n"
+                                f"__Completed:__   {done} / {total_users}\n"
+                                f"__Success:__     {success}\n"
+                                f"__Blocked:__     {blocked}\n"
+                                f"__Deleted:__     {deleted}\n"
+                                )    
+        time_taken=datetime.timedelta(seconds=int(time.time()-start_time))
+        await procs.edit(
+                        f"`Broadcast Completed:`\n"
+                        f"__Completed in__ {time_taken} __seconds.__\n\n"
+                        f"__Total Users:__ {total_users}\n"
+                        f"__Completed:__   {done} / {total_users}\n"
+                        f"__Success:__     {success}\n"
+                        f"__Blocked:__     {blocked}\n"
+                        f"__Deleted:__     {deleted}"
+                        )
+    except Exception as e:
+        logger.exception(
+                        "/BROADCAST:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
 
 
 # ❌ ADMIN COMMAND (/server) ❌
@@ -218,15 +246,15 @@ async def _broadcast(bot, message):
 async def server(bot, message):
     try:
         total, used, free = shutil.disk_usage(".")
-        total=await gSF(total);used=await gSF(used); free=await gSF(free)
-        cpu_usage=psutil.cpu_percent()
-        ram_usage=psutil.virtual_memory().percent
-        disk_usage=psutil.disk_usage('/').percent
+        total = await gSF(total);used=await gSF(used); free=await gSF(free)
+        cpu_usage = psutil.cpu_percent()
+        ram_usage = psutil.virtual_memory().percent
+        disk_usage = psutil.disk_usage('/').percent
         if isMONGOexist:
-            total_users=await db.total_users_count()
-            total_chats=await db.total_chat_count()
+            total_users = await db.total_users_count()
+            total_chats = await db.total_chat_count()
         else:
-            total_users="No DB"; total_chats="No DB"
+            total_users = "No DB"; total_chats="No DB"
         await message.reply_text(
                             text=f"**◍ Total Space     :** `{total}` \n"
                                  f"**◍ Used Space     :** `{used}({disk_usage}%)` \n"
@@ -237,15 +265,18 @@ async def server(bot, message):
                                  f"**◍ DB Users         :** `{total_users}`\n"
                                  f"**◍ DB Grups         :** `{total_chats}`\n"
                                  f"**◍ Message Id     :** `{message.message_id}`",
-                            reply_markup=InlineKeyboardMarkup(
+                            reply_markup = InlineKeyboardMarkup(
                                  [[
                                      InlineKeyboardButton("⟨ CLOSE ⟩",
-                                            callback_data="closeALL")
+                                            callback_data = "closeALL")
                                  ]]
                                  ),
                             quote=True
                             )
     except Exception as e:
-        print("plugin/dm/server: ", e)
+        logger.exception(
+                        "/SERVER:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
 
 #                                                                                                        Telegram: @nabilanavab
