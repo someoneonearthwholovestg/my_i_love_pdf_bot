@@ -378,7 +378,8 @@ async def _asNewDoc(bot, callbackQuery):
             return await callbackQuery.answer(
                                              "WORK IN PROGRESS..🙇"
                                              )
-        return await documents(bot, callbackQuery.message.reply_to_message)
+        await documents(bot, callbackQuery.message.reply_to_message)
+        await callbackQuery.message.delete()
     except Exception as e:
         logger.exception(
                         "AS_NEW_DOC:CAUSES %(e)s ERROR",
