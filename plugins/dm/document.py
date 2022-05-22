@@ -145,7 +145,9 @@ asNewDoc = filters.create(lambda _, __, query: query.data == "asnewDoc")
 async def documents(bot, message):
     try:
         global invite_link
-        await message.reply_chat_action("typing")
+        try:
+            await message.reply_chat_action("typing")
+        except: pass
         # CHECK USER IN CHANNEL (IF UPDATE_CHANNEL ADDED)
         if UPDATE_CHANNEL:
             try:
