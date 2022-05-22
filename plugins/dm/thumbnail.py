@@ -1,6 +1,14 @@
 # fileName : plugins/dm/thumbnail.py
 # copyright ©️ 2021 nabilanavab
 
+# LOGGING INFO: DEBUG
+import logging
+logger=logging.getLogger(__name__)
+logging.basicConfig(
+                   level=logging.DEBUG,
+                   format="%(levelname)s:%(name)s:%(message)s" # %(asctime)s:
+                   )
+
 import asyncio
 from pyromod import listen
 from pyrogram import filters
@@ -29,7 +37,7 @@ async def _thumbnail(bot, message):
             # if No mongoDB Url
             await message.reply(
                                "Can't Use This Feature 🤧",
-                               quote=True
+                               quote = True
                                )
             return
         elif message.reply_to_message and message.reply_to_message.photo:
@@ -38,14 +46,14 @@ async def _thumbnail(bot, message):
                 message.from_user.id, message.reply_to_message.photo.file_id
             )
             await message.reply_photo(
-                                     photo=message.reply_to_message.photo.file_id,
-                                     caption="Okay,\n"
-                                             "I will use this image as custom thumbnail.. 🖐️",
-                                     reply_markup=InlineKeyboardMarkup(
-                                             [[InlineKeyboardButton("Delete Thumbnail",
-                                                      callback_data="delThumb")]]
+                                     photo = message.reply_to_message.photo.file_id,
+                                     caption = "Okay,\n"
+                                              "I will use this image as custom thumbnail.. 🖐️",
+                                     reply_markup = InlineKeyboardMarkup(
+                                              [[InlineKeyboardButton("Delete Thumbnail",
+                                                       callback_data = "delThumb")]]
                                      ),
-                                     quote=True
+                                     quote = True
                                      )
             CUSTOM_THUMBNAIL_U.append(message.chat.id)
             return
@@ -54,32 +62,38 @@ async def _thumbnail(bot, message):
                 await message.reply(
                                     "You didn't set custom thumbnail!\n"
                                     "reply /thumbnail to set thumbnail",
-                                    quote=True
+                                    quote = True
                                     )
                 return
             # Get Thumbnail from DB
-            thumbnail=await db.get_thumbnail(message.from_user.id)
+            thumbnail = await db.get_thumbnail(message.from_user.id)
             if not thumbnail:
                 await message.reply(
                                     "You didn't set custom thumbnail!\n"
                                     "reply /thumbnail to set thumbnail",
-                                    quote=True
+                                    quote = True
                                     )
                 return
             await message.reply_photo(
-                                     photo=thumbnail, caption="Custom Thumbnail",
-                                     quote=True,
-                                     reply_markup=InlineKeyboardMarkup(
-                                         [[InlineKeyboardButton("Delete Thumbnail",
-                                                  callback_data="delThumb")]]
+                                     photo = thumbnail,
+                                     caption = "Custom Thumbnail",
+                                     quote = True,
+                                     reply_markup = InlineKeyboardMarkup(
+                                            [[InlineKeyboardButton("Delete Thumbnail",
+                                                   callback_data = "delThumb")]]
                                      ))
             return
     except Exception as e:
-        await message.reply(e)
+        logger.exception(
+                        "/THUMBNAIL:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
 
-geThumb=filters.create(lambda _, __, query: query.data=="getThumb")
-addThumb=filters.create(lambda _, __, query: query.data=="addThumb")
-delThumb=filters.create(lambda _, __, query: query.data=="delThumb")
+
+geThumb = filters.create(lambda _, __, query: query.data=="getThumb")
+addThumb = filters.create(lambda _, __, query: query.data=="addThumb")
+delThumb = filters.create(lambda _, __, query: query.data=="delThumb")
+
 
 @ILovePDF.on_callback_query(geThumb)
 async def _getThumb(bot, callbackQuery):
@@ -125,8 +139,12 @@ async def _getThumb(bot, callbackQuery):
                                                                  callback_data="back")]]
                                                     ))
             return
-    except Exception:
-        pass
+    except Exception as e:
+        logger.exception(
+                        "GET_THUMB:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
+
 
 @ILovePDF.on_callback_query(addThumb)
 async def _addThumb(bot, callbackQuery):
@@ -173,11 +191,19 @@ async def _addThumb(bot, callbackQuery):
                                      callbackQuery.message.chat.id
                                      )
     except Exception as e:
-        await callbackQuery.message.reply(e)
+        logger.exception(
+                        "ADD_THUMB:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
+
 
 @ILovePDF.on_callback_query(delThumb)
 async def _delThumb(bot, callbackQuery):
     try:
+        if callbackQuery.message.chat.id in CUSTOM_THUMBNAIL_U:
+            return await callbackQuery.answer(
+                                             "Already Banned.. 🤧"
+                                             )
         await callbackQuery.answer(
                                   "Deleted.. 😎"
                                   )
@@ -191,6 +217,10 @@ async def _delThumb(bot, callbackQuery):
                                  callbackQuery.message.chat.id
                                  )
     except Exception as e:
-        await callbackQuery.message.reply(e)
+        logger.exception(
+                        "DEL_THUMB:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
+
 
 #                                                                                        Telegram: @nabilanavab
