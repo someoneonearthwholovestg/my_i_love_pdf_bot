@@ -224,8 +224,8 @@ async def _pgSize(bot, callbackQuery):
                                                      "upload_document"
                                                      )
         await processMessage.edit(
-                                 "`Started Uploading..` 🏋️
-                                 ")
+                                 "`Started Uploading..` 🏋️"
+                                 )
         await callbackQuery.message.reply_document(
                                                   file_name = "txt2.pdf",
                                                   quote = True,
