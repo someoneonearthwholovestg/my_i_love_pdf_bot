@@ -11,6 +11,7 @@ logging.basicConfig(
 
 import os
 from PIL import Image
+from pyrogram import Client
 from pyrogram.types import Message
 from configs.db import isMONGOexist
 from configs.images import DEFAULT_NAME
