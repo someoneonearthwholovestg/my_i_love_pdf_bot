@@ -1,6 +1,14 @@
 # fileName : plugins/toKnown.py
 # copyright ©️ 2021 nabilanavab
 
+# LOGGING INFO: DEBUG
+import logging
+logger=logging.getLogger(__name__)
+logging.basicConfig(
+                   level=logging.DEBUG,
+                   format="%(levelname)s:%(name)s:%(message)s" # %(asctime)s:
+                   )
+
 from pyrogram.types import Message
 from plugins.fileSize import get_size_format as gSF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -9,7 +17,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 #--------> LOCAL VARIABLES
 #------------------->
 
-pdfInfoMsg="""`What shall i wanted to do with this file.?`
+pdfInfoMsg = """`What shall i wanted to do with this file.?`
 
 File Name : `{}`
 File Size : `{}`
@@ -23,14 +31,14 @@ File Size : `{}`
 # convert unknown to known page number msgs
 async def toKnown(callbackQuery, number_of_pages):
     try:
-        fileName=callbackQuery.message.reply_to_message.document.file_name
-        fileSize=callbackQuery.message.reply_to_message.document.file_size
+        fileName = callbackQuery.message.reply_to_message.document.file_name
+        fileSize = callbackQuery.message.reply_to_message.document.file_size
         
         await callbackQuery.edit_message_text(
             pdfInfoMsg.format(
                 fileName, await gSF(fileSize), number_of_pages
             ),
-            reply_markup=InlineKeyboardMarkup(
+            reply_markup = InlineKeyboardMarkup(
                 [[
                     InlineKeyboardButton("⭐ META£ATA ⭐", callback_data=f"KpdfInfo|{number_of_pages}"),
                     InlineKeyboardButton("🗳️ PREVIEW 🗳️", callback_data="Kpreview")
@@ -58,6 +66,9 @@ async def toKnown(callbackQuery, number_of_pages):
             )
         )
     except Exception as e:
-        print(f"plugins/toKnown: {e}")
+        logger.exception(
+                        "TO_KNOWN:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
 
 #                                                                                  Telegram: @nabilanavab
