@@ -77,7 +77,7 @@ async def thumbName(message, fileName):
                 return PDF_THUMBNAIL, fileName
         
         # user with thumbnail
-        if userID in CUSTOM_THUMBNAIL_U:
+        if message.chat.id in CUSTOM_THUMBNAIL_U:
             thumbnail = await db.get_thumbnail(message.chat.id)
             if DEFAULT_NAME:
                 thumbLoc = await localThumb(thumbnail, message.message_id)
