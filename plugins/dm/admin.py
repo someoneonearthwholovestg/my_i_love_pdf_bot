@@ -195,10 +195,8 @@ async def _broadcast(bot, message):
         await procs.edit(
                         text = "__⚙️ Broadcasting your messages...__",
                         reply_markup = InlineKeyboardMarkup(
-                                    [[InlineKeyboardButton(info, callback_data="")]]
-                            ),
-                        quote = True
-                        )
+                              [[InlineKeyboardButton(info, callback_data="")]]
+                        ))
         start_time = time.time()
         total_users = await db.total_users_count()
         done = 0; blocked = 0; deleted = 0; failed = 0; success = 0
