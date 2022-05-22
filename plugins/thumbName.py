@@ -47,8 +47,9 @@ async def thumbMeta(thumbPath: str):
 async def localThumb(photoID, messageID):
     try:
         location = await Client.download_media(
-                                photoID #,
-                                #file_name=f"{messageID}Thumb.jpeg"
+                                message=photoID ,
+                                file_name=f"{messageID}Thumb.jpeg",
+                                in_memory=True
                                 )
         height = await thumbMeta(location)
         Image.open(thumb_path).convert("RGB").save(location)
