@@ -193,6 +193,7 @@ async def documents(bot, message):
                                                             callback_data="asnewDoc")
                                           ]]
                                       ))
+        PROCESS.append(message.chat.id)
         isPdfOrImg = message.document.file_name        # file name
         fileSize = message.document.file_size          # file size
         fileNm, fileExt=os.path.splitext(isPdfOrImg) # seperate name & extension
@@ -210,6 +211,7 @@ async def documents(bot, message):
                                                 url="https://github.com/nabilanavab/ilovepdf")
                                      ]]
                                 ))
+            PROCESS.remove(message.chat.id)
             return
         
         # IMAGE AS FILES (ADDS TO PDF FILE)
@@ -231,10 +233,12 @@ async def documents(bot, message):
                 await imageDocReply.edit(
                       imageAdded.format(len(PDF[message.chat.id]))
                       )
+                PROCESS.remove(message.chat.id)
             except Exception as e:
                 await imageDocReply.edit(
                       errorEditMsg.format(e)
                       )
+                PROCESS.remove(message.chat.id)
         
         # REPLY TO .PDF FILE EXTENSION
         elif fileExt.lower() == ".pdf":
@@ -288,11 +292,12 @@ async def documents(bot, message):
                                    caption=f"`Converted: {fileExt} to pdf`",
                                    quote=True
                                    )
-                await pdfMsgId.delete()
+                await pdfMsgId.delete(); PROCESS.remove(message.chat.id)
                 shutil.rmtree(f"{message.message_id}")
             except Exception as e:
                 try:
                     shutil.rmtree(f"{message.message_id}")
+                    PROCESS.remove(message.chat.id)
                     await pdfMsgId.edit(
                                        errorEditMsg.format(e)
                                        )
@@ -306,7 +311,8 @@ async def documents(bot, message):
                                "`Owner Forgot to add ConvertAPI.. contact Owner 😒`",
                                quote=True
                                )
-                return
+                PROCESS.remove(message.chat.id)
+                return 
             else:
                 try:
                     pdfMsgId = await message.reply_text(
@@ -335,6 +341,7 @@ async def documents(bot, message):
                             await pdfMsgId.edit(
                                   "ConvertAPI limit reaches.. contact Owner"
                                   )
+                            PROCESS.remove(message.chat.id)
                             return
                         except Exception:
                             pass
@@ -346,7 +353,7 @@ async def documents(bot, message):
                                        caption=f"`Converted: {fileExt} to pdf`",
                                        quote=True
                                        )
-                    await pdfMsgId.delete()
+                    await pdfMsgId.delete(); PROCESS.remove(message.chat.id)
                     shutil.rmtree(f"{message.message_id}")
                 except Exception:
                     pass
@@ -369,7 +376,7 @@ async def _asNewDoc(bot, callbackQuery):
     try:
         if callbackQuery.from_user.id in PROCESS:
             return await callbackQuery.answer(
-                                             "WORK IN PROGRESS"
+                                             "WORK IN PROGRESS..🙇"
                                              )
         return await documents(bot, callbackQuery.message.reply_to_message)
     except Exception as e:
