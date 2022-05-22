@@ -47,7 +47,7 @@ async def thumbName(userID, fileName):
     
     except Exception as e:
         logger.exception(
-                        "NAN: %(message.chat.id)s cause %(e)s error",
+                        "NAN: %(userID)s cause %(e)s error",
                         exc_info=True
                         )
 
