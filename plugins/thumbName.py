@@ -80,7 +80,7 @@ async def thumbName(message, fileName):
         if message.chat.id in CUSTOM_THUMBNAIL_U:
             thumbnail = await db.get_thumbnail(message.chat.id)
             thumbLoc = await localThumb(thumbnail, message.message_id)
-            if not changeNAME:
+            if changeNAME:
                 return thumbLoc, DEFAULT_NAME
             else:
                 return thumbnail, fileName
