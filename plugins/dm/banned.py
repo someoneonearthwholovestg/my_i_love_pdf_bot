@@ -1,6 +1,14 @@
 # fileName : plugins/dm/banned.py
 # copyright ©️ 2021 nabilanavab
 
+# LOGGING INFO: DEBUG
+import logging
+logger=logging.getLogger(__name__)
+logging.basicConfig(
+                   level=logging.DEBUG,
+                   format="%(levelname)s:%(name)s:%(message)s" # %(asctime)s:
+                   )
+
 import os
 from asyncio import sleep
 from pyrogram import filters
@@ -29,31 +37,31 @@ async def _banUser(bot, message):
         if not isMONGOexist:
             await message.reply(
                                "Sry, Bot Don't have a DB",
-                               quote=True
+                               quote = True
                                )
             return
         procs=await message.reply(
                                  "⚙️ Processing..",
-                                 quote=True
+                                 quote = True
                                  )
         await sleep(2)
-        if len(message.command)==1:
+        if len(message.command) == 1:
             return await procs.edit(
                                    "Give me a user id / username"
                                    )
-        reM=message.text.split(None)
-        if len(reM)>2:
-            chat=message.text.split(None, 2)[1]
-            reason=message.text.split(None, 2)[2]
+        reM = message.text.split(None)
+        if len(reM) > 2:
+            chat = message.text.split(None, 2)[1]
+            reason = message.text.split(None, 2)[2]
         else:
-            chat=message.command[1]
-            reason="oru rasam 😏"
+            chat = message.command[1]
+            reason = "oru rasam 😏"
         try:
-            chat=int(chat)
+            chat = int(chat)
         except Exception: # if username [Exception]
             pass
         try:
-            userINFO=await bot.get_users(chat)
+            userINFO = await bot.get_users(chat)
         except PeerIdInvalid:
             return await procs.edit(
                                    "This is an invalid user, make sure ia have met him before.."
@@ -67,7 +75,7 @@ async def _banUser(bot, message):
                                    f"Error: `{e}`"
                                    )
         else:
-            if userINFO.id==531733867:
+            if userINFO.id == 531733867:
                 return await procs.edit(
                                        f"Before Banning {userINFO.mention}.!\n"
                                        f"Thank him for this Awesome Project 🤩\n\n"
@@ -78,7 +86,7 @@ async def _banUser(bot, message):
                                        f"I Never Ban {userINFO.mention}.. \n"
                                        "Reason: iCantBanBotADMIN 😏"
                                        )
-            status=await db.get_ban_status(userINFO.id)
+            status = await db.get_ban_status(userINFO.id)
             if status['is_banned']:
                 return await procs.edit(
                                        f"{userINFO.mention} is already banned\n"
@@ -90,6 +98,10 @@ async def _banUser(bot, message):
                             f"Successfully banned {userINFO.mention}"
                             )
     except Exception as e:
+        logger.exception(
+                        "/BAN:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
         await procs.edit(e)
 
 
@@ -103,31 +115,31 @@ async def _unbanUser(bot, message):
         if not isMONGOexist:
             await message.reply(
                                "Sry, Bot Don't have a DB",
-                               quote=True
+                               quote = True
                                )
             return
-        procs=await message.reply(
-                           "⚙️ Processing",
-                           quote=True
-                           )
+        procs = await message.reply(
+                                 "⚙️ Processing",
+                                 quote = True
+                                 )
         await sleep(2)
-        if len(message.command)==1:
+        if len(message.command) == 1:
             return await procs.edit(
                                    "Give me a user id / username"
                                    )
-        reM=message.text.split(None)
-        if len(reM)>2:
-            chat=message.text.split(None, 2)[1]
-            reason=message.text.split(None, 2)[2]
+        reM = message.text.split(None)
+        if len(reM) > 2:
+            chat = message.text.split(None, 2)[1]
+            reason = message.text.split(None, 2)[2]
         else:
-            chat=message.command[1]
-            reason="No reason Provided"
+            chat = message.command[1]
+            reason = "No reason Provided"
         try:
-            chat=int(chat)
+            chat = int(chat)
         except Exception:
             pass
         try:
-            userINFO=await bot.get_users(chat)
+            userINFO = await bot.get_users(chat)
         except PeerIdInvalid:
             return await procs.edit(
                                    "This is an invalid user, make sure ia have met him before.."
@@ -141,7 +153,7 @@ async def _unbanUser(bot, message):
                                    f"Error: `{e}`"
                                    )
         else:
-            status=await db.get_ban_status(userINFO.id)
+            status = await db.get_ban_status(userINFO.id)
             if not status['is_banned']:
                 return await procs.edit(
                                        f"{userINFO.mention} is not yet banned."
@@ -152,6 +164,10 @@ async def _unbanUser(bot, message):
                             f"Successfully unbanned {userINFO.mention}"
                             )
     except Exception as e:
+        logger.exception(
+                        "/UNBAN:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
         await procs.edit(e)
 
 
@@ -172,8 +188,8 @@ async def _listUser(bot, message):
                                 "Getting List Of Users"
                                 )
         await sleep(2)
-        users=await db.get_all_users()
-        out="Users Saved In DB Are:\n\n"
+        users = await db.get_all_users()
+        out = "Users Saved In DB Are:\n\n"
         await procs.edit(out)
         await sleep(2)
         async for user in users:
@@ -193,11 +209,14 @@ async def _listUser(bot, message):
                                         quote=True
                                         )
             os.remove("users.txt")
-    except Exception:
-        pass
+    except Exception as e:
+        logger.exception(
+                        "/USERS:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
 
 
-banUser=filters.create(lambda _, __, query: query.data.startswith("banU|"))
+banUser = filters.create(lambda _, __, query: query.data.startswith("banU|"))
 
 @ILovePDF.on_callback_query(banUser)
 async def _banUserCB(bot, callbackQuery):
@@ -206,8 +225,8 @@ async def _banUserCB(bot, callbackQuery):
             return await callbackQuery.answer(
                                              "Lesham Ulupp.."
                                              )
-        _, userID=callbackQuery.data.split("|")
-        if int(userID)==531733867:
+        _, userID = callbackQuery.data.split("|")
+        if int(userID) == 531733867:
             return await callbackQuery.answer(
                                              f"Don't Even Think about banning\n"
                                              f"𝙽𝙰𝙱𝙸𝙻  𝙰  𝙽𝙰𝚅𝙰𝙱\n"
@@ -218,9 +237,10 @@ async def _banUserCB(bot, callbackQuery):
                                              f"I Never Ban Him.. 😏\n"
                                              "Reason: iCantBanBotADMIN"
                                              )
+        else:
             if callbackQuery.from_user.id in BANNED_USR_DB:
                 return await callbackQuery.answer(
-                                                 f"He is already banned\n"
+                                                 f"He is already banned"
                                                  )
             await db.ban_user(callbackQuery.from_user.id, "oru rasam.. 😝")
             BANNED_USR_DB.append(callbackQuery.from_user.id)
@@ -236,8 +256,61 @@ async def _banUserCB(bot, callbackQuery):
                                                  )
                                  ]]
                          ))
-    except Exception:
-        pass
+    except Exception as e:
+        logger.exception(
+                        "/BAN_USER_CB:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
+
+
+unbanUser = filters.create(lambda _, __, query: query.data.startswith("unbanU|"))
+
+@ILovePDF.on_callback_query(unbanUser)
+async def _unbanUserCB(bot, callbackQuery):
+    try:
+        if callbackQuery.from_user.id not in Config.admin:
+            return await callbackQuery.answer(
+                                             "Lesham Ulupp.."
+                                             )
+        _, userID = callbackQuery.data.split("|")
+        if callbackQuery.from_user.id in BANNED_USR_DB:
+            return await callbackQuery.answer(
+                                             f"He is not yet banned"
+                                             )
+        await db.remove_ban(callbackQuery.from_user.id)
+        BANNED_USR_DB.remove(callbackQuery.from_user.id)
+        await callbackQuery.answer(
+                                  f"Successfully Unbanned Him 😎"
+                                  )
+        return await callbackQuery.message.edit_reply_markup(
+                    InlineKeyboardMarkup(
+                            [[
+                                    InlineKeyboardButton(
+                                            "« B@N «",
+                                            callback_data=f"rU18"
+                                            )
+                            ]]
+                    ))
+    except Exception as e:
+        logger.exception(
+                        "/UN_BAN_USER_CB:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
+
+
+rU18 = filters.create(lambda _, __, query: query.data.startswith("rU18"))
+
+@ILovePDF.on_callback_query(rU18)
+async def _rU18(bot, callbackQuery):
+    try:
+        callbackQuery.answer(
+                            "Are You 18.? playing like a kind 😏"
+                            )
+    except Exception as e:
+        logger.exception(
+                        "RU18:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
 
 
 #                                                                                          Telegram: @nabilanavab
