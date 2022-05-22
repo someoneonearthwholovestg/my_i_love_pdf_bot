@@ -10,7 +10,6 @@ logging.basicConfig(
                    )
 
 import os
-from pdf import app
 from PIL import Image
 from pyrogram import Client
 from pyrogram.types import Message
@@ -47,9 +46,8 @@ async def thumbMeta(thumbPath: str):
 # photo_id -> local image
 async def localThumb(photoID, messageID):
     try:
-        location = await app.download_media(
-                                message=photoID ,
-                                file_name=f"{messageID}Thumb.jpeg",
+        location = await Client.download_media(
+                                message=photoID
                                 )
         height = await thumbMeta(location)
         Image.open(thumb_path).convert("RGB").save(location)
