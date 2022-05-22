@@ -46,7 +46,7 @@ async def thumbMeta(thumbPath: str):
 # photo_id -> local image
 async def localThumb(photoID, messageID):
     try:
-        location = await bot.download_media(
+        location = await Client.download_media(
                                 message=photoID,
                                 file_name=f"{messageID}Thumb.jpeg"
                                 )
