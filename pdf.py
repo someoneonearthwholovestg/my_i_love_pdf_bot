@@ -59,7 +59,7 @@ logging.basicConfig(
                    format="%(levelname)s:%(name)s:%(message)s" # %(asctime)s:
                    )
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
-# SOMEONE TOLD ME HONEY DEV. NEVER USE PRINT FOR TRACKING ERRORS. SO, import logging :|
+# SOMEONE TOLD ME PRO DEV. NEVER USE PRINT FOR TRACKING ERRORS. SO, import logging :|
 
 
 # GLOBAL VARIABLES
@@ -83,13 +83,11 @@ class Bot(ILovePDF):
         
         if isMONGOexist:
             
-            logger.debug("Loading users from DataBase..")
             # Loading Banned UsersId to List
             b_users, b_chats = await db.get_banned()
             BANNED_USR_DB.extend(b_users)
             BANNED_GRP_DB.extend(b_chats)
             
-            logger.debug("Loading Users having custom thumb..")
             # Loading UsersId with custom THUMBNAIL
             users = await db.get_all_users()   # Get all user Data
             async for user in users:
@@ -100,15 +98,19 @@ class Bot(ILovePDF):
                 if group.get("thumbnail", False):
                     CUSTOM_THUMBNAIL_C.append(group["id"])
             
-            logger.debug(f"Bot Started..")
+            # Pyrogram Client Starting
             await super().start()
+            logger.debug("BOT GETS STARTED..")
             
             # Bot Restarted Message to ADMINS
             for admin in Config.ADMINS:
                 try:
                     await app.send_message(
                                           chat_id=admin,
-                                          text="Bot Started Working.. 😳",
+                                          text="As You are Some Amoung the Bot Admin"
+                                               "its My Responsibility to inform when"
+                                               "ever i started working.. 😲\n\n"
+                                               "NOW THE BOT IS WORKING SAAR..",
                                           reply_markup=InlineKeyboardMarkup(
                                                 [[InlineKeyboardButton("◍ close ◍",
                                                         callback_data="close")]]
