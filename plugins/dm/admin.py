@@ -168,28 +168,28 @@ async def broadcast_messages(user_id, message, info):
 @ILovePDF.on_message(filters.command("broadcast") & filters.user(ADMINS) & filters.private & ~filters.edited & filters.incoming)
 async def _broadcast(bot, message):
     try:
-        procs = message.reply(
+        procs = await message.reply(
                             "⚙️ __Processing..__", quote=True
                             )
         if not isMONGOexist:
-            return procs.edit(
+            return await procs.edit(
                              "Sorry.! I can't remember my Userlist 😲"
                              )
         await asyncio.sleep(1)
         if len(message.command) == 2:
             info = message.text.split(None, 2)[1]
             if info not in ["f", "c"]:
-                return procs.edit(
-                                 "🥴 Syntax Error:\n\n"
-                                 "`/broadcast f`: broadcast message [with quotes]\n"
-                                 "`/broadcast c`: broadcast as copy [without quotes]"
-                                 )
+                return await procs.edit(
+                                       "🥴 Syntax Error:\n\n"
+                                       "`/broadcast f`: broadcast message [with quotes]\n"
+                                       "`/broadcast c`: broadcast as copy [without quotes]"
+                                       )
         else:
-            return procs.edit(
-                             "🥴 Syntax Error:\n\n"
-                             "`/broadcast f`: broadcast message [with quotes]\n"
-                             "`/broadcast c`: broadcast as copy [without quotes]"
-                             )
+            return await procs.edit(
+                                   "🥴 Syntax Error:\n\n"
+                                   "`/broadcast f`: broadcast message [with quotes]\n"
+                                   "`/broadcast c`: broadcast as copy [without quotes]"
+                                   )
         users = await db.get_all_users()
         broadcast_msg = message.reply_to_message
         await procs.edit(
