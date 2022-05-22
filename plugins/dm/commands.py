@@ -1,6 +1,14 @@
 # fileName : plugins/dm/commands.py
 # copyright ©️ 2021 nabilanavab
 
+# LOGGING INFO: DEBUG
+import logging
+logger=logging.getLogger(__name__)
+logging.basicConfig(
+                   level=logging.DEBUG,
+                   format="%(levelname)s:%(name)s:%(message)s" # %(asctime)s:
+                   )
+
 import os
 import shutil
 from pdf import PDF
@@ -51,6 +59,7 @@ async def cancelP2I(bot, message):
         except Exception:
             pass
 
+
 # ❌ DELETS CURRENT IMAGES TO PDF QUEUE (/delete) ❌
 @ILovePDF.on_message(filters.private & filters.command(["delete"]) & filters.incoming)
 async def _cancelI2P(bot, message):
@@ -68,18 +77,21 @@ async def _cancelI2P(bot, message):
                                 quote=True
                                 )
 
+
 # ❌ GET USER ID (/id) ❌
 @ILovePDF.on_message(filters.private & filters.command(["id"]) & filters.incoming)
 async def userId(bot, message):
     try:
-        userINFO=await message.get_users()
-        # userINFO=await bot.get_users(message.chat.id)
         await message.reply_text(
-                                f'{userINFO.mention} Id: `{message.chat.id}`',
+                                f'{message.from_user.mention} Id: `{message.chat.id}`',
                                 quote=True
                                 )
-    except Exception:
-        pass
+    except Exception as e:
+        logger.exception(
+                        "/ID:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
+
 
 # ❌ GET FEEDBACK MESSAGE ❌
 @ILovePDF.on_message(filters.private & filters.command(["feedback"]) & filters.incoming)
@@ -89,8 +101,12 @@ async def feedback(bot, message):
                                 feedbackMsg,
                                 disable_web_page_preview=True
                                 )
-    except Exception:
-        pass
+    except Exception as e:
+        logger.exception(
+                        "/FEEDBACK:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
+
 
 # ❌ DELETS CURRENT IMAGES TO PDF QUEUE (/delete) ❌
 @ILovePDF.on_message(filters.private & filters.command(["help", "commands"]) & filters.incoming)
@@ -103,12 +119,17 @@ async def _help(bot, message):
         await sleep(1)
         HELP=userHELP
         await helpMsg.edit(HELP)
-        if message.chat.id in Config.ADMINS:
+        if message.from_user.id in Config.ADMINS:
             HELP=userHELP+adminHelp
             await helpMsg.edit(Help)
         await sleep(1)
         HELP+=footer
         await helpMsg.edit(HELP)
-    except Exception:
-        pass
+    except Exception as e:
+        logger.exception(
+                        "/HELP:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
+
+
 #                                                                                  Telegram: @nabilanavab
