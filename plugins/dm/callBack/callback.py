@@ -534,7 +534,7 @@ async def _KtoText(bot, callbackQuery):
         _, number_of_pages=callbackQuery.data.split("|")
         await callbackQuery.edit_message_text(
             f"__Pdf » Text__\n"
-            f"__Total pages: {number_of_pages}__ 🌟\n
+            f"__Total pages: {number_of_pages}__ 🌟\n"
             f"Now, Specify the format:__",
             reply_markup = InlineKeyboardMarkup(
                 [[
