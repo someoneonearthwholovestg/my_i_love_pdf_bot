@@ -169,12 +169,12 @@ async def broadcast_messages(user_id, message, info):
 async def _broadcast(bot, message):
     try:
         procs = await message.reply(
-                            "⚙️ __Processing..__", quote=True
-                            )
+                                   "⚙️ __Processing..__", quote=True
+                                   )
         if not isMONGOexist:
             return await procs.edit(
-                             "Sorry.! I can't remember my Userlist 😲"
-                             )
+                                   "Sorry.! I can't remember my Userlist 😲"
+                                   )
         await asyncio.sleep(1)
         if len(message.command) == 2:
             info = message.text.split(None, 2)[1]
@@ -195,7 +195,7 @@ async def _broadcast(bot, message):
         await procs.edit(
                         text = "__⚙️ Broadcasting your messages...__",
                         reply_markup = InlineKeyboardMarkup(
-                              [[InlineKeyboardButton(info, callback_data="")]]
+                              [[InlineKeyboardButton(info, callback_data="air")]]
                         ))
         start_time = time.time()
         total_users = await db.total_users_count()
