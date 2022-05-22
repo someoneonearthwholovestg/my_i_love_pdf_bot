@@ -1,6 +1,14 @@
 # fileName : plugins/dm/waste.py
 # copyright ©️ 2021 nabilanavab
 
+# LOGGING INFO: DEBUG
+import logging
+logger=logging.getLogger(__name__)
+logging.basicConfig(
+                   level=logging.DEBUG,
+                   format="%(levelname)s:%(name)s:%(message)s" # %(asctime)s:
+                   )
+
 from pyrogram import filters
 from configs.dm import Config
 from pyrogram import Client as ILovePDF
@@ -23,9 +31,13 @@ async def _spam(bot, message):
                                        )
         await message.reply_text(
                                 f"`no one gonna to help you` 😏",
-                                quote=True
+                                quote = True
                                 )
-    except Exception:
-        pass
+    except Exception as e:
+        logger.exception(
+                        "/SERVER:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
+
 
 #                                                     Telegram: @nabilanavab
