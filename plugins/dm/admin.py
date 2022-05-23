@@ -51,11 +51,13 @@ GroupCantUse = "{} NEVER EXPECT A GOOD RESPONSE FROM ME\n\nADMINS RESTRICTED ME 
 
 button = InlineKeyboardMarkup(
         [[
-            InlineKeyboardButton("Create your Own Bot", url="https://github.com/nabilanavab/ilovepdf")
+            InlineKeyboardButton("Create your Own Bot",
+               url="https://github.com/nabilanavab/ilovepdf")
         ],[
-            InlineKeyboardButton("Tutorial", url="t.me/ilovepdf_bot")
-        ],[
-            InlineKeyboardButton("Update Channel", url="t.me/ilovepdf_bot")
+            InlineKeyboardButton("Tutorial",
+                                     url="t.me/ilovepdf_bot"),
+            InlineKeyboardButton("Update Channel",
+                             url="telegram.dog/ilovepdf_bot")
         ]]
     )
 
@@ -171,6 +173,10 @@ async def _broadcast(bot, message):
         procs = await message.reply(
                                    "⚙️ __Processing..__", quote=True
                                    )
+        if not message.reply_to_message:
+            return await procs.edit(
+                                   "__Please Reply To A Messge__ 🤫"
+                                   )
         if not isMONGOexist:
             return await procs.edit(
                                    "Sorry.! I can't remember my Userlist 😲"
@@ -238,6 +244,61 @@ async def _broadcast(bot, message):
                         exc_info=True
                         )
 
+@ILovePDF.on_message(filters.command("message") & filters.user(ADMINS) & filters.private & ~filters.edited & filters.incoming)
+async def _broadcast(bot, message):
+    try:
+        procs = await message.reply(
+                                   "⚙️ Processing..",
+                                   quote = True
+                                   )
+        await sleep(2)
+        if not message.reply_to_message:
+            return await procs.edit(
+                                   "__Please Reply To A Message..__ 🤧"
+                                   )
+        if len(message.command) == 1:
+            return await procs.edit(
+                                   "Give me a user id / username"
+                                   )
+        reM = message.text.split(None)
+        if len(reM) > 2:
+            chat = message.text.split(None, 2)[1]
+            info = message.text.split(None, 2)[2]
+            if info not in ["c", "f"]:
+                return await procs.edit(
+                                       "__Please Use__ `c`:copy or `f`:forward"
+                                       "\n__Nothing Else Is Supposed__"
+                                       )
+        else:
+            chat = message.command[1]
+            info = "c"
+        try:
+            chat = int(chat)
+        except Exception: # if username [Exception]
+            pass
+        try:
+            userINFO = await bot.get_users(chat)
+        except Exception as e:
+            return await procs.edit(
+                                   f"__Can't forward message__"
+                                   f"\n__REASON:__ `{e}`"
+                                   )
+        forward_msg = message.reply_to_message
+        try:
+            if info=="c":
+                await forward_msg.copy(userINFO.id)
+            else:
+                await forward_msg.forward(userINFO.id)
+        except Exception:
+            return await procs.edit(
+                                   f"__Can't forward message__"
+                                   f"\n__REASON:__ `{e}`"
+                                   )
+    except Exception as e:
+        logger.exception(
+                        "/BROADCAST:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
 
 # ❌ ADMIN COMMAND (/server) ❌
 @ILovePDF.on_message(filters.private & filters.command(["server"]) & filters.incoming & filters.user(Config.ADMINS))
