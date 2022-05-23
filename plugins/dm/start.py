@@ -216,7 +216,7 @@ async def start(bot, message):
                                  photo = WELCOME_PIC,
                                  caption = welcomeMsg.format(
                                                             message.from_user.first_name,
-                                                            message.from.id
+                                                            message.from_user.id
                                  ),
                                  reply_markup = button
                                  )
