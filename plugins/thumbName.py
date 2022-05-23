@@ -44,11 +44,8 @@ async def thumbMeta(thumbPath: str):
                         )
 
 # photo_id -> local image
-async def localThumb(photoID, messageID):
+async def formatThumb(location):
     try:
-        location = await Client.download_media(
-                                message=photoID
-                                )
         height = await thumbMeta(location)
         Image.open(thumb_path).convert("RGB").save(location)
         img = Image.open(location)
@@ -79,7 +76,6 @@ async def thumbName(message, fileName):
         # user with thumbnail
         if message.chat.id in CUSTOM_THUMBNAIL_U:
             thumbnail = await db.get_thumbnail(message.chat.id)
-            thumbLoc = await localThumb(thumbnail, message.message_id)
             if changeNAME:
                 return thumbLoc, DEFAULT_NAME
             else:
