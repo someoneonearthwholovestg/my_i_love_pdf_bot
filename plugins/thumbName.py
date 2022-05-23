@@ -47,7 +47,8 @@ async def thumbMeta(thumbPath: str):
 async def formatThumb(location):
     try:
         height = await thumbMeta(location)
-        Image.open(thumb_path).convert("RGB").save(location)
+        # thumb_path in 1st ()↓
+        Image.open(location).convert("RGB").save(location)
         img = Image.open(location)
         img.resize((320, height))
         img.save(location, "JPEG")
