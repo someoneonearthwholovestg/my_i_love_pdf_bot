@@ -251,7 +251,7 @@ async def _broadcast(bot, message):
                                    "⚙️ Processing..",
                                    quote = True
                                    )
-        await sleep(2)
+        await asyncio.sleep(2)
         if not message.reply_to_message:
             return await procs.edit(
                                    "__Please Reply To A Message..__ 🤧"
