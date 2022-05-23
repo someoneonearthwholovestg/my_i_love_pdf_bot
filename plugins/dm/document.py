@@ -300,7 +300,7 @@ async def documents(bot, message):
                 await message.reply_document(
                                             file_name = f"{fileName}.pdf",
                                             document = open(f"{message.message_id}/{fileNm}.pdf", "rb"),
-                                            thumb = thumbnail,
+                                            # thumb = thumbnail,
                                             caption = f"`Converted: {fileExt} to pdf`",
                                             quote = True
                                             )
