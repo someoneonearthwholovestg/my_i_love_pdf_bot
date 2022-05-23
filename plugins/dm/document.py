@@ -19,11 +19,11 @@ from time import sleep
 from pdf import PROCESS
 from pyrogram import filters
 from configs.dm import Config
+from pdf import PDF, invite_link
 from plugins.thumbName import (
                               thumbName,
                               formatThumb
                               )
-from pdf import PDF, invite_link
 from pyrogram import Client as ILovePDF
 from plugins.fileSize import get_size_format as gSF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -256,8 +256,7 @@ async def documents(bot, message):
                                ),
                                reply_markup = pdfReply
                                )
-            PROCESS.remove(message.chat.id)
-            
+        
         # FILES TO PDF (PYMUPDF/FITZ)
         elif fileExt.lower() in suprtedPdfFile:
             try:
@@ -278,17 +277,19 @@ async def documents(bot, message):
                 pdf = fitz.open("pdf", b)
                 pdf.save(
                         f"{message.message_id}/{fileNm}.pdf",
-                        garbage=4,
-                        deflate=True,
+                        garbage = 4,
+                        deflate = True,
                         )
                 pdf.close()
+                
                 # Getting thumbnail
                 thumbnail, fileName = await thumbName(message, isPdfOrImg)
-                await bot.download_media(
-                                        message = thumbnail,
-                                        file_name = f"{message.message_id}/thumbnail.jpeg"
-                                        )
-                thumbnail = await formatThumb(thumbnail)
+                if PDF_THUMBNAIL != thumbnail:
+                    await bot.download_media(
+                                            message = thumbnail,
+                                            file_name = f"{message.message_id}/thumbnail.jpeg"
+                                            )
+                    thumbnail = await formatThumb(f"{message.message_id}/thumbnail.jpeg")
                 
                 await pdfMsgId.edit(
                                    "`Started Uploading..`🏋️"
