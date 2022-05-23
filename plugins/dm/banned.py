@@ -102,8 +102,6 @@ async def _banUser(bot, message):
                         "/BAN:CAUSES %(e)s ERROR",
                         exc_info=True
                         )
-        await procs.edit(e)
-
 
 @ILovePDF.on_message(
                     filters.incoming &
@@ -168,8 +166,6 @@ async def _unbanUser(bot, message):
                         "/UNBAN:CAUSES %(e)s ERROR",
                         exc_info=True
                         )
-        await procs.edit(e)
-
 
 @ILovePDF.on_message(
                     filters.private &
@@ -214,7 +210,6 @@ async def _listUser(bot, message):
                         "/USERS:CAUSES %(e)s ERROR",
                         exc_info=True
                         )
-
 
 banUser = filters.create(lambda _, __, query: query.data.startswith("banU|"))
 
@@ -262,7 +257,6 @@ async def _banUserCB(bot, callbackQuery):
                         exc_info=True
                         )
 
-
 unbanUser = filters.create(lambda _, __, query: query.data.startswith("unbanU|"))
 
 @ILovePDF.on_callback_query(unbanUser)
@@ -297,7 +291,6 @@ async def _unbanUserCB(bot, callbackQuery):
                         exc_info=True
                         )
 
-
 rU18 = filters.create(lambda _, __, query: query.data.startswith("rU18"))
 
 @ILovePDF.on_callback_query(rU18)
@@ -311,6 +304,5 @@ async def _rU18(bot, callbackQuery):
                         "RU18:CAUSES %(e)s ERROR",
                         exc_info=True
                         )
-
 
 #                                                                                          Telegram: @nabilanavab
