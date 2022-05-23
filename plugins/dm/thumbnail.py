@@ -200,9 +200,9 @@ async def _addThumb(bot, callbackQuery):
 @ILovePDF.on_callback_query(delThumb)
 async def _delThumb(bot, callbackQuery):
     try:
-        if callbackQuery.message.chat.id in CUSTOM_THUMBNAIL_U:
+        if callbackQuery.message.chat.id not in CUSTOM_THUMBNAIL_U:
             return await callbackQuery.answer(
-                                             "Already Banned.. 🤧"
+                                             "Currently, you don't set a thumbnail yet.. 🤧"
                                              )
         await callbackQuery.answer(
                                   "Deleted.. 😎"
