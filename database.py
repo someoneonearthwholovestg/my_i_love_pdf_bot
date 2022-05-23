@@ -22,32 +22,36 @@ class Database:
     #ADD NEW USER TO DB
     def new_user(self, id, name):
         return dict(
-                   id=id,
+                   id = id,
                    name=name,
-                   join_date=datetime.date.today().isoformat(),
-                   thumbnail=None,
-                   convertAPI=None,
-                   ban_status=dict(
-                           is_banned=False,
-                           ban_reason=""
+                   join_date = datetime.date.today().isoformat(),
+                   thumbnail = None,
+                   convertAPI = None,
+                   ban_status = dict(
+                           is_banned = False,
+                           ban_reason = ""
                    ))
     
     #ADD NEW GROUP TO DB
     def new_group(self, id, title):
         return dict(
-                   id=id,
-                   title=title,
-                   join_date=datetime.date.today().isoformat(),
-                   thumbnail=None,
-                   convertAPI=None,
-                   chat_status=dict(
-                            is_disabled=False,
-                            ban_reason=""
+                   id = id,
+                   title = title,
+                   join_date = datetime.date.today().isoformat(),
+                   thumbnail = None,
+                   convertAPI = None,
+                   chat_status = dict(
+                            is_disabled = False,
+                            ban_reason = ""
                    ))
     
     async def is_user_exist(self, id):
-        user=await self.col.find_one({'id': int(id)})
+        user = await self.col.find_one({'id': int(id)})
         return bool(user)
+    
+    async def is_chat_exist(self, chat):
+        chat = await self.grp.find_one({'id':int(chat)})
+        return bool(chat)
     
     # ADD NEW USER TO DB
     async def add_user(self, id, name):
