@@ -294,6 +294,10 @@ async def _broadcast(bot, message):
                                    f"__Can't forward message__"
                                    f"\n__REASON:__ `{e}`"
                                    )
+        else:
+            return await procs.edit(
+                                   "Successfully forwarded"
+                                   )
     except Exception as e:
         logger.exception(
                         "/BROADCAST:CAUSES %(e)s ERROR",
