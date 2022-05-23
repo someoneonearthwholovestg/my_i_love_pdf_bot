@@ -63,21 +63,23 @@ logging.getLogger("pyrogram").setLevel(logging.ERROR)
 
 
 # GLOBAL VARIABLES
-PDF={}            # save images for generating pdf
-PROCESS=[]        # to check current process
-invite_link=None
+PDF = {}            # save images for generating pdf
+PROCESS = []        # to check current process
+invite_link = None
 
 
 class Bot(ILovePDF):
     
     def __init__(self):
         super().__init__(
-            session_name="ILovePDF",
-            api_id=Config.API_ID,
-            api_hash=Config.API_HASH,
-            bot_token=Config.API_TOKEN,
-            plugins={"root": "plugins"},
-        )
+            session_name = "ILovePDF",
+            api_id = Config.API_ID,
+            api_hash = Config.API_HASH,
+            bot_token = Config.API_TOKEN,
+            plugins = {
+                      "root": "plugins"
+                      }
+            )
     
     async def start(self):
         
@@ -98,25 +100,26 @@ class Bot(ILovePDF):
                 if group.get("thumbnail", False):
                     CUSTOM_THUMBNAIL_C.append(group["id"])
             
-            # Pyrogram Client Starting
-            await super().start()
-            logger.debug("BOT GETS STARTED..")
-            
-            # Bot Restarted Message to ADMINS
-            for admin in Config.ADMINS:
-                try:
-                    await app.send_message(
-                                          chat_id=admin,
-                                          text="As You are Some Amoung the Bot Admin"
-                                               "its My Responsibility to inform when"
-                                               "ever i started working.. 😲\n\n"
-                                               "NOW THE BOT IS WORKING SAAR..",
-                                          reply_markup=InlineKeyboardMarkup(
-                                                [[InlineKeyboardButton("◍ close ◍",
-                                                        callback_data="close")]]
-                                          ))
-                except Exception:
-                    pass
+        # Pyrogram Client Starting
+        await super().start()
+        logger.debug("BOT GETS STARTED..")
+        
+        # Bot Restarted Message to ADMINS
+        for admin in Config.ADMINS:
+            try:
+                await app.send_message(
+                                      chat_id = admin,
+                                      text = "As You are Some Amoung the Bot Admin"
+                                             "its My Responsibility to inform when"
+                                             "ever i started working.. 😲\n\n"
+                                             "NOW THE BOT IS WORKING SAAR..",
+                                      reply_markup = InlineKeyboardMarkup(
+                                            [[
+                                                InlineKeyboardButton("◍ close ◍",
+                                                               callback_data="close")
+                                            ]]
+                                      ))
+            except Exception: pass
     
     async def stop(self, *args):
         await super().stop()
@@ -125,6 +128,7 @@ class Bot(ILovePDF):
 if __name__ == "__main__":
     app=Bot()
     app.run()
+
 
 #                                                         OPEN SOURCE TELEGRAM PDF BOT 🐍
 #                                                              by: nabilanavab [iLovePDF]
