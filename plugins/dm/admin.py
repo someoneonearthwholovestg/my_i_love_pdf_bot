@@ -245,7 +245,7 @@ async def _broadcast(bot, message):
                         )
 
 @ILovePDF.on_message(filters.command("message") & filters.user(ADMINS) & filters.private & ~filters.edited & filters.incoming)
-async def _broadcast(bot, message):
+async def _message(bot, message):
     try:
         procs = await message.reply(
                                    "⚙️ Processing..",
