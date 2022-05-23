@@ -68,6 +68,7 @@ Owned By: @nabilanavab
 foolRefresh = "വിളച്ചിലെടുക്കല്ലേ കേട്ടോ 😐"
 
 LOG_TEXT = "#newUser @nabilanavab/ILovePDF\nID: {}\nView Profile: {}"
+LOG_TEXT_C = "#newChat @nabilanavab/ILovePDF\nID: {}\nGroup Title: {}\nTotal Users: {}"
 
 button = InlineKeyboardMarkup(
         [[
@@ -95,7 +96,13 @@ UPDATE_CHANNEL = Config.UPDATE_CHANNEL
 #--------> /start (START MESSAGE)
 #------------------->
 
-@ILovePDF.on_message(filters.private & ~filters.edited & filters.command(["start", "ping"]) & filters.incoming)
+@ILovePDF.on_message(
+                    ~filters.edited &
+                    filters.incoming &
+                    (filters.private | filters.group) &
+                    filters.command(
+                                   ["start", "ping"]
+                    ))
 async def start(bot, message):
     try:
         global invite_link
@@ -104,43 +111,94 @@ async def start(bot, message):
                                        )
         # CHECK IF USER IN DATABASE
         if isMONGOexist:
-            if not await db.is_user_exist(message.from_user.id):
-                await db.add_user(
-                                 message.from_user.id,
-                                 message.from_user.first_name
-                                 )
-                if LOG_CHANNEL:
-                    await bot.send_message(
-                                          chat_id = LOG_CHANNEL,
-                                          text = LOG_TEXT.format(message.from_user.id, message.from_user.mention),
-                                          reply_markup = InlineKeyboardMarkup(
-                                                      [[InlineKeyboardButton("« B@N «", callback_data=f"banU|{chat_id}")]]
-                                          ))
+            if message.chat.type in ['group', 'supergroup']:
+                if not await db.is_chat_exist(message.from_user.id):
+                    await db.add_user(
+                                     message.chat.id,
+                                     message.chat.title
+                                     )
+                    if LOG_CHANNEL:
+                        try:
+                            total = await client.get_chat_members_count(
+                                                                       message.chat.id
+                                                                       )
+                            await bot.send_message(
+                                              chat_id = LOG_CHANNEL,
+                                              text = LOG_TEXT_C.format(
+                                                                    message.chat.id,
+                                                                    message.chat.title,
+                                                                    total
+                                                                    ),
+                                              reply_markup = InlineKeyboardMarkup(
+                                                          [[InlineKeyboardButton("« B@N «",
+                                                          callback_data=f"banC|{message.chat.id}")]]
+                                              ))
+                        except Exception: pass
+                    try:
+                        return await message.reply(
+                                           f"Hi There.! 🖐️\n"
+                                           f"Im new here {message.chat.mention}\n\n"
+                                           f"Let me Introduce myself.. \n"
+                                           f"My Name is iLovePDF, and i can help you to do many "
+                                           f"Manipulations with @Telegram PDF files\n\n"
+                                           f"Thanks @nabilanavab for this Awesome Bot 😅", quote=True,
+                                           reply_markup = InlineKeyboardMarkup(
+                                                               [[InlineKeyboardButton("Bot Owner",
+                                                                     url="Telegram.dog/nabilanavab"),
+                                                                 InlineKeyboardButton("Update Channel",
+                                                                     url="Telegram.dog/iLovePDF_bot")],
+                                                                [InlineKeyboardButton("⭐ Source Code ⭐",
+                                                                     url="https://github.com/nabilanavab/iLovePDF")]]
+                                           ))
+                    except Exception: pass
+            if message.chat.type == "private":
+                if not await db.is_user_exist(message.from_user.id):
+                    await db.add_user(
+                                     message.from_user.id,
+                                     message.from_user.first_name
+                                     )
+                    if LOG_CHANNEL:
+                        try:
+                            await bot.send_message(
+                                              chat_id = LOG_CHANNEL,
+                                              text = LOG_TEXT.format(
+                                                                    message.from_user.id,
+                                                                    message.from_user.mention
+                                                                    ),
+                                              reply_markup = InlineKeyboardMarkup(
+                                                          [[InlineKeyboardButton("« B@N «",
+                                                          callback_data=f"banU|{message.from_user.id}")]]
+                                              ))
+                        except Exception: pass
         # CHECK USER IN CHANNEL (IF UPDATE_CHANNEL ADDED)
         if UPDATE_CHANNEL:
             try:
                 userStatus = await bot.get_chat_member(
-                           str(UPDATE_CHANNEL), message.chat.id
-                           )
+                                                      str(UPDATE_CHANNEL),
+                                                      message.from_user.id
+                                                      )
                 # IF USER BANNED FROM CHANNEL
                 if userStatus.status == 'banned':
                      await message.reply_photo(
                                               photo = BANNED_PIC,
                                               caption = "For Some Reason You Can't Use This Bot"
-                                                       "\n\nContact Bot Owner 🤐",
+                                                        "\n\nContact Bot Owner 🤐",
                                               reply_markup = InlineKeyboardMarkup(
-                                                             [[InlineKeyboardButton("Owner 🎊", url = "https://t.me/nabilanavab")]]
+                                                             [[InlineKeyboardButton("Owner 🎊",
+                                                                 url = "https://t.me/nabilanavab")]]
                                               ))
                      return
             except Exception as e:
-                if invite_link==None:
-                    invite_link=await bot.create_chat_invite_link(int(UPDATE_CHANNEL))
+                if invite_link == None:
+                    invite_link = await bot.create_chat_invite_link(
+                                                                   int(UPDATE_CHANNEL)
+                                                                   )
                 await message.reply_photo(
                                          photo = WELCOME_PIC,
                                          caption = forceSubMsg.format(
-                                                                   message.from_user.first_name,
-                                                                   message.chat.id
-                                                                   ),
+                                                                     message.from_user.first_name,
+                                                                     message.from_user.id
+                                                                     ),
                                          reply_markup = InlineKeyboardMarkup(
                                               [[
                                                       InlineKeyboardButton("🌟 JOIN CHANNEL 🌟",
@@ -150,14 +208,15 @@ async def start(bot, message):
                                                                     callback_data = "refresh")
                                               ]]
                                          ))
-                await message.delete()
+                if message.chat.type not in ['group', 'supergroup']:
+                    await message.delete()
                 return
         # IF NO FORCE SUBSCRIPTION
         await message.reply_photo(
                                  photo = WELCOME_PIC,
                                  caption = welcomeMsg.format(
-                                                          message.from_user.first_name,
-                                                          message.chat.id
+                                                            message.from_user.first_name,
+                                                            message.from.id
                                  ),
                                  reply_markup = button
                                  )
@@ -168,7 +227,6 @@ async def start(bot, message):
                         "PHOTO:CAUSES %(e)s ERROR",
                         exc_info=True
                         )
-
 
 #--------------->
 #--------> START CALLBACKS
@@ -186,7 +244,7 @@ async def _hlp(bot, callbackQuery):
     try:
         await callbackQuery.edit_message_caption(
               caption = helpMessage.format(
-                        callbackQuery.from_user.first_name, callbackQuery.message.chat.id
+                        callbackQuery.from_user.first_name, callbackQuery.from_user.id
                         ),
                         reply_markup = InlineKeyboardMarkup(
                               [[InlineKeyboardButton("« BACK «",
@@ -197,7 +255,6 @@ async def _hlp(bot, callbackQuery):
                         "HLP:CAUSES %(e)s ERROR",
                         exc_info = True
                         )
-
 
 @ILovePDF.on_callback_query(back)
 async def _back(bot, callbackQuery):
@@ -215,21 +272,20 @@ async def _back(bot, callbackQuery):
                         exc_info=True
                         )
 
-
 @ILovePDF.on_callback_query(refresh | refreshDoc | refreshImg)
 async def _refresh(bot, callbackQuery):
     try:
         # CHECK USER IN CHANNEL (REFRESH CALLBACK)
         userStatus = await bot.get_chat_member(
                                               str(UPDATE_CHANNEL),
-                                              callbackQuery.message.chat.id
+                                              callbackQuery.from_user.id
                                               )
         # IF USER NOT MEMBER (ERROR FROM TG, EXECUTE EXCEPTION)
         if callbackQuery.data == "refresh":
             return await callbackQuery.edit_message_caption(
                           caption = welcomeMsg.format(
                                       callbackQuery.from_user.first_name,
-                                      callbackQuery.message.chat.id
+                                      callbackQuery.from_user.id
                                       ),
                                       reply_markup = button
                          )
@@ -270,6 +326,5 @@ async def _close(bot, callbackQuery):
                         "CLOSE:CAUSES %(e)s ERROR",
                         exc_info=True
                         )
-
 
 #                                                                                  Telegram: @nabilanavab
