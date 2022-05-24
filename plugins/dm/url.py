@@ -80,11 +80,7 @@ async def _url(bot, message):
                                        )
         
         if message.chat.type in ["group", "supergroup"]:
-            caption = "__url:__ {}"
-                      "__Request From__ {}".format(
-                                                  url,
-                                                  message.from_user.mention
-                                                  )
+            caption = "__url:__ {}\n__Request From__ {}".format(url, message.from_user.mention)
         else:
             caption = "__url:__ {}".format(url)
         
