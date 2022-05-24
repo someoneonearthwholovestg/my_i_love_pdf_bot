@@ -300,7 +300,7 @@ async def _message(bot, message):
                                    )
     except Exception as e:
         logger.exception(
-                        "/BROADCAST:CAUSES %(e)s ERROR",
+                        "/MESSAGE:CAUSES %(e)s ERROR",
                         exc_info=True
                         )
 
@@ -342,4 +342,31 @@ async def server(bot, message):
                         exc_info=True
                         )
 
+@ILovePDF.on_message(
+                    filters.command("admin") &
+                    filters.user(ADMINS) &
+                    filters.private &
+                    ~filters.edited &
+                    filters.incoming)
+async def _adminList(bot, message):
+    try:
+        procs = await message.reply(
+                                   "⚙️ Processing..",
+                                   quote = True
+                                   )
+        await sleep(1)
+        msg = f"Total ADMIN: {len(ADMINS)}\n"
+        await procs.edit(msg)
+        for admin in ADMINS
+            try:
+                userINFO = await bot.get_users(int(admin))
+                msg += f"\n {userINFO.mention}"
+            except Exception: pass
+        await sleep(1)
+        await procs.edit(msg)
+    except Exception as e:
+        logger.exception(
+                        "/ADMIN:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
 #                                                                                                        Telegram: @nabilanavab
