@@ -17,8 +17,9 @@ class groupConfig(object):
                                                       ).split()
                          )
                       )
-    if ADMIN_GROUPS:
-        ADMIN_GROUP_ONLY = os.environ.get("ADMIN_GROUP_ONLY", False)
+    
+    # if admin group only (True)
+    ADMIN_GROUP_ONLY = os.environ.get("ADMIN_GROUP_ONLY", False)
     
     # banned groups can't use this bot (Optional)
     BANNED_GROUP = list(
