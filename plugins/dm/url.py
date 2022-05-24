@@ -101,7 +101,7 @@ async def _url(bot, message):
         try:
             PROCESS.remove(message.from_user.id)
             await msg.edit(
-                          text = f"__ERROR: __`{e}`",
+                          text = f"__ERROR: __`{message.chat.type} {e}`",
                           reply_markup = InlineKeyboardMarkup(
                                [[
                                      InlineKeyboardButton("🚫 Close 🚫",
