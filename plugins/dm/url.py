@@ -66,7 +66,7 @@ async def _url(bot, message):
         try:
             HTML(url = url).write_pdf(output_file)
         except URLFetchingError:
-            PROCESS.return(message.from_user.id)
+            PROCESS.remove(message.from_user.id)
             os.remove(output_file)
             return await msg.edit(
                                  "Unable to reach your web page"
