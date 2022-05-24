@@ -47,7 +47,7 @@ async def _url(bot, message):
                                  quote = True
                                  )
         
-        if (message.chat.id != "private") and (message.reply_to_message.text):
+        if (message.chat.id != "private") and (message.reply_to_message):
             url = message.reply_to_message.text
         else:
             url = message.text
