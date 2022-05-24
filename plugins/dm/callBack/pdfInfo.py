@@ -68,7 +68,6 @@ async def _pdfInfo(bot, callbackQuery):
         # DOWNLOADING STARTED
         downloadMessage = await callbackQuery.edit_message_text(
                                                                "`Downloding your pdf..`⏳", 
-                                                               quote = True
                                                                )
         pdf_path = f"{message_id}/pdfInfo.pdf"
         file_id = callbackQuery.message.reply_to_message.document.file_id
