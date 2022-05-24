@@ -115,17 +115,17 @@ async def bannedGrp(bot, message):
     try:
         await message.reply_chat_action("typing")
         if message.chat.id in BANNED_GRP_DB:
-            ban=await db.get_ban_status(message.chat.id)
-            toPin=await message.reply_photo(
+            ban = await db.get_ban_status(message.chat.id)
+            toPin = await message.reply_photo(
                                            photo = BANNED_PIC,
-                                           caption = GroupCantUse.format(message.chat.mention)+f'\n\nREASON: {ban["ban_reason"]}',
+                                           caption = GroupCantUse.format(message.chat.title)+f'\n\nREASON: {ban["ban_reason"]}',
                                            reply_markup = button,
                                            quote = True
                                            )
         else:
-            toPin=await message.reply_photo(
+            toPin = await message.reply_photo(
                                       photo = BANNED_PIC,
-                                      caption = GroupCantUse.format(message.chat.mention),
+                                      caption = GroupCantUse.format(message.chat.title),
                                       reply_markup = button,
                                       quote = True
                                       )
@@ -133,7 +133,7 @@ async def bannedGrp(bot, message):
             await toPin.pin()
         except Exception:
             pass
-        await bot.leave_chat(message.chat.id)
+        # await bot.leave_chat(message.chat.id)
     except Exception as e:
         logger.exception(
                         "BANNED_GROUP:CAUSE %(e)s ERROR",
