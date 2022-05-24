@@ -13,12 +13,12 @@ class groupConfig(object):
     ADMIN_GROUPS = list(
                       set(
                          int(x) for x in os.environ.get(
-                                                      "ONLY_GROUP", ""
+                                                      "ADMIN_GROUPS", ""
                                                       ).split()
                          )
                       )
     if ADMIN_GROUPS:
-        ADMIN_GROUP_ONLY = os.environ.get("ADMIN_ONLY", False)
+        ADMIN_GROUP_ONLY = os.environ.get("ADMIN_GROUP_ONLY", False)
     
     # banned groups can't use this bot (Optional)
     BANNED_GROUP = list(
