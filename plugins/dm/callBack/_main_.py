@@ -109,12 +109,6 @@ async def _pdf(bot, callbackQuery):
                                       "Total {} pages.. 🐾".format(number_of_pages)
                                       )
         
-        # callBack Message delete if User Deletes pdf
-        try:
-            fileExist = callbackQuery.message.reply_to_message.document.file_id
-        except Exception:
-            return await callbackQuery.message.delete()
-        
         # CHECKS IF BOT DOING ANY WORK
         if chat_id in PROCESS:
             return await callbackQuery.answer(
