@@ -357,7 +357,7 @@ async def _adminList(bot, message):
         await sleep(1)
         msg = f"Total ADMIN: {len(ADMINS)}\n"
         await procs.edit(msg)
-        for admin in ADMINS
+        for admin in ADMINS:
             try:
                 userINFO = await bot.get_users(int(admin))
                 msg += f"\n {userINFO.mention}"
