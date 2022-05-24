@@ -109,8 +109,8 @@ class Bot(ILovePDF):
             try:
                 await app.send_message(
                                       chat_id = admin,
-                                      text = "As You are Some Amoung the Bot Admin"
-                                             "its My Responsibility to inform when"
+                                      text = "As You are Some Amoung the Bot Admin. "
+                                             "Its My Responsibility to inform when"
                                              "ever i started working.. 😲\n\n"
                                              "NOW THE BOT IS WORKING SAAR..",
                                       reply_markup = InlineKeyboardMarkup(
