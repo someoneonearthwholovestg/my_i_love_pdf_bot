@@ -39,8 +39,9 @@ if isMONGOexist:
 #--------> config vars
 #------------------->
 
+ADMIN_GROUP_ONLY = groupConfig.ADMIN_GROUP_ONLY
 BANNED_GROUP = groupConfig.BANNED_GROUP
-ONLY_GROUP = groupConfig.ONLY_GROUP
+ADMIN_GROUPS = groupConfig.ADMIN_GROUPS
 BANNED_USERS = Config.BANNED_USERS
 ADMIN_ONLY = Config.ADMIN_ONLY
 ADMINS = Config.ADMINS
@@ -76,7 +77,7 @@ banned_user=filters.create(bannedUsers)
 
 async def bannedGroups(_, __, message: Message):
     if (message.chat.id in BANNED_GROUP) or (
-           (ONLY_GROUP) and (message.chat.id not in ONLY_GROUP)) or (
+           (ADMIN_GROUP_ONLY) and (message.chat.id not in ADMIN_GROUPS)) or (
                (isMONGOexist) and (message.chat.id in BANNED_GRP_DB)):
         return True
     return False
@@ -89,7 +90,7 @@ async def bannedUsr(bot, message):
         await message.reply_chat_action("typing")
         # IF USER BANNED FROM DATABASE
         if message.from_user.id in BANNED_USR_DB:
-            ban=await db.get_ban_status(message.from_user.id)
+            ban = await db.get_ban_status(message.from_user.id)
             await message.reply_photo(
                                      photo = BANNED_PIC,
                                      caption = UCantUse.format(message.from_user.mention)+f'\n\nREASON: {ban["ban_reason"]}',
