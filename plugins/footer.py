@@ -19,6 +19,18 @@ from pyrogram.types import (
                            InlineKeyboardMarkup
                            )
 
+async def header(callbackQuery):
+    # callBack Message delete if User Deletes pdf
+    try:
+        fileExist = callbackQuery.message.reply_to_message.document.file_id
+        return False
+    except Exception as e:
+        logger.exception(
+                        "HEADER:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
+        await callbackQuery.message.delete()
+        return "delete"
 
 async def footer(message, file):
     try:
