@@ -362,7 +362,7 @@ async def _adminList(bot, message):
                 userINFO = await bot.get_users(int(admin))
                 msg += f"\n {userINFO.mention}"
             except Exception: pass
-        await sleep(1)
+        await asyncio.sleep(1)
         await procs.edit(msg)
     except Exception as e:
         logger.exception(
