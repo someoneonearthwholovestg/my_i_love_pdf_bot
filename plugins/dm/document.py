@@ -187,7 +187,6 @@ async def documents(bot, message):
                                                             callback_data="asnewDoc")
                                           ]]
                                       ))
-        PROCESS.append(message.chat.id)
         isPdfOrImg = message.document.file_name        # file name
         fileSize = message.document.file_size          # file size
         fileNm, fileExt = os.path.splitext(isPdfOrImg) # seperate name & extension
@@ -205,7 +204,6 @@ async def documents(bot, message):
                                                 url="https://github.com/nabilanavab/ilovepdf")
                                      ]]
                                 ))
-            PROCESS.remove(message.chat.id)
             return
         
         # IMAGE AS FILES (ADDS TO PDF FILE)
@@ -229,12 +227,10 @@ async def documents(bot, message):
                                                          len(PDF[message.chat.id])
                                                          )
                                         )
-                PROCESS.remove(message.chat.id)
             except Exception as e:
                 await imageDocReply.edit(
                                         errorEditMsg.format(e)
                                         )
-                PROCESS.remove(message.chat.id)
         
         # REPLY TO .PDF FILE EXTENSION
         elif fileExt.lower() == ".pdf":
@@ -255,6 +251,7 @@ async def documents(bot, message):
         # FILES TO PDF (PYMUPDF/FITZ)
         elif fileExt.lower() in suprtedPdfFile:
             try:
+                PROCESS.append(message.from_user.id)
                 pdfMsgId = await message.reply_text(
                                                    "`Downloading your file..⏳`",
                                                    quote = True
@@ -301,7 +298,7 @@ async def documents(bot, message):
                                             )
                 await footer(message, logFile)
                 
-                await pdfMsgId.delete(); PROCESS.remove(message.chat.id)
+                await pdfMsgId.delete(); PROCESS.remove(message.from_user.id)
                 shutil.rmtree(f"{message.message_id}")
             except Exception as e:
                 try:
@@ -320,10 +317,10 @@ async def documents(bot, message):
                                                    "`Owner Forgot to add ConvertAPI.. contact Owner 😒`",
                                                    quote = True
                                                    )
-                PROCESS.remove(message.chat.id)
                 return 
             else:
                 try:
+                    PROCESS.append(message.from_user.id)
                     pdfMsgId = await message.reply_text(
                                                        "`Downloading your file..⏳`",
                                                        quote = True
@@ -364,10 +361,10 @@ async def documents(bot, message):
                                                 quote = True
                                                 )
                     await footer(message, logFile)
-                    await pdfMsgId.delete(); PROCESS.remove(message.chat.id)
+                    await pdfMsgId.delete(); PROCESS.remove(message.from_user.id)
                     shutil.rmtree(f"{message.message_id}")
                 except Exception:
-                    pass
+                    PROCESS.append(message.from_user.id)
         
         # UNSUPPORTED FILES
         else:
