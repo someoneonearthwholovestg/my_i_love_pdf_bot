@@ -22,7 +22,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
                     filters.private &
                     ~filters.edited &
                     filters.incoming &
-                    filters.text.startswith("https")
+                    filters.text
                     )
 async def _url(bot, message):
     try:
