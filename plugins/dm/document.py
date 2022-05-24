@@ -394,7 +394,9 @@ async def _asNewDoc(bot, callbackQuery):
         await callbackQuery.answer(
                                   "⚙️ PROCESSING.."
                                   )
-        return if await header(callbackQuery) else pass
+        if await header(callbackQuery):
+            return
+        else :pass
         await documents(
                        bot, callbackQuery.message.reply_to_message
                        )
