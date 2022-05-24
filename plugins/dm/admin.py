@@ -251,7 +251,7 @@ async def _message(bot, message):
                                    "⚙️ Processing..",
                                    quote = True
                                    )
-        await asyncio.sleep(2)
+        await asyncio.sleep(1)
         if not message.reply_to_message:
             return await procs.edit(
                                    "__Please Reply To A Message..__ 🤧"
@@ -355,7 +355,7 @@ async def _adminList(bot, message):
                                    quote = True
                                    )
         await asyncio.sleep(1)
-        msg = f"Total ADMIN: {len(ADMINS)}\n"
+        msg = f"**Total ADMIN:** __{len(ADMINS)}__\n"
         await procs.edit(msg)
         for admin in ADMINS:
             try:
