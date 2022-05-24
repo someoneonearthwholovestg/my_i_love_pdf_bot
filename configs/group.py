@@ -10,7 +10,7 @@ import os
 class groupConfig(object):
     
     # add admins Id list by space seperated (Optional)
-    ONLY_GROUP=list(set(int(x) for x in os.environ.get("ONLY_GROUP", False).split()))
+    ONLY_GROUP=list(set(int(x) for x in os.environ.get("ONLY_GROUP", "").split()))
     
     # banned groups can't use this bot (Optional)
     BANNED_GROUP=list(set(int(x) for x in os.environ.get("BANNED_USERS", "0").split()))
