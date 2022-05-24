@@ -25,6 +25,7 @@ from plugins.thumbName import (
                               formatThumb
                               )
 from pyrogram import Client as ILovePDF
+from plugins.footer import footer, header
 from plugins.fileSize import get_size_format as gSF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from configs.images import WELCOME_PIC, BANNED_PIC, BIG_FILE, PDF_THUMBNAIL
@@ -101,10 +102,6 @@ This Means You Need To Join The Below Mentioned Channel for Using Me!
 
 hit on "retry ♻️" after joining.. 😅"""
 
-#--------------->
-#--------> PDF REPLY BUTTON
-#------------------->
-
 pdfReply = InlineKeyboardMarkup(
         [[
             InlineKeyboardButton("⭐ META£ATA ⭐", callback_data="pdfInfo"),
@@ -131,10 +128,6 @@ pdfReply = InlineKeyboardMarkup(
             InlineKeyboardButton("🚫 CLOSE 🚫", callback_data="closeALL")
         ]]
     )
-
-#--------------->
-#--------> Config var.
-#------------------->
 
 UPDATE_CHANNEL = Config.UPDATE_CHANNEL
 
@@ -245,9 +238,11 @@ async def documents(bot, message):
         
         # REPLY TO .PDF FILE EXTENSION
         elif fileExt.lower() == ".pdf":
-            pdfMsgId = await message.reply_text(
-                                               "Processing..🚶", quote=True
-                                               )
+            pdfMsgId = await message.reply_text("⚙️ Processing.", quote = True)
+            await asyncio.sleep(0.5)
+            await pdfMsgId.edit("⚙️ Processing..")
+            await asyncio.sleep(0.5)
+            await pdfMsgId.edit("⚙️ Processing...")
             await asyncio.sleep(0.5)
             await pdfMsgId.edit(
                                text = pdfReplyMsg.format(
@@ -297,13 +292,15 @@ async def documents(bot, message):
                 await message.reply_chat_action(
                                                "upload_document"
                                                )
-                await message.reply_document(
+                logFile = await message.reply_document(
                                             file_name = f"{fileName}.pdf",
                                             document = open(f"{message.message_id}/{fileNm}.pdf", "rb"),
                                             thumb = thumbnail,
                                             caption = f"`Converted: {fileExt} to pdf`",
                                             quote = True
                                             )
+                await footer(message, logFile)
+                
                 await pdfMsgId.delete(); PROCESS.remove(message.chat.id)
                 shutil.rmtree(f"{message.message_id}")
             except Exception as e:
@@ -359,13 +356,14 @@ async def documents(bot, message):
                     await message.reply_chat_action(
                                                    "upload_document"
                                                    )
-                    await message.reply_document(
+                    logFile = await message.reply_document(
                                                 file_name = f"{fileNm}.pdf",
                                                 document = open(f"{message.message_id}/{fileNm}.pdf", "rb"),
                                                 thumb = PDF_THUMBNAIL,
                                                 caption = f"`Converted: {fileExt} to pdf`",
                                                 quote = True
                                                 )
+                    await footer(message, logFile)
                     await pdfMsgId.delete(); PROCESS.remove(message.chat.id)
                     shutil.rmtree(f"{message.message_id}")
                 except Exception:
@@ -386,7 +384,6 @@ async def documents(bot, message):
                         exc_info=True
                         )
 
-    
 @ILovePDF.on_callback_query(asNewDoc)
 async def _asNewDoc(bot, callbackQuery):
     try:
@@ -397,13 +394,15 @@ async def _asNewDoc(bot, callbackQuery):
         await callbackQuery.answer(
                                   "⚙️ PROCESSING.."
                                   )
-        await documents(bot, callbackQuery.message.reply_to_message)
+        return if await header(callbackQuery) else pass
+        await documents(
+                       bot, callbackQuery.message.reply_to_message
+                       )
         await callbackQuery.message.delete()
     except Exception as e:
         logger.exception(
                         "AS_NEW_DOC:CAUSES %(e)s ERROR",
                         exc_info=True
                         )
-
 
 #                                                                                  Telegram: @nabilanavab
