@@ -261,9 +261,9 @@ async def _message(bot, message):
                                    "Give me a user id / username"
                                    )
         reM = message.text.split(None)
-        if len(reM) > 2:
-            chat = message.text.split(None, 2)[1]
-            info = message.text.split(None, 2)[2]
+        if len(reM) == 3:
+            chat = message.text.split(None, 2)[2]
+            info = message.text.split(None, 2)[1]
             if info not in ["c", "f"]:
                 return await procs.edit(
                                        "__Please Use__ `c`:copy or `f`:forward"
@@ -354,7 +354,7 @@ async def _adminList(bot, message):
                                    "⚙️ Processing..",
                                    quote = True
                                    )
-        await sleep(1)
+        await asyncio.sleep(1)
         msg = f"Total ADMIN: {len(ADMINS)}\n"
         await procs.edit(msg)
         for admin in ADMINS:
