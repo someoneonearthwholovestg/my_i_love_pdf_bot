@@ -151,7 +151,6 @@ async def _pdfInfo(bot, callbackQuery):
                         ]
                     ]
                 )
-                editedPdfReplyCb = knownButton
                 await callbackQuery.edit_message_text(
                                                      pdfInfoMsg.format(
                                                                       fileName,
