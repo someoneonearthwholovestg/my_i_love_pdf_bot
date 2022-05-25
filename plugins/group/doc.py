@@ -139,80 +139,8 @@ pdfReply = InlineKeyboardMarkup(
 UPDATE_CHANNEL = Config.UPDATE_CHANNEL
 
 #--------------->
-#--------> REPLY TO DOCUMENTS/FILES
+#--------> REPLY TO group DOCUMENTS/FILES/IMAGES
 #------------------->
-
-@ILovePDF.on_message(
-                    filters.group &
-                    ~filters.edited &
-                    filters.photo &
-                    filters.incoming
-                    )
-async def images(bot, message):
-    try:
-        global invite_link
-        await message.reply_chat_action("typing")
-        # CHECK USER IN CHANNEL (IF UPDATE_CHANNEL ADDED)
-        if UPDATE_CHANNEL:
-            try:
-                userStatus = await bot.get_chat_member(
-                                                      str(UPDATE_CHANNEL),
-                                                      message.from_user.id
-                                                      )
-                # IF USER BANNED FROM CHANNEL
-                if userStatus.status == 'banned':
-                     return await message.reply_photo(
-                                              photo = BANNED_PIC, quote = True,
-                                              caption = "For Some Reason You Can't Use This Bot"
-                                                         "\n\nContact Bot Owner 🤐",
-                                              reply_markup = InlineKeyboardMarkup(
-                                                   [[InlineKeyboardButton("Owner 🎊",
-                                                   url="https://t.me/nabilanavab")]]
-                                              ))
-            except Exception:
-                if invite_link == None:
-                    invite_link = await bot.create_chat_invite_link(
-                                                                   int(UPDATE_CHANNEL)
-                                                                   )
-                await message.reply_photo(
-                    photo = WELCOME_PIC, quote = True,
-                    caption = forceSubMsg.format(
-                        message.from_user.first_name, message.from_user.id
-                    ),
-                    reply_markup = InlineKeyboardMarkup(
-                        [[
-                            InlineKeyboardButton("🌟 JOIN CHANNEL 🌟",
-                                        url = invite_link.invite_link)
-                        ],[
-                            InlineKeyboardButton("Refresh ♻️",
-                                         callback_data = "refreshImg")
-                        ]]
-                    )
-                )
-                return
-        imageReply = await message.reply_to_message.reply_text(
-                                             "`Downloading your Image..⏳`",
-                                             quote=True
-                                             )
-        if not isinstance(PDF.get(message.chat.id), list):
-            PDF[message.chat.id] = []
-        await message.reply_to_message.download(
-                              f"{message.chat.id}/{message.chat.id}.jpg"
-                              )
-        img = Image.open(
-            f"{message.chat.id}/{message.chat.id}.jpg"
-        ).convert("RGB")
-        PDF[message.chat.id].append(img)
-        await imageReply.edit(
-                             imageAdded.format(
-                                              len(PDF[message.chat.id])
-                                              )
-                             )
-    except Exception as e:
-        logger.exception(
-                        "»»GROUP:PHOTO:CAUSES %(e)s ERROR",
-                        exc_info=True
-                        )
 
 @ILovePDF.on_message(
                     filters.group &
@@ -226,7 +154,9 @@ async def images(bot, message):
 async def documents(bot, message):
     try:
         global invite_link
-        await message.reply_chat_action("typing")
+        await message.reply_chat_action(
+                                       "typing"
+                                       )
         # CHECK USER IN CHANNEL (IF UPDATE_CHANNEL ADDED)
         if UPDATE_CHANNEL:
             try:
@@ -257,25 +187,59 @@ async def documents(bot, message):
                                     reply_markup = InlineKeyboardMarkup(
                                          [[
                                                InlineKeyboardButton("🌟 JOIN CHANNEL 🌟",
-                                                             url=invite_link.invite_link)
+                                                           url = invite_link.invite_link)
                                          ],[
                                                InlineKeyboardButton("Refresh ♻️",
-                                                      callback_data="refreshDoc")
+                                                    callback_data = "refreshDoc")
                                          ]]
                                     ))
         
         if message.from_user.id in PROCESS:
             return await message.reply_to_message.reply(
-                                      "WORK IN PROGRESS.. 🙇"
-                                      "\nTry Again Later.. 😉",
-                                      quote = True,
-                                      )
+                                                       "WORK IN PROGRESS.. 🙇"
+                                                       "\nTry Again Later.. 😉"
+                                                       "\n\nRequest from: {}".format(message.from_user.mention),
+                                                       quote = True,
+                                                       reply_markup = InlineKeyboardMarkup(
+                                                             [[
+                                                                 InlineKeyboardButton("♻️ Try Again ♻️",
+                                                                 callback_data="asnewDoc")
+                                                             ]]
+                                                       )
         
-        if not message.reply_to_message:
+        if not message.reply_to_message and (
+            message.reply_to_message.document or message.reply_to_message.photo):
             return await message.reply(
-                                      "Broh Please Reply to a Document..🤧",
+                                      "Broh Please Reply to a Document or an Image..🤧",
                                       quote = True
                                       )
+        
+        if message.reply_to_message.photo:
+            imageReply = await message.reply_to_message.reply_text(
+                                             "`Downloading your Image..⏳`",
+                                             quote = True
+                                             )
+            if not isinstance(PDF.get(message.chat.id), list):
+                PDF[message.chat.id] = []
+            await message.reply_to_message.download(
+                                     f"{message.chat.id}/{message.chat.id}.jpg"
+                                     )
+            img = Image.open(
+                f"{message.chat.id}/{message.chat.id}.jpg"
+            ).convert("RGB")
+            PDF[message.chat.id].append(img)
+            return await imageReply.edit(
+                                 imageAdded.format(
+                                                  len(PDF[message.chat.id])
+                                                  )
+                                 )
+        
+        if message.from_user.id != message.reply_to_message.from_user.id:
+            status = bot.get_chat_member(
+                                        message.chat.id,
+                                        message.from_user.id
+                                        ).status
+            logger.debug(f"ADMIN_STATUS_CHECK: {status}")
         
         isPdfOrImg = message.reply_to_message.document.file_name        # file name
         fileSize = message.reply_to_message.document.file_size          # file size
@@ -291,7 +255,7 @@ async def documents(bot, message):
                                      reply_markup = InlineKeyboardMarkup(
                                           [[
                                                InlineKeyboardButton("💎 Create 2Gb Support Bot 💎",
-                                                     url="https://github.com/nabilanavab/ilovepdf")
+                                                     url = "https://github.com/nabilanavab/ilovepdf")
                                            ]]
                                     ))
             return
@@ -324,9 +288,11 @@ async def documents(bot, message):
         
         # REPLY TO .PDF FILE EXTENSION
         elif fileExt.lower() == ".pdf":
-            pdfMsgId = await message.reply_to_message.reply_text(
-                                               "Processing..🚶", quote=True
-                                               )
+            pdfMsgId = await message.reply_to_message.reply_text("⚙️ PROCESSING.", quote = True)
+            await asyncio.sleep(0.5)
+            await pdfMsgId.edit("⚙️ PROCESSING..")
+            await asyncio.sleep(0.5)
+            await pdfMsgId.edit("⚙️ PROCESSING...")
             await asyncio.sleep(0.5)
             await pdfMsgId.edit(
                                text = pdfReplyMsg.format(
@@ -436,6 +402,16 @@ async def documents(bot, message):
                             PROCESS.remove(message.from_user.id)
                             return
                         except Exception: pass
+                    
+                    # Getting thumbnail
+                    thumbnail, fileName = await thumbName(message, isPdfOrImg)
+                    if PDF_THUMBNAIL != thumbnail:
+                        await bot.download_media(
+                                                message = thumbnail,
+                                                file_name = f"{message.message_id}/thumbnail.jpeg"
+                                                )
+                        thumbnail = await formatThumb(f"{message.message_id}/thumbnail.jpeg")
+                    
                     await message.reply_chat_action(
                                                    "upload_document"
                                                    )
