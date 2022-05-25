@@ -234,7 +234,7 @@ async def documents(bot, message):
                                  )
         
         if message.from_user.id != message.reply_to_message.from_user.id:
-            status = bot.get_chat_member(
+            status = await bot.get_chat_member(
                                         message.chat.id,
                                         message.from_user.id
                                         ).status
