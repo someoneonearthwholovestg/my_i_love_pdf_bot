@@ -77,7 +77,7 @@ async def _thumbnail(bot, message):
                                     quote = True
                                     )
             # non private messages ↓
-            if message.chat.id in CUSTOM_THUMBNAIL_C:
+            if message.chat.id not in CUSTOM_THUMBNAIL_C:
                 return await message.reply(
                                     "No Custom Group Thumbnail 🥲",
                                     quote = True
