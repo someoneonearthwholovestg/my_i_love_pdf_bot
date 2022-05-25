@@ -111,7 +111,7 @@ delThumb = filters.create(lambda _, __, query: query.data=="delThumb")
 @ILovePDF.on_callback_query(geThumb)
 async def _getThumb(bot, callbackQuery):
     try:
-        chat_type = callbackQuery.chat.type
+        chat_type = callbackQuery.message.chat.type
         if not isMONGOexist:
             await callbackQuery.answer(
                                       "Can't Use This Feature 🤧"
@@ -237,7 +237,7 @@ async def _addThumb(bot, callbackQuery):
 @ILovePDF.on_callback_query(delThumb)
 async def _delThumb(bot, callbackQuery):
     try:
-        chat_type = callbackQuery.chat.type
+        chat_type = callbackQuery.message.chat.type
         # if callbackQuery for [old delete thumb] messages
         if callbackQuery.chat.id not in CUSTOM_THUMBNAIL_U or CUSTOM_THUMBNAIL_C:
             return await callbackQuery.answer(
