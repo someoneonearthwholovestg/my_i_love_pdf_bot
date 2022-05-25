@@ -44,16 +44,10 @@ async def _thumbnail(bot, message):
             return
         elif message.reply_to_message and message.reply_to_message.photo:
             # set thumbnail
-            if chat_type == "private":
-                await db.set_thumbnail(
-                                      message.chat.id,
-                                      message.reply_to_message.photo.file_id
-                                      )
-            else:
-                await db.set_chat_thum(
-                                      message.chat.id,
-                                      message.reply_to_message.photo.file_id
-                                      )
+            await db.set_thumbnail(
+                                  message.chat.id,
+                                  message.reply_to_message.photo.file_id
+                                  )
             await message.reply_photo(
                                      photo = message.reply_to_message.photo.file_id,
                                      caption = "Okay,\n"
