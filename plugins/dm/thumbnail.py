@@ -64,7 +64,7 @@ async def _thumbnail(bot, message):
                                      ),
                                      quote = True
                                      )
-            if chat_type = "private":
+            if chat_type == "private":
                 CUSTOM_THUMBNAIL_U.append(message.from_user.id)
             else:
                 CUSTOM_THUMBNAIL_C.append(message.chat.id)
