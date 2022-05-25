@@ -207,8 +207,7 @@ async def documents(bot, message):
                                                              ]]
                                                        )
         
-        if not message.reply_to_message and (
-            message.reply_to_message.document or message.reply_to_message.photo):
+        if (not message.reply_to_message) and (message.reply_to_message.document or message.reply_to_message.photo):
             return await message.reply(
                                       "Broh Please Reply to a Document or an Image..🤧",
                                       quote = True
