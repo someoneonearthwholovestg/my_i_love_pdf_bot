@@ -84,7 +84,11 @@ async def bannedGroups(_, __, message: Message):
 
 banned_group=filters.create(bannedGroups)
 
-@ILovePDF.on_message(filters.private & banned_user & filters.incoming)
+@ILovePDF.on_message(
+                    filters.private &
+                    banned_user &
+                    filters.incoming
+                    )
 async def bannedUsr(bot, message):
     try:
         await message.reply_chat_action("typing")
@@ -111,7 +115,11 @@ async def bannedUsr(bot, message):
                         exc_info=True
                         )
 
-@ILovePDF.on_message(filters.group & banned_group & filters.incoming)
+@ILovePDF.on_message(
+                    filters.group &
+                    banned_group &
+                    filters.incoming
+                    )
 async def bannedGrp(bot, message):
     try:
         await message.reply_chat_action("typing")
@@ -134,7 +142,7 @@ async def bannedGrp(bot, message):
             await toPin.pin()
         except Exception:
             pass
-        # await bot.leave_chat(message.chat.id)
+        await bot.leave_chat(message.chat.id)
     except Exception as e:
         logger.exception(
                         "BANNED_GROUP:CAUSE %(e)s ERROR",
@@ -168,7 +176,13 @@ async def broadcast_messages(user_id, message, info):
                         )
         return False, "Error"
 
-@ILovePDF.on_message(filters.command("broadcast") & filters.user(ADMINS) & filters.private & ~filters.edited & filters.incoming)
+@ILovePDF.on_message(
+                    filters.command("broadcast") &
+                    filters.user(ADMINS) &
+                    filters.private &
+                    ~filters.edited &
+                    filters.incoming
+                    )
 async def _broadcast(bot, message):
     try:
         procs = await message.reply(
@@ -245,7 +259,13 @@ async def _broadcast(bot, message):
                         exc_info=True
                         )
 
-@ILovePDF.on_message(filters.command("message") & filters.user(ADMINS) & filters.private & ~filters.edited & filters.incoming)
+@ILovePDF.on_message(
+                    filters.command("message") &
+                    filters.user(ADMINS) &
+                    filters.private &
+                    ~filters.edited &
+                    filters.incoming
+                    )
 async def _message(bot, message):
     try:
         procs = await message.reply(
@@ -306,7 +326,12 @@ async def _message(bot, message):
                         )
 
 # ❌ ADMIN COMMAND (/server) ❌
-@ILovePDF.on_message(filters.private & filters.command(["server"]) & filters.incoming & filters.user(Config.ADMINS))
+@ILovePDF.on_message(
+                    filters.private &
+                    filters.command(["server"]) &
+                    filters.incoming &
+                    filters.user(Config.ADMINS)
+                    )
 async def server(bot, message):
     try:
         total, used, free = shutil.disk_usage(".")
