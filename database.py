@@ -58,6 +58,11 @@ class Database:
         user=self.new_user(id, name)
         await self.col.insert_one(user)
     
+    # ADD NEW GROUP TO DB
+    async def add_chat(self, chat, title):
+        chat=self.new_group(chat, title)
+        await self.grp.insert_one(chat)
+    
     async def delete_user(self, user_id):
         await self.col.delete_many({'id': int(user_id)})
     
@@ -75,11 +80,6 @@ class Database:
                        )
         await self.col.update_one({'id': id}, {'$set': {'ban_status': ban_status}})
     
-    
-    # ADD NEW GROUP TO DB
-    async def add_chat(self, chat, title):
-        chat=self.new_group(chat, title)
-        await self.grp.insert_one(chat)
     
     # GET BAN REASON
     async def get_ban_status(self, id):
@@ -104,10 +104,17 @@ class Database:
     async def set_thumbnail(self, id, thumbnail):
         await self.col.update_one({'id': id}, {'$set': {'thumbnail': thumbnail}})
     
+    async def set_chat_thum(self, id, thumbnail):
+        await self.grp.update_one({'id': id}, {'$set': {'thumbnail': thumbnail}})
+    
     # GET THUMBNAIL
     async def get_thumbnail(self, id):
         user=await self.col.find_one({'id': int(id)})
         return user.get('thumbnail', None)
+    
+    async def get_chat_thumb(self, id):
+        chat=await self.grp.find_one({'id': int(id)})
+        return chat.get('thumbnail', None)
     
     # SET CONVERTAPI FOR PDF FILES
     async def set_convertAPI(self, id, convertAPI):
