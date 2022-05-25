@@ -292,7 +292,7 @@ async def _unbanUserCB(bot, callbackQuery):
                                              )
         _, userID = callbackQuery.data.split("|")
         
-        if chat_type = "user":
+        if chat_type == "user":
             if int(userID) in BANNED_USR_DB:
                 return await callbackQuery.answer(
                                                  f"He is not yet banned"
