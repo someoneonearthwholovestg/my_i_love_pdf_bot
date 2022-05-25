@@ -207,12 +207,12 @@ async def documents(bot, message):
                                                              ]]
                                                        ))
         
+        myID.id = await bot.get_me()
         status = await bot.get_chat_member(
                                            message.chat.id,
-                                           "@xtxitxbot"
+                                           myID.id
                                            )
         if status.status not in ["administrator", "owner"]:
-            logger.debug(f"ADMIN_STATUS_CHECK: {status}")
             return await message.reply(
                                       "Due to Some Telegram Limits.."
                                       "I can only work as an admin\n\n"
