@@ -111,8 +111,8 @@ async def start(bot, message):
         # CHECK IF USER IN DATABASE
         if isMONGOexist:
             if message.chat.type in ['group', 'supergroup']:
-                if not await db.is_chat_exist(message.from_user.id):
-                    await db.add_user(
+                if not await db.is_chat_exist(message.chat.id):
+                    await db.add_chat(
                                      message.chat.id,
                                      message.chat.title
                                      )
