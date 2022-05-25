@@ -212,14 +212,13 @@ async def documents(bot, message):
                                            "@xtxitxbot"
                                            )
         if status.status not in ["administrator", "owner"]:
+            logger.debug(f"ADMIN_STATUS_CHECK: {status}")
             return await message.reply(
                                       "Due to Some Telegram Limits.."
                                       "I can only work as an admin\n\n"
                                       "__Please promote me as admin__ ☺️",
                                       quote = True
                                       )
-        logger.debug(f"ADMIN_STATUS_CHECK: {status}")
-        
         
         if (not message.reply_to_message) or (message.reply_to_message.document or message.reply_to_message.photo):
             return await message.reply(
