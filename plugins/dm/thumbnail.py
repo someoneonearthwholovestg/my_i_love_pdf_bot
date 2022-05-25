@@ -122,13 +122,13 @@ async def _getThumb(bot, callbackQuery):
                                       "wait.! Let me think.. 🤔"
                                       )
             
-            if callbackQuery.chat.id in CUSTOM_THUMBNAIL_U:
+            if chat_type == "private" and callbackQuery.message.chat.id in CUSTOM_THUMBNAIL_U:
                 thumbnail = await db.get_thumbnail(
-                                                  callbackQuery.chat.id
+                                                  callbackQuery.message.chat.id
                                                   )
-            elif callbackQuery.chat.id in CUSTOM_THUMBNAIL_C:
+            elif callbackQuery.message.chat.id in CUSTOM_THUMBNAIL_C:
                 thumbnail = await db.get_chat_thumb(
-                                                   callbackQuery.chat.id
+                                                   callbackQuery.message.chat.id
                                                    )
             else:
                 thumbnail = False
@@ -239,7 +239,7 @@ async def _delThumb(bot, callbackQuery):
     try:
         chat_type = callbackQuery.message.chat.type
         # if callbackQuery for [old delete thumb] messages
-        if callbackQuery.chat.id not in CUSTOM_THUMBNAIL_U or CUSTOM_THUMBNAIL_C:
+        if callbackQuery.message.chat.id not in CUSTOM_THUMBNAIL_U or CUSTOM_THUMBNAIL_C:
             return await callbackQuery.answer(
                                              "Currently, you don't set a thumbnail yet.. 🤧"
                                              )
@@ -251,19 +251,19 @@ async def _delThumb(bot, callbackQuery):
         
         if chat_type == "private":
             await db.set_thumbnail(
-                                  callbackQuery.chat.id,
+                                  callbackQuery.message.chat.id,
                                   None
                                   )
             CUSTOM_THUMBNAIL_U.remove(
-                                     callbackQuery.chat.id
+                                     callbackQuery.message.chat.id
                                      )
         else:
             await db.set_chat_thum(
-                                  callbackQuery.chat.id,
+                                  callbackQuery.message.chat.id,
                                   None
                                   )
             CUSTOM_THUMBNAIL_C.remove(
-                                     callbackQuery.chat.id
+                                     callbackQuery.message.chat.id
                                      )
     except Exception as e:
         logger.exception(
