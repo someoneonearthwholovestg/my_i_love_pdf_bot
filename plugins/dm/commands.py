@@ -47,10 +47,14 @@ Bot: @complete_pdf_bot 💎\n
 
 
 # ❌ CANCELS CURRENT PDF TO IMAGES WORK ❌
-@ILovePDF.on_message(filters.private & filters.command(["cancel"]) & filters.incoming)
+@ILovePDF.on_message(
+                    filters.private &
+                    filters.command(["cancel"]) &
+                    filters.incoming
+                    )
 async def cancelP2I(bot, message):
     try:
-        PROCESS.remove(message.chat.id)
+        PROCESS.remove(message.from_user.id)
         await message.delete()          # delete /cancel if process canceled
     except Exception:
         try:
@@ -61,9 +65,12 @@ async def cancelP2I(bot, message):
         except Exception:
             pass
 
-
 # ❌ DELETS CURRENT IMAGES TO PDF QUEUE (/delete) ❌
-@ILovePDF.on_message(filters.private & filters.command(["delete"]) & filters.incoming)
+@ILovePDF.on_message(
+                    filters.private &
+                    filters.command(["delete"]) &
+                    filters.incoming
+                    )
 async def _cancelI2P(bot, message):
     try:
         await message.reply_chat_action("typing")
@@ -79,15 +86,28 @@ async def _cancelI2P(bot, message):
                                 quote=True
                                 )
 
-
 # ❌ GET USER ID (/id) ❌
-@ILovePDF.on_message(filters.private & filters.command(["id"]) & filters.incoming)
+@ILovePDF.on_message(
+                    filters.private &
+                    filters.command(["id"]) &
+                    filters.incoming
+                    )
 async def userId(bot, message):
     try:
-        await message.reply_text(
-                                f'{message.from_user.mention} Id: `{message.chat.id}`',
-                                quote=True
-                                )
+        if message.chat.id == message.from_user.id:
+            await message.reply_text(
+                                    f"Your Name: {message.from_user.mention}"
+                                    f"Id: `{message.chat.id}`",
+                                    quote = True
+                                    )
+        else:
+            await message.reply_text(
+                                    f"Chat Title: `{message.chat.title}`\n"
+                                    f"Chat ID: `{message.chat.id}`\n"
+                                    f"User Name: `{message.from_user.mention}\n"
+                                    f"User ID: `{message.from_user.id}",
+                                    quote = True
+                                    )
     except Exception as e:
         logger.exception(
                         "/ID:CAUSES %(e)s ERROR",
@@ -101,38 +121,42 @@ async def feedback(bot, message):
     try:
         await message.reply_text(
                                 feedbackMsg,
-                                disable_web_page_preview=True
+                                disable_web_page_preview = True
                                 )
     except Exception as e:
         logger.exception(
                         "/FEEDBACK:CAUSES %(e)s ERROR",
-                        exc_info=True
+                        exc_info = True
                         )
-
 
 # ❌ DELETS CURRENT IMAGES TO PDF QUEUE (/delete) ❌
 @ILovePDF.on_message(filters.private & filters.command(["help", "commands"]) & filters.incoming)
 async def _help(bot, message):
     try:
         await message.reply_chat_action("typing")
-        helpMsg=await message.reply(
+        helpMsg = await message.reply(
                                    "⚙️ Processing..", quote=True
                                    )
         await sleep(2)
-        HELP=userHELP
-        await helpMsg.edit(HELP)
+        HELP = userHELP
+        await helpMsg.edit(
+                          HELP
+                          )
         if message.from_user.id in Config.ADMINS:
             await sleep(4)
-            HELP=userHELP+adminHelp
-            await helpMsg.edit(HELP)
+            HELP = userHELP + adminHelp
+            await helpMsg.edit(
+                              HELP
+                              )
         await sleep(2)
-        HELP+=footer
-        await helpMsg.edit(HELP)
+        HELP += footer
+        await helpMsg.edit(
+                          HELP,
+                          disable_web_page_preview = True)
     except Exception as e:
         logger.exception(
                         "/HELP:CAUSES %(e)s ERROR",
                         exc_info=True
                         )
-
 
 #                                                                                  Telegram: @nabilanavab
