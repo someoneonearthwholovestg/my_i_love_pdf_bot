@@ -49,15 +49,8 @@ async def _url(bot, message):
         
         url = message.text
         
-        if "/" in message.text:
-            if message.text.split("/")[3]:
-                fileName = message.text.split("/")[4]
-            elif message.text.split("/")[2]:
-                fileName = message.text.split("/")[3]
-            elif message.text.split("/")[1]:
-                fileName = message.text.split("/")[2]
-            else:
-                fileName = "url"
+        #if "/" in message.text:
+        #    fileName = "url"
         
         output_file = f"{message.message_id}.pdf"
         try:
