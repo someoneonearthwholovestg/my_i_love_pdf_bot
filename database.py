@@ -104,17 +104,10 @@ class Database:
     async def set_thumbnail(self, id, thumbnail):
         await self.col.update_one({'id': id}, {'$set': {'thumbnail': thumbnail}})
     
-    async def set_chat_thum(self, id, thumbnail):
-        await self.grp.update_one({'id': id}, {'$set': {'thumbnail': thumbnail}})
-    
     # GET THUMBNAIL
     async def get_thumbnail(self, id):
         user=await self.col.find_one({'id': int(id)})
         return user.get('thumbnail', None)
-    
-    async def get_chat_thumb(self, id):
-        chat=await self.grp.find_one({'id': int(id)})
-        return chat.get('thumbnail', None)
     
     # SET CONVERTAPI FOR PDF FILES
     async def set_convertAPI(self, id, convertAPI):
