@@ -28,7 +28,7 @@ if isMONGOexist:
 
 # CUSTOM THUMBNAIL 
 @ILovePDF.on_message(
-                    ~filters.edited
+                    ~filters.edited &
                     filters.command("thumbnail") &
                     (filters.private | filters.group)
                     )
