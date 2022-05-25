@@ -230,7 +230,7 @@ async def _pdf(bot, callbackQuery):
             return
         
         await downloadMessage.edit(
-                                  "⚙️`Started Processing..`",
+                                  "⚙️ `Started Processing.. \nIt might take some time..`💛",
                                   reply_markup = cancelBtn
                                   )
         # CHECK PDF OR NOT(HERE compressed, SO PG UNKNOWN)
@@ -240,7 +240,7 @@ async def _pdf(bot, callbackQuery):
             if data.startswith("decrypt"):
                 if not(checked == "encrypted"):
                     await downloadMessage.edit(
-                                              "File Not Encrypted..🙏🏻"
+                                              "`File Not Encrypted..`🙏🏻"
                                               )
                     PROCESS.remove(chat_id); shutil.rmtree(f"{message_id}")
                     return
@@ -252,7 +252,7 @@ async def _pdf(bot, callbackQuery):
         if chat_id in PROCESS:
             if data.startswith(tuple(["compress", "Kcompress"])):
                 await downloadMessage.edit(
-                                          "Started Compressing.. 🌡️", 
+                                          "⚙️ `Started Compressing.. 🌡️\nIt might take some time..`💛", 
                                           reply_markup = cancelBtn
                                           )
                 caption = await compressPDF(
@@ -264,7 +264,7 @@ async def _pdf(bot, callbackQuery):
                     return
             if data.startswith(tuple(["decrypt", "Kdecrypt"])):
                 await downloadMessage.edit(
-                                          "Started Decrypting.. 🔓",
+                                          "⚙️ `Started Decrypting.. 🔓\nIt might take some time..`💛",
                                           reply_markup = cancelBtn
                                           )
                 caption = await decryptPDF(
@@ -277,7 +277,7 @@ async def _pdf(bot, callbackQuery):
                     return
             if data.startswith(tuple(["encrypt", "Kencrypt"])):
                 await downloadMessage.edit(
-                                          "Started Encrypting.. 🔐",
+                                          "⚙️ `Started Encrypting.. 🔐\nIt might take some time..`💛",
                                           reply_markup = cancelBtn
                                           )
                 caption = await encryptPDF(
@@ -297,7 +297,7 @@ async def _pdf(bot, callbackQuery):
                     return
                 else:
                     await downloadMessage.edit(
-                                              "Adding OCR Layer.. ✍️",
+                                              "⚙️ `Adding OCR Layer.. ✍️\nIt might take some time..`💛",
                                               reply_markup = cancelBtn
                                               )
                     caption = await ocrPDF(
@@ -317,7 +317,7 @@ async def _pdf(bot, callbackQuery):
                     return
                 else:
                     await downloadMessage.edit(
-                                              "Started Formatting.. 🤘",
+                                              "⚙️ `Started Formatting.. 🤘\nIt might take some time..`💛",
                                               reply_markup = cancelBtn
                                               )
                     caption = await formatterPDF(
@@ -329,13 +329,13 @@ async def _pdf(bot, callbackQuery):
                         return
             if data.startswith(tuple(["rename", "Krename"])):
                 await downloadMessage.edit(
-                                          "Renameing PDf.. ✏️",
+                                          "⚙️ `Renameing PDf.. ✏️\nIt might take some time..`💛",
                                           reply_markup = cancelBtn
                                           )
                 await asyncio.sleep(1)
             if data.startswith(tuple(["rot90", "rot180", "rot270"])):
                 await downloadMessage.edit(
-                                          "Rotating PDf.. 🤸",
+                                          "⚙️ `Rotating PDf.. 🤸\nIt might take some time..`💛",
                                           reply_markup = cancelBtn
                                           )
                 caption = await rotatePDF(
@@ -347,7 +347,7 @@ async def _pdf(bot, callbackQuery):
                     return
             if data in ["T", "H", "J", "M", "KT", "KH", "KJ", "KM"]:
                 await downloadMessage.edit(
-                                          "Converting PDf.. 🐾",
+                                          "⚙️ `Extracting Text.. 🐾\nIt might take some time..`💛",
                                           reply_markup=cancelBtn 
                                           )
                 caption = await textPDF(
@@ -363,7 +363,7 @@ async def _pdf(bot, callbackQuery):
             return
         
         await downloadMessage.edit(
-                                  "`Started Uploading..` 🏋️",
+                                  "⚙️ `Started Uploading..` 🏋\nIt might take some time..`💛️",
                                   reply_markup = cancelBtn
                                   )
         await callbackQuery.message.reply_chat_action(
