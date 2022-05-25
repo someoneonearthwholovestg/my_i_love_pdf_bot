@@ -47,17 +47,14 @@ async def _url(bot, message):
                                  quote = True
                                  )
         
-        if (message.chat.id != "private") and (message.reply_to_message):
-            url = message.reply_to_message.text
-        else:
-            url = message.text
+        url = message.text
         
         if "/" in message.text:
-            if message.text.split("/")[4]:
+            if message.text.split("/")[3]:
                 fileName = message.text.split("/")[4]
-            elif message.text.split("/")[3]:
-                fileName = message.text.split("/")[3]
             elif message.text.split("/")[2]:
+                fileName = message.text.split("/")[3]
+            elif message.text.split("/")[1]:
                 fileName = message.text.split("/")[2]
             else:
                 fileName = "url"
@@ -124,7 +121,7 @@ async def _refreshUrl(bot, callbackQuery):
             return await callbackQuery.answer(
                                              "Work in progress.. 🙇"
                                              )
-        if (callbackQuery.message.chat.type != "private"
+        if (callbackQuery.chat.type != "private"
              ) and (callbackQuery.from_user.id != callbackQuery.message.reply_to_message.from_user.id):
                  return await callbackQuery.answer(
                                                   "Message Not For U 😏"
