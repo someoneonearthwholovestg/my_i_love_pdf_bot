@@ -249,7 +249,7 @@ async def _delThumb(bot, callbackQuery):
         await callbackQuery.edit_message_media(InputMediaPhoto(WELCOME_PIC))
         await _back(bot, callbackQuery)
         
-        if chat_type = "private":
+        if chat_type == "private":
             await db.set_thumbnail(
                                   callbackQuery.chat.id,
                                   None
