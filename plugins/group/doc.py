@@ -207,7 +207,21 @@ async def documents(bot, message):
                                                              ]]
                                                        ))
         
-        if (not message.reply_to_message) and (message.reply_to_message.document or message.reply_to_message.photo):
+        status = await bot.get_chat_member(
+                                           message.chat.id,
+                                           "@xtxitxbot"
+                                           )
+        if status.status not in ["administrator", "owner"]:
+            return await message.reply(
+                                      "Due to Some Telegram Limits.."
+                                      "I can only work as an admin\n\n"
+                                      "__Please promote me as admin__ ☺️",
+                                      quote = True
+                                      )
+        logger.debug(f"ADMIN_STATUS_CHECK: {status}")
+        
+        
+        if (not message.reply_to_message) or (message.reply_to_message.document or message.reply_to_message.photo):
             return await message.reply(
                                       "Broh Please Reply to a Document or an Image..🤧",
                                       quote = True
@@ -232,13 +246,6 @@ async def documents(bot, message):
                                                   len(PDF[message.chat.id])
                                                   )
                                  )
-        
-        if message.from_user.id != message.reply_to_message.from_user.id:
-            status = await bot.get_chat_member(
-                                        message.chat.id,
-                                        message.from_user.id
-                                        )
-            logger.debug(f"ADMIN_STATUS_CHECK: {status}")
         
         isPdfOrImg = message.reply_to_message.document.file_name        # file name
         fileSize = message.reply_to_message.document.file_size          # file size
