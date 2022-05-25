@@ -237,7 +237,7 @@ async def documents(bot, message):
             status = await bot.get_chat_member(
                                         message.chat.id,
                                         message.from_user.id
-                                        ).status
+                                        )
             logger.debug(f"ADMIN_STATUS_CHECK: {status}")
         
         isPdfOrImg = message.reply_to_message.document.file_name        # file name
