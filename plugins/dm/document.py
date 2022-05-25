@@ -137,15 +137,25 @@ UPDATE_CHANNEL = Config.UPDATE_CHANNEL
 
 asNewDoc = filters.create(lambda _, __, query: query.data == "asnewDoc")
 
-@ILovePDF.on_message(filters.private & filters.document & ~filters.edited & filters.incoming)
+@ILovePDF.on_message(
+                    ~filters.edited 
+                    filters.private &
+                    filters.incoming &
+                    filters.document
+                    )
 async def documents(bot, message):
     try:
         global invite_link
-        await message.reply_chat_action("typing")
+        await message.reply_chat_action(
+                                       "typing"
+                                       )
         # CHECK USER IN CHANNEL (IF UPDATE_CHANNEL ADDED)
         if UPDATE_CHANNEL:
             try:
-                userStatus = await bot.get_chat_member(str(UPDATE_CHANNEL), message.chat.id)
+                userStatus = await bot.get_chat_member(
+                                                      str(UPDATE_CHANNEL),
+                                                      message.from_user.id
+                                                      )
                 # IF USER BANNED FROM CHANNEL
                 if userStatus.status == 'banned':
                      await message.reply_photo(
@@ -154,7 +164,7 @@ async def documents(bot, message):
                                                   "\n\nContact Bot Owner 🤐",
                                          reply_markup = InlineKeyboardMarkup(
                                              [[InlineKeyboardButton("Owner 🎊",
-                                              url="https://t.me/nabilanavab")]]
+                                              url = "https://t.me/nabilanavab")]]
                                          ))
                      return
             except Exception:
@@ -165,8 +175,9 @@ async def documents(bot, message):
                 await message.reply_photo(
                                     photo = WELCOME_PIC,
                                     caption = forceSubMsg.format(
-                                            message.from_user.first_name, message.chat.id
-                                    ),
+                                                                message.from_user.first_name,
+                                                                message.from_user.id
+                                                                ),
                                     reply_markup = InlineKeyboardMarkup(
                                          [[
                                                InlineKeyboardButton("🌟 JOIN CHANNEL 🌟",
@@ -178,7 +189,7 @@ async def documents(bot, message):
                                     ))
                 return
         
-        if message.chat.id in PROCESS:
+        if message.from_user.id in PROCESS:
             return await message.reply(
                                       "WORK IN PROGRESS 🙇", quote = True,
                                       reply_markup = InlineKeyboardMarkup(
@@ -213,18 +224,18 @@ async def documents(bot, message):
                                                         "`Downloading your Image..⏳`",
                                                         quote = True
                                                         )
-                if not isinstance(PDF.get(message.chat.id), list):
-                    PDF[message.chat.id] = []
+                if not isinstance(PDF.get(message.from_user.id), list):
+                    PDF[message.from_user.id] = []
                 await message.download(
-                      f"{message.chat.id}/{message.chat.id}.jpg"
+                      f"{message.from_user.id}/{message.from_user.id}.jpg"
                       )
                 img = Image.open(
-                                f"{message.chat.id}/{message.chat.id}.jpg"
+                                f"{message.from_user.id}/{message.from_user.id}.jpg"
                 ).convert("RGB")
-                PDF[message.chat.id].append(img)
+                PDF[message.from_user.id].append(img)
                 await imageDocReply.edit(
                                         imageAdded.format(
-                                                         len(PDF[message.chat.id])
+                                                         len(PDF[message.from_user.id])
                                                          )
                                         )
             except Exception as e:
@@ -303,7 +314,7 @@ async def documents(bot, message):
             except Exception as e:
                 try:
                     shutil.rmtree(f"{message.message_id}")
-                    PROCESS.remove(message.chat.id)
+                    PROCESS.remove(message.from_user.id)
                     await pdfMsgId.edit(
                                        errorEditMsg.format(e)
                                        )
@@ -347,9 +358,19 @@ async def documents(bot, message):
                             await pdfMsgId.edit(
                                                "ConvertAPI limit reaches.. contact Owner"
                                                )
-                            PROCESS.remove(message.chat.id)
+                            PROCESS.remove(message.from_user.id)
                             return
                         except Exception: pass
+                    
+                    # Getting thumbnail
+                    thumbnail, fileName = await thumbName(message, isPdfOrImg)
+                    if PDF_THUMBNAIL != thumbnail:
+                        await bot.download_media(
+                                                message = thumbnail,
+                                                file_name = f"{message.message_id}/thumbnail.jpeg"
+                                                )
+                        thumbnail = await formatThumb(f"{message.message_id}/thumbnail.jpeg")
+                    
                     await message.reply_chat_action(
                                                    "upload_document"
                                                    )
@@ -364,7 +385,7 @@ async def documents(bot, message):
                     await pdfMsgId.delete(); PROCESS.remove(message.from_user.id)
                     shutil.rmtree(f"{message.message_id}")
                 except Exception:
-                    PROCESS.append(message.from_user.id)
+                    PROCESS.remove(message.from_user.id)
         
         # UNSUPPORTED FILES
         else:
