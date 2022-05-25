@@ -77,10 +77,7 @@ async def _thumbnail(bot, message):
                                     quote = True
                                     )
             # Get Thumbnail from DB
-            if chat_type == "private":
-                thumbnail = await db.get_thumbnail(message.from_user.id)
-            else:
-                thumbnail = await db.get_chat_thumb(message.chat.id)
+            thumbnail = await db.get_thumbnail(message.chat.id)
             await message.reply_photo(
                                      photo = thumbnail,
                                      caption = "Custom Thumbnail",
@@ -116,14 +113,10 @@ async def _getThumb(bot, callbackQuery):
                                       "wait.! Let me think.. 🤔"
                                       )
             
-            if chat_type == "private" and callbackQuery.message.chat.id in CUSTOM_THUMBNAIL_U:
+            if callbackQuery.message.chat.id in CUSTOM_THUMBNAIL_U or CUSTOM_THUMBNAIL_C:
                 thumbnail = await db.get_thumbnail(
                                                   callbackQuery.message.chat.id
                                                   )
-            elif callbackQuery.message.chat.id in CUSTOM_THUMBNAIL_C:
-                thumbnail = await db.get_chat_thumb(
-                                                   callbackQuery.message.chat.id
-                                                   )
             else:
                 thumbnail = False
             
