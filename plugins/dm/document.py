@@ -138,7 +138,7 @@ UPDATE_CHANNEL = Config.UPDATE_CHANNEL
 asNewDoc = filters.create(lambda _, __, query: query.data == "asnewDoc")
 
 @ILovePDF.on_message(
-                    ~filters.edited 
+                    ~filters.edited &
                     filters.private &
                     filters.incoming &
                     filters.document
