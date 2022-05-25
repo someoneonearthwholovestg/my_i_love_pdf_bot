@@ -207,7 +207,7 @@ async def documents(bot, message):
                                                              ]]
                                                        ))
         
-        myID.id = await bot.get_me()
+        myID = await bot.get_me()
         status = await bot.get_chat_member(
                                            message.chat.id,
                                            myID.id
