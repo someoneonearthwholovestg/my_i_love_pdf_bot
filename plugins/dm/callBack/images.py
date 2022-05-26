@@ -77,7 +77,7 @@ KEXTRACT = filters.create(lambda _, __, query: query.data.startswith(tuple(KcbEx
 @ILovePDF.on_callback_query(EXTRACT)
 async def _EXTRACT(bot, callbackQuery):
     try:
-        chat_id = callbackQuery.message.from_user.id
+        chat_id = callbackQuery.message.from.id
         message_id = callbackQuery.message.message_id
         
         if await header(callbackQuery):
@@ -368,16 +368,14 @@ async def _EXTRACT(bot, callbackQuery):
                                                                      "upload_photo"
                                                                      )
                         try:
-                            await bot.send_media_group(
-                                                      chat_id,
-                                                      media[chat_id]
-                                                      )
+                            await callbackQuery.message.reply_media_group(
+                                                           media[chat_id]
+                                                           )
                         except FloodWait as e:
                             await asyncio.sleep(e)
-                            await bot.send_media_group(
-                                                      chat_id,
-                                                      media[chat_id]
-                                                      )
+                            await callbackQuery.message.reply_media_group(
+                                                           media[chat_id]
+                                                           )
                     if data in ["DA", "DR"]:
                         if chat_id not in PROCESS:
                             try:
@@ -390,16 +388,14 @@ async def _EXTRACT(bot, callbackQuery):
                                                                      "upload_document"
                                                                      )
                         try:
-                            await bot.send_media_group(
-                                                      chat_id,
-                                                      mediaDoc[chat_id]
-                                                      )
+                            await callbackQuery.message.reply_media_group(
+                                                           mediaDoc[chat_id]
+                                                           )
                         except FloodWait as e:
                             await asyncio.sleep(e)
-                            await bot.send_media_group(
-                                                      chat_id,
-                                                      mediaDoc[chat_id]
-                                                      )
+                            await callbackQuery.message.reply_media_group(
+                                                           mediaDoc[chat_id]
+                                                           )
                     shutil.rmtree(f'{message_id}/pgs')
                 PROCESS.remove(chat_id); doc.close()
                 await downloadMessage.edit(
@@ -515,16 +511,14 @@ async def _EXTRACT(bot, callbackQuery):
                                                                      "upload_photo"
                                                                      )
                         try:
-                            await bot.send_media_group(
-                                                      chat_id,
-                                                      media[chat_id]
-                                                      )
+                            await callbackQuery.message.reply_media_group(
+                                                           media[chat_id]
+                                                           )
                         except FloodWait as e:
                             await asyncio.sleep(e)
-                            await bot.send_media_group(
-                                                      chat_id,
-                                                      media[chat_id]
-                                                      )
+                            await callbackQuery.message.reply_media_group(
+                                                           media[chat_id]
+                                                           )
                     if data=="DS":
                         if chat_id not in PROCESS:
                             try:
@@ -536,16 +530,14 @@ async def _EXTRACT(bot, callbackQuery):
                                                                      "upload_document"
                                                                      )
                         try:
-                            await bot.send_media_group(
-                                                      chat_id,
-                                                      mediaDoc[chat_id]
-                                                      )
+                            await callbackQuery.message.reply_media_group(
+                                                           mediaDoc[chat_id]
+                                                           )
                         except FloodWait as e:
                             await asyncio.sleep(e)
-                            await bot.send_media_group(
-                                                      chat_id,
-                                                      mediaDoc[chat_id]
-                                                      )
+                            await callbackQuery.message.reply_media_group(
+                                                           mediaDoc[chat_id]
+                                                           )
                     shutil.rmtree(f'{message_id}/pgs')
                 PROCESS.remove(chat_id); doc.close()
                 await downloadMessage.edit(
@@ -580,6 +572,9 @@ async def _KEXTRACT(bot, callbackQuery):
                                       "Work in progress.. 🙇"
                                       )
             return
+        await callbackQuery.answer(
+                                  "⚙️ Processing.."
+                                  )
         data = callbackQuery.data[:3]
         _, number_of_pages = callbackQuery.data.split("|")
         PROCESS.append(chat_id)
@@ -824,16 +819,14 @@ async def _KEXTRACT(bot, callbackQuery):
                                                                      "upload_photo"
                                                                      )
                         try:
-                            await bot.send_media_group(
-                                                      chat_id,
-                                                      media[chat_id]
-                                                      )
+                            await callbackQuery.message.reply_media_group(
+                                                           media[chat_id]
+                                                           )
                         except FloodWait as e:
                             await asyncio.sleep(e)
-                            await bot.send_media_group(
-                                                      chat_id,
-                                                      media[chat_id]
-                                                      )
+                            await callbackQuery.message.reply_media_group(
+                                                           media[chat_id]
+                                                           )
                     if data in ["KDA", "KDR"]:
                         if chat_id not in PROCESS:
                             try:
@@ -846,16 +839,14 @@ async def _KEXTRACT(bot, callbackQuery):
                                                                      "upload_document"
                                                                      )
                         try:
-                            await bot.send_media_group(
-                                                      chat_id,
-                                                      mediaDoc[chat_id]
-                                                      )
+                            await callbackQuery.message.reply_media_group(
+                                                           mediaDoc[chat_id]
+                                                           )
                         except FloodWait as e:
                             await asyncio.sleep(e)
-                            await bot.send_media_group(
-                                                      chat_id,
-                                                      mediaDoc[chat_id]
-                                                      )
+                            await callbackQuery.message.reply_media_group(
+                                                           mediaDoc[chat_id]
+                                                           )
                     shutil.rmtree(f'{message_id}/pgs')
                 PROCESS.remove(chat_id)
                 doc.close()
@@ -970,16 +961,14 @@ async def _KEXTRACT(bot, callbackQuery):
                                                                      "upload_photo"
                                                                      )
                         try:
-                            await bot.send_media_group(
-                                                      chat_id,
-                                                      media[chat_id]
-                                                      )
+                            await callbackQuery.message.reply_media_group(
+                                                           media[chat_id]
+                                                           )
                         except FloodWait as e:
                             await asyncio.sleep(e)
-                            await bot.send_media_group(
-                                                      chat_id,
-                                                      media[chat_id]
-                                                      )
+                            await callbackQuery.message.reply_media_group(
+                                                           media[chat_id]
+                                                           )
                     if data == "KDS":
                         if chat_id not in PROCESS:
                             try:
@@ -992,16 +981,14 @@ async def _KEXTRACT(bot, callbackQuery):
                                                                      "upload_document"
                                                                      )
                         try:
-                            await bot.send_media_group(
-                                                      chat_id,
-                                                      mediaDoc[chat_id]
-                                                      )
+                            await callbackQuery.message.reply_media_group(
+                                                           mediaDoc[chat_id]
+                                                           )
                         except FloodWait as e:
                             await asyncio.sleep(e)
-                            await bot.send_media_group(
-                                                      chat_id,
-                                                      mediaDoc[chat_id]
-                                                      )
+                            await callbackQuery.message.reply_media_group(
+                                                           mediaDoc[chat_id]
+                                                           )
                     shutil.rmtree(f'{message_id}/pgs')
                 PROCESS.remove(chat_id)
                 doc.close()
