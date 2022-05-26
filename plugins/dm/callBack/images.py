@@ -77,7 +77,7 @@ KEXTRACT = filters.create(lambda _, __, query: query.data.startswith(tuple(KcbEx
 @ILovePDF.on_callback_query(EXTRACT)
 async def _EXTRACT(bot, callbackQuery):
     try:
-        chat_id = callbackQuery.message.from.id
+        chat_id = callbackQuery.message.from_user.id
         message_id = callbackQuery.message.message_id
         
         if await header(callbackQuery):
