@@ -366,7 +366,8 @@ async def _EXTRACT(bot, callbackQuery):
                                 return
                         await callbackQuery.message.reply_chat_action(
                                                                      "upload_photo"
-                        for i in range(1,100)                                             )
+                                                                     )
+                        for i in range(1,100):
                             try:
                                 await callbackQuery.message.reply_media_group(
                                                            media[chat_id]
