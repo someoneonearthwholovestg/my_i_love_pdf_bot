@@ -372,7 +372,7 @@ async def _EXTRACT(bot, callbackQuery):
                                                            media[chat_id]
                                                            )
                         except FloodWait as e:
-                            await asyncio.sleep(int(e))
+                            await asyncio.sleep(e.value)
                             await callbackQuery.message.reply_media_group(
                                                            media[chat_id]
                                                            )
@@ -392,7 +392,7 @@ async def _EXTRACT(bot, callbackQuery):
                                                            mediaDoc[chat_id]
                                                            )
                         except FloodWait as e:
-                            await asyncio.sleep(int(e))
+                            await asyncio.sleep(e.value)
                             await callbackQuery.message.reply_media_group(
                                                            mediaDoc[chat_id]
                                                            )
@@ -515,7 +515,7 @@ async def _EXTRACT(bot, callbackQuery):
                                                            media[chat_id]
                                                            )
                         except FloodWait as e:
-                            await asyncio.sleep(int(e))
+                            await asyncio.sleep(e.value)
                             await callbackQuery.message.reply_media_group(
                                                            media[chat_id]
                                                            )
@@ -534,7 +534,7 @@ async def _EXTRACT(bot, callbackQuery):
                                                            mediaDoc[chat_id]
                                                            )
                         except FloodWait as e:
-                            await asyncio.sleep(int(e))
+                            await asyncio.sleep(e.value)
                             await callbackQuery.message.reply_media_group(
                                                            mediaDoc[chat_id]
                                                            )
@@ -823,7 +823,7 @@ async def _KEXTRACT(bot, callbackQuery):
                                                            media[chat_id]
                                                            )
                         except FloodWait as e:
-                            await asyncio.sleep(int(e))
+                            await asyncio.sleep(e.value)
                             await callbackQuery.message.reply_media_group(
                                                            media[chat_id]
                                                            )
@@ -843,7 +843,7 @@ async def _KEXTRACT(bot, callbackQuery):
                                                            mediaDoc[chat_id]
                                                            )
                         except FloodWait as e:
-                            await asyncio.sleep(int(e))
+                            await asyncio.sleep(e.value)
                             await callbackQuery.message.reply_media_group(
                                                            mediaDoc[chat_id]
                                                            )
@@ -965,7 +965,7 @@ async def _KEXTRACT(bot, callbackQuery):
                                                            media[chat_id]
                                                            )
                         except FloodWait as e:
-                            await asyncio.sleep(int(e))
+                            await asyncio.sleep(e.value)
                             await callbackQuery.message.reply_media_group(
                                                            media[chat_id]
                                                            )
@@ -985,7 +985,7 @@ async def _KEXTRACT(bot, callbackQuery):
                                                            mediaDoc[chat_id]
                                                            )
                         except FloodWait as e:
-                            await asyncio.sleep(int(e))
+                            await asyncio.sleep(e.value)
                             await callbackQuery.message.reply_media_group(
                                                            mediaDoc[chat_id]
                                                            )
