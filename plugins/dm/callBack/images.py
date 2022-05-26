@@ -374,6 +374,7 @@ async def _EXTRACT(bot, callbackQuery):
                                                            )
                                 break
                             except FloodWait as e:
+                                logger.debug("::::", e)
                                 await asyncio.sleep(e.value)
                                 await callbackQuery.message.reply_media_group(
                                                                media[chat_id]
