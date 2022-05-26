@@ -366,16 +366,18 @@ async def _EXTRACT(bot, callbackQuery):
                                 return
                         await callbackQuery.message.reply_chat_action(
                                                                      "upload_photo"
-                                                                     )
-                        try:
-                            await callbackQuery.message.reply_media_group(
+                        for i in range(1,100)                                             )
+                            try:
+                                await callbackQuery.message.reply_media_group(
                                                            media[chat_id]
                                                            )
-                        except FloodWait as e:
-                            await asyncio.sleep(e.value)
-                            await callbackQuery.message.reply_media_group(
-                                                           media[chat_id]
-                                                           )
+                                break
+                            except FloodWait as e:
+                                await asyncio.sleep(e.value)
+                                await callbackQuery.message.reply_media_group(
+                                                               media[chat_id]
+                                                               )
+                    
                     if data in ["DA", "DR"]:
                         if chat_id not in PROCESS:
                             try:
