@@ -5,7 +5,7 @@
 import logging
 logger=logging.getLogger(__name__)
 logging.basicConfig(
-                   level=logging.DEBUG,
+                   level=logging.INFO,
                    format="%(levelname)s:%(name)s:%(message)s" # %(asctime)s:
                    )
 
