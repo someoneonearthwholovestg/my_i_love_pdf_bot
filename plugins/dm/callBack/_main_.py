@@ -16,11 +16,16 @@ import asyncio
 from pdf import PROCESS
 from pyromod import listen
 from pyrogram import filters
+from plugins.thumbName import (
+                              thumbName,
+                              formatThumb
+                              )
 from plugins.checkPdf import checkPdf
 from plugins.progress import progress
 from pyrogram.types import ForceReply
 from pyrogram import Client as ILovePDF
 from configs.images import PDF_THUMBNAIL
+from plugins.footer import footer, header
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 # Importing Pdf Process Funs.
@@ -75,6 +80,9 @@ async def _pdf(bot, callbackQuery):
         chat_id = callbackQuery.message.chat.id
         message_id = callbackQuery.message.message_id
         
+        if await header(callbackQuery):
+            return
+        
         if callbackQuery.data == "rot360":
             return await callbackQuery.answer(
                                       "You have Some big Problem..🙂"
@@ -121,7 +129,7 @@ async def _pdf(bot, callbackQuery):
                                   "⚙️ Processing..."
                                   )
         
-        if (data[0]=="K") and ("|" in data):
+        if (data[0] == "K") and ("|" in data):
             _, number_of_pages = callbackQuery.data.split("|")
         
         # Asks password for encryption, decryption
@@ -147,7 +155,7 @@ async def _pdf(bot, callbackQuery):
                 return
         
         # fileNm continues false(if not rename) and take org. name as fileName
-        fileNm=False
+        fileNm = False
         # Asks newFile Name [renamePdf]
         if data.startswith(tuple(["rename", "Krename"])):
             # PYROMOD ADD-ON (ASK'S PASSWORD)
@@ -155,8 +163,8 @@ async def _pdf(bot, callbackQuery):
                                    chat_id = chat_id,
                                    reply_to_message_id = message_id,
                                    text = "__Rename PDF »\n"
-                                         "Now, please enter the new name:__\n\n"
-                                         "/exit __to cancel__",
+                                          "Now, please enter the new name:__\n\n"
+                                          "/exit __to cancel__",
                                    filters = filters.text,
                                    reply_markup = ForceReply(True)
                                    )
@@ -177,8 +185,8 @@ async def _pdf(bot, callbackQuery):
         # DOWNLOAD MESSSAGE
         downloadMessage = await callbackQuery.message.reply_text(
                                                                 "`Downloding your pdf..` ⏳", 
-                                                                reply_markup=cancelBtn,
-                                                                quote=True
+                                                                reply_markup = cancelBtn,
+                                                                quote = True
                                                                 )
         
         # input and output file paths
@@ -362,6 +370,15 @@ async def _pdf(bot, callbackQuery):
             shutil.rmtree(f"{message_id}")
             return
         
+        # Getting thumbnail
+        thumbnail, fileName = await thumbName(message, fileNm)
+        if PDF_THUMBNAIL != thumbnail:
+            await bot.download_media(
+                                    message = thumbnail,
+                                    file_name = f"{message.message_id}/thumbnail.jpeg"
+                                    )
+            thumbnail = await formatThumb(f"{message.message_id}/thumbnail.jpeg")
+        
         await downloadMessage.edit(
                                   "⚙️ `Started Uploading..` 🏋\nIt might take some time..`💛️",
                                   reply_markup = cancelBtn
@@ -372,15 +389,16 @@ async def _pdf(bot, callbackQuery):
         if chat_id in PROCESS:
             with open(output_file, "rb") as output:
                 await callbackQuery.message.reply_document(
-                                                           file_name = fileNm,
+                                                           file_name = fileName,
                                                            quote = True,
                                                            document = output,
-                                                           thumb = PDF_THUMBNAIL,
-                                                           caption=caption
+                                                           thumb = thumbnail,
+                                                           caption = caption
                                                            )
         await downloadMessage.delete()
         PROCESS.remove(chat_id)
         shutil.rmtree(f"{message_id}")
+        await footer(callbackQuery.message, False)
     except Exception as e:
         logger.exception(
                         "CB/_MAIN_:CAUSES %(e)s ERROR",
