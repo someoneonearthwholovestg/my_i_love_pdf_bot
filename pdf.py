@@ -85,7 +85,7 @@ class Bot(ILovePDF):
     
     async def start(self):
         if isMONGOexist:
-            
+            global myID
             # Loading Banned UsersId to List
             b_users, b_chats = await db.get_banned()
             BANNED_USR_DB.extend(b_users)
@@ -108,7 +108,7 @@ class Bot(ILovePDF):
                     f"Thanks @nabilanavab for this Awesome repo"
                     f"Telegram Update Channel: @iLovePDF_bot"
                     )
-        
+        myID = await app.get_me()
         # Bot Restarted Message to ADMINS
         for admin in Config.ADMINS:
             try:
