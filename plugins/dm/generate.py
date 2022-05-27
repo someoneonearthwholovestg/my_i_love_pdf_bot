@@ -76,7 +76,7 @@ async def generate(bot, message):
                       )
         
         # Getting thumbnail
-        thumbnail, fileName = await thumbName(message, isPdfOrImg)
+        thumbnail, fileName = await thumbName(message, fileName)
         if PDF_THUMBNAIL != thumbnail:
             await bot.download_media(
                                     message = thumbnail,
