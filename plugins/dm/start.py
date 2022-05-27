@@ -68,7 +68,7 @@ Owned By: @nabilanavab
 foolRefresh = "വിളച്ചിലെടുക്കല്ലേ കേട്ടോ 😐"
 
 LOG_TEXT = "#newUser @nabilanavab/ILovePDF\nID: {}\nView Profile: {}"
-LOG_TEXT_C = "#newChat @nabilanavab/ILovePDF\nID: {}\nGroup Title: {}\nTotal Users: {}"
+LOG_TEXT_C = "#newChat @nabilanavab/ILovePDF\nID: {}\nGroup Title: {}\nTotal Users: {}\nUserNsme: {}"
 
 button = InlineKeyboardMarkup(
         [[
@@ -118,37 +118,38 @@ async def start(bot, message):
                                      )
                     if LOG_CHANNEL:
                         try:
-                            total = await client.get_chat_members_count(
-                                                                       message.chat.id
-                                                                       )
+                            total = await bot.get_chat_members_count(
+                                                                    message.chat.id
+                                                                    )
                             await bot.send_message(
-                                              chat_id = LOG_CHANNEL,
-                                              text = LOG_TEXT_C.format(
-                                                                    message.chat.id,
-                                                                    message.chat.title,
-                                                                    total
-                                                                    ),
-                                              reply_markup = InlineKeyboardMarkup(
+                                                  chat_id = LOG_CHANNEL,
+                                                  text = LOG_TEXT_C.format(
+                                                                          message.chat.id,
+                                                                          message.chat.title,
+                                                                          total,
+                                                                          message.chat.username if message.chat.username else "❌"
+                                                                          ),
+                                                   reply_markup = InlineKeyboardMarkup(
                                                           [[InlineKeyboardButton("« B@N «",
-                                                          callback_data=f"banC|{message.chat.id}")]]
-                                              ))
+                                                                 callback_data = f"banC|{message.chat.id}")]]
+                                                   ))
                         except Exception: pass
                     try:
                         return await message.reply(
-                                           f"Hi There.! 🖐️\n"
-                                           f"Im new here {message.chat.mention}\n\n"
-                                           f"Let me Introduce myself.. \n"
-                                           f"My Name is iLovePDF, and i can help you to do many "
-                                           f"Manipulations with @Telegram PDF files\n\n"
-                                           f"Thanks @nabilanavab for this Awesome Bot 😅", quote=True,
-                                           reply_markup = InlineKeyboardMarkup(
-                                                               [[InlineKeyboardButton("Bot Owner",
-                                                                     url="Telegram.dog/nabilanavab"),
-                                                                 InlineKeyboardButton("Update Channel",
-                                                                     url="Telegram.dog/iLovePDF_bot")],
-                                                                [InlineKeyboardButton("⭐ Source Code ⭐",
-                                                                     url="https://github.com/nabilanavab/iLovePDF")]]
-                                           ))
+                                                 f"Hi There.! 🖐️\n"
+                                                 f"Im new here {message.chat.mention}\n\n"
+                                                 f"Let me Introduce myself.. \n"
+                                                 f"My Name is iLovePDF, and i can help you to do many "
+                                                 f"Manipulations with @Telegram PDF files\n\n"
+                                                 f"Thanks @nabilanavab for this Awesome Bot 😅", quote=True,
+                                                 reply_markup = InlineKeyboardMarkup(
+                                                                     [[InlineKeyboardButton("Bot Owner",
+                                                                          url = "Telegram.dog/nabilanavab"),
+                                                                       InlineKeyboardButton("Update Channel",
+                                                                          url = "Telegram.dog/iLovePDF_bot")],
+                                                                      [InlineKeyboardButton("⭐ Source Code ⭐",
+                                                                          url = "https://github.com/nabilanavab/iLovePDF")]]
+                                                ))
                     except Exception: pass
             if message.chat.type == "private":
                 if not await db.is_user_exist(message.from_user.id):
@@ -220,7 +221,8 @@ async def start(bot, message):
                                  reply_markup = button
                                  )
         # DELETES /start MESSAGE
-        await message.delete()
+        if message.chat.type == "private":
+            await message.delete()
     except Exception as e:
         logger.exception(
                         "PHOTO:CAUSES %(e)s ERROR",
@@ -241,6 +243,11 @@ hlp = filters.create(lambda _, __, query: query.data == "help")
 @ILovePDF.on_callback_query(hlp)
 async def _hlp(bot, callbackQuery):
     try:
+        if (callbackQuery.message.chat.type != "private") and (
+            callbackQuery.from_user.id != callbackQuery.message.reply_to_message.from_user.id):
+                return callbackQuery.answer("Message Not For You.. 😏")
+        
+        await callbackQuery.answer()
         await callbackQuery.edit_message_caption(
               caption = helpMessage.format(
                         callbackQuery.from_user.first_name, callbackQuery.from_user.id
@@ -258,6 +265,11 @@ async def _hlp(bot, callbackQuery):
 @ILovePDF.on_callback_query(back)
 async def _back(bot, callbackQuery):
     try:
+        if (callbackQuery.message.chat.type != "private") and (
+            callbackQuery.from_user.id != callbackQuery.message.reply_to_message.from_user.id):
+                return await callbackQuery.answer("Message Not For You.. 😏")
+        
+        await callbackQuery.answer()
         await callbackQuery.edit_message_caption(
               caption = welcomeMsg.format(
                         callbackQuery.from_user.first_name,
@@ -274,11 +286,16 @@ async def _back(bot, callbackQuery):
 @ILovePDF.on_callback_query(refresh | refreshDoc | refreshImg)
 async def _refresh(bot, callbackQuery):
     try:
+        if (callbackQuery.message.chat.type != "private") and (
+            callbackQuery.from_user.id != callbackQuery.message.reply_to_message.from_user.id):
+                return await callbackQuery.answer("Message Not For You.. 😏")
+        
         # CHECK USER IN CHANNEL (REFRESH CALLBACK)
         userStatus = await bot.get_chat_member(
                                               str(UPDATE_CHANNEL),
                                               callbackQuery.from_user.id
                                               )
+        await callbackQuery.answer()
         # IF USER NOT MEMBER (ERROR FROM TG, EXECUTE EXCEPTION)
         if callbackQuery.data == "refresh":
             return await callbackQuery.edit_message_caption(
@@ -319,6 +336,10 @@ async def _refresh(bot, callbackQuery):
 @ILovePDF.on_callback_query(close)
 async def _close(bot, callbackQuery):
     try:
+        if (callbackQuery.message.chat.type != "private") and (
+            callbackQuery.from_user.id != callbackQuery.message.reply_to_message.from_user.id):
+                return await callbackQuery.answer("Message Not For You.. 😏")
+        
         await callbackQuery.message.delete()
     except Exception as e:
         logger.exception(
