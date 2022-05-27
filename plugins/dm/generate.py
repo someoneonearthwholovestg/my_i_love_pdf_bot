@@ -8,7 +8,8 @@ logging.basicConfig(
                    level=logging.INFO,
                    format="%(levelname)s:%(name)s:%(message)s" # %(asctime)s:
                    )
-logging.getLogger("pillow").setLevel(logging.ERROR)
+DISABLE PIL LOGGING MESSAGE [DEBUG] (module name: when run logging shows 2nd in this case)
+logging.getLogger("PIL.Image").setLevel(logging.ERROR)
 
 import os
 import shutil
