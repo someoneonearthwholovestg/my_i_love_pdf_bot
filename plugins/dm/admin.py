@@ -216,7 +216,9 @@ async def _broadcast(bot, message):
         await procs.edit(
                         text = "__⚙️ Broadcasting your messages...__",
                         reply_markup = InlineKeyboardMarkup(
-                              [[InlineKeyboardButton(info, callback_data="air")]]
+                              [[InlineKeyboardButton(
+                                    "↩️ asForward ↩️" if info=="f" else "👀 asCopy 👀", callback_data="air"
+                              )]]
                         ))
         start_time = time.time()
         total_users = await db.total_users_count()
@@ -236,13 +238,17 @@ async def _broadcast(bot, message):
             await asyncio.sleep(2)
             if not done % 20:
                 await procs.edit(
-                                f"`Broadcast in progress:`\n"
-                                f"__Total Users:__ {total_users}\n"
-                                f"__Completed:__   {done} / {total_users}\n"
-                                f"__Success:__     {success}\n"
-                                f"__Blocked:__     {blocked}\n"
-                                f"__Deleted:__     {deleted}\n"
-                                )    
+                                text = f"`Broadcast in progress:`\n"
+                                       f"__Total Users:__ {total_users}\n"
+                                       f"__Completed:__   {done} / {total_users}\n"
+                                       f"__Success:__     {success}\n"
+                                       f"__Blocked:__     {blocked}\n"
+                                       f"__Deleted:__     {deleted}\n",
+                                reply_markup = InlineKeyboardMarkup(
+                                       [[InlineKeyboardButton(
+                                            "↩️ asForward ↩️" if info=="f" else "👀 asCopy 👀", callback_data="air"
+                                       )]]
+                                ))
         time_taken=datetime.timedelta(seconds=int(time.time()-start_time))
         await procs.edit(
                         f"`Broadcast Completed:`\n"
@@ -306,7 +312,7 @@ async def _message(bot, message):
                                    )
         forward_msg = message.reply_to_message
         try:
-            if info=="c":
+            if info == "c":
                 await forward_msg.copy(userINFO.id)
             else:
                 await forward_msg.forward(userINFO.id)
