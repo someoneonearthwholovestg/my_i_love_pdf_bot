@@ -13,7 +13,12 @@ import os
 from pdf import PROCESS
 from weasyprint import HTML
 from pyrogram import filters
+from plugins.thumbName import (
+                              thumbName,
+                              formatThumb
+                              )
 from pyrogram import Client as ILovePDF
+from plugins.footer import footer, header
 from weasyprint.urls import URLFetchingError
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -74,18 +79,29 @@ async def _url(bot, message):
         else:
             caption = "__url:__ {}".format(url)
         
-        await message.reply_document(
+        # Getting thumbnail
+        thumbnail, fileName = await thumbName(message, isPdfOrImg)
+        if PDF_THUMBNAIL != thumbnail:
+            await bot.download_media(
+                                    message = thumbnail,
+                                    file_name = f"{message.message_id}thumbnail.jpeg"
+                                    )
+            thumbnail = await formatThumb(f"{message.message_id}thumbnail.jpeg")
+        
+        logFile = await message.reply_document(
                                     file_name = "URL.pdf",
                                     document = open(path, "rb"),
                                     quote = True,
                                     caption = caption,
-                                    thumb = PDF_THUMBNAIL
+                                    thumb = thumbnail
                                     )
         os.remove(output_file); await msg.delete()
         PROCESS.remove(message.from_user.id)
+        os.remove(f"{message.message_id}thumbnail.jpeg")
+        await footer(message, logFile)
     except Exception as e:
         logger.exception(
-                        "BAN_USER:CAUSES %(e)s ERROR",
+                        "URL:CAUSES %(e)s ERROR",
                         exc_info=True
                         )
         try:
@@ -101,7 +117,7 @@ async def _url(bot, message):
             os.remove(output_file)
         except Exception as e:
             logger.exception(
-                            "BAN_USER:CAUSES %(e)s ERROR",
+                            "URL:CAUSES %(e)s ERROR",
                             exc_info=True
                             )
 
@@ -119,6 +135,7 @@ async def _refreshUrl(bot, callbackQuery):
                  return await callbackQuery.answer(
                                                   "Message Not For U 😏"
                                                   )
+        await callbackQuery.answer()
         await _url(bot, callbackQuery.message.reply_to_message)
         await callbackQuery.message.delete()
     except Exception as e:
