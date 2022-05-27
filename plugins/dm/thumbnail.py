@@ -44,7 +44,7 @@ async def _thumbnail(bot, message):
                                )
             return
         if chat_type != "private":
-            if message.from_user.id not in config.ADMINS:
+            if message.from_user.id not in Config.ADMINS:
                 pass
             else:
                 userStats = bot.get_chat_member(
@@ -257,7 +257,7 @@ async def _delThumb(bot, callbackQuery):
         # if callbackQuery for [old delete thumb] messages
         
         if chat_type != "private":
-            if callbackQuery.from_user.id not in config.ADMINS:
+            if callbackQuery.from_user.id not in Config.ADMINS:
                 pass
             else:
                 userStats = bot.get_chat_member(
