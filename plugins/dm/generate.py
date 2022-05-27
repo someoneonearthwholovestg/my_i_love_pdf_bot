@@ -47,17 +47,18 @@ async def generate(bot, message):
             del PDF[chat_id]
         
         # IF NO IMAGES SEND BEFORE
-        if not images:
+        if not images :
             await message.reply_chat_action(
                                            "typing"
                                            )
             imagesNotFounded = await message.reply_text(
                                                        "`No image founded.!!`😒"
                                                        )
-            await asyncio.sleep(5)
-            await message.delete()
-            await imagesNotFounded.delete()
-            return
+            if message.chat.type == "privte:
+                await asyncio.sleep(5)
+                await message.delete()
+                await imagesNotFounded.delete()
+                return
         gnrtMsgId = await message.reply_text(
                                             f"`Generating pdf..`💚"
                                             )
