@@ -103,12 +103,13 @@ class Bot(ILovePDF):
             
         # Pyrogram Client Starting
         await super().start()
-        logger.debug(
-                    f"BOT GETS STARTED.."
-                    f"Thanks @nabilanavab for this Awesome repo"
-                    f"Telegram Update Channel: @iLovePDF_bot"
-                    )
         myID = await app.get_me()
+        logger.debug(
+                    f"{myID}\n\n"
+                    f"BOT GETS STARTED..\n"
+                    f"Thanks @nabilanavab for this Awesome repo\n"
+                    f"Telegram Update Channel: @iLovePDF_bot\n"
+                    )
         # Bot Restarted Message to ADMINS
         for admin in Config.ADMINS:
             try:
