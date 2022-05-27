@@ -377,7 +377,7 @@ async def documents(bot, message):
                     logFile = await message.reply_document(
                                                 file_name = f"{fileNm}.pdf",
                                                 document = open(f"{message.message_id}/{fileNm}.pdf", "rb"),
-                                                thumb = PDF_THUMBNAIL,
+                                                thumb = thumbnail,
                                                 caption = f"`Converted: {fileExt} to pdf`",
                                                 quote = True
                                                 )
