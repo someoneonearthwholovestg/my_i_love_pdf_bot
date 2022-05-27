@@ -35,6 +35,7 @@ from plugins.footer import footer, header
                     )
 async def generate(bot, message):
     try:
+        logger.info(message.chat.id)
         chat_id = message.chat.id
         # newName : new file name(/generate ___)
         newName = str(
