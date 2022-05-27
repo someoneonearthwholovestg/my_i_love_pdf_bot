@@ -63,7 +63,9 @@ logging.getLogger("pyrogram").setLevel(logging.ERROR)
 
 
 # GLOBAL VARIABLES
+
 PDF = {}            # save images for generating pdf
+myID = None
 PROCESS = []        # to check current process
 invite_link = None
 
@@ -102,7 +104,12 @@ class Bot(ILovePDF):
             
         # Pyrogram Client Starting
         await super().start()
-        logger.debug("BOT GETS STARTED..")
+        global myID = await bot.get_me()
+        logger.debug(
+                    f"{myID}BOT GETS STARTED.."
+                    f"Thanks @nabilanavab for this Awesome repo"
+                    f"Telegram Update Channel: @iLovePDF_bot"
+                    )
         
         # Bot Restarted Message to ADMINS
         for admin in Config.ADMINS:
