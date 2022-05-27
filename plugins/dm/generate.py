@@ -82,8 +82,7 @@ async def generate(bot, message):
                                     message = thumbnail,
                                     file_name = f"{message.message_id}.jpeg"
                                     )
-            logger.info(location)
-            thumbnail = await formatThumb(f"{message.message_id}.jpeg")
+            thumbnail = await formatThumb(location)
         
         await gnrtMsgId.edit(
                             "`Uploading pdf.. `🏋️"
