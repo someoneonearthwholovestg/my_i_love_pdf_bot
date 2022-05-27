@@ -144,6 +144,9 @@ UPDATE_CHANNEL = Config.UPDATE_CHANNEL
 async def documents(bot, message):
     try:
         global invite_link, myID
+        if not myID:
+            myID = await app.get_me()
+        
         await message.reply_chat_action(
                                        "typing"
                                        )
