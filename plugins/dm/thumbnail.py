@@ -257,7 +257,7 @@ async def _delThumb(bot, callbackQuery):
         # if callbackQuery for [old delete thumb] messages
         
         if chat_type != "private":
-            if callbackQuery.from_user.id not in Config.ADMINS:
+            if callbackQuery.from_user.id in Config.ADMINS:
                 pass
             else:
                 userStats = bot.get_chat_member(
@@ -265,7 +265,7 @@ async def _delThumb(bot, callbackQuery):
                                                callbackQuery.from_user.id
                                                )
                 if userStats not in ["administrator", "owner"]:
-                    return await message.reply(
+                    return await callbackQuery.answer(
                                               "U Can't do it Vroh.. 🤧"
                                               )
         if callbackQuery.message.chat.id not in CUSTOM_THUMBNAIL_U or CUSTOM_THUMBNAIL_C:
