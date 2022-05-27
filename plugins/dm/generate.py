@@ -54,7 +54,7 @@ async def generate(bot, message):
             imagesNotFounded = await message.reply_text(
                                                        "`No image founded.!!`😒"
                                                        )
-            if message.chat.type == "privte:
+            if message.chat.type == "privte":
                 await asyncio.sleep(5)
                 await message.delete()
                 await imagesNotFounded.delete()
