@@ -51,9 +51,9 @@ async def _thumbnail(bot, message):
                                                message.chat.id,
                                                message.from_user.id
                                                )
-                if userStats.status not in ["administrator", "owner"]:
+                if userStats.status not in ["administrator", "creator"]:
                     return await message.reply(
-                                              f"U Can't do it Vroh.. 🤧 {userStats.status}"
+                                              "U Can't do it Vroh.. 🤧"
                                               )
         if message.reply_to_message and message.reply_to_message.photo:
             # set thumbnail
@@ -264,7 +264,7 @@ async def _delThumb(bot, callbackQuery):
                                                callbackQuery.message.chat.id,
                                                callbackQuery.from_user.id
                                                )
-                if userStats.status not in ["administrator", "owner"]:
+                if userStats.status not in ["administrator", "creator"]:
                     return await callbackQuery.answer(
                                               "U Can't do it Vroh.. 🤧"
                                               )
