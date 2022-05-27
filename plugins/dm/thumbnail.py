@@ -43,7 +43,7 @@ async def _thumbnail(bot, message):
                                )
             return
         if chat_type != "private":
-            if callbackQuery.from_user.id not in config.ADMINS:
+            if message.from_user.id not in config.ADMINS:
                 pass
             else:
                 userStats = bot.get_chat_member(
