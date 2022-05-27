@@ -1,7 +1,7 @@
 # fileName : plugins/dm/generate.py
 # copyright ©️ 2021 nabilanavab
 
-# LOGGING INFO: DEBUG
+# LOGGING INFO: INFO
 import logging
 logger=logging.getLogger(__name__)
 logging.basicConfig(
