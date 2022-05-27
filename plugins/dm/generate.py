@@ -80,9 +80,9 @@ async def generate(bot, message):
         if PDF_THUMBNAIL != thumbnail:
             await bot.download_media(
                                     message = thumbnail,
-                                    file_name = f"{message.message_id}thumbnail.jpeg"
+                                    file_name = f"{message.message_id}.jpeg"
                                     )
-            thumbnail = await formatThumb(f"{message.message_id}thumbnail.jpeg")
+            thumbnail = await formatThumb(f"{message.message_id}.jpeg")
         
         await gnrtMsgId.edit(
                             "`Uploading pdf.. `🏋️"
