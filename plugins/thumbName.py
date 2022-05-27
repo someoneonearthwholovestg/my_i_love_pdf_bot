@@ -16,7 +16,7 @@ from pyrogram.types import Message
 from configs.db import isMONGOexist
 from configs.images import DEFAULT_NAME    # DEFAULT NAME
 from configs.images import PDF_THUMBNAIL   # DEFAULT THUMBNAIL
-from configs.images import CUSTOM_THUMBNAIL_U
+from configs.images import CUSTOM_THUMBNAIL_U, CUSTOM_THUMBNAIL_C
 
 # THUMBNAIL METADATA
 from hachoir.parser import createParser
@@ -25,9 +25,9 @@ from hachoir.metadata import extractMetadata
 if isMONGOexist:
     from database import db
 
-changeNAME=False
+changeNAME = False
 if DEFAULT_NAME:
-   changeNAME=True
+   changeNAME = True
 
 # return thumbnail height
 async def thumbMeta(thumbPath: str):
@@ -61,6 +61,7 @@ async def formatThumb(location):
 # return thumbnail and fileName
 async def thumbName(message, fileName):
     try:
+        chat_type = message.chat.type
         fileNm, fileExt = os.path.splitext(fileName)
         if changeNAME:
             DEFAULT_NAME = DEFAULT_NAME + fileExt
@@ -74,19 +75,17 @@ async def thumbName(message, fileName):
                 return PDF_THUMBNAIL, fileName
         
         # user with thumbnail
-        if message.chat.id in CUSTOM_THUMBNAIL_U:
+        if chat_type == "private" and message.chat.id in CUSTOM_THUMBNAIL_U:
             thumbnail = await db.get_thumbnail(message.chat.id)
-            if changeNAME:
-                return thumbLoc, DEFAULT_NAME
-            else:
-                return thumbnail, fileName
-        
-        # user without thumbnail
+        elif chat_type in ["group", "supergroup"] and message.chat.id in CUSTOM_THUMBNAIL_C:
+            thumbnail = await db.get_group_thumb(message.chat.id)
         else:
-            if changeNAME:
-                return PDF_THUMBNAIL, DEFAULT_NAME
-            else:
-                return PDF_THUMBNAIL, fileName
+            thumbnail = PDF_THUMBNAIL
+        
+        if changeNAME:
+            return thumbnail, DEFAULT_NAME
+        else:
+            return thumbnail, fileName
     
     except Exception as e:
         logger.exception(
