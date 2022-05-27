@@ -84,7 +84,6 @@ class Bot(ILovePDF):
             )
     
     async def start(self):
-        global myID
         if isMONGOexist:
             
             # Loading Banned UsersId to List
@@ -104,7 +103,6 @@ class Bot(ILovePDF):
             
         # Pyrogram Client Starting
         await super().start()
-        myID = await app.get_me()
         logger.debug(
                     f"BOT GETS STARTED.."
                     f"Thanks @nabilanavab for this Awesome repo"
