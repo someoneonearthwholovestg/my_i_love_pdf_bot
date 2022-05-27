@@ -53,7 +53,7 @@ async def _thumbnail(bot, message):
                                                )
                 if userStats.status not in ["administrator", "owner"]:
                     return await message.reply(
-                                              "U Can't do it Vroh.. 🤧"
+                                              "U Can't do it Vroh.. 🤧 {userStats.status}"
                                               )
         if message.reply_to_message and message.reply_to_message.photo:
             # set thumbnail
