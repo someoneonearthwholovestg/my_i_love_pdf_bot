@@ -48,7 +48,7 @@ Bot: @complete_pdf_bot 💎\n
 
 # ❌ CANCELS CURRENT PDF TO IMAGES WORK ❌
 @ILovePDF.on_message(
-                    filters.private &
+                    (filters.private | filters.group) &
                     filters.command(["cancel"]) &
                     filters.incoming
                     )
@@ -58,37 +58,41 @@ async def cancelP2I(bot, message):
         await message.delete()          # delete /cancel if process canceled
     except Exception:
         try:
-            await message.reply_chat_action("typing")
+            await message.reply_chat_action(
+                                           "typing"
+                                           )
             await message.reply_text(
-                                    '🤔', quote=True
+                                    '🤔', quote = True
                                     )
         except Exception:
             pass
 
 # ❌ DELETS CURRENT IMAGES TO PDF QUEUE (/delete) ❌
 @ILovePDF.on_message(
-                    filters.private &
+                    (filters.private | filters.group) &
                     filters.command(["delete"]) &
                     filters.incoming
                     )
 async def _cancelI2P(bot, message):
     try:
-        await message.reply_chat_action("typing")
+        await message.reply_chat_action(
+                                       "typing"
+                                       )
         del PDF[message.chat.id]
         await message.reply_text(
                                 "`Queue deleted Successfully..`🤧",
-                                quote=True
+                                quote = True
                                 )
         shutil.rmtree(f"{message.chat.id}")
     except Exception:
         await message.reply_text(
                                 "`No Queue founded..`😲",
-                                quote=True
+                                quote = True
                                 )
 
 # ❌ GET USER ID (/id) ❌
 @ILovePDF.on_message(
-                    filters.private &
+                    (filters.private | filters.group) &
                     filters.command(["id"]) &
                     filters.incoming
                     )
@@ -116,7 +120,11 @@ async def userId(bot, message):
 
 
 # ❌ GET FEEDBACK MESSAGE ❌
-@ILovePDF.on_message(filters.private & filters.command(["feedback"]) & filters.incoming)
+@ILovePDF.on_message(
+                    (filters.private | filters.group) &
+                    filters.command(["feedback"]) &
+                    filters.incoming
+                    )
 async def feedback(bot, message):
     try:
         await message.reply_text(
@@ -130,13 +138,19 @@ async def feedback(bot, message):
                         )
 
 # ❌ DELETS CURRENT IMAGES TO PDF QUEUE (/delete) ❌
-@ILovePDF.on_message(filters.private & filters.command(["help", "commands"]) & filters.incoming)
+@ILovePDF.on_message(
+                    (filters.private | filters.group) &
+                    filters.command(["help", "commands"]) &
+                    filters.incoming)
 async def _help(bot, message):
     try:
-        await message.reply_chat_action("typing")
+        await message.reply_chat_action(
+                                       "typing"
+                                       )
         helpMsg = await message.reply(
-                                   "⚙️ Processing..", quote=True
-                                   )
+                                     "⚙️ Processing..",
+                                     quote = True
+                                     )
         await sleep(2)
         HELP = userHELP
         await helpMsg.edit(
