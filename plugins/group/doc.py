@@ -14,6 +14,7 @@ import fitz
 import shutil
 import asyncio
 import convertapi
+from pdf import myID
 from PIL import Image
 from time import sleep
 from pdf import PROCESS
@@ -25,20 +26,13 @@ from plugins.thumbName import (
                               formatThumb
                               )
 from pyrogram import Client as ILovePDF
+from plugins.footer import footer, header
 from plugins.fileSize import get_size_format as gSF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from configs.images import WELCOME_PIC, BANNED_PIC, BIG_FILE, PDF_THUMBNAIL
 
-#--------------->
-#--------> convertAPI INSTANCE
-#------------------->
-
 if Config.CONVERT_API is not None:
     convertapi.api_secret = Config.CONVERT_API
-
-#--------------->
-#--------> MAXIMUM FILE SIZE (IF IN config var.)
-#------------------->
 
 if Config.MAX_FILE_SIZE:
     MAX_FILE_SIZE = int(os.getenv("MAX_FILE_SIZE"))
@@ -132,9 +126,6 @@ pdfReply = InlineKeyboardMarkup(
         ]]
     )
 
-#--------------->
-#--------> Config var.
-#------------------->
 
 UPDATE_CHANNEL = Config.UPDATE_CHANNEL
 
@@ -207,7 +198,6 @@ async def documents(bot, message):
                                                              ]]
                                                        ))
         
-        myID = await bot.get_me()
         status = await bot.get_chat_member(
                                            message.chat.id,
                                            myID.id
@@ -225,6 +215,8 @@ async def documents(bot, message):
                                       "Broh Please Reply to a Document or an Image..🤧",
                                       quote = True
                                       )
+        
+        #❌❌❌❌❌❌❌
         
         if message.reply_to_message.photo:
             imageReply = await message.reply_to_message.reply_text(
@@ -348,7 +340,7 @@ async def documents(bot, message):
                 await message.reply_chat_action(
                                                "upload_document"
                                                )
-                await message.reply_to_message.reply_document(
+                logFile = await message.reply_to_message.reply_document(
                                             file_name = f"{fileName}.pdf",
                                             document = open(f"{message.message_id}/{fileNm}.pdf", "rb"),
                                             thumb = thumbnail,
@@ -357,6 +349,7 @@ async def documents(bot, message):
                                             )
                 await pdfMsgId.delete(); PROCESS.remove(message.from_user.id)
                 shutil.rmtree(f"{message.message_id}")
+                await footer(message, logFile)
             except Exception as e:
                 try:
                     await pdfMsgId.edit(
@@ -420,7 +413,7 @@ async def documents(bot, message):
                     await message.reply_chat_action(
                                                    "upload_document"
                                                    )
-                    await message.reply_to_message.reply_document(
+                    logFile = await message.reply_to_message.reply_document(
                                                 file_name = f"{fileNm}.pdf",
                                                 document = open(f"{message.message_id}/{fileNm}.pdf", "rb"),
                                                 thumb = PDF_THUMBNAIL,
@@ -429,6 +422,7 @@ async def documents(bot, message):
                                                 )
                     await pdfMsgId.delete(); PROCESS.remove(message.from_user.id)
                     shutil.rmtree(f"{message.message_id}")
+                    await footer(message, logFile)
                 except Exception:
                     PROCESS.remove(message.from_user.id)
                     pass
