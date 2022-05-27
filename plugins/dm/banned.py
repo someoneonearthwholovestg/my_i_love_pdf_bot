@@ -44,7 +44,7 @@ async def _banUser(bot, message):
                                    "⚙️ Processing..",
                                    quote = True
                                    )
-        await sleep(2)
+        await sleep(1)
         if len(message.command) == 1:
             return await procs.edit(
                                    "Give me a user id / username"
@@ -120,7 +120,7 @@ async def _unbanUser(bot, message):
                                  "⚙️ Processing",
                                  quote = True
                                  )
-        await sleep(2)
+        await sleep(1)
         if len(message.command) == 1:
             return await procs.edit(
                                    "Give me a user id / username"
