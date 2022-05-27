@@ -12,6 +12,7 @@ logging.basicConfig(
 import asyncio
 from pyromod import listen
 from pyrogram import filters
+from configs.dm import Config
 from plugins.dm.start import _back
 from configs.db import isMONGOexist
 from pyrogram import Client as ILovePDF
