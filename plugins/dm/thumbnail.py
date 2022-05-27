@@ -288,7 +288,7 @@ async def _delThumb(bot, callbackQuery):
                                      callbackQuery.message.chat.id
                                      )
         else:
-            await db.set_group_thum(
+            await db.set_group_thumb(
                                   callbackQuery.message.chat.id,
                                   None
                                   )
