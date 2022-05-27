@@ -45,7 +45,7 @@ async def generate(bot, message):
         if isinstance(images, list):
             pgnmbr = len(PDF[chat_id])
             del PDF[chat_id]
-        logger.info(images)
+        # logger.info(images)
         # IF NO IMAGES SEND BEFORE
         if not images :
             await message.reply_chat_action(
@@ -105,7 +105,8 @@ async def generate(bot, message):
                             "`Successfully Uploaded.. `🤫"
                             )
         shutil.rmtree(f"{chat_id}")
-        os.remove(f"{message.message_id}thumbnail.jpeg")
+        if location:
+            os.remove(location)
         await footer(message, logFile)
     except Exception as e:
         logger.exception(
