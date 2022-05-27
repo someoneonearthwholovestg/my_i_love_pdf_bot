@@ -268,7 +268,7 @@ async def _delThumb(bot, callbackQuery):
                     return await callbackQuery.answer(
                                               "U Can't do it Vroh.. 🤧"
                                               )
-        if (callbackQuery.message.chat.id not in CUSTOM_THUMBNAIL_U) or (
+        if (callbackQuery.message.chat.id not in CUSTOM_THUMBNAIL_U) and (
             callbackQuery.message.chat.id not in CUSTOM_THUMBNAIL_C):
             return await callbackQuery.answer(
                                              "Currently, you don't set a thumbnail yet.. 🤧"
