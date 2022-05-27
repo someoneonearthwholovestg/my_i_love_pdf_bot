@@ -45,7 +45,7 @@ async def generate(bot, message):
         if isinstance(images, list):
             pgnmbr = len(PDF[chat_id])
             del PDF[chat_id]
-        
+        logger.info(images)
         # IF NO IMAGES SEND BEFORE
         if not images :
             await message.reply_chat_action(
@@ -54,11 +54,10 @@ async def generate(bot, message):
             imagesNotFounded = await message.reply_text(
                                                        "`No image founded.!!`😒"
                                                        )
-            if message.chat.type == "privte":
-                await asyncio.sleep(5)
-                await message.delete()
-                await imagesNotFounded.delete()
-                return
+            await asyncio.sleep(5)
+            await message.delete()
+            await imagesNotFounded.delete()
+            return
         gnrtMsgId = await message.reply_text(
                                             f"`Generating pdf..`💚"
                                             )
