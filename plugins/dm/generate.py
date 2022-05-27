@@ -8,7 +8,7 @@ logging.basicConfig(
                    level=logging.INFO,
                    format="%(levelname)s:%(name)s:%(message)s" # %(asctime)s:
                    )
-DISABLE PIL LOGGING MESSAGE [DEBUG] (module name: when run logging shows 2nd in this case)
+# DISABLE PIL LOGGING MESSAGE [DEBUG] by changing to error
 logging.getLogger("PIL.Image").setLevel(logging.ERROR)
 
 import os
