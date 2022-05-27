@@ -47,7 +47,7 @@ async def _thumbnail(bot, message):
             if message.from_user.id in Config.ADMINS:
                 pass
             else:
-                userStats = bot.get_chat_member(
+                userStats = await bot.get_chat_member(
                                                message.chat.id,
                                                message.from_user.id
                                                )
@@ -260,7 +260,7 @@ async def _delThumb(bot, callbackQuery):
             if callbackQuery.from_user.id in Config.ADMINS:
                 pass
             else:
-                userStats = bot.get_chat_member(
+                userStats = await bot.get_chat_member(
                                                callbackQuery.message.chat.id,
                                                callbackQuery.from_user.id
                                                )
