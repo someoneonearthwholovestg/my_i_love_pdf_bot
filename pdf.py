@@ -104,7 +104,7 @@ class Bot(ILovePDF):
             
         # Pyrogram Client Starting
         await super().start()
-        myID = await bot.get_me()
+        myID = await app.get_me()
         logger.debug(
                     f"{myID}BOT GETS STARTED.."
                     f"Thanks @nabilanavab for this Awesome repo"
