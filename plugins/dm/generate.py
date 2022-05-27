@@ -44,6 +44,8 @@ async def generate(bot, message):
         if isinstance(images, list):
             pgnmbr = len(PDF[chat_id])
             del PDF[chat_id]
+        
+        # logger.info(images)
         # IF NO IMAGES SEND BEFORE
         if not images :
             await message.reply_chat_action(
