@@ -106,7 +106,7 @@ class Bot(ILovePDF):
         await super().start()
         myID = await app.get_me()
         logger.debug(
-                    f"{myID}BOT GETS STARTED.."
+                    f"BOT GETS STARTED.."
                     f"Thanks @nabilanavab for this Awesome repo"
                     f"Telegram Update Channel: @iLovePDF_bot"
                     )
