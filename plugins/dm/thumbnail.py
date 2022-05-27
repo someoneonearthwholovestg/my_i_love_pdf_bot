@@ -42,12 +42,30 @@ async def _thumbnail(bot, message):
                                quote = True
                                )
             return
+        if chat_type != "private":
+            if callbackQuery.from_user.id not in config.ADMINS:
+                pass
+            else:
+                userStats = bot.get_chat_member(
+                                               callbackQuery.message.chat.id,
+                                               callbackQuery.from_user.id
+                                               )
+                if userStats not in ["administrator", "owner"]:
+                    return await message.reply(
+                                              "U Can't do it Vroh.. 🤧"
+                                              )
         elif message.reply_to_message and message.reply_to_message.photo:
             # set thumbnail
-            await db.set_thumbnail(
-                                  message.chat.id,
-                                  message.reply_to_message.photo.file_id
-                                  )
+            if chat_type == "private":
+                await db.set_thumbnail(
+                                      message.from_user.id,
+                                      message.reply_to_message.photo.file_id
+                                      )
+            else:
+                await db.set_group_thumb(
+                                        message.chat.id,
+                                        message.reply_to_message.photo.file_id
+                                        )
             await message.reply_photo(
                                      photo = message.reply_to_message.photo.file_id,
                                      caption = "Okay,\n"
@@ -66,18 +84,26 @@ async def _thumbnail(bot, message):
         else:
             if (chat_type == "private") and (message.chat.id not in CUSTOM_THUMBNAIL_U):
                 return await message.reply(
-                                    "You didn't set custom thumbnail!\n"
-                                    "reply /thumbnail to set thumbnail",
-                                    quote = True
-                                    )
+                                          "You didn't set custom thumbnail!\n"
+                                          "reply /thumbnail to set thumbnail",
+                                          quote = True
+                                          )
             # non private messages ↓
             if message.chat.id not in CUSTOM_THUMBNAIL_C:
                 return await message.reply(
-                                    "No Custom Group Thumbnail 🥲",
-                                    quote = True
-                                    )
+                                          "No Custom Group Thumbnail 🥲",
+                                          quote = True
+                                          )
             # Get Thumbnail from DB
-            thumbnail = await db.get_thumbnail(message.chat.id)
+            if chat_type == "private":
+                thumbnail = await db.get_thumbnail(
+                                                  message.from_user.id
+                                                  )
+            else:
+                thumbnail = await db.get_group_thumb(
+                                                    message.chat.id
+                                                    )
+            
             await message.reply_photo(
                                      photo = thumbnail,
                                      caption = "Custom Thumbnail",
@@ -93,11 +119,9 @@ async def _thumbnail(bot, message):
                         exc_info=True
                         )
 
-
 geThumb = filters.create(lambda _, __, query: query.data=="getThumb")
 addThumb = filters.create(lambda _, __, query: query.data=="addThumb")
 delThumb = filters.create(lambda _, __, query: query.data=="delThumb")
-
 
 @ILovePDF.on_callback_query(geThumb)
 async def _getThumb(bot, callbackQuery):
@@ -113,10 +137,14 @@ async def _getThumb(bot, callbackQuery):
                                       "wait.! Let me think.. 🤔"
                                       )
             
-            if callbackQuery.message.chat.id in CUSTOM_THUMBNAIL_U or CUSTOM_THUMBNAIL_C:
+            if callbackQuery.message.chat.id in CUSTOM_THUMBNAIL_U:
                 thumbnail = await db.get_thumbnail(
                                                   callbackQuery.message.chat.id
                                                   )
+            elif callbackQuery.message.chat.id in CUSTOM_THUMBNAIL_C:
+                thumbnail = await db.get_group_thumb(
+                                                    callbackQuery.message.chat.id
+                                                    )
             else:
                 thumbnail = False
             
@@ -226,6 +254,19 @@ async def _delThumb(bot, callbackQuery):
     try:
         chat_type = callbackQuery.message.chat.type
         # if callbackQuery for [old delete thumb] messages
+        
+        if chat_type != "private":
+            if callbackQuery.from_user.id not in config.ADMINS:
+                pass
+            else:
+                userStats = bot.get_chat_member(
+                                               callbackQuery.message.chat.id,
+                                               callbackQuery.from_user.id
+                                               )
+                if userStats not in ["administrator", "owner"]:
+                    return await message.reply(
+                                              "U Can't do it Vroh.. 🤧"
+                                              )
         if callbackQuery.message.chat.id not in CUSTOM_THUMBNAIL_U or CUSTOM_THUMBNAIL_C:
             return await callbackQuery.answer(
                                              "Currently, you don't set a thumbnail yet.. 🤧"
