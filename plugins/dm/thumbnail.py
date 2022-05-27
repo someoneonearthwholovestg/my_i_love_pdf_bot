@@ -44,7 +44,7 @@ async def _thumbnail(bot, message):
                                )
             return
         if chat_type != "private":
-            if message.from_user.id not in Config.ADMINS:
+            if message.from_user.id in Config.ADMINS:
                 pass
             else:
                 userStats = bot.get_chat_member(
@@ -55,7 +55,7 @@ async def _thumbnail(bot, message):
                     return await message.reply(
                                               "U Can't do it Vroh.. 🤧"
                                               )
-        elif message.reply_to_message and message.reply_to_message.photo:
+        if message.reply_to_message and message.reply_to_message.photo:
             # set thumbnail
             if chat_type == "private":
                 await db.set_thumbnail(
