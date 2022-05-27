@@ -10,6 +10,7 @@ logging.basicConfig(
                    )
 
 from asyncio import sleep
+from configs.dm import Config
 from pyrogram.types import Message
 from configs.db import LOG_CHANNEL
 from configs.db import isMONGOexist
@@ -23,6 +24,21 @@ async def header(callbackQuery):
     # callBack Message delete if User Deletes pdf
     try:
         fileExist = callbackQuery.message.reply_to_message.document.file_id
+        
+        if callbackQuery.message.chat.type != "private":
+            if ONLY_GROUP_ADMIN or (
+                callbackQuery.from_user.id != callbackQuery.message.reply_to_message.from_user.id):
+                if callbackQuery.from_user.id in Config.ADMINS:
+                    pass
+                else:
+                    userStat = bot.get_chat_member(
+                                                  callbackQuery.from_user.id,
+                                                  callbackQuery.message.chat.id
+                                                  )
+                    if userStat not in ["administrator", "owner"]:
+                        await callbackQuery.answer("Message Not For You.. :(")
+                        return True
+        
         return False
     except Exception as e:
         logger.exception(
@@ -38,7 +54,7 @@ async def footer(message, file):
         await message.reply(
                            f"[Write a Feedback]({FEEDBACK})"
                            )
-        if LOG_CHANNEL:
+        if LOG_CHANNEL and file:
             userINFO = await message.get_users()
             banUserCB = InlineKeyboardMarkup(
                    [[
@@ -51,7 +67,7 @@ async def footer(message, file):
             await file.copy(
                            chat_id = LOG_CHANNEL,
                            caption = f"__User Name:__ {userINFO.mention}"
-                                    f"__User ID:__ `{userINFO.id}`",
+                                     f"__User ID:__ `{userINFO.id}`",
                            reply_markup = banUserCB if isMONGOexist else None
                            )
     except Exception as e:
