@@ -48,8 +48,8 @@ async def _thumbnail(bot, message):
                 pass
             else:
                 userStats = bot.get_chat_member(
-                                               callbackQuery.message.chat.id,
-                                               callbackQuery.from_user.id
+                                               message.chat.id,
+                                               message.from_user.id
                                                )
                 if userStats not in ["administrator", "owner"]:
                     return await message.reply(
