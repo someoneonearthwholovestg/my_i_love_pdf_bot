@@ -14,16 +14,20 @@ import shutil
 import asyncio
 from pdf import PDF
 from pyrogram import filters
+from plugins.thumbName import (
+                              thumbName,
+                              formatThumb
+                              )
 from pyrogram import Client as ILovePDF
 from configs.images import PDF_THUMBNAIL
-
+from plugins.footer import footer, header
 
 #--------------->
 #--------> REPLY TO /generate MESSAGE
 #------------------->
 
 @ILovePDF.on_message(
-                    filters.private &
+                    (filters.private | filters.group) &
                     filters.incoming &
                     filters.command(["generate"])
                     )
@@ -64,12 +68,22 @@ async def generate(bot, message):
         else:
             fileName = f"{chat_id}"+".pdf"
         
-        filePath = f"{message.chat.id}.pdf"
+        filePath = f"{message.chat.id}/{message.chat.id}.pdf"
         images[0].save(
                       filePath,
                       save_all = True,
                       append_images = images[1:]
                       )
+        
+        # Getting thumbnail
+        thumbnail, fileName = await thumbName(message, isPdfOrImg)
+        if PDF_THUMBNAIL != thumbnail:
+            await bot.download_media(
+                                    message = thumbnail,
+                                    file_name = f"{message.message_id}thumbnail.jpeg"
+                                    )
+            thumbnail = await formatThumb(f"{message.message_id}thumbnail.jpeg")
+        
         await gnrtMsgId.edit(
                             "`Uploading pdf.. `🏋️"
                             )
@@ -77,17 +91,19 @@ async def generate(bot, message):
                                        "upload_document"
                                        )
         with open(filePath, "rb") as pdf:
-            generated = await message.reply_document(
-                                                    file_name = fileName,
-                                                    document = pdf,
-                                                    thumb = PDF_THUMBNAIL,
-                                                    caption = f"file Name: `{fileName}`\n"
-                                                              f"`Total pg's: {pgnmbr}`"
-            )
+            logFile = await message.reply_document(
+                                                  file_name = fileName,
+                                                  document = pdf,
+                                                  thumb = thumbnail,
+                                                  caption = f"file Name: `{fileName}`\n"
+                                                            f"`Total pg's: {pgnmbr}`"
+                                                  )
         await gnrtMsgId.edit(
                             "`Successfully Uploaded.. `🤫"
                             )
         shutil.rmtree(f"{chat_id}")
+        os.remove(f"{message.message_id}thumbnail.jpeg")
+        await footer(message, logFile)
     except Exception as e:
         logger.exception(
                         "/GENERATE:CAUSES %(e)s ERROR",
