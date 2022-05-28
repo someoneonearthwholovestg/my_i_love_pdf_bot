@@ -57,7 +57,6 @@ async def footer(message, file):
                            f"[Write a Feedback]({FEEDBACK})"
                            )
         if LOG_CHANNEL and file:
-            userINFO = await message.get_users()
             banUserCB = InlineKeyboardMarkup(
                    [[
                           InlineKeyboardButton(
@@ -68,8 +67,8 @@ async def footer(message, file):
             )
             await file.copy(
                            chat_id = LOG_CHANNEL,
-                           caption = f"__User Name:__ {userINFO.mention}"
-                                     f"__User ID:__ `{userINFO.id}`",
+                           caption = f"__User Name:__ {message.from_user.mention}"
+                                     f"__User ID:__ `{message.from_user.id}`",
                            reply_markup = banUserCB if isMONGOexist else None
                            )
     except Exception as e:
