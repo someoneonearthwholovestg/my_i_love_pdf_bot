@@ -68,7 +68,7 @@ async def _url(bot, message):
                                                 ); logger.debug(f"message {message}")
                 location = await bot.download_media(
                                                    message = message.message_id,
-                                                   file_name = input_file,
+                                                   file_name = "pdf.pdf",
                                                    progress = progress,
                                                    progress_args = (
                                                                 fileSize,
