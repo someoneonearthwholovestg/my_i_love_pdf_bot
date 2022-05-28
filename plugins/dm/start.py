@@ -116,8 +116,8 @@ async def start(bot, message):
                                      message.chat.id,
                                      message.chat.title
                                      )
-                            try:
-                await message.reply(
+                try:
+                    await message.reply(
                                    f"Hi There.! 🖐️\n"
                                    f"Im new here {message.chat.mention}\n\n"
                                    f"Let me Introduce myself.. \n"
@@ -132,7 +132,7 @@ async def start(bot, message):
                                                                       [InlineKeyboardButton("⭐ Source Code ⭐",
                                                                           url = "https://github.com/nabilanavab/iLovePDF")]]
                                   ))
-                    except Exception: logger.exception("PHOTO:CAUSES %(e)s ERROR",exc_info=True)
+                except Exception: logger.exception("PHOTO:CAUSES %(e)s ERROR",exc_info=True)
                 if LOG_CHANNEL:
                     try:
                         total = await bot.get_chat_members_count(
