@@ -11,6 +11,9 @@ logging.basicConfig(
 
 import os
 from pdf import PROCESS
+from plugins.dm import(
+                      document
+                      )
 from weasyprint import HTML
 from pyrogram import filters
 from plugins.thumbName import (
@@ -22,6 +25,10 @@ from plugins.footer import footer, header
 from weasyprint.urls import URLFetchingError
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+
+# url Example: https://t.me/channel/message
+#                       https://telegram.dog/nabilanavab/75
+links = ["https://telegram.dog/", "https://t.me/", "https://telegram.me/"]
 
 @ILovePDF.on_message(
                     filters.private &
@@ -53,9 +60,17 @@ async def _url(bot, message):
                                  )
         
         url = message.text
-        
-        #if "/" in message.text:
-        #    fileName = "url"
+        # Get one or more messages from a chat by using message identifiers.
+        # get_messages(chat_id, message_ids)
+        if url.startswith(tuple(links))
+            part = url.split("/")
+            if len(part) == 4:
+                message = await bot.get_messages(
+                                                chat_id = part[3],
+                                                message_ids = part[4]
+                                                )
+                if message.document:
+                    return await document.documents(bot, message)
         
         output_file = f"{message.message_id}.pdf"
         try:
