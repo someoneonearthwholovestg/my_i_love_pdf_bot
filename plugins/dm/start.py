@@ -116,13 +116,30 @@ async def start(bot, message):
                                      message.chat.id,
                                      message.chat.title
                                      )
-                    if LOG_CHANNEL:
-                        try:
-                            total = await bot.get_chat_members_count(
-                                                                    message.chat.id
-                                                                    )
-                            await bot.send_message(
-                                                  chat_id = LOG_CHANNEL,
+                            try:
+                await message.reply(
+                                   f"Hi There.! 🖐️\n"
+                                   f"Im new here {message.chat.mention}\n\n"
+                                   f"Let me Introduce myself.. \n"
+                                   f"My Name is iLovePDF, and i can help you to do many "
+                                   f"Manipulations with @Telegram PDF files\n\n"
+                                   f"Thanks @nabilanavab for this Awesome Bot 😅", quote=True,
+                                   reply_markup = InlineKeyboardMarkup(
+                                                                     [[InlineKeyboardButton("Bot Owner",
+                                                                          url = "Telegram.dog/nabilanavab"),
+                                                                       InlineKeyboardButton("Update Channel",
+                                                                          url = "Telegram.dog/iLovePDF_bot")],
+                                                                      [InlineKeyboardButton("⭐ Source Code ⭐",
+                                                                          url = "https://github.com/nabilanavab/iLovePDF")]]
+                                  ))
+                    except Exception: logger.exception("PHOTO:CAUSES %(e)s ERROR",exc_info=True)
+                if LOG_CHANNEL:
+                    try:
+                        total = await bot.get_chat_members_count(
+                                                                message.chat.id
+                                                                )
+                        await bot.send_message(
+                                              chat_id = LOG_CHANNEL,
                                                   text = LOG_TEXT_C.format(
                                                                           message.chat.id,
                                                                           message.chat.title,
@@ -133,23 +150,6 @@ async def start(bot, message):
                                                           [[InlineKeyboardButton("« B@N «",
                                                                  callback_data = f"banC|{message.chat.id}")]]
                                                    ))
-                        except Exception: pass
-                    try:
-                        return await message.reply(
-                                                 f"Hi There.! 🖐️\n"
-                                                 f"Im new here {message.chat.mention}\n\n"
-                                                 f"Let me Introduce myself.. \n"
-                                                 f"My Name is iLovePDF, and i can help you to do many "
-                                                 f"Manipulations with @Telegram PDF files\n\n"
-                                                 f"Thanks @nabilanavab for this Awesome Bot 😅", quote=True,
-                                                 reply_markup = InlineKeyboardMarkup(
-                                                                     [[InlineKeyboardButton("Bot Owner",
-                                                                          url = "Telegram.dog/nabilanavab"),
-                                                                       InlineKeyboardButton("Update Channel",
-                                                                          url = "Telegram.dog/iLovePDF_bot")],
-                                                                      [InlineKeyboardButton("⭐ Source Code ⭐",
-                                                                          url = "https://github.com/nabilanavab/iLovePDF")]]
-                                                ))
                     except Exception: pass
             if message.chat.type == "private":
                 if not await db.is_user_exist(message.from_user.id):
