@@ -119,7 +119,7 @@ async def start(bot, message):
                 try:
                     await message.reply(
                                    f"Hi There.! 🖐️\n"
-                                   f"Im new here {message.chat.mention}\n\n"
+                                   f"Im new here {message.chat.title}\n\n"
                                    f"Let me Introduce myself.. \n"
                                    f"My Name is iLovePDF, and i can help you to do many "
                                    f"Manipulations with @Telegram PDF files\n\n"
@@ -151,6 +151,7 @@ async def start(bot, message):
                                                                  callback_data = f"banC|{message.chat.id}")]]
                                                    ))
                     except Exception: pass
+                return
             if message.chat.type == "private":
                 if not await db.is_user_exist(message.from_user.id):
                     await db.add_user(
