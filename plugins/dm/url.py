@@ -11,18 +11,14 @@ logging.basicConfig(
 
 import os
 from pdf import PROCESS
-from plugins.dm import(
-                      document
-                      )
-from weasyprint import HTML
 from pyrogram import filters
 from plugins.thumbName import (
                               thumbName,
                               formatThumb
                               )
+from plugins.footer import footer
+from plugins.progress import progress
 from pyrogram import Client as ILovePDF
-from plugins.footer import footer, header
-from weasyprint.urls import URLFetchingError
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
@@ -64,15 +60,24 @@ async def _url(bot, message):
         # get_messages(chat_id, message_ids)
         
         if url.startswith(tuple(links)):
-            part = url.split("/"); logger.debug(f"part {part}")
+            part = url.split("/")
             if len(part) == 5:
                 message = await bot.get_messages(
                                                 chat_id = part[3],
                                                 message_ids = int(part[4])
+                                                ); logger.debug(f"message {message}")
+                location = await bot.download_media(
+                                                   message = message.message_id,
+                                                   file_name = input_file,
+                                                   progress = progress,
+                                                   progress_args = (
+                                                                fileSize,
+                                                                downloadMessage,
+                                                                c_time
+                                                              )
                                                 )
-                if message.document:
-                    return await document.documents(bot, message)
-        
+                                                
+)
     except Exception as e:
         logger.exception(
                         "URL:CAUSES %(e)s ERROR",
