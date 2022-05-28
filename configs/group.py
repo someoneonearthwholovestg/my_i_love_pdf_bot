@@ -1,4 +1,4 @@
-# fileName: Configs/group.py
+# fileName: configs/group.py
 # copyright ©️ 2021 nabilanavab
 
 import os
