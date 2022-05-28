@@ -75,9 +75,8 @@ async def _url(bot, message):
                                                                 downloadMessage,
                                                                 c_time
                                                               )
-                                                )
-                                                
-)
+                                                   )
+                await message.reply_document(location)
     except Exception as e:
         logger.exception(
                         "URL:CAUSES %(e)s ERROR",
@@ -93,7 +92,6 @@ async def _url(bot, message):
                                                   callback_data="closeALL")
                                ]]
                           ))
-            os.remove(output_file)
         except Exception: pass
 
 refreshUrl = filters.create(lambda _, __, query: query.data == "refreshUrl")
