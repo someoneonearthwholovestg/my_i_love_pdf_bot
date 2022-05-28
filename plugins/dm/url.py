@@ -62,7 +62,7 @@ async def _url(bot, message):
         url = message.text
         # Get one or more messages from a chat by using message identifiers.
         # get_messages(chat_id, message_ids)
-        if url.startswith(tuple(links))
+        if url.startswith(tuple(links)):
             part = url.split("/")
             if len(part) == 4:
                 message = await bot.get_messages(
