@@ -55,7 +55,7 @@ async def _url(bot, message):
                                      )
         PROCESS.append(message.from_user.id)
         msg = await message.reply(
-                                 "`Started Fetching Datas..` 🤫",
+                                 "__Started Fetching Datas..__ 🤫",
                                  quote = True
                                  )
         
@@ -65,7 +65,7 @@ async def _url(bot, message):
         
         if url.startswith(tuple(links)):
             part = url.split("/"); logger.debug(f"part {part}")
-            if len(part) == 4:
+            if len(part) == 5:
                 message = await bot.get_messages(
                                                 chat_id = part[3],
                                                 message_ids = part[4]
