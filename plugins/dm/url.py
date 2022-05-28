@@ -63,19 +63,19 @@ async def _url(bot, message):
         if url.startswith(tuple(links)):
             part = url.split("/")
             if len(part) == 5:
-                message = await bot.get_messages(
+                file = await bot.get_messages(
                                                 chat_id = part[3],
                                                 message_ids = int(part[4])
-                                                ); logger.debug(f"message {message}")
+                                                )
                 location = await bot.download_media(
-                                                   message = message.document.file_id,
+                                                   message = file.document.file_id,
                                                    file_name = "pdf.pdf",
                                                    progress = progress,
                                                    progress_args = (
-                                                                message.document.file_size,
-                                                                msg,
-                                                                c_time
-                                                              )
+                                                                   file.document.file_size,
+                                                                   msg,
+                                                                   c_time
+                                                                   )
                                                    )
                 await message.reply_document(location)
     except Exception as e:
