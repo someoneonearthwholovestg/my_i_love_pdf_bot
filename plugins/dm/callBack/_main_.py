@@ -371,7 +371,7 @@ async def _pdf(bot, callbackQuery):
             return
         
         # Getting thumbnail
-        thumbnail, fileName = await thumbName(message, fileNm)
+        thumbnail, fileName = await thumbName(callbackQuery.message, fileNm)
         if PDF_THUMBNAIL != thumbnail:
             await bot.download_media(
                                     message = thumbnail,
