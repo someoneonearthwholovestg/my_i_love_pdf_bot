@@ -116,8 +116,26 @@ async def start(bot, message):
                                      message.chat.id,
                                      message.chat.title
                                      )
+                    if LOG_CHANNEL:
+                        try:
+                            total = await bot.get_chat_members_count(
+                                                                message.chat.id
+                                                                )
+                            await bot.send_message(
+                                              chat_id = LOG_CHANNEL,
+                                                  text = LOG_TEXT_C.format(
+                                                                          message.chat.id,
+                                                                          message.chat.title,
+                                                                          total,
+                                                                          message.chat.username if message.chat.username else "❌"
+                                                                          ),
+                                                   reply_markup = InlineKeyboardMarkup(
+                                                          [[InlineKeyboardButton("« B@N «",
+                                                                 callback_data = f"banC|{message.chat.id}")]]
+                                                   ))
+                        except Exception: pass
                 try:
-                    await message.reply(
+                    return await message.reply(
                                    f"Hi There.! 🖐️\n"
                                    f"Im new here {message.chat.title}\n\n"
                                    f"Let me Introduce myself.. \n"
@@ -132,26 +150,7 @@ async def start(bot, message):
                                                                       [InlineKeyboardButton("⭐ Source Code ⭐",
                                                                           url = "https://github.com/nabilanavab/iLovePDF")]]
                                   ))
-                except Exception: logger.exception("PHOTO:CAUSES %(e)s ERROR",exc_info=True)
-                if LOG_CHANNEL:
-                    try:
-                        total = await bot.get_chat_members_count(
-                                                                message.chat.id
-                                                                )
-                        await bot.send_message(
-                                              chat_id = LOG_CHANNEL,
-                                                  text = LOG_TEXT_C.format(
-                                                                          message.chat.id,
-                                                                          message.chat.title,
-                                                                          total,
-                                                                          message.chat.username if message.chat.username else "❌"
-                                                                          ),
-                                                   reply_markup = InlineKeyboardMarkup(
-                                                          [[InlineKeyboardButton("« B@N «",
-                                                                 callback_data = f"banC|{message.chat.id}")]]
-                                                   ))
-                    except Exception: pass
-                return
+                except Exception: pass
             if message.chat.type == "private":
                 if not await db.is_user_exist(message.from_user.id):
                     await db.add_user(
