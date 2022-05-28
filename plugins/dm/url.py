@@ -67,16 +67,16 @@ async def _url(bot, message):
                                          message_ids = int(part[len(part-1)])
                                          )
             location = await bot.download_media(
-                                                   message = file.document.file_id,
-                                                   file_name = "pdf.pdf",
-                                                   progress = progress,
-                                                   progress_args = (
-                                                                   file.document.file_size,
-                                                                   msg,
-                                                                   c_time
-                                                                   )
-                                                   )
-                await message.reply_document(location)
+                                               message = file.document.file_id,
+                                               file_name = "pdf.pdf",
+                                               progress = progress,
+                                               progress_args = (
+                                                               file.document.file_size,
+                                                               msg,
+                                                               c_time
+                                                               )
+                                               )
+            await message.reply_document(location)
         PROCESS.remove(message.from_user.id)
     except Exception as e:
         logger.exception(
