@@ -83,16 +83,10 @@ async def _thumbnail(bot, message):
                 CUSTOM_THUMBNAIL_C.append(message.chat.id)
             return
         else:
-            if (chat_type == "private") and (message.chat.id not in CUSTOM_THUMBNAIL_U):
+            if (message.chat.id not in CUSTOM_THUMBNAIL_U) or (message.chat.id not in CUSTOM_THUMBNAIL_C):
                 return await message.reply(
                                           "You didn't set custom thumbnail!\n"
                                           "reply /thumbnail to set thumbnail",
-                                          quote = True
-                                          )
-            # non private messages ↓
-            if message.chat.id not in CUSTOM_THUMBNAIL_C:
-                return await message.reply(
-                                          "No Custom Group Thumbnail 🥲",
                                           quote = True
                                           )
             # Get Thumbnail from DB
