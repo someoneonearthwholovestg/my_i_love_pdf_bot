@@ -62,12 +62,11 @@ async def _url(bot, message):
         c_time = time.time()
         if url.startswith(tuple(links)):
             part = url.split("/")
-            if len(part) == 5:
-                file = await bot.get_messages(
-                                                chat_id = part[3],
-                                                message_ids = int(part[4])
-                                                )
-                location = await bot.download_media(
+            file = await bot.get_messages(
+                                         chat_id = part[len(part-2)],
+                                         message_ids = int(part[len(part-1)])
+                                         )
+            location = await bot.download_media(
                                                    message = file.document.file_id,
                                                    file_name = "pdf.pdf",
                                                    progress = progress,
@@ -78,6 +77,7 @@ async def _url(bot, message):
                                                                    )
                                                    )
                 await message.reply_document(location)
+        PROCESS.remove(message.from_user.id)
     except Exception as e:
         logger.exception(
                         "URL:CAUSES %(e)s ERROR",
