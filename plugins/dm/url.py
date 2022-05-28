@@ -63,8 +63,8 @@ async def _url(bot, message):
         if url.startswith(tuple(links)):
             part = url.split("/")
             file = await bot.get_messages(
-                                         chat_id = part[len(part-2)],
-                                         message_ids = int(part[len(part-1)])
+                                         chat_id = part[len(part)-2],
+                                         message_ids = int(part[len(part)-1])
                                          )
             location = await bot.download_media(
                                                message = file.document.file_id,
