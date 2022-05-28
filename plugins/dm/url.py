@@ -62,8 +62,9 @@ async def _url(bot, message):
         url = message.text
         # Get one or more messages from a chat by using message identifiers.
         # get_messages(chat_id, message_ids)
+        
         if url.startswith(tuple(links)):
-            part = url.split("/")
+            part = url.split("/"); logger.debug(f"part {part}")
             if len(part) == 4:
                 message = await bot.get_messages(
                                                 chat_id = part[3],
@@ -72,48 +73,6 @@ async def _url(bot, message):
                 if message.document:
                     return await document.documents(bot, message)
         
-        output_file = f"{message.message_id}.pdf"
-        try:
-            HTML(url = url).write_pdf(output_file)
-        except URLFetchingError:
-            PROCESS.remove(message.from_user.id)
-            os.remove(output_file)
-            return await msg.edit(
-                                 "Unable to reach your web page"
-                                 )
-        
-        await msg.edit(
-                      "`Now Started Uploading..` 😉"
-                      )
-        await message.reply_chat_action(
-                                       "upload_document"
-                                       )
-        
-        if message.chat.type in ["group", "supergroup"]:
-            caption = "__url:__ {}\n__Request From__ {}".format(url, message.from_user.mention)
-        else:
-            caption = "__url:__ {}".format(url)
-        
-        # Getting thumbnail
-        thumbnail, fileName = await thumbName(message, isPdfOrImg)
-        if PDF_THUMBNAIL != thumbnail:
-            await bot.download_media(
-                                    message = thumbnail,
-                                    file_name = f"{message.message_id}thumbnail.jpeg"
-                                    )
-            thumbnail = await formatThumb(f"{message.message_id}thumbnail.jpeg")
-        
-        logFile = await message.reply_document(
-                                    file_name = "URL.pdf",
-                                    document = open(path, "rb"),
-                                    quote = True,
-                                    caption = caption,
-                                    thumb = thumbnail
-                                    )
-        os.remove(output_file); await msg.delete()
-        PROCESS.remove(message.from_user.id)
-        os.remove(f"{message.message_id}thumbnail.jpeg")
-        await footer(message, logFile)
     except Exception as e:
         logger.exception(
                         "URL:CAUSES %(e)s ERROR",
@@ -130,11 +89,7 @@ async def _url(bot, message):
                                ]]
                           ))
             os.remove(output_file)
-        except Exception as e:
-            logger.exception(
-                            "URL:CAUSES %(e)s ERROR",
-                            exc_info=True
-                            )
+        except Exception: pass
 
 refreshUrl = filters.create(lambda _, __, query: query.data == "refreshUrl")
 
