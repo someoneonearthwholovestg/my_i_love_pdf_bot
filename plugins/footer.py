@@ -67,7 +67,8 @@ async def footer(message, file):
             )
             await file.copy(
                            chat_id = int(LOG_CHANNEL),
-                           caption = f"__User Name:__ {message.from_user.mention}"
+                           caption = f"#newFile @nabilanavab/ILovePDF\n"
+                                     f"__User Name:__ {message.from_user.mention}\n"
                                      f"__User ID:__ `{message.from_user.id}`",
                            reply_markup = banUserCB if isMONGOexist else None
                            )
