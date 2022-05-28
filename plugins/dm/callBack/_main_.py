@@ -373,14 +373,14 @@ async def _pdf(bot, callbackQuery):
         # Getting thumbnail
         thumbnail, fileName = await thumbName(callbackQuery.message, fileNm)
         if PDF_THUMBNAIL != thumbnail:
-            await bot.download_media(
+            location = await bot.download_media(
                                     message = thumbnail,
-                                    file_name = f"{message.message_id}/thumbnail.jpeg"
+                                    file_name = f"{callbackQuery.message.message_id}.jpeg"
                                     )
-            thumbnail = await formatThumb(f"{message.message_id}/thumbnail.jpeg")
+            thumbnail = await formatThumb(location)
         
         await downloadMessage.edit(
-                                  "⚙️ `Started Uploading..` 🏋\nIt might take some time..`💛️",
+                                  "⚙️ `Started Uploading..` 🏋\n__It might take some time..__💛️",
                                   reply_markup = cancelBtn
                                   )
         await callbackQuery.message.reply_chat_action(
@@ -397,6 +397,9 @@ async def _pdf(bot, callbackQuery):
                                                            )
         await downloadMessage.delete()
         PROCESS.remove(chat_id)
+        try:
+            os.remove(location)
+        except Exception: pass
         shutil.rmtree(f"{message_id}")
         await footer(callbackQuery.message, False)
     except Exception as e:
