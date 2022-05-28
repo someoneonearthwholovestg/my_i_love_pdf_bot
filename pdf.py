@@ -28,7 +28,7 @@
 #                                                          DATE:[1-JUNE-2022, Wednesday]
 
 
-'''
+iLovePDF = '''
   _   _                  ___  ___  ____ ™
  | | | |   _____ _____  | _ \|   \|  __| 
  | | | |__/ _ \ V / -_) |  _/| |) |  _|  
@@ -105,10 +105,12 @@ class Bot(ILovePDF):
         await super().start()
         myID = await app.get_me()
         logger.debug(
-                    f"{myID}\n\n"
+                    f"BOT ID : {myID.id} | BOT NAME: {myID.first_name} |"
+                    f" BOT USERNAME: {myID.username}\n\n"
                     f"BOT GETS STARTED..\n"
                     f"Thanks @nabilanavab for this Awesome repo\n"
-                    f"Telegram Update Channel: @iLovePDF_bot\n"
+                    f"Telegram Update Channel: @iLovePDF_bot\n\n"
+                    f"{iLovePDF}"
                     )
         # Bot Restarted Message to ADMINS
         for admin in Config.ADMINS:
