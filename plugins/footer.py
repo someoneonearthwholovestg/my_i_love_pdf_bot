@@ -8,17 +8,19 @@ logging.basicConfig(
                    level=logging.DEBUG,
                    format="%(levelname)s:%(name)s:%(message)s" # %(asctime)s:
                    )
-
 from asyncio import sleep
 from configs.dm import Config
 from pyrogram.types import Message
 from configs.db import LOG_CHANNEL
 from configs.db import isMONGOexist
 from configs.images import FEEDBACK
+from configs.group import groupConfig
 from pyrogram.types import (
                            InlineKeyboardButton,
                            InlineKeyboardMarkup
                            )
+
+ONLY_GROUP_ADMIN = groupConfig.ONLY_GROUP_ADMIN
 
 async def header(callbackQuery):
     # callBack Message delete if User Deletes pdf
