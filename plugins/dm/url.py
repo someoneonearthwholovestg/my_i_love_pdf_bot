@@ -10,6 +10,7 @@ logging.basicConfig(
                    )
 
 import os
+import time
 from pdf import PROCESS
 from pyrogram import filters
 from plugins.thumbName import (
@@ -58,7 +59,7 @@ async def _url(bot, message):
         url = message.text
         # Get one or more messages from a chat by using message identifiers.
         # get_messages(chat_id, message_ids)
-        
+        c_time = time.time()
         if url.startswith(tuple(links)):
             part = url.split("/")
             if len(part) == 5:
@@ -67,11 +68,11 @@ async def _url(bot, message):
                                                 message_ids = int(part[4])
                                                 ); logger.debug(f"message {message}")
                 location = await bot.download_media(
-                                                   message = message.message_id,
+                                                   message = message.file_id,
                                                    file_name = "pdf.pdf",
                                                    progress = progress,
                                                    progress_args = (
-                                                                fileSize,
+                                                                message.file_size,
                                                                 downloadMessage,
                                                                 c_time
                                                               )
