@@ -105,8 +105,9 @@ async def generate(bot, message):
                             "`Successfully Uploaded.. `🤫"
                             )
         shutil.rmtree(f"{chat_id}")
-        if location:
+        try:
             os.remove(location)
+        except Exception: pass
         await footer(message, logFile)
     except Exception as e:
         logger.exception(
