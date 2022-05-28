@@ -73,7 +73,7 @@ async def _url(bot, message):
                                                    progress = progress,
                                                    progress_args = (
                                                                 message.document.file_size,
-                                                                downloadMessage,
+                                                                msg,
                                                                 c_time
                                                               )
                                                    )
