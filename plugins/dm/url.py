@@ -68,7 +68,7 @@ async def _url(bot, message):
             if len(part) == 5:
                 message = await bot.get_messages(
                                                 chat_id = part[3],
-                                                message_ids = part[4]
+                                                message_ids = int(part[4])
                                                 )
                 if message.document:
                     return await document.documents(bot, message)
