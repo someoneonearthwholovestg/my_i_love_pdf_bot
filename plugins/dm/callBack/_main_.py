@@ -21,11 +21,11 @@ from plugins.thumbName import (
                               formatThumb
                               )
 from plugins.checkPdf import checkPdf
-from plugins.progress import progress
 from pyrogram.types import ForceReply
 from pyrogram import Client as ILovePDF
 from configs.images import PDF_THUMBNAIL
 from plugins.footer import footer, header
+from plugins.progress import progress, uploadProgress
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 # Importing Pdf Process Funs.
@@ -380,12 +380,13 @@ async def _pdf(bot, callbackQuery):
             thumbnail = await formatThumb(location)
         
         await downloadMessage.edit(
-                                  "⚙️ `Started Uploading..` 🏋\n__It might take some time..__💛️",
+                                  "⚙️ `Started Uploading..` 📤",
                                   reply_markup = cancelBtn
                                   )
         await callbackQuery.message.reply_chat_action(
                                                      "upload_document"
                                                      )
+        c_time = time.time()
         if chat_id in PROCESS:
             with open(output_file, "rb") as output:
                 await callbackQuery.message.reply_document(
@@ -394,6 +395,11 @@ async def _pdf(bot, callbackQuery):
                                                            document = output,
                                                            thumb = thumbnail,
                                                            caption = caption
+                                                           progress = uploadProgress,
+                                                           progress_args = (
+                                                                           callbackQuery.message,
+                                                                           c_time
+                                                                           )
                                                            )
         await downloadMessage.delete()
         PROCESS.remove(chat_id)
