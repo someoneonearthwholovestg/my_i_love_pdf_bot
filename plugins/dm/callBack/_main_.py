@@ -184,7 +184,7 @@ async def _pdf(bot, callbackQuery):
         
         # DOWNLOAD MESSSAGE
         downloadMessage = await callbackQuery.message.reply_text(
-                                                                "`Downloding your pdf..` ⏳", 
+                                                                "`Downloding your pdf..` 📩", 
                                                                 reply_markup = cancelBtn,
                                                                 quote = True
                                                                 )
