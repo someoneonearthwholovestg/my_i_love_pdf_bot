@@ -235,7 +235,7 @@ async def _banUserCB(bot, callbackQuery):
         elif int(userID) in Config.ADMINS:
             return await callbackQuery.answer(
                                              f"I Never Ban Him.. 😏\n"
-                                             "Reason: iCantBanBotADMIN"
+                                             "Reason: iCantBanBotADMIN",
                                              show_alert = True
                                              )
         else:
