@@ -394,7 +394,7 @@ async def _pdf(bot, callbackQuery):
                                                            quote = True,
                                                            document = output,
                                                            thumb = thumbnail,
-                                                           caption = caption
+                                                           caption = caption,
                                                            progress = uploadProgress,
                                                            progress_args = (
                                                                            callbackQuery.message,
