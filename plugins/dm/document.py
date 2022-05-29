@@ -273,7 +273,7 @@ async def documents(bot, message):
                 # DOWNLOAD PROGRESS
                 c_time = time.time()
                 downloadLoc = await bot.download_media(
-                                                      message = file_id,
+                                                      message = message.document.file_id,
                                                       file_name = input_file,
                                                       progress = progress,
                                                       progress_args = (
@@ -366,7 +366,7 @@ async def documents(bot, message):
                     # DOWNLOAD PROGRESS
                     c_time = time.time()
                     downloadLoc = await bot.download_media(
-                                                          message = file_id,
+                                                          message = message.document.file_id,
                                                           file_name = input_file,
                                                           progress = progress,
                                                           progress_args = (
