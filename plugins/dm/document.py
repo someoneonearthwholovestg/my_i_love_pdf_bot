@@ -11,6 +11,7 @@ logging.basicConfig(
 
 import os
 import fitz
+import time
 import shutil
 import asyncio
 import convertapi
@@ -27,6 +28,7 @@ from plugins.thumbName import (
 from pyrogram import Client as ILovePDF
 from plugins.footer import footer, header
 from plugins.fileSize import get_size_format as gSF
+from plugins.progress import progress, uploadProgress
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from configs.images import WELCOME_PIC, BANNED_PIC, BIG_FILE, PDF_THUMBNAIL
 
@@ -264,18 +266,31 @@ async def documents(bot, message):
             try:
                 PROCESS.append(message.from_user.id)
                 pdfMsgId = await message.reply_text(
-                                                   "`Downloading your file..⏳`",
+                                                   "`Downloading your file..` 📥",
                                                    quote = True
                                                    )
-                await message.download(
-                                      f"{message.message_id}/{isPdfOrImg}"
-                                      )
+                input_file = f"{message.message_id}/{isPdfOrImg}"
+                # DOWNLOAD PROGRESS
+                c_time = time.time()
+                downloadLoc = await bot.download_media(
+                                                      message = file_id,
+                                                      file_name = input_file,
+                                                      progress = progress,
+                                                      progress_args = (
+                                                                      message.document.file_size,
+                                                                      pdfMsgId,
+                                                                      c_time
+                                                                      )
+                                                      )
+                # CHECKS PDF DOWNLOADED OR NOT
+                if downloadLoc is None:
+                    PROCESS.remove(chat_id)
+                    return
+                
                 await pdfMsgId.edit(
-                                   "`Work in Progress.. It might take some time.. 💛`"
+                                   "`Work in Progress..`\nIt might take some time.. 💛`"
                                    )
-                Document = fitz.open(
-                                    f"{message.message_id}/{isPdfOrImg}"
-                                    )
+                Document = fitz.open(input_file)
                 b = Document.convert_to_pdf()
                 pdf = fitz.open("pdf", b)
                 pdf.save(
@@ -295,17 +310,23 @@ async def documents(bot, message):
                     thumbnail = await formatThumb(f"{message.message_id}/thumbnail.jpeg")
                 
                 await pdfMsgId.edit(
-                                   "`Started Uploading..`🏋️"
+                                   "`Started Uploading..`📤"
                                    )
                 await message.reply_chat_action(
                                                "upload_document"
                                                )
+                c_time = time.time()
                 logFile = await message.reply_document(
                                             file_name = f"{fileName}.pdf",
                                             document = open(f"{message.message_id}/{fileNm}.pdf", "rb"),
                                             thumb = thumbnail,
                                             caption = f"`Converted: {fileExt} to pdf`",
-                                            quote = True
+                                            quote = True,
+                                            progress = uploadProgress,
+                                            progress_args = (
+                                                            pdfMsgId,
+                                                            c_time
+                                                            )
                                             )
                 await footer(message, logFile)
                 
@@ -323,7 +344,7 @@ async def documents(bot, message):
         
         # FILES TO PDF (CONVERTAPI)
         elif fileExt.lower() in suprtedPdfFile2:
-            if Config.CONVERT_API is None:
+            if not Config.CONVERT_API:
                 pdfMsgId = await message.reply_text(
                                                    "`Owner Forgot to add ConvertAPI.. contact Owner 😒`",
                                                    quote = True
@@ -332,15 +353,31 @@ async def documents(bot, message):
             else:
                 try:
                     PROCESS.append(message.from_user.id)
+                    input_file = f"{message.message_id}/{isPdfOrImg}"
+                    
                     pdfMsgId = await message.reply_text(
-                                                       "`Downloading your file..⏳`",
+                                                       "`Downloading your file..` 📥",
                                                        quote = True
                                                        )
-                    await message.download(
-                                          f"{message.message_id}/{isPdfOrImg}"
-                                          )
+                    # DOWNLOAD PROGRESS
+                    c_time = time.time()
+                    downloadLoc = await bot.download_media(
+                                                          message = file_id,
+                                                          file_name = input_file,
+                                                          progress = progress,
+                                                          progress_args = (
+                                                                          message.document.file_size,
+                                                                          pdfMsgId,
+                                                                          c_time
+                                                                          )
+                                                          )
+                    # CHECKS PDF DOWNLOADED OR NOT
+                    if downloadLoc is None:
+                        PROCESS.remove(chat_id)
+                        return
+                    
                     await pdfMsgId.edit(
-                                       "`Work in Progress.. It might take some time..`💛"
+                                       "`Work in Progress..`\n`It might take some time..`💛"
                                        )
                     try:
                         convertapi.convert(
@@ -354,10 +391,10 @@ async def documents(bot, message):
                                           )
                     except Exception:
                         try:
-                            shutil.rmtree(f"{message.message_id}")
                             await pdfMsgId.edit(
                                                "ConvertAPI limit reaches.. contact Owner"
                                                )
+                            shutil.rmtree(f"{message.message_id}")
                             PROCESS.remove(message.from_user.id)
                             return
                         except Exception: pass
@@ -370,7 +407,9 @@ async def documents(bot, message):
                                                 file_name = f"{message.message_id}/thumbnail.jpeg"
                                                 )
                         thumbnail = await formatThumb(f"{message.message_id}/thumbnail.jpeg")
-                    
+                    await pdfMsgId.edit(
+                                       "`Started Uploading..`📤"
+                                       )
                     await message.reply_chat_action(
                                                    "upload_document"
                                                    )
@@ -412,7 +451,7 @@ async def _asNewDoc(bot, callbackQuery):
         await callbackQuery.answer(
                                   "⚙️ PROCESSING.."
                                   )
-        if await header(callbackQuery):
+        if await header(bot, callbackQuery):
             return
         else :pass
         await documents(
