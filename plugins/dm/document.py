@@ -328,9 +328,9 @@ async def documents(bot, message):
                                                             c_time
                                                             )
                                             )
+                await pdfMsgId.delete()
                 await footer(message, logFile)
-                
-                await pdfMsgId.delete(); PROCESS.remove(message.from_user.id)
+                PROCESS.remove(message.from_user.id)
                 shutil.rmtree(f"{message.message_id}")
             except Exception as e:
                 logger.exception(
@@ -424,8 +424,9 @@ async def documents(bot, message):
                                                 caption = f"`Converted: {fileExt} to pdf`",
                                                 quote = True
                                                 )
+                    await pdfMsgId.delete();
                     await footer(message, logFile)
-                    await pdfMsgId.delete(); PROCESS.remove(message.from_user.id)
+                    PROCESS.remove(message.from_user.id)
                     shutil.rmtree(f"{message.message_id}")
                 except Exception:
                     PROCESS.remove(message.from_user.id)
