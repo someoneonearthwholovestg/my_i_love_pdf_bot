@@ -333,6 +333,10 @@ async def documents(bot, message):
                 await pdfMsgId.delete(); PROCESS.remove(message.from_user.id)
                 shutil.rmtree(f"{message.message_id}")
             except Exception as e:
+                logger.exception(
+                        "AS_NEW_DOC:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
                 try:
                     shutil.rmtree(f"{message.message_id}")
                     PROCESS.remove(message.from_user.id)
