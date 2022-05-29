@@ -356,8 +356,8 @@ async def server(bot, message):
                                  f"**◍ Free Space      :** `{free}` \n"
                                  f"**◍ CPU Usage      :** `{cpu_usage}`% \n"
                                  f"**◍ RAM Usage     :** `{ram_usage}`%\n"
-                                 f"**◍ Current Work   :** `{len(PROCESS)}`\n"
-                                 f"**◍ DB Users          :** `{total_users}`\n"
+                                 f"**◍ Current Work  :** `{len(PROCESS)}`\n"
+                                 f"**◍ DB Users         :** `{total_users}`\n"
                                  f"**◍ DB Grups         :** `{total_chats}`\n"
                                  f"**◍ Message Id     :** `{message.message_id}`",
                             reply_markup = InlineKeyboardMarkup(
