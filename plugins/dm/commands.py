@@ -100,7 +100,7 @@ async def userId(bot, message):
     try:
         if message.chat.id == message.from_user.id:
             await message.reply_text(
-                                    f"Your Name: {message.from_user.mention}"
+                                    f"Your Name: {message.from_user.mention}\n"
                                     f"Id: `{message.chat.id}`",
                                     quote = True
                                     )
@@ -109,7 +109,8 @@ async def userId(bot, message):
                                     f"Chat Title: `{message.chat.title}`\n"
                                     f"Chat ID: `{message.chat.id}`\n"
                                     f"User Name: `{message.from_user.mention}\n"
-                                    f"User ID: `{message.from_user.id}",
+                                    f"User ID: `{message.from_user.id}\n"
+                                    f"Username: `{message.from_user.username if message.from_user.username else "None"}",
                                     quote = True
                                     )
     except Exception as e:
