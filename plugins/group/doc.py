@@ -146,7 +146,7 @@ async def documents(bot, message):
         global invite_link, myID
         if not myID:
             myID = await bot.get_me()
-        
+        logger.debug(message)
         await message.reply_chat_action(
                                        "typing"
                                        )
