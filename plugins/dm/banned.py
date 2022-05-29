@@ -229,12 +229,14 @@ async def _banUserCB(bot, callbackQuery):
             return await callbackQuery.answer(
                                              f"Don't Even Think about banning\n"
                                              f"𝙽𝙰𝙱𝙸𝙻  𝙰  𝙽𝙰𝚅𝙰𝙱\n"
-                                             f"He's the master brain behind this project 😎"
+                                             f"He's the master brain behind this project 😎",
+                                             show_alert = True
                                              )
         elif int(userID) in Config.ADMINS:
             return await callbackQuery.answer(
                                              f"I Never Ban Him.. 😏\n"
                                              "Reason: iCantBanBotADMIN"
+                                             show_alert = True
                                              )
         else:
             if chat_type == "user":
