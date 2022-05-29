@@ -80,7 +80,7 @@ async def _pdf(bot, callbackQuery):
         chat_id = callbackQuery.message.chat.id
         message_id = callbackQuery.message.message_id
         
-        if await header(callbackQuery):
+        if await header(bot, callbackQuery):
             return
         
         if callbackQuery.data == "rot360":
