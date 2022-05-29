@@ -108,9 +108,9 @@ async def userId(bot, message):
             await message.reply_text(
                                     f"Chat Title: `{message.chat.title}`\n"
                                     f"Chat ID: `{message.chat.id}`\n"
-                                    f"User Name: `{message.from_user.mention}\n"
-                                    f"User ID: `{message.from_user.id}\n"
-                                    f"Username: `{message.from_user.username if message.from_user.username else "None"}",
+                                    f"User Name: `{message.from_user.mention}`\n"
+                                    f"User ID: `{message.from_user.id}`\n"
+                                    f"Username: `{message.from_user.username}`",
                                     quote = True
                                     )
     except Exception as e:
