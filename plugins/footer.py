@@ -22,7 +22,7 @@ from pyrogram.types import (
 
 ONLY_GROUP_ADMIN = groupConfig.ONLY_GROUP_ADMIN
 
-async def header(callbackQuery):
+async def header(bot, callbackQuery):
     # callBack Message delete if User Deletes pdf
     try:
         fileExist = callbackQuery.message.reply_to_message.document.file_id
