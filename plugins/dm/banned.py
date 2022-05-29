@@ -284,7 +284,7 @@ unbanUser = filters.create(lambda _, __, query: query.data.startswith(tuple(["un
 @ILovePDF.on_callback_query(unbanUser)
 async def _unbanUserCB(bot, callbackQuery):
     try:
-        if callbackQuery.data.startswith("banU|"):
+        if callbackQuery.data.startswith("unbanU|"):
             chat_type = "user"
         else:
             chat_type = "chat"
