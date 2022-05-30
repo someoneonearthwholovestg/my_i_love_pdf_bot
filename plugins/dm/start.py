@@ -336,6 +336,7 @@ async def _refresh(bot, callbackQuery):
 @ILovePDF.on_callback_query(close)
 async def _close(bot, callbackQuery):
     try:
+        logger.debug(callbackQuery)
         if (callbackQuery.message.chat.type != "private") and (
             callbackQuery.from_user.id != callbackQuery.message.reply_to_message.from_user.id):
                 return await callbackQuery.answer("Message Not For You.. 😏")
