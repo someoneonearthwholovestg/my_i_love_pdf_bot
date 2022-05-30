@@ -161,7 +161,7 @@ async def _getFile(bot, callbackQuery):
         await callbackQuery.edit_message_reply_markup(
               InlineKeyboardMarkup([[InlineKeyboardButton("📤 ..UPLOADING..  📤", callback_data = "nabilanavab")]])
         )
-        logFile = await callbackQuery.message.reply_to_message.reply_document(
+        logFile = await callbackQuery.message.reply_document(
                                               document = location,
                                               caption = file.caption,
                                               progress = getPDF,
