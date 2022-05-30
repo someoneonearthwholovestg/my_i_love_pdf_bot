@@ -36,7 +36,7 @@ async def getPDF(current, t, message, total=0, typ="DOWNLOADED"):
         edit = "📤 UPLOADED: {}% 📤"
     logger.debug("\n\n",current, t, message, total, typ, "\n\n")
     percentage = current * 100 / total
-    await message.edit_message_reply_markup(
+    await message.edit_reply_markup(
           InlineKeyboardMarkup([[InlineKeyboardButton(
                       edit.format(percentage),
                       callback_data = "nabilanavab")]]
