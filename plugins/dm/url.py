@@ -27,7 +27,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 #              https://t.me/nabilanavab/1
 links = ["https://telegram.dog/", "https://t.me/", "https://telegram.me/"]
 
-async def getPDF(current, t, total, message, typ = "DOWNLOADED"):
+async def getPDF(current, t, total=0, message, typ = "DOWNLOADED"):
     diff = now - start
     if t != 0:
         total = t
@@ -155,8 +155,8 @@ async def _getFile(bot, callbackQuery):
                                            file_name = file.document.file_name,
                                            progress = getPDF,
                                            progress_args = (
-                                                           total = file.document.file_size,
-                                                           message = callbackQuery.message
+                                                           file.document.file_size,
+                                                           callbackQuery.message
                                                            )
                                            )
         await callbackQuery.edit_message_reply_markup(
@@ -167,8 +167,8 @@ async def _getFile(bot, callbackQuery):
                                               caption = file.caption
                                               progress = getPDF,
                                               progress_args = (
-                                                              message = callbackQuery.message,
-                                                              typ = "UPLOADED"
+                                                              0, callbackQuery.message,
+                                                              "UPLOADED"
                                                               )
                                               )
         await callbackQuery.edit_message_reply_markup(
