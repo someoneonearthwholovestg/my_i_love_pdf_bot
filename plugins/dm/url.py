@@ -27,12 +27,12 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 #              https://t.me/nabilanavab/1
 links = ["https://telegram.dog/", "https://t.me/", "https://telegram.me/"]
 
-async def getPDF(current, t = 0, total = 0, message, typ = "DOWNLOADED"):
+async def getPDF(current, t, total, message, typ = "DOWNLOADED"):
     diff = now - start
     if t != 0:
         total = t
     if typ == "DOWNLOADED":
-        edit = "📥 DOWNLOAD: {}% 📥"
+        edit = "📥 DOWNLOADED: {}% 📥"
     else:
         edit = "📤 UPLOADED: {}% 📤"
     if round(diff % 10) in [0, 8] or current == total:
