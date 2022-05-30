@@ -136,13 +136,13 @@ async def _getFile(bot, callbackQuery):
         
         # bot.get_messages
         file = await bot.get_messages(
-                                     chat_id = chat_id
+                                     chat_id = chat_id,
                                      message_ids = message_ids
                                      )
         # if not a protected channel/group [just forward]
         if not file.sender_chat.has_protected_content:
             await file.copy(
-                           chat_id = callbackQuery.message.chat.id
+                           chat_id = callbackQuery.message.chat.id,
                            caption = file.caption
                            )
         
@@ -156,7 +156,7 @@ async def _getFile(bot, callbackQuery):
                                            progress = getPDF,
                                            progress_args = (
                                                            total = file.document.file_size,
-                                                           message = callbackQuery.message,
+                                                           message = callbackQuery.message
                                                            )
                                            )
         await callbackQuery.edit_message_reply_markup(
