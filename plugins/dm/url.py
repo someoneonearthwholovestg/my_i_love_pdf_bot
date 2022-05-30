@@ -153,8 +153,7 @@ async def _getFile(bot, callbackQuery):
                                            file_name = file.document.file_name,
                                            progress = getPDF,
                                            progress_args = (
-                                                           file.document.file_size,
-                                                           callbackQuery.message
+                                                           callbackQuery.message, file.document.file_size,
                                                            )
                                            )
         await callbackQuery.edit_message_reply_markup(
