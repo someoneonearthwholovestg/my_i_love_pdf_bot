@@ -80,7 +80,7 @@ async def _url(bot, message):
                 return await data.edit(
                                       "🐉 SOMETHING WENT WRONG 🐉\n\n"
                                       f"ERROR: `{e}`\n"
-                                      "NB: In Groups, Bots Can Only fetch documents Send After Joining Group,
+                                      "NB: In Groups, Bots Can Only fetch documents Send After Joining Group",
                                       reply_markup = InlineKeyboardMarkup(
                                            [[
                                                  InlineKeyboardButton("🚫 Close 🚫",
