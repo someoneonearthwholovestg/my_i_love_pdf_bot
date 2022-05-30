@@ -164,7 +164,7 @@ async def _getFile(bot, callbackQuery):
         )
         logFile = await message.reply_document(
                                               document = location,
-                                              caption = file.caption
+                                              caption = file.caption,
                                               progress = getPDF,
                                               progress_args = (
                                                               0, callbackQuery.message,
