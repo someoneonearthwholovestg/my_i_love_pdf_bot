@@ -138,12 +138,10 @@ async def _getFile(bot, callbackQuery):
                                      )
         # if not a protected channel/group [just forward]
         if not file.sender_chat.has_protected_content:
-            await file.copy(
+            return await file.copy(
                            chat_id = callbackQuery.message.chat.id,
                            caption = file.caption
                            )
-        
-        
         await callbackQuery.edit_message_reply_markup(
               InlineKeyboardMarkup([[InlineKeyboardButton("📥 ..DOWNLOADING.. 📥", callback_data = "nabilanavab")]])
         )
