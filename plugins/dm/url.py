@@ -34,7 +34,7 @@ async def getPDF(current, t, message, total=0, typ = "DOWNLOADED"):
         edit = "📥 DOWNLOADED: {}% 📥"
     else:
         edit = "📤 UPLOADED: {}% 📤"
-    if round(diff % 10) in [0, 8] or current == total:
+    if round(current * 100 // total) in [1,2,3,4,5,6,7,8,9] or current == total:
         # if round(current / total * 100, 0) % 10 == 0:
         percentage = current * 100 / total
         await message.edit_message_reply_markup(
