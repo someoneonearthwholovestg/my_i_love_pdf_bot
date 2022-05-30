@@ -34,7 +34,7 @@ async def getPDF(current, t, message, total=0, typ="DOWNLOADED"):
         edit = "📥 DOWNLOADED: {}% 📥"
     else:
         edit = "📤 UPLOADED: {}% 📤"
-    if round(current * 100 % total) in [1,2,3,4,5,6,7,8,9] or current == total:
+    if round(int(current) * 100 % int(total)) in [1,2,3,4,5,6,7,8,9] or current == total:
         # if round(current / total * 100, 0) % 10 == 0:
         percentage = current * 100 / total
         await message.edit_message_reply_markup(
@@ -154,8 +154,8 @@ async def _getFile(bot, callbackQuery):
                                            file_name = file.document.file_name,
                                            progress = getPDF,
                                            progress_args = (
-                                                           total=file.document.file_size,
-                                                           message=callbackQuery.message
+                                                           file.document.file_size,
+                                                           callbackQuery.message
                                                            )
                                            )
         await callbackQuery.edit_message_reply_markup(
@@ -166,8 +166,8 @@ async def _getFile(bot, callbackQuery):
                                               caption = file.caption,
                                               progress = getPDF,
                                               progress_args = (
-                                                              message=callbackQuery.message,
-                                                              typ="UPLOADED"
+                                                              callbackQuery.message,
+                                                              "UPLOADED"
                                                               )
                                               )
         await callbackQuery.edit_message_reply_markup(
