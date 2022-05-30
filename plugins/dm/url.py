@@ -126,7 +126,7 @@ async def _getFile(bot, callbackQuery):
             return await callbackQuery.answer(
                                              "Work in progress.. 🙇"
                                              )
-        if callback_data.message.chat.type != "private":
+        if callbackQuery.message.chat.type != "private":
             if await header(bot, callbackQuery):
                 return
         PROCESS.append(callbackQuery.from_user.id)
