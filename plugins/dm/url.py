@@ -87,7 +87,7 @@ async def _url(bot, message):
                                                            callback_data="closeALL")
                                            ]]
                                       ))
-            sleep(1)
+            await sleep(1)
             return await data.edit(
                                   f"[Open Chat]({url})\n\n"
                                   f"**ABOUT CHAT ↓**\n"
@@ -107,7 +107,7 @@ async def _url(bot, message):
                                                                            callback_data = "getFile")
                                                  ]]
                                   ))
-        sleep(1)
+        await sleep(1)
         return await data.edit(
                               "Please Send Me A Direct Telegram PDF Url"
                               )
