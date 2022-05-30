@@ -96,7 +96,7 @@ async def _url(bot, message):
                                   f"**ABOUT MEDIA ↓**\n"
                                   f"Media     : {file.media}\n"
                                   f"File Name : {file.document.file_name}\n"
-                                  f"File Size : {gSF(file.document.file_size)}\n\n",
+                                  f"File Size : {await gSF(file.document.file_size)}\n\n",
                                   # f"{"🔒 Protected 🔒" if file.sender_chat.has_protected_content else "👀 Public 👀"}",
                                   reply_markup = InlineKeyboardMarkup(
                                                  [[
