@@ -161,7 +161,7 @@ async def _getFile(bot, callbackQuery):
                                               caption = file.caption,
                                               progress = getPDF,
                                               progress_args = (
-                                                              0, callbackQuery.message,
+                                                              callbackQuery.message, 0, 
                                                               "UPLOADED"
                                                               )
                                               )
