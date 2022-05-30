@@ -10,22 +10,39 @@ logging.basicConfig(
                    )
 
 import os
-import time
 from pdf import PROCESS
+from asyncio import sleep
 from pyrogram import filters
 from plugins.thumbName import (
                               thumbName,
                               formatThumb
                               )
-from plugins.footer import footer
-from plugins.progress import progress
 from pyrogram import Client as ILovePDF
+from plugins.footer import header, footer
+from plugins.fileSize import get_size_format as gSF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 # url Example: https://t.me/channel/message
-#                       https://telegram.dog/nabilanavab/75
+#              https://t.me/nabilanavab/1
 links = ["https://telegram.dog/", "https://t.me/", "https://telegram.me/"]
+
+async def getPDF(current, t, total = 0, message, typ = "DOWNLOADED"):
+    diff = now - start
+    if t != 0:
+        total = t
+    if typ == "DOWNLOADED":
+        edit = "📥 DOWNLOAD: {}% 📥"
+    else:
+        edit = "📤 UPLOADED: {}% 📤"
+    if round(diff % 10) in [0, 8] or current == total:
+        # if round(current / total * 100, 0) % 10 == 0:
+        percentage = current * 100 / total
+        await message.edit_message_reply_markup(
+              InlineKeyboardMarkup([[InlineKeyboardButton(
+                      edit.format(percentage),
+                      callback_data = "nabilanavab")]]
+        ))
 
 @ILovePDF.on_message(
                     filters.private &
@@ -38,84 +55,134 @@ async def _url(bot, message):
         await message.reply_chat_action(
                                        "typing"
                                        )
-        # CHECKS IF BOT DOING ANY WORK
-        if message.from_user.id in PROCESS:
-            return await message.reply(
-                                      text = f"WORK IN PROGRESS.. 🙇",
-                                      reply_markup = InlineKeyboardMarkup(
-                                            [[
-                                                  InlineKeyboardButton("♻️ Refresh ♻️",
-                                                          callback_data = "refreshUrl")
-                                            ]]
-                                     ),
-                                     quote = True
-                                     )
-        PROCESS.append(message.from_user.id)
-        msg = await message.reply(
-                                 "__Started Fetching Datas..__ 🤫",
-                                 quote = True
-                                 )
+        data = await message.reply(
+                                  "`Started Fetching Datas..` 📥",
+                                  quote = True
+                                  )
         
         url = message.text
         # Get one or more messages from a chat by using message identifiers.
         # get_messages(chat_id, message_ids)
-        c_time = time.time()
         if url.startswith(tuple(links)):
             part = url.split("/")
-            file = await bot.get_messages(
-                                         chat_id = part[len(part)-2],
-                                         message_ids = int(part[len(part)-1])
-                                         ); logger.debug(file)
-            location = await bot.download_media(
-                                               message = file.document.file_id,
-                                               file_name = file.document.file_name,
-                                               progress = progress,
-                                               progress_args = (
-                                                               file.document.file_size,
-                                                               msg,
-                                                               c_time
-                                                               )
-                                               )
-            await message.reply_document(location)
-        PROCESS.remove(message.from_user.id)
+            message_ids = int(part[-1])
+            try:
+                chat_id = int(part[-2])
+                chat_id = int("-100" + chat_id)
+            except Exception:
+                chat_id = part[-2]
+            try:
+                file = await bot.get_messages(
+                                             chat_id = chat_id,
+                                             message_ids = message_ids
+                                             )
+            except Exception as e:
+                return await data.edit(
+                                      "🐉 SOMETHING WENT WRONG 🐉\n\n"
+                                      f"ERROR: `{e}`\n"
+                                      "NB: In Groups, Bots Can Only fetch documents Send After Joining Group,
+                                      reply_markup = InlineKeyboardMarkup(
+                                           [[
+                                                 InlineKeyboardButton("🚫 Close 🚫",
+                                                           callback_data="closeALL")
+                                           ]]
+                                      ))
+            sleep(1)
+            return await data.edit(
+                                  f"[Open Chat]({url})\n\n"
+                                  f"**ABOUT CHAT ↓**\n"
+                                  f"Chat Type : {file.chat.type}\n"
+                                  f"Chat Name : {file.sender_chat.title}\n"
+                                  f"Chat UsrN : {file.sender_chat.username}\n"
+                                  f"Chat ID   : {file.sender_chat.id}\n"
+                                  f"Date : {file.date}\n\n"
+                                  f"**ABOUT MEDIA ↓**\n"
+                                  f"Media     : {file.media}\n"
+                                  f"File Name : {file.document.file_name}\n"
+                                  f"File Size : {gSF(file.document.file_size)}\n\n"
+                                  f"{"🔒 Protected 🔒" if file.sender_chat.has_protected_content else "👀 Public 👀"}",
+                                  reply_markup = InlineKeyboardMarkup(
+                                                 [[
+                                                           InlineKeyboardButton("🛡️ Get PDF File 🛡️",
+                                                                           callback_data = "getFile")
+                                                 ]]
+                                  ))
+        sleep(1)
+        return await data.edit(
+                              "Please Send Me A Direct Telegram PDF Url"
+                              )
     except Exception as e:
         logger.exception(
                         "URL:CAUSES %(e)s ERROR",
                         exc_info=True
                         )
-        try:
-            PROCESS.remove(message.from_user.id)
-            await msg.edit(
-                          text = f"__ERROR: __`{message.chat.type} {e}`",
-                          reply_markup = InlineKeyboardMarkup(
-                               [[
-                                     InlineKeyboardButton("🚫 Close 🚫",
-                                                  callback_data="closeALL")
-                               ]]
-                          ))
-        except Exception: pass
 
-refreshUrl = filters.create(lambda _, __, query: query.data == "refreshUrl")
+getFile = filters.create(lambda _, __, query: query.data == "getFile")
 
-@ILovePDF.on_callback_query(refreshUrl)
-async def _refreshUrl(bot, callbackQuery):
+@ILovePDF.on_callback_query(getFile)
+async def _getFile(bot, callbackQuery):
     try:
         if callbackQuery.from_user.id in PROCESS:
             return await callbackQuery.answer(
                                              "Work in progress.. 🙇"
                                              )
-        if (callbackQuery.chat.type != "private"
-             ) and (callbackQuery.from_user.id != callbackQuery.message.reply_to_message.from_user.id):
-                 return await callbackQuery.answer(
-                                                  "Message Not For U 😏"
-                                                  )
-        await callbackQuery.answer()
-        await _url(bot, callbackQuery.message.reply_to_message)
-        await callbackQuery.message.delete()
+        if callback_data.message.chat.type != "private":
+            if await header(bot, callbackQuery):
+                return
+        PROCESS.append(callbackQuery.from_user.id)
+        url = callbackQuery.message.reply_to_message.text
+        part = url.split("/")
+        chat_id = part[len(part)-2]; message_ids = int(part[len(part)-1])
+        
+        # bot.get_messages
+        file = await bot.get_messages(
+                                     chat_id = chat_id
+                                     message_ids = message_ids
+                                     )
+        # if not a protected channel/group [just forward]
+        if not file.sender_chat.has_protected_content:
+            await file.copy(
+                           chat_id = callbackQuery.message.chat.id
+                           caption = file.caption
+                           )
+        
+        
+        await callbackQuery.edit_message_reply_markup(
+              InlineKeyboardMarkup([[InlineKeyboardButton("📥 ..DOWNLOADING.. 📥", callback_data = "nabilanavab")]])
+        )
+        location = await bot.download_media(
+                                           message = file.document.file_id,
+                                           file_name = file.document.file_name,
+                                           progress = getPDF,
+                                           progress_args = (
+                                                           total = file.document.file_size,
+                                                           message = callbackQuery.message,
+                                                           )
+                                           )
+        await callbackQuery.edit_message_reply_markup(
+              InlineKeyboardMarkup([[InlineKeyboardButton("📤 ..UPLOADING..  📤", callback_data = "nabilanavab")]])
+        )
+        logFile = await message.reply_document(
+                                              document = location,
+                                              caption = file.caption
+                                              progress = getPDF,
+                                              progress_args = (
+                                                              message = callbackQuery.message,
+                                                              typ = "UPLOADED"
+                                                              )
+                                              )
+        await callbackQuery.edit_message_reply_markup(
+            InlineKeyboardMarkup([[InlineKeyboardButton("😎 COMPLETED 😎",
+                       url = "https://github.com/nabilanavab/ILovePDF")]])
+        )
+        PROCESS.remove(callbackQuery.from_user.id)
+        footer(callbackQuery.message, logFile)
+        os.remove(location)
     except Exception as e:
+        PROCESS.remove(callbackQuery.from_user.id); os.remove(location)
         logger.exception(
                         "BAN_USER:CAUSES %(e)s ERROR",
                         exc_info=True
                         )
 
-#                                                                                  Telegram: @nabilanavab
+#                                                                                                           Telegram: @nabilanavab
