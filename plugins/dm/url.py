@@ -65,7 +65,7 @@ async def _url(bot, message):
             message_ids = int(part[-1])
             try:
                 chat_id = int(part[-2])
-                chat_id = int("-100" + f"{chat_id"})
+                chat_id = int("-100" + f"{chat_id}")
             except Exception:
                 chat_id = part[-2]
             try:
@@ -132,7 +132,7 @@ async def _getFile(bot, callbackQuery):
         message_ids = int(part[-1])
         try:
             chat_id = int(part[-2])
-            chat_id = int("-100" + f"{chat_id"})
+            chat_id = int("-100" + f"{chat_id}")
         except Exception:
             chat_id = part[-2]
         # bot.get_messages
