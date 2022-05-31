@@ -88,7 +88,7 @@ async def _url(bot, message):
             return await data.edit(
                                   f"[Open Chat]({url})\n\n"
                                   f"**ABOUT CHAT ↓**\n"
-                                  f"Chat Type : {f"{file.chat.type}" if file.chat else "🥲"}\n"
+                                  f"Chat Type : {file.chat.type}\n"
                                   f"Chat Name : {file.sender_chat.title}\n"
                                   f"Chat UsrN : {file.sender_chat.username}\n"
                                   f"Chat ID   : {file.sender_chat.id}\n"
