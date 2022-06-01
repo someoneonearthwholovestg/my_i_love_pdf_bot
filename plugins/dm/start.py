@@ -330,13 +330,13 @@ async def _refresh(bot, callbackQuery):
         if callbackQuery.data == "refreshDoc":
             messageId = callbackQuery.message.reply_to_message
             await callbackQuery.message.delete()
-            return documents(
+            return await documents(
                             bot, messageId
                             )
         if callbackQuery.data == "refreshImg":
             messageId = callbackQuery.message.reply_to_message
             await callbackQuery.message.delete()
-            return images(
+            return await images(
                          bot, messageId
                          )
     except Exception as e:
