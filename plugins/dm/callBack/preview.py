@@ -34,6 +34,9 @@ preview = filters.create(lambda _, __, query: query.data in ["Kpreview", "previe
 @ILovePDF.on_callback_query(preview)
 async def _preview(bot, callbackQuery):
     try:
+        if await header(bot, callbackQuery):
+            return
+        
         chat_id = callbackQuery.message.chat.id
         message_id = callbackQuery.message.message_id
         
