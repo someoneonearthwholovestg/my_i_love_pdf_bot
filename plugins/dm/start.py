@@ -340,10 +340,6 @@ async def _refresh(bot, callbackQuery):
                          bot, messageId
                          )
     except Exception as e:
-        logger.exception(
-                        "REFRESH:CAUSES %(e)s ERROR",
-                        exc_info=True
-                        )
         try:
             # IF NOT USER ALERT MESSAGE (AFTER CALLBACK)
             await bot.answer_callback_query(
