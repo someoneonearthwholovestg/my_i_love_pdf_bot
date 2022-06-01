@@ -25,6 +25,7 @@ from plugins.thumbName import (
                               thumbName,
                               formatThumb
                               )
+from configs.group import groupConfig
 from pyrogram import Client as ILovePDF
 from plugins.footer import footer, header
 from plugins.fileSize import get_size_format as gSF
@@ -101,32 +102,49 @@ hit on "retry ♻️" after joining.. 😅"""
 
 pdfReply = InlineKeyboardMarkup(
         [[
-            InlineKeyboardButton("⭐ META£ATA ⭐", callback_data="pdfInfo"),
-            InlineKeyboardButton("🗳️ PREVIEW 🗳️", callback_data="preview")
+            InlineKeyboardButton("⭐ META£ATA ⭐", 
+                             callback_data="pdfInfo"),
+            InlineKeyboardButton("🗳️ PREVIEW 🗳️",
+                             callback_data="preview")
         ],[
-            InlineKeyboardButton("🖼️ IMAGES 🖼️", callback_data="toImage"),
-            InlineKeyboardButton("✏️ TEXT ✏️", callback_data="toText")
+            InlineKeyboardButton("🖼️ IMAGES 🖼️",
+                             callback_data="toImage"),
+            InlineKeyboardButton("✏️ TEXT ✏️",
+                              callback_data="toText")
         ],[
-            InlineKeyboardButton("🔐 ENCRYPT 🔐", callback_data="encrypt"),
-            InlineKeyboardButton("🔒 DECRYPT 🔓",callback_data="decrypt")
+            InlineKeyboardButton("🔐 ENCRYPT 🔐",
+                             callback_data="encrypt"),
+            InlineKeyboardButton("🔒 DECRYPT 🔓",
+                             callback_data="decrypt")
         ],[
-            InlineKeyboardButton("🗜️ COMPRESS 🗜️", callback_data="compress"),
-            InlineKeyboardButton("🤸 ROTATE 🤸", callback_data="rotate")
+            InlineKeyboardButton("🗜️ COMPRESS 🗜️",
+                            callback_data="compress"),
+            InlineKeyboardButton("🤸 ROTATE 🤸",
+                              callback_data="rotate")
         ],[
-            InlineKeyboardButton("✂️ SPLIT ✂️", callback_data="split"),
-            InlineKeyboardButton("🧬 MERGE 🧬", callback_data="merge")
+            InlineKeyboardButton("✂️ SPLIT ✂️",
+                               callback_data="split"),
+            InlineKeyboardButton("🧬 MERGE 🧬",
+                               callback_data="merge")
         ],[
-            InlineKeyboardButton("™️ STAMP ™️", callback_data="stamp"),
-            InlineKeyboardButton("✏️ RENAME ✏️", callback_data="rename")
+            InlineKeyboardButton("™️ STAMP ™️",
+                               callback_data="stamp"),
+            InlineKeyboardButton("✏️ RENAME ✏️",
+                              callback_data="rename")
         ],[
-            InlineKeyboardButton("📝 OCR 📝", callback_data="ocr"),
-            InlineKeyboardButton("🥷 A4 FORMAT 🥷", callback_data="format")
+            InlineKeyboardButton("📝 OCR 📝",
+                                 callback_data="ocr"),
+            InlineKeyboardButton("🥷 A4 FORMAT 🥷",
+                              callback_data="format")
         ],[
-            InlineKeyboardButton("🚫 CLOSE 🚫", callback_data="closeALL")
+            InlineKeyboardButton("🚫 CLOSE 🚫",
+                            callback_data="closeALL")
         ]]
     )
 
 UPDATE_CHANNEL = Config.UPDATE_CHANNEL
+
+ONLY_GROUP_ADMIN = groupConfig.ONLY_GROUP_ADMIN
 
 #--------------->
 #--------> REPLY TO group DOCUMENTS/FILES/IMAGES
@@ -218,11 +236,27 @@ async def documents(bot, message):
                                       quote = True
                                       )
         
-        #❌❌❌❌❌❌❌
+        if ONLY_GROUP_ADMIN and message.from_user.id in Config.ADMINS:
+            pass
+        else:
+            isAdmin = bot.get_chat_member(
+                                         message.from_user.id,
+                                         message.chat.id
+                                         )
+            if ONLY_GROUP_ADMIN and isAdmin not in ["administrator", "owner"]:
+                return await message.reply(
+                                          "Only Group Admins Can Use This Bot\n"
+                                          "Else Come to my Pm 😋", quote = True
+                                          )
+            elif isAdmin not in ["administrator", "owner"]:
+                if message.from_user.id != message.reply_to_message.from_user.id:
+                    return await message.reply(
+                                              "Please Reply to Your Message.. 🙂"
+                                              )
         
         if message.reply_to_message.photo:
             imageReply = await message.reply_to_message.reply_text(
-                                             "`Downloading your Image..⏳`",
+                                             "`Downloading your Image..` 📥",
                                              quote = True
                                              )
             if not isinstance(PDF.get(message.chat.id), list):
@@ -263,7 +297,7 @@ async def documents(bot, message):
         elif fileExt.lower() in suprtedFile:
             try:
                 imageDocReply = await message.reply_to_message.reply_text(
-                                                        "`Downloading your Image..⏳`",
+                                                        "`Downloading your Image.. 📥`",
                                                         quote = True
                                                         )
                 if not isinstance(PDF.get(message.chat.id), list):
@@ -287,7 +321,10 @@ async def documents(bot, message):
         
         # REPLY TO .PDF FILE EXTENSION
         elif fileExt.lower() == ".pdf":
-            pdfMsgId = await message.reply_to_message.reply_text("⚙️ PROCESSING.", quote = True)
+            pdfMsgId = await message.reply_to_message.reply_text(
+                                                                "⚙️ PROCESSING.",
+                                                                quote = True
+                                                                )
             await asyncio.sleep(0.5)
             await pdfMsgId.edit("⚙️ PROCESSING..")
             await asyncio.sleep(0.5)
@@ -300,13 +337,14 @@ async def documents(bot, message):
                                ),
                                reply_markup = pdfReply
                                )
+            await footer(message, message.reply_to_message.document)
         
         # FILES TO PDF (PYMUPDF/FITZ)
         elif fileExt.lower() in suprtedPdfFile:
             try:
                 PROCESS.append(message.from_user.id)
                 pdfMsgId = await message.reply_to_message.reply_text(
-                                                   "`Downloading your file..⏳`",
+                                                   "`Downloading your file.. 📥`",
                                                    quote = True
                                                    )
                 await message.reply_to_message.download(
@@ -337,7 +375,7 @@ async def documents(bot, message):
                     thumbnail = await formatThumb(f"{message.message_id}/thumbnail.jpeg")
                 
                 await pdfMsgId.edit(
-                                   "`Started Uploading..`🏋️"
+                                   "`Started Uploading..` 📤"
                                    )
                 await message.reply_chat_action(
                                                "upload_document"
@@ -374,7 +412,7 @@ async def documents(bot, message):
                 try:
                     PROCESS.append(message.from_user.id)
                     pdfMsgId = await message.reply_to_message.reply_text(
-                                                       "`Downloading your file..⏳`",
+                                                       "`Downloading your file.. 📥`",
                                                        quote = True
                                                        )
                     await message.reply_to_message.download(
@@ -411,7 +449,9 @@ async def documents(bot, message):
                                                 file_name = f"{message.message_id}/thumbnail.jpeg"
                                                 )
                         thumbnail = await formatThumb(f"{message.message_id}/thumbnail.jpeg")
-                    
+                    await pdfMsgId.edit(
+                                       "`Started Uploading..` 📤"
+                                       )
                     await message.reply_chat_action(
                                                    "upload_document"
                                                    )
