@@ -239,8 +239,8 @@ async def documents(bot, message):
             pass
         else:
             isAdmin = await bot.get_chat_member(
-                                         message.from_user.id,
-                                         message.chat.id
+                                         message.chat.id,
+                                         message.from_user.id
                                          )
             if ONLY_GROUP_ADMIN and isAdmin.status not in ["administrator", "owner"]:
                 return await message.reply(
