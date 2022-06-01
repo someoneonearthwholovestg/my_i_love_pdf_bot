@@ -77,11 +77,11 @@ KEXTRACT = filters.create(lambda _, __, query: query.data.startswith(tuple(KcbEx
 @ILovePDF.on_callback_query(EXTRACT)
 async def _EXTRACT(bot, callbackQuery):
     try:
-        chat_id = callbackQuery.message.from_user.id
-        message_id = callbackQuery.message.message_id
-        
         if await header(bot, callbackQuery):
             return
+        
+        chat_id = callbackQuery.message.from_user.id
+        message_id = callbackQuery.message.message_id
         
         if chat_id in PROCESS:
             await callbackQuery.answer(
@@ -220,7 +220,7 @@ async def _EXTRACT(bot, callbackQuery):
         if nabilanavab == False:
             # DOWNLOAD MESSAGE
             downloadMessage = await callbackQuery.message.reply(
-                                                               text = "`Downloding your pdf..` ⏳", 
+                                                               text = "`Downloding your pdf..` 📥", 
                                                                quote = True
                                                                )
             file_id = callbackQuery.message.reply_to_message.document.file_id
@@ -564,11 +564,11 @@ async def _EXTRACT(bot, callbackQuery):
 @ILovePDF.on_callback_query(KEXTRACT)
 async def _KEXTRACT(bot, callbackQuery):
     try:
+        if await header(bot, callbackQuery):
+            return
+        
         chat_id = callbackQuery.message.from_user.id
         message_id = callbackQuery.message.message_id
-        
-        if await header(callbackQuery):
-            return
         
         if chat_id in PROCESS:
             await callbackQuery.answer(
@@ -689,7 +689,7 @@ async def _KEXTRACT(bot, callbackQuery):
         
         if nabilanavab == False:
             downloadMessage = await callbackQuery.message.reply_text(
-                                                                    text = "`Downloding your pdf..` ⏳",
+                                                                    text = "`Downloding your pdf..` 📥",
                                                                     quote = True
                                                                     )
             file_id = callbackQuery.message.reply_to_message.document.file_id
