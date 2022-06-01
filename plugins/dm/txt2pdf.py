@@ -51,21 +51,24 @@ async def feedback(bot, message):
                         exc_info=True
                         )
 
-txt2pdf=filters.create(lambda _, __, query: query.data.startswith("font"))
+txt2pdf = filters.create(lambda _, __, query: query.data.startswith("font"))
 
 @ILovePDF.on_callback_query(txt2pdf)
 async def _txt2pdf(bot, callbackQuery):
     try:
-        _, font=callbackQuery.data.split("|")
+        _, font = callbackQuery.data.split("|")
         await callbackQuery.message.edit(
-            text=f"Text to Pdf» Now Select Page Size »",
-            reply_markup=InlineKeyboardMarkup(
+            text = f"Text to Pdf» Now Select Page Size »",
+            reply_markup = InlineKeyboardMarkup(
                 [[
-                    InlineKeyboardButton("Portarate", callback_data=f"pgSize|{font}|p")
+                    InlineKeyboardButton("Portarate",
+                            callback_data = f"pgSize|{font}|p")
                 ],[
-                    InlineKeyboardButton("Landscape", callback_data=f"pgSize|{font}|l")
+                    InlineKeyboardButton("Landscape",
+                            callback_data = f"pgSize|{font}|l")
                 ],[
-                    InlineKeyboardButton("« Back «", callback_data=f"txt2pdfBack")
+                    InlineKeyboardButton("« Back «",
+                                callback_data = f"txt2pdfBack")
                 ]]
             )
         )
@@ -75,24 +78,30 @@ async def _txt2pdf(bot, callbackQuery):
                         exc_info=True
                         )
 
-txt2pdfBack=filters.create(lambda _, __, query: query.data == "txt2pdfBack")
+txt2pdfBack = filters.create(lambda _, __, query: query.data == "txt2pdfBack")
 
 @ILovePDF.on_callback_query(txt2pdfBack)
 async def _txt2pdfBack(bot, callbackQuery):
     try:
         await callbackQuery.message.edit(
-            text="__Now, Please Select A Font Style »__",
+            text = "__Now, Please Select A Font Style »__",
             reply_markup=InlineKeyboardMarkup(
                 [[
-                    InlineKeyboardButton("Times", callback_data="font|t"),
-                    InlineKeyboardButton("Courier", callback_data="font|c")
+                    InlineKeyboardButton("Times",
+                                   callback_data = "font|t"),
+                    InlineKeyboardButton("Courier",
+                                   callback_data = "font|c")
                 ],[
-                    InlineKeyboardButton("Helvetica", callback_data="font|h")
+                    InlineKeyboardButton("Helvetica",
+                                   callback_data = "font|h")
                 ],[
-                    InlineKeyboardButton("Symbol", callback_data="font|s"),
-                    InlineKeyboardButton("Zapfdingbats", callback_data="font|z")
+                    InlineKeyboardButton("Symbol",
+                                   callback_data = "font|s"),
+                    InlineKeyboardButton("Zapfdingbats",
+                                   callback_data = "font|z")
                 ],[
-                    InlineKeyboardButton("🚫 €lose ", callback_data="closeme")
+                    InlineKeyboardButton("🚫 €lose 🚫",
+                                  callback_data = "closeme")
                 ]]
             ),
             disable_web_page_preview=True
@@ -103,7 +112,7 @@ async def _txt2pdfBack(bot, callbackQuery):
                         exc_info=True
                         )
 
-pgSize=filters.create(lambda _, __, query: query.data.startswith("pgSize"))
+pgSize = filters.create(lambda _, __, query: query.data.startswith("pgSize"))
 
 @ILovePDF.on_callback_query(pgSize)
 async def _pgSize(bot, callbackQuery):
