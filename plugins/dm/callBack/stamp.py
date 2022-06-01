@@ -360,7 +360,7 @@ async def _color(bot, callbackQuery):
                                                   document = open(output_file, "rb"),
                                                   thumb = thumbnail,
                                                   quote = True,
-                                                  caption = "stamped pdf"
+                                                  caption = "stamped pdf",
                                                   progress = uploadProgress,
                                                   progress_args = (
                                                                   downloadMessage,
