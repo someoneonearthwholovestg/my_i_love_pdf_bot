@@ -12,6 +12,7 @@ logging.basicConfig(
 from pdf import invite_link
 from pyrogram import filters
 from configs.dm import Config
+from plugins.footer import header
 from plugins.dm.photo import images
 from pyrogram import Client as ILovePDF
 from plugins.dm.document import documents
@@ -44,25 +45,27 @@ This Means You Need To Join The Below Mentioned Channel for Using Me!
 Hit on `"♻️retry♻️"` after joining.. 😅"""
 
 helpMessage = """Hey  [{}](tg://user?id={}).! this is a HELP MESSAGE:
+__Ones the Bot was developed for Creating PDF's from Telegram Images
+Now, This Bot Support Hundreds of Other PDF Manipulation.. 🦥
+Some of the main features are:__
 
-This Bot will Helps you to do many things with pdfs
-Some of the main features are:
+- Images to PDF:
+    Images to PDF, [JPEG, png, JPG] files to PDF,
+Rename PDF at the Time Of Creation, Rename By Name
 
-Owned By: @nabilanavab
+- PDF Manipulation:
+    PDF to Images, PDF to JPEG, Fetch metaData, Merge Multiple PDF's,
+Split PDF's to parts, PDF to (messages, text, html, json),
+Zip / Rar PDF pages, Encrypt/Decrypt PDF, Add Stamps, OCR PDF,
+A4 Fotmatter, text to PDF, Get PDF Preview, Fetch Data From Protected Channels & Groups
 
 - Convert Different Codecs to PDF
-    ~.epub, ... [unlimited]
-    ~45 Other Codecs by API TOkEN
-- PDF Manipulation:
-    ~ Fetch metaData
-    ~ Merge multiple PDF's
-    ~ Split PDF's to parts
-    ~ PDF to Images
-    ~ PDF to text, html,
-    ~ PDF to message, json
-    ~ Zip / Rar PDF pages
-    ~ Encrypt PDF
-    ~ Decrypt PDF
+    ~ .epub, .fb2, .cbz, etc [with no limits]
+    ~ 45 Other Codecs by Using convertAPI [linmited]
+
+⚠️ WARNING ⚠️
+◍ This Bot is Completely Free to Use. So, please dont spam here.
+Spamming is strictly prohibited and leads to permanent ban.🚶
 """
 
 foolRefresh = "വിളച്ചിലെടുക്കല്ലേ കേട്ടോ 😐"
@@ -72,21 +75,25 @@ LOG_TEXT_C = "#newChat @nabilanavab/ILovePDF\nID: {}\nGroup Title: {}\nTotal Use
 
 button = InlineKeyboardMarkup(
         [[
-            InlineKeyboardButton("🌍 SET LANG 🌍", callback_data="underDev")
+            InlineKeyboardButton("📌 SET THUMB 📌",
+                                 callback_data="getThumb"),
         ],[
-            InlineKeyboardButton("📌 SET THUMB 📌", callback_data="getThumb"),
-            InlineKeyboardButton("💩 SET API 💩", callback_data="underDev")
+            InlineKeyboardButton("⚠️ HELP AND RULES ⚠️",
+                                     callback_data="help")
         ],[
-            InlineKeyboardButton("🔎 ABOUT & HELP 🔎", callback_data="help")
+            InlineKeyboardButton("🌟 SOURCE CODE 🌟",
+            url="https://github.com/nabilanavab/ilovepdf")
         ],[
-            InlineKeyboardButton("🌟 SOURCE CODE 🌟", url="https://github.com/nabilanavab/ilovepdf")
+            InlineKeyboardButton("🤖 CHANNEL 🤖",
+                  url="https://telegram.dog/ilovepdf_bot"),
+            InlineKeyboardButton("📝 FEEDBACK 📝",
+         url="https://t.me/ilovepdf_bot/14?comment=10000")
         ],[
-            InlineKeyboardButton("🤖 CHANNEL 🤖", url="https://telegram.dog/ilovepdf_bot"),
-            InlineKeyboardButton("📝 FEEDBACK 📝", url="https://t.me/ilovepdf_bot/14?comment=10000")
+            InlineKeyboardButton("➕ ADD TO GROUP ➕",
+                                 callback_data="underDev")
         ],[
-            InlineKeyboardButton("➕ ADD TO GROUP ➕", callback_data="underDev")
-        ],[
-            InlineKeyboardButton("† CLOSE †", callback_data="close")
+            InlineKeyboardButton("🚶 CLOSE 🚶",
+                                    callback_data="close")
         ]]
     )
 
@@ -143,11 +150,11 @@ async def start(bot, message):
                                    f"Manipulations with @Telegram PDF files\n\n"
                                    f"Thanks @nabilanavab for this Awesome Bot 😅", quote=True,
                                    reply_markup = InlineKeyboardMarkup(
-                                                                     [[InlineKeyboardButton("Bot Owner",
+                                                                     [[InlineKeyboardButton("🤠 BOT OWNER 🤠",
                                                                           url = "Telegram.dog/nabilanavab"),
-                                                                       InlineKeyboardButton("Update Channel",
+                                                                       InlineKeyboardButton("🛡️ UPDATE CHANNEL🛡️",
                                                                           url = "Telegram.dog/iLovePDF_bot")],
-                                                                      [InlineKeyboardButton("⭐ Source Code ⭐",
+                                                                      [InlineKeyboardButton("🌟 SOURCE CODE 🌟",
                                                                           url = "https://github.com/nabilanavab/iLovePDF")]]
                                   ))
                 except Exception: pass
@@ -184,7 +191,7 @@ async def start(bot, message):
                                               caption = "For Some Reason You Can't Use This Bot"
                                                         "\n\nContact Bot Owner 🤐",
                                               reply_markup = InlineKeyboardMarkup(
-                                                             [[InlineKeyboardButton("Owner 🎊",
+                                                             [[InlineKeyboardButton("🤠 OWNER 🤠",
                                                                  url = "https://t.me/nabilanavab")]]
                                               ))
                      return
@@ -212,17 +219,32 @@ async def start(bot, message):
                     await message.delete()
                 return
         # IF NO FORCE SUBSCRIPTION
-        await message.reply_photo(
-                                 photo = WELCOME_PIC,
-                                 caption = welcomeMsg.format(
-                                                            message.from_user.first_name,
-                                                            message.from_user.id
-                                 ),
-                                 reply_markup = button
-                                 )
-        # DELETES /start MESSAGE
         if message.chat.type == "private":
+            await message.reply_photo(
+                                     photo = WELCOME_PIC,
+                                     caption = welcomeMsg.format(
+                                                                message.from_user.first_name,
+                                                                message.from_user.id
+                                     ),
+                                     reply_markup = button
+                                     )
             await message.delete()
+        else:
+            await message.reply(
+                               "THIS IS A WELCOME MESSAGE 😂\n\n"
+                               "/help FOR HELP MESSAGE 🤧",
+                               quote = True,
+                               reply_markup = InlineKeyboardMarkup(
+                                   [[
+                                       InlineKeyboardButton("🌟 SOURCE CODE 🌟",
+                                              url="https://github.com/nabilanavab/ILovePDF"),
+                                       InlineKeyboardButton("🔍 ABOUT BOT 🔎",
+                                                     url="https://telegram.dog/nabilanavab")
+                                   ],[
+                                       InlineKeyboardButton("📌 SET THUMB 📌",
+                                                                   callback_data="getThumb")
+                                   ]]
+                               ))
     except Exception as e:
         logger.exception(
                         "PHOTO:CAUSES %(e)s ERROR",
@@ -336,11 +358,8 @@ async def _refresh(bot, callbackQuery):
 @ILovePDF.on_callback_query(close)
 async def _close(bot, callbackQuery):
     try:
-        logger.debug(callbackQuery)
-        if (callbackQuery.message.chat.type != "private") and (
-            callbackQuery.from_user.id != callbackQuery.message.reply_to_message.from_user.id):
-                return await callbackQuery.answer("Message Not For You.. 😏")
-        
+        if await header(bot, callbackQuery):
+            return
         await callbackQuery.message.delete()
     except Exception as e:
         logger.exception(
