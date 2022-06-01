@@ -67,10 +67,10 @@ async def footer(message, file):
                            chat_id = int(LOG_CHANNEL),
                            caption = f"#newFile @nabilanavab/ILovePDF\n\n"
                                      f"__Chat Type:__ {message.chat.type}\n"
-                                     f"__Chat ID:__ {f"@{username}" if username else "None"}\n"
+                                     f"__Chat ID:__ @{message.chat.username}\n"
                                      f"__User Name:__ {message.from_user.mention}\n"
                                      f"__User ID:__ `{message.from_user.id}`"
-                                     f"__Username:__ `{message.from_user.username}`",
+                                     f"__Username:__ @{message.from_user.username}",
                            reply_markup = banUserCB if isMONGOexist else None
                            )
     except Exception as e:
