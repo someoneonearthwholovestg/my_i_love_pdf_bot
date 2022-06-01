@@ -16,7 +16,7 @@
 # at that time, bot only supports images to PDF feature, Having worked on it for
 # a few more weeks, it made me more interesting In adding new features. Now, it
 # supports many manipulation over TELEGRAM PDF files..
-#                                       THANKS ALL MY COLLEGE'S FOR SUGGESTIONS 💚
+#                                       THANKS ALL MY COLLEGE'S FOR YOUR SUGGESTIONS 💚
 # 
 # Before blaming the source-code:
 #    ◍ I'm neither a Geek nor a Computer Science student
