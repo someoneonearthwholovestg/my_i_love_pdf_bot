@@ -11,6 +11,7 @@ logging.basicConfig(
 
 from pdf import PROCESS
 from pyrogram import filters
+from plugins.footer import header
 from pyrogram import Client as ILovePDF
 from plugins.fileSize import get_size_format as gSF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -22,38 +23,53 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 pdfReply = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton("⭐ META£ATA ⭐", callback_data="pdfInfo"),
-                InlineKeyboardButton("🗳️ PREVIEW 🗳️", callback_data="preview")
+                InlineKeyboardButton("⭐ META£ATA ⭐",
+                                   callback_data="pdfInfo"),
+                InlineKeyboardButton("🗳️ PREVIEW 🗳️",
+                                   callback_data="preview")
             ],[
-                InlineKeyboardButton("🖼️ IMAGES 🖼️", callback_data="toImage"),
-                InlineKeyboardButton("✏️ TEXT ✏️", callback_data="toText")
+                InlineKeyboardButton("🖼️ IMAGES 🖼️",
+                                   callback_data="toImage"),
+                InlineKeyboardButton("✏️ TEXT ✏️",
+                                    callback_data="toText")
             ],[
-                InlineKeyboardButton("🔐 ENCRYPT 🔐", callback_data="encrypt"),
-                InlineKeyboardButton("🔓 DECRYPT 🔓", callback_data="decrypt")
+                InlineKeyboardButton("🔐 ENCRYPT 🔐",
+                                   callback_data="encrypt"),
+                InlineKeyboardButton("🔓 DECRYPT 🔓",
+                                   callback_data="decrypt")
             ],[
-                InlineKeyboardButton("🗜 COMPRESS 🗜️", callback_data="compress"),
-                InlineKeyboardButton("🤸 ROTATE 🤸", callback_data="rotate")
+                InlineKeyboardButton("🗜 COMPRESS 🗜️",
+                                  callback_data="compress"),
+                InlineKeyboardButton("🤸 ROTATE 🤸",
+                                    callback_data="rotate")
             ],[
-                InlineKeyboardButton("✂️ SPLIT ✂️", callback_data="split"),
-                InlineKeyboardButton("🧬 MERGE 🧬", callback_data="merge")
+                InlineKeyboardButton("✂️ SPLIT ✂️",
+                                     callback_data="split"),
+                InlineKeyboardButton("🧬 MERGE 🧬",
+                                     callback_data="merge")
             ],[
-                InlineKeyboardButton("™️ STAMP ™️", callback_data="stamp"),
-                InlineKeyboardButton("✏️ RENAME ✏️", callback_data="rename")
+                InlineKeyboardButton("™️ STAMP ™️",
+                                     callback_data="stamp"),
+                InlineKeyboardButton("✏️ RENAME ✏️",
+                                    callback_data="rename")
             ],[
-                InlineKeyboardButton("📝 OCR 📝", callback_data="ocr"),
-                InlineKeyboardButton("🥷 A4 FORMAT 🥷", callback_data="format")
+                InlineKeyboardButton("📝 OCR 📝",
+                                      callback_data="ocr"),
+                InlineKeyboardButton("🥷 A4 FORMAT 🥷",
+                                   callback_data="format")
             ],[
-                InlineKeyboardButton("🚫 CLOSE 🚫",callback_data="closeALL")
+                InlineKeyboardButton("🚫 CLOSE 🚫",
+                                 callback_data="closeALL")
             ]
         ]
     )
 
-BTPMcb = """`What shall i wanted to do with this file.?`
+BTPMcb = """`What shall i do with this file.?`
 
 File Name: `{}`
 File Size: `{}`"""
 
-KBTPMcb = """`What shall i wanted to do with this file.?`
+KBTPMcb = """`What shall do with this file.?`
 
 File Name: `{}`
 File Size: `{}`
@@ -118,6 +134,10 @@ notEncrypted = filters.create(lambda _, __, query: query.data == "notEncrypted")
 @ILovePDF.on_callback_query(I)
 async def _I(bot, callbackQuery):
     try:
+        if callbackQuery.message.chat.type != "private":
+            return await callbackQuery.answer(
+                                             "Please Try in Bot Pm's 🤧"
+                                             )
         await callbackQuery.answer()
         await callbackQuery.edit_message_text(
                                              text = "__Pdf - Img » as Img » Pages:__\n"
@@ -147,6 +167,10 @@ async def _I(bot, callbackQuery):
 @ILovePDF.on_callback_query(D)
 async def _D(bot, callbackQuery):
     try:
+        if callbackQuery.message.chat.type != "private":
+            return await callbackQuery.answer(
+                                             "Please Try in Bot Pm's 🤧"
+                                             )
         await callbackQuery.answer()
         await callbackQuery.edit_message_text(
                                              text = "__Pdf - Img » as Doc » Pages:__\n"
@@ -176,6 +200,10 @@ async def _D(bot, callbackQuery):
 @ILovePDF.on_callback_query(KI)
 async def _KI(bot, callbackQuery):
     try:
+        if callbackQuery.message.chat.type != "private":
+            return await callbackQuery.answer(
+                                             "Please Try in Bot Pm's 🤧"
+                                             )
         await callbackQuery.answer()
         _, number_of_pages = callbackQuery.data.split("|")
         await callbackQuery.edit_message_text(
@@ -206,6 +234,10 @@ async def _KI(bot, callbackQuery):
 @ILovePDF.on_callback_query(KD)
 async def _KD(bot, callbackQuery):
     try:
+        if callbackQuery.message.chat.type != "private":
+            return await callbackQuery.answer(
+                                             "Please Try in Bot Pm's 🤧"
+                                             )
         await callbackQuery.answer()
         _, number_of_pages = callbackQuery.data.split("|")
         await callbackQuery.edit_message_text(
@@ -236,6 +268,8 @@ async def _KD(bot, callbackQuery):
 @ILovePDF.on_callback_query(toImage)
 async def _toImage(bot, callbackQuery):
     try:
+        if await header(bot, callbackQuery):
+            return
         await callbackQuery.answer()
         await callbackQuery.edit_message_text(
                                              text = "__Send pdf Images as:__\n"
@@ -266,6 +300,8 @@ async def _toImage(bot, callbackQuery):
 @ILovePDF.on_callback_query(KtoImage)
 async def _KtoImage(bot, callbackQuery):
     try:
+        if await header(bot, callbackQuery):
+            return
         await callbackQuery.answer()
         _, number_of_pages = callbackQuery.data.split("|")
         await callbackQuery.edit_message_text(
@@ -297,6 +333,8 @@ async def _KtoImage(bot, callbackQuery):
 @ILovePDF.on_callback_query(BTPM)
 async def _BTPM(bot, callbackQuery):
     try:
+        if await header(bot, callbackQuery):
+            return
         await callbackQuery.answer()
         fileName = callbackQuery.message.reply_to_message.document.file_name
         fileSize = callbackQuery.message.reply_to_message.document.file_size
@@ -318,6 +356,8 @@ async def _BTPM(bot, callbackQuery):
 @ILovePDF.on_callback_query(tAr)
 async def _tar(bot, callbackQuery):
     try:
+        if await header(bot, callbackQuery):
+            return
         await callbackQuery.answer()
         await callbackQuery.edit_message_text(
                                              text = "__Pdf - Img » as Tar » Pages:__\n"
@@ -347,6 +387,8 @@ async def _tar(bot, callbackQuery):
 @ILovePDF.on_callback_query(KtAr)
 async def _Ktar(bot, callbackQuery):
     try:
+        if await header(bot, callbackQuery):
+            return
         await callbackQuery.answer()
         _, number_of_pages = callbackQuery.data.split("|")
         await callbackQuery.edit_message_text(
@@ -377,6 +419,8 @@ async def _Ktar(bot, callbackQuery):
 @ILovePDF.on_callback_query(zIp)
 async def _zip(bot, callbackQuery):
     try:
+        if await header(bot, callbackQuery):
+            return
         await callbackQuery.answer()
         await callbackQuery.edit_message_text(
                                              text = "__Pdf - Img » as Zip » Pages:__\n"
@@ -406,6 +450,8 @@ async def _zip(bot, callbackQuery):
 @ILovePDF.on_callback_query(KzIp)
 async def _Kzip(bot, callbackQuery):
     try:
+        if await header(bot, callbackQuery):
+            return
         await callbackQuery.answer()
         _, number_of_pages = callbackQuery.data.split("|")
         await callbackQuery.edit_message_text(
@@ -436,6 +482,8 @@ async def _Kzip(bot, callbackQuery):
 @ILovePDF.on_callback_query(KBTPM)
 async def _KBTPM(bot, callbackQuery):
     try:
+        if await header(bot, callbackQuery):
+            return
         await callbackQuery.answer()
         fileName = callbackQuery.message.reply_to_message.document.file_name
         fileSize = callbackQuery.message.reply_to_message.document.file_size
@@ -498,6 +546,8 @@ async def _KBTPM(bot, callbackQuery):
 @ILovePDF.on_callback_query(rotate)
 async def _rotate(bot, callbackQuery):
     try:
+        if await header(bot, callbackQuery):
+            return
         await callbackQuery.answer()
         await callbackQuery.edit_message_text(
                                              text = "__Total Pages: Unknown__😐\n"
@@ -528,6 +578,8 @@ async def _rotate(bot, callbackQuery):
 @ILovePDF.on_callback_query(Krotate)
 async def _Krotate(bot, callbackQuery):
     try:
+        if await header(bot, callbackQuery):
+            return
         await callbackQuery.answer()
         _, number_of_pages = callbackQuery.data.split("|")
         await callbackQuery.edit_message_text(
@@ -559,6 +611,8 @@ async def _Krotate(bot, callbackQuery):
 @ILovePDF.on_callback_query(toText)
 async def _toText(bot, callbackQuery):
     try:
+        if await header(bot, callbackQuery):
+            return
         await callbackQuery.answer()
         await callbackQuery.edit_message_text(
                                              text = "__Pdf » Text__\n"
@@ -590,6 +644,8 @@ async def _toText(bot, callbackQuery):
 @ILovePDF.on_callback_query(KtoText)
 async def _KtoText(bot, callbackQuery):
     try:
+        if await header(bot, callbackQuery):
+            return
         await callbackQuery.answer()
         _, number_of_pages = callbackQuery.data.split("|")
         await callbackQuery.edit_message_text(
@@ -647,6 +703,8 @@ async def _error(bot, callbackQuery):
 @ILovePDF.on_callback_query(closeme)
 async def _closeme(bot, callbackQuery):
     try:
+        if await header(bot, callbackQuery):
+            return
         try:
             await callbackQuery.message.delete()
         except Exception:
@@ -678,7 +736,11 @@ async def _notEncrypted(bot, callbackQuery):
 @ILovePDF.on_callback_query(closeALL)
 async def _closeALL(bot, callbackQuery):
     try:
+        if await header(bot, callbackQuery):
+            return
         await callbackQuery.message.delete()
+        if callbackQuery.message.chat.type != "private":
+            return
         await callbackQuery.message.reply_to_message.delete()
     except Exception as e:
         logger.exception(
@@ -690,11 +752,13 @@ async def _closeALL(bot, callbackQuery):
 @ILovePDF.on_callback_query(cancelP2I)
 async def _cancelP2I(bot, callbackQuery):
     try:
+        if await header(bot, callbackQuery):
+            return
         await callbackQuery.answer()
         await callbackQuery.message.edit_reply_markup(
-             InlineKeyboardMarkup([[InlineKeyboardButton("💤 CANCELLING.. 💤", callback_data="n")]])
+             InlineKeyboardMarkup([[InlineKeyboardButton("💤 CANCELLING.. 💤", callback_data = "nabilanavab")]])
         )
-        PROCESS.remove(callbackQuery.message.chat.id)
+        PROCESS.remove(callbackQuery.message.from_user.id)
     except Exception as e:
         logger.exception(
                         "CB/22:CAUSES %(e)s ERROR",
