@@ -16,6 +16,7 @@ from pdf import PROCESS
 from pyrogram import filters
 from plugins.progress import progress
 from pyrogram import Client as ILovePDF
+from plugins.footer import footer, header
 from plugins.fileSize import get_size_format as gSF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -23,7 +24,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 #--------> LOCAL VARIABLES
 #------------------->
 
-pdfInfoMsg = """`What shall i wanted to do with this file.?`
+pdfInfoMsg = """`What shall do with this file.?`
 
 File Name: `{}`
 File Size: `{}`
@@ -49,25 +50,22 @@ async def _pdfInfo(bot, callbackQuery):
         chat_id = callbackQuery.message.chat.id
         message_id = callbackQuery.message.message_id
         
+        # CB MESSAGE DELETES IF USER DELETED PDF
+        if await header(bot, callbackQuery):
+            return
+        
         # CHECKS PROCESS
         if chat_id in PROCESS:
             return await callbackQuery.answer(
                                              "WORK IN PROGRESS.. 🙇"
                                              )
         
-        # CB MESSAGE DELETES IF USER DELETED PDF
-        try:
-            fileExist = callbackQuery.message.reply_to_message.document.file_id
-        except Exception:
-            await callbackQuery.message.delete()
-            return
-        
         # ADD TO PROCESS
         PROCESS.append(chat_id)
         
         # DOWNLOADING STARTED
         downloadMessage = await callbackQuery.edit_message_text(
-                                                               "`Downloding your pdf..`⏳", 
+                                                               "`Downloding your pdf..` 📥", 
                                                                )
         pdf_path = f"{message_id}/pdfInfo.pdf"
         file_id = callbackQuery.message.reply_to_message.document.file_id
@@ -177,6 +175,8 @@ async def _pdfInfo(bot, callbackQuery):
                                                      ))
             PROCESS.remove(chat_id)
             shutil.rmtree(f"{message_id}")
+            await footer(callbackQuery.message, False)
+    
     # EXCEPTION DURING FILE OPENING
     except Exception as e:
         logger.exception(
