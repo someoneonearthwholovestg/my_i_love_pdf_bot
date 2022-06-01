@@ -227,7 +227,7 @@ async def _splitR(bot, callbackQuery):
                                                       thumb = thumbnail,
                                                       quote = True,
                                                       document = output_file,
-                                                      caption = f"from `{pageStartAndEnd[0]}` to `{pageStartAndEnd[1]}`"
+                                                      caption = f"from `{pageStartAndEnd[0]}` to `{pageStartAndEnd[1]}`",
                                                       progress = uploadProgress,
                                                       progress_args = (
                                                                       downloadMessage,
@@ -375,7 +375,7 @@ async def _splitS(bot, callbackQuery):
                                                       thumb = thumbnail,
                                                       document = output_file,
                                                       caption = f"Pages : `{newList}`",
-                                                      quote = True
+                                                      quote = True,
                                                       progress = uploadProgress,
                                                       progress_args = (
                                                                       downloadMessage,
@@ -536,7 +536,7 @@ async def _KsplitR(bot, callbackQuery):
                                                       thumb = thumbnail,
                                                       quote = True,
                                                       document = output_file,
-                                                      caption = f"from `{pageStartAndEnd[0]}` to `{pageStartAndEnd[1]}`"
+                                                      caption = f"from `{pageStartAndEnd[0]}` to `{pageStartAndEnd[1]}`",
                                                       progress = uploadProgress,
                                                       progress_args = (
                                                                       downloadMessage,
@@ -682,7 +682,7 @@ async def _KsplitS(bot, callbackQuery):
                                                       thumb = thumbnail,
                                                       document = output_file,
                                                       caption = f"Pages : `{newList}`",
-                                                      quote = True
+                                                      quote = True,
                                                       progress = uploadProgress,
                                                       progress_args = (
                                                                       downloadMessage,
