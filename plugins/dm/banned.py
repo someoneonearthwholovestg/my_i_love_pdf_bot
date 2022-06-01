@@ -41,7 +41,7 @@ async def _banUser(bot, message):
                                )
             return
         procs = await message.reply(
-                                   "⚙️ Processing..",
+                                   "⚙️ Processing.",
                                    quote = True
                                    )
         await sleep(1)
