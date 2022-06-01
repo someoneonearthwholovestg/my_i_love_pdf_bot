@@ -331,7 +331,7 @@ async def _unbanUserCB(bot, callbackQuery):
                         exc_info=True
                         )
 
-rU18 = filters.create(lambda _, __, query: query.data = "rU18")
+rU18 = filters.create(lambda _, __, query: query.data == "rU18")
 
 @ILovePDF.on_callback_query(rU18)
 async def _rU18(bot, callbackQuery):
