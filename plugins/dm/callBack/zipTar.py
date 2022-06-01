@@ -668,7 +668,7 @@ async def _KZIPandTAR(bot, callbackQuery):
                                                                      f"{output_file}.zip" if data.startswith("Kzip") else f"{output_file}.tar", "rb"
                                                                      ),
                                                       thumb = thumbnail,
-                                                      caption = "__Zip File__" if data.startswith("Kzip") else "__Tar File__"
+                                                      caption = "__Zip File__" if data.startswith("Kzip") else "__Tar File__",
                                                       progress = uploadProgress,
                                                       progress_args = (
                                                                       downloadMessage,
