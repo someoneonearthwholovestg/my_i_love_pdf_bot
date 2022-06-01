@@ -238,7 +238,7 @@ async def documents(bot, message):
         if ONLY_GROUP_ADMIN and message.from_user.id in Config.ADMINS:
             pass
         else:
-            isAdmin = bot.get_chat_member(
+            isAdmin = await bot.get_chat_member(
                                          message.from_user.id,
                                          message.chat.id
                                          )
