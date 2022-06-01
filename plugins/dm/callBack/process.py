@@ -12,6 +12,7 @@ logging.basicConfig(
 import os
 import fitz
 import asyncio
+from PIL import Image
 from pyrogram.types import Message
 from pyrogram.errors import FloodWait
 from PyPDF2 import PdfFileWriter, PdfFileReader
