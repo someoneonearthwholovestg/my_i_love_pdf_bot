@@ -31,9 +31,10 @@ async def progress(current, t, total, message, start):
             ''.join(["●" for _ in range(math.floor(percentage / 5))]),
             ''.join(["○" for _ in range(20 - math.floor(percentage / 5))])
         )
+        estimated_total_time = TimeFormatter(time_to_completion)
         tmp = progress + "**\nDone ✅ : **{0}/{1}\n**Speed 🚀:** {2}/s\n**Estimated Time ⏳:** {3}".format(
             await gSF(current), await gSF(total), await gSF(speed),
-            TimeFormatter(time_to_completion)
+            estimated_total_time if estimated_total_time != '' else "0 s"
         )
         
         await message.edit_text(
@@ -54,9 +55,10 @@ async def uploadProgress(current, total, message, start):
             ''.join(["●" for _ in range(math.floor(percentage / 5))]),
             ''.join(["○" for _ in range(20 - math.floor(percentage / 5))])
         )
+        estimated_total_time = TimeFormatter(time_to_completion)
         tmp = progress + "**\nDone ✅ : **{0}/{1}\n**Speed 🚀:** {2}/s\n**Estimated Time ⏳:** {3}".format(
             await gSF(current), await gSF(total), await gSF(speed),
-            TimeFormatter(time_to_completion)
+            estimated_total_time if estimated_total_time != '' else "0 s"
         )
         
         await message.edit_text(
