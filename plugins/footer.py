@@ -28,8 +28,7 @@ async def header(bot, callbackQuery):
         fileExist = callbackQuery.message.reply_to_message.document.file_id
         
         if callbackQuery.message.chat.type != "private":
-            if ONLY_GROUP_ADMIN or (
-                callbackQuery.from_user.id != callbackQuery.message.reply_to_message.from_user.id):
+            if callbackQuery.from_user.id != callbackQuery.message.reply_to_message.from_user.id:
                 if callbackQuery.from_user.id in Config.ADMINS:
                     pass
                 else:
@@ -38,9 +37,10 @@ async def header(bot, callbackQuery):
                                                   callbackQuery.message.chat.id
                                                   )
                     if userStat not in ["administrator", "owner"]:
-                        await callbackQuery.answer("Message Not For You.. :(")
+                        await callbackQuery.answer(
+                                                  "Message Not For You.. :("
+                                                  )
                         return True
-        
         return False
     except Exception as e:
         logger.exception(
@@ -59,17 +59,18 @@ async def footer(message, file):
         if LOG_CHANNEL and file:
             banUserCB = InlineKeyboardMarkup(
                    [[
-                          InlineKeyboardButton(
-                                    "B@N",
-                                    callback_data = f"banU|{message.chat.id}"
-                          )
+                       InlineKeyboardButton("B@N",callback_data = f"banU|{message.chat.id}")
                    ]]
             )
+            username = message.chat.username
             await file.copy(
                            chat_id = int(LOG_CHANNEL),
-                           caption = f"#newFile @nabilanavab/ILovePDF\n"
+                           caption = f"#newFile @nabilanavab/ILovePDF\n\n"
+                                     f"__Chat Type:__ {message.chat.type}\n"
+                                     f"__Chat ID:__ {f"@{username}" if username else "None"}\n"
                                      f"__User Name:__ {message.from_user.mention}\n"
-                                     f"__User ID:__ `{message.from_user.id}`",
+                                     f"__User ID:__ `{message.from_user.id}`"
+                                     f"__Username:__ `{message.from_user.username}`",
                            reply_markup = banUserCB if isMONGOexist else None
                            )
     except Exception as e:
