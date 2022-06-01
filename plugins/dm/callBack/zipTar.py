@@ -682,7 +682,7 @@ async def _KZIPandTAR(bot, callbackQuery):
             except Exception: pass
             await downloadMessage.delete()
             shutil.rmtree(f'{message_id}')
-                await footer(callbackQuery.message, False)
+            await footer(callbackQuery.message, False)
     except Exception as e:
         logger.exception(
                         "CB/_MAIN_:CAUSES %(e)s ERROR",
