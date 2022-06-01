@@ -77,11 +77,11 @@ compress = filters.create(lambda _, __, query: query.data.startswith(tuple(["com
 )
 async def _pdf(bot, callbackQuery):
     try:
-        chat_id = callbackQuery.message.chat.id
-        message_id = callbackQuery.message.message_id
-        
         if await header(bot, callbackQuery):
             return
+        
+        chat_id = callbackQuery.message.chat.id
+        message_id = callbackQuery.message.message_id
         
         if callbackQuery.data == "rot360":
             return await callbackQuery.answer(
@@ -114,7 +114,7 @@ async def _pdf(bot, callbackQuery):
         if callbackQuery.data.startswith("KpdfInfo"):
             _, number_of_pages = callbackQuery.data.split("|")
             return await callbackQuery.answer(
-                                      "Total {} pages.. 🐾".format(number_of_pages)
+                                      "♎ TOTAL {} PAGES ♎".format(number_of_pages)
                                       )
         
         # CHECKS IF BOT DOING ANY WORK
