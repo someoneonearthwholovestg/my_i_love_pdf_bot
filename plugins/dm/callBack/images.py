@@ -80,7 +80,7 @@ async def _EXTRACT(bot, callbackQuery):
         chat_id = callbackQuery.message.from_user.id
         message_id = callbackQuery.message.message_id
         
-        if await header(callbackQuery):
+        if await header(bot, callbackQuery):
             return
         
         if chat_id in PROCESS:
