@@ -295,23 +295,23 @@ async def _unbanUserCB(bot, callbackQuery):
         _, userID = callbackQuery.data.split("|")
         
         if chat_type == "user":
-            if int(userID) in BANNED_USR_DB:
+            if int(userID) not in BANNED_USR_DB:
                 return await callbackQuery.answer(
                                                  f"He is not yet banned"
                                                  )
-                await db.remove_ban(
-                                   callbackQuery.from_user.id
-                                   )
-                BANNED_USR_DB.remove(int(userID))
+            await db.remove_ban(
+                               callbackQuery.from_user.id
+                               )
+            BANNED_USR_DB.remove(int(userID))
         else:
-            if int(userID) in BANNED_GRP_DB:
+            if int(userID) not in BANNED_GRP_DB:
                 return await callbackQuery.answer(
                                                  "Cant not Banned yet"
                                                  )
-                await db.re_enable_chat(
-                                       callbackQuery.from_user.id
-                                       )
-                BANNED_USR_DB.remove(int(userID))
+            await db.re_enable_chat(
+                                   callbackQuery.from_user.id
+                                   )
+            BANNED_USR_DB.remove(int(userID))
         
         await callbackQuery.answer(
                                   f"Successfully Unbanned Him 😎"
@@ -331,14 +331,14 @@ async def _unbanUserCB(bot, callbackQuery):
                         exc_info=True
                         )
 
-rU18 = filters.create(lambda _, __, query: query.data.startswith("rU18"))
+rU18 = filters.create(lambda _, __, query: query.data = "rU18")
 
 @ILovePDF.on_callback_query(rU18)
 async def _rU18(bot, callbackQuery):
     try:
-        callbackQuery.answer(
-                            "Are You 18.? playing like a kind 😏"
-                            )
+        await callbackQuery.answer(
+                                  "Are You 18.? playing like a kind 😏"
+                                  )
     except Exception as e:
         logger.exception(
                         "RU18:CAUSES %(e)s ERROR",
