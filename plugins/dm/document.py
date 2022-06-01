@@ -175,7 +175,7 @@ async def documents(bot, message):
                                          int(UPDATE_CHANNEL)
                                          )
                 await message.reply_photo(
-                                    photo = WELCOME_PIC,
+                                    photo = WELCOME_PIC, quote = True,
                                     caption = forceSubMsg.format(
                                                                 message.from_user.first_name,
                                                                 message.from_user.id
