@@ -1,4 +1,4 @@
-# fileName : plugins/dm/thumbnail.py
+# fileName: plugins/dm/thumbnail.py
 # copyright ©️ 2021 nabilanavab
 
 # LOGGING INFO: DEBUG
