@@ -221,7 +221,7 @@ async def documents(bot, message):
                                            message.chat.id,
                                            myID.id
                                            )
-        if status.status not in ["administrator", "owner"]:
+        if status.status not in ["administrator", "creator"]:
             return await message.reply(
                                       "Due to Some Telegram Limits.."
                                       "I can only work as an admin\n\n"
