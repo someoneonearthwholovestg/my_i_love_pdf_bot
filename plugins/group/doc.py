@@ -247,7 +247,7 @@ async def documents(bot, message):
                                           "Only Group Admins Can Use This Bot\n"
                                           "Else Come to my Pm 😋", quote = True
                                           )
-            elif isAdmin.status not in ["administrator", "owner"]:
+            elif isAdmin.status not in ["administrator", "creator"]:
                 if message.from_user.id != message.reply_to_message.from_user.id:
                     return await message.reply(
                                               "Please Reply to Your Message.. 🙂"
