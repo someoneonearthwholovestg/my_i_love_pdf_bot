@@ -32,7 +32,7 @@ async def header(bot, callbackQuery):
                 if callbackQuery.from_user.id in Config.ADMINS:
                     pass
                 else:
-                    userStat = bot.get_chat_member(
+                    userStat = await bot.get_chat_member(
                                                   callbackQuery.from_user.id,
                                                   callbackQuery.message.chat.id
                                                   )
