@@ -347,7 +347,7 @@ async def _ZIPandTAR(bot, callbackQuery):
             
             await downloadMessage.edit(
                                       "⚙️ `Started Uploading..` 📤",
-                                      reply_markup = cancelBtn
+                                      reply_markup = cancel
                                       )
             await callbackQuery.message.reply_chat_action(
                                                          "upload_document"
@@ -655,7 +655,7 @@ async def _KZIPandTAR(bot, callbackQuery):
             
             await downloadMessage.edit(
                                       "⚙️ `Started Uploading..` 📤",
-                                      reply_markup = cancelBtn
+                                      reply_markup = cancel
                                       )
             await callbackQuery.message.reply_chat_action(
                                                          "upload_document"
