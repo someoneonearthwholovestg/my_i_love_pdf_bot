@@ -83,7 +83,7 @@ async def _thumbnail(bot, message):
                 CUSTOM_THUMBNAIL_C.append(message.chat.id)
             return
         else:
-            if (message.chat.id not in CUSTOM_THUMBNAIL_U) or (message.chat.id not in CUSTOM_THUMBNAIL_C):
+            if (message.chat.id not in CUSTOM_THUMBNAIL_U) and (message.chat.id not in CUSTOM_THUMBNAIL_C):
                 return await message.reply(
                                           "You didn't set custom thumbnail!\n"
                                           "reply /thumbnail to set thumbnail",
