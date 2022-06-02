@@ -36,7 +36,7 @@ async def header(bot, callbackQuery):
                                                   callbackQuery.from_user.id,
                                                   callbackQuery.message.chat.id
                                                   )
-                    if userStat not in ["administrator", "owner"]:
+                    if userStat.status not in ["administrator", "creator"]:
                         await callbackQuery.answer(
                                                   "Message Not For You.. :("
                                                   )
