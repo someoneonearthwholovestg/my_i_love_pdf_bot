@@ -33,8 +33,8 @@ async def header(bot, callbackQuery):
                     pass
                 else:
                     userStat = await bot.get_chat_member(
-                                                  callbackQuery.from_user.id,
-                                                  callbackQuery.message.chat.id
+                                                  callbackQuery.message.chat.id,
+                                                  callbackQuery.from_user.id
                                                   )
                     if userStat.status not in ["administrator", "creator"]:
                         await callbackQuery.answer(
