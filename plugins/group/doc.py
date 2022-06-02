@@ -242,7 +242,7 @@ async def documents(bot, message):
                                          message.chat.id,
                                          message.from_user.id
                                          )
-            if ONLY_GROUP_ADMIN and isAdmin.status not in ["administrator", "owner"]:
+            if ONLY_GROUP_ADMIN and isAdmin.status not in ["administrator", "creator"]:
                 return await message.reply(
                                           "Only Group Admins Can Use This Bot\n"
                                           "Else Come to my Pm 😋", quote = True
