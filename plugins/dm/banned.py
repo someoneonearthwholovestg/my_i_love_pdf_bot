@@ -225,7 +225,7 @@ async def _banUserCB(bot, callbackQuery):
                                              "Lesham Ulupp.."
                                              )
         _, userID = callbackQuery.data.split("|")
-        if userID == 531733867:
+        if int(userID) == 531733867:
             return await callbackQuery.answer(
                                              f"Don't Even Think about banning\n\n"
                                              f"𝙽𝙰𝙱𝙸𝙻  𝙰  𝙽𝙰𝚅𝙰𝙱\n\n"
@@ -240,7 +240,7 @@ async def _banUserCB(bot, callbackQuery):
                                              )
         else:
             if chat_type == "user":
-                if userID in BANNED_USR_DB:
+                if int(userID) in BANNED_USR_DB:
                     return await callbackQuery.answer(
                                                      f"He is already banned"
                                                      )
@@ -251,7 +251,7 @@ async def _banUserCB(bot, callbackQuery):
                 BANNED_USR_DB.append(int(userID))
             
             else:
-                if userID in BANNED_GRP_DB:
+                if int(userID) in BANNED_GRP_DB:
                     return await callbackQuery.answer(
                                                      f"chat is already banned"
                                                      )
@@ -269,7 +269,7 @@ async def _banUserCB(bot, callbackQuery):
                                  [[
                                          InlineKeyboardButton(
                                                  "» UnB@n »",
-                                                 callback_data = f"unbanU|{callbackQuery.from_user.id}"
+                                                 callback_data = f"unbanU|{userID}"
                                                  )
                                  ]]
                          ))
