@@ -225,7 +225,7 @@ async def _banUserCB(bot, callbackQuery):
                                              "Lesham Ulupp.."
                                              )
         _, userID = callbackQuery.data.split("|")
-        ifuserID == 531733867:
+        if userID == 531733867:
             return await callbackQuery.answer(
                                              f"Don't Even Think about banning\n\n"
                                              f"𝙽𝙰𝙱𝙸𝙻  𝙰  𝙽𝙰𝚅𝙰𝙱\n\n"
