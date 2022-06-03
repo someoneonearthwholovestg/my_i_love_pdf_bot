@@ -152,7 +152,7 @@ async def _unbanUser(bot, message):
                                    )
         else:
             status = await db.get_ban_status(userINFO.id)
-            logger.debug(f"status")
+            logger.debug(status)
             if not status['is_banned']:
                 return await procs.edit(
                                        f"{userINFO.mention} is not yet banned."
