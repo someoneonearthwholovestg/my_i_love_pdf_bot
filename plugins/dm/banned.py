@@ -300,16 +300,16 @@ async def _unbanUserCB(bot, callbackQuery):
                                                  f"He is not yet banned"
                                                  )
             await db.remove_ban(
-                               callbackQuery.from_user.id
+                               int(userID)
                                )
             BANNED_USR_DB.remove(int(userID))
         else:
             if int(userID) not in BANNED_GRP_DB:
                 return await callbackQuery.answer(
-                                                 "Cant not Banned yet"
+                                                 "Not Banned yet"
                                                  )
             await db.re_enable_chat(
-                                   callbackQuery.from_user.id
+                                   int(userID)
                                    )
             BANNED_USR_DB.remove(int(userID))
         
