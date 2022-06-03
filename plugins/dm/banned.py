@@ -245,7 +245,7 @@ async def _banUserCB(bot, callbackQuery):
                                                      f"He is already banned"
                                                      )
                 await db.ban_user(
-                                 userID,
+                                 int(userID),
                                  "oru rasam.. 😝"
                                  )
                 BANNED_USR_DB.append(int(userID))
