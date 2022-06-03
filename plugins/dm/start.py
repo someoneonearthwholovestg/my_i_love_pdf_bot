@@ -90,7 +90,7 @@ button = InlineKeyboardMarkup(
          url="https://t.me/ilovepdf_bot/14?comment=10000")
         ],[
             InlineKeyboardButton("➕ ADD TO GROUP ➕",
-                                 callback_data="underDev")
+                                 url="https://t.me/complete_pdf_bot?startgroup=true")
         ],[
             InlineKeyboardButton("🚶 CLOSE 🚶",
                                     callback_data="close")
