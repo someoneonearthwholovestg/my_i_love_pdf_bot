@@ -240,12 +240,12 @@ async def _banUserCB(bot, callbackQuery):
                                              )
         else:
             if chat_type == "user":
-                if int(userID) in BANNED_USR_DB:
+                if userID in BANNED_USR_DB:
                     return await callbackQuery.answer(
                                                      f"He is already banned"
                                                      )
                 await db.ban_user(
-                                 int(userID),
+                                 userID,
                                  "oru rasam.. 😝"
                                  )
                 BANNED_USR_DB.append(int(userID))
