@@ -30,7 +30,7 @@ if isMONGOexist:
 # CUSTOM THUMBNAIL 
 @ILovePDF.on_message(
                     ~filters.edited &
-                    filters.command("thumbnail", "thumb") &
+                    filters.command(["thumbnail", "thumb"]) &
                     (filters.private | filters.group)
                     )
 async def _thumbnail(bot, message):
