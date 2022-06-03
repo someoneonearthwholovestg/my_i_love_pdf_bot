@@ -113,7 +113,7 @@ class Database:
             return default
         return user.get('ban_status', default)
     # [group]
-    async def get_ban_status(self, id):
+    async def get_grup_status(self, id):
         default = dict(
                       is_banned = False,
                       ban_reason = ''
