@@ -1,14 +1,6 @@
 # fileName : plugins/toKnown.py
 # copyright ©️ 2021 nabilanavab
 
-# LOGGING INFO: DEBUG
-import logging
-logger=logging.getLogger(__name__)
-logging.basicConfig(
-                   level=logging.DEBUG,
-                   format="%(levelname)s:%(name)s:%(message)s" # %(asctime)s:
-                   )
-
 from pyrogram.types import Message
 from plugins.fileSize import get_size_format as gSF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -80,10 +72,6 @@ async def toKnown(callbackQuery, number_of_pages):
                 ]]
             )
         )
-    except Exception as e:
-        logger.exception(
-                        "TO_KNOWN:CAUSES %(e)s ERROR",
-                        exc_info=True
-                        )
+    except Exception: pass
 
 #                                                                                  Telegram: @nabilanavab
