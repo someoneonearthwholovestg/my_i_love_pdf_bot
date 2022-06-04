@@ -459,11 +459,10 @@ async def _asNewDoc(bot, callbackQuery):
                                   )
         if await header(bot, callbackQuery):
             return
-        else :pass
+        await callbackQuery.message.delete()
         await documents(
                        bot, callbackQuery.message.reply_to_message
                        )
-        await callbackQuery.message.delete()
     except Exception as e:
         logger.exception(
                         "AS_NEW_DOC:CAUSES %(e)s ERROR",
