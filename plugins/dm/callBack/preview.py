@@ -94,14 +94,10 @@ async def _preview(bot, callbackQuery):
             totalPgList = range(1, number_of_pages)
             caption = f"PDF only have {number_of_pages} pages 🤓\n\n"
         elif number_of_pages / 2 == 1:
-            totalPgList = [:2] + \
-                          [(number_of_pages//2)-1, (number_of_pages//2), (number_of_pages//2)+1] + \
-                          [-2:]
+            totalPgList = [:2] + [(number_of_pages//2)-1, (number_of_pages//2), (number_of_pages//2)+1] + [-2:]
             caption = f"PDF pages: {totalPgList}\n\n"
         elif number_of_pages / 2 = 0:
-            totalPgList = [:2] + \
-                          [(number_of_pages//2)-1, (number_of_pages//2), (number_of_pages//2)+1, (number_of_pages//2)+2] + \
-                          [-2:]
+            totalPgList = [:2] + [(number_of_pages//2)-1, (number_of_pages//2), (number_of_pages//2)+1, (number_of_pages//2)+2] + [-2:]
             caption = f"PDF pages: {totalPgList}\n\n"
         await downloadMessage.edit(
                                   f"`Total pages: {len(totalPgList)}..` 🤌"
