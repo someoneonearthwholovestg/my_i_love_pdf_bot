@@ -108,7 +108,7 @@ async def _preview(bot, callbackQuery):
         metaData = doc.metadata
         if metaData != None:
             for i in metaData:
-                if caption += f"`{i}: {metaData[i]}`\n"
+                caption += f"`{i}: {metaData[i]}`\n"
         
         zoom = 2
         mat = fitz.Matrix(
