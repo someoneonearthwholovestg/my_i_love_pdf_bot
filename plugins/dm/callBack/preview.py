@@ -8,6 +8,7 @@ logging.basicConfig(
                    level=logging.DEBUG,
                    format="%(levelname)s:%(name)s:%(message)s" # %(asctime)s:
                    )
+logging.getLogger("PIL.Image").setLevel(logging.ERROR)
 
 import os
 import fitz
@@ -107,7 +108,6 @@ async def _preview(bot, callbackQuery):
                                   f"`Total pages: {len(totalPgList)}..` 🤌"
                                   )
         
-        logger.debug(totalPgList)
         metaData = doc.metadata
         if metaData != None:
             for i in metaData:
