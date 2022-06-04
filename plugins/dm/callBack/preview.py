@@ -20,7 +20,9 @@ from plugins.checkPdf import checkPdf
 from plugins.progress import progress
 from pyrogram.types import ForceReply
 from pyrogram import Client as ILovePDF
+from plugins.footer import footer, header
 from pyrogram.types import InputMediaPhoto
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 media = {}
 
@@ -46,7 +48,7 @@ async def _preview(bot, callbackQuery):
                                       "WORK IN PROGRESS.. 🙇")
         
         await callbackQuery.answer(
-                                  "Just Sends Start, Middle, End Pages (if Exists 😅)"
+                                  "Send Some Random Pages with Metadata 😁"
                                   )
         # ↓ ADD TO PROCESS       ↓ CALLBACK DATA
         PROCESS.append(chat_id); data=callbackQuery.data
@@ -55,8 +57,8 @@ async def _preview(bot, callbackQuery):
         
         # DOWNLOAD MESSAGE
         downloadMessage = await callbackQuery.message.reply_text(
-                                                                "`Downloding your pdf..` ⏳", 
-                                                                quote=True
+                                                                "`Downloding your pdf..` 📥", 
+                                                                quote = True
                                                                 )
         file_id = callbackQuery.message.reply_to_message.document.file_id
         fileSize = callbackQuery.message.reply_to_message.document.file_size
@@ -88,21 +90,29 @@ async def _preview(bot, callbackQuery):
         # OPEN PDF WITH FITZ
         doc = fitz.open(input_file)
         number_of_pages = doc.pageCount
-        if number_of_pages == 1:
-            totalPgList = [1]
-            caption = "Image Preview:\n__START: 1__"
-        elif number_of_pages == 2:
-            totalPgList = [1, 2]
-            caption = "Image Preview:\n__START: 1__,\n__END: 2__"
-        elif number_of_pages == 3:
-            totalPgList = [1, 2, 3]
-            caption = "Image Preview:\n__START: 1__,\n__MIDDLE: 2__,\n__END: 3__"
-        else:
-            totalPgList = [1, number_of_pages//2, number_of_pages]
-            caption = f"Image Preview:\n__START: 1__,\n__MIDDLE: {number_of_pages//2}__,__\nEND: {number_of_pages}__"
+        if number_of_pages <= 10:
+            totalPgList = range(1, number_of_pages)
+            caption = f"PDF only have {number_of_pages} pages 🤓\n\n"
+        elif number_of_pages / 2 == 1:
+            totalPgList = [:2] + /
+                          [(number_of_pages//2)-1, (number_of_pages//2), (number_of_pages//2)+1] + /
+                          [-2:]
+            caption = f"PDF pages: {totalPgList}\n\n"
+        elif number_of_pages / 2 = 0:
+            totalPgList = [:2] + /
+                          [(number_of_pages//2)-1, (number_of_pages//2), (number_of_pages//2)+1, (number_of_pages//2)+2] + /
+                          [-2:]
+            caption = f"PDF pages: {totalPgList}\n\n"
         await downloadMessage.edit(
-                                  f"`Total pages: {len(totalPgList)}..⏳`")
-                                  
+                                  f"`Total pages: {len(totalPgList)}..` 🤌"
+                                  )
+        
+        logger.debug(totalPgList)
+        metaData = doc.metadata
+        if metaData != None:
+            for i in metaData:
+                if caption += f"`{i}: {metaData[i]}`\n"
+        
         zoom = 2
         mat = fitz.Matrix(
                          zoom, zoom
@@ -118,10 +128,9 @@ async def _preview(bot, callbackQuery):
                 pix.writePNG(f'{message_id}/pgs/{pageNo}.jpg')
         try:
             await downloadMessage.edit(
-                f"`Preparing an Album..` 🤹"
-            )
-        except Exception:
-            pass
+                                      f"`Preparing an Album..` 🤹"
+                                      )
+        except Exception: pass
         directory = f'{message_id}/pgs'
         # RELATIVE PATH TO ABS. PATH
         imag = [os.path.join(directory, file) for file in os.listdir(directory)]
@@ -149,9 +158,17 @@ async def _preview(bot, callbackQuery):
                 # ADDING TO GROUP MEDIA IF POSSIBLE
                 else:
                     if len(media[chat_id]) == 1:
-                        media[chat_id].append(InputMediaPhoto(media=file, caption=caption))
+                        media[chat_id].append(
+                                             InputMediaPhoto(
+                                                            media = file,
+                                                            caption = caption
+                                                            )
+                                             )
                     else:
-                        media[chat_id].append(InputMediaPhoto(media=file))
+                        media[chat_id].append(
+                                             InputMediaPhoto(
+                                                            media = file)
+                                                            )
                     break
         await downloadMessage.edit(
                                   f"`Uploading: preview pages.. 🐬`"
@@ -159,11 +176,16 @@ async def _preview(bot, callbackQuery):
         await callbackQuery.message.reply_chat_action(
                                                      "upload_photo"
                                                      )
-        await bot.send_media_group(
-                                  chat_id = chat_id,
-                                  reply_to_message_id = callbackQuery.message.reply_to_message.message_id,
-                                  media = media[chat_id]
-                                  )
+        await callbackQuery.message.reply_media_group(
+                                                     media[chat_id],
+                                                     reply_markup = InlineKeyboardMarkup(
+                                                         [[
+                                                             InlineKeyboardButton(
+                                                                             "🌟 SOURCE CODE 🌟",
+                                                                             url = "https://nabilanavab/ilovepdf"
+                                                                             )
+                                                         ]]
+                                                     ))
         await downloadMessage.delete()
         doc.close; del media[chat_id]
         PROCESS.remove(chat_id)
@@ -179,8 +201,7 @@ async def _preview(bot, callbackQuery):
                                       f"SOMETHING WENT WRONG"
                                       f"\n\nERROR: {e}")
             shutil.rmtree(f'{message_id}')
-        except Exception:
-            pass
+        except Exception: pass
 
 
-#                                                                                             Telegram: @nabilanavab
+#                                                                                                      Telegram: @nabilanavab
