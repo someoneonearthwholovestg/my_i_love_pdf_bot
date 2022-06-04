@@ -22,7 +22,6 @@ from pyrogram.types import ForceReply
 from pyrogram import Client as ILovePDF
 from plugins.footer import footer, header
 from pyrogram.types import InputMediaPhoto
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 media = {}
 
@@ -174,15 +173,8 @@ async def _preview(bot, callbackQuery):
                                                      "upload_photo"
                                                      )
         await callbackQuery.message.reply_media_group(
-                                                     media[chat_id],
-                                                     reply_markup = InlineKeyboardMarkup(
-                                                         [[
-                                                             InlineKeyboardButton(
-                                                                             "🌟 SOURCE CODE 🌟",
-                                                                             url = "https://nabilanavab/ilovepdf"
-                                                                             )
-                                                         ]]
-                                                     ))
+                                                     media[chat_id]
+                                                     )
         await downloadMessage.delete()
         doc.close; del media[chat_id]
         PROCESS.remove(chat_id)
