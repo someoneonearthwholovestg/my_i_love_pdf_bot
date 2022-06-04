@@ -94,7 +94,7 @@ async def _preview(bot, callbackQuery):
             totalPgList = range(1, number_of_pages)
             caption = f"PDF only have {number_of_pages} pages 🤓\n\n"
         elif number_of_pages % 2 == 1:
-            totalPgList = pglist[0:3] + /
+            totalPgList = pglist[0:3] + \
                           [(number_of_pages//2)-1, (number_of_pages//2), (number_of_pages//2)+1] + pglist[-3:]
             caption = f"PDF pages: {totalPgList}\n\n"
         elif number_of_pages % 2 == 0:
