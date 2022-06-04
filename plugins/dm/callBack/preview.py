@@ -178,7 +178,7 @@ async def _preview(bot, callbackQuery):
                                                      "upload_photo"
                                                      )
         await callbackQuery.message.reply_media_group(
-                                                     media[chat_id]
+                                                     media[chat_id], quote = True
                                                      )
         await downloadMessage.delete()
         doc.close; del media[chat_id]
