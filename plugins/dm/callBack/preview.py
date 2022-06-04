@@ -89,7 +89,7 @@ async def _preview(bot, callbackQuery):
         # OPEN PDF WITH FITZ
         doc = fitz.open(input_file)
         number_of_pages = doc.pageCount
-        pglist = list(range(number_of_pages))
+        pglist = list(range(number_of_pages + 1))
         if number_of_pages <= 10:
             totalPgList = range(1, number_of_pages)
             caption = f"PDF only have {number_of_pages} pages 🤓\n\n"
