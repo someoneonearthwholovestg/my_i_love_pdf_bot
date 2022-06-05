@@ -642,7 +642,7 @@ async def _KZIPandTAR(bot, callbackQuery):
                                    )
             fileNm = callbackQuery.message.reply_to_message.document.file_name
             fileNm, fileExt = os.path.splitext(fileNm)        # seperates name & extension
-            fileNm = f"{fileNm}.zip" if data.startswith("zip") else f"{fileNm}.tar"
+            fileNm = f"{fileNm}.zip" if data.startswith("Kzip") else f"{fileNm}.tar"
             
             # Getting thumbnail
             thumbnail, fileName = await thumbName(callbackQuery.message, fileNm)
