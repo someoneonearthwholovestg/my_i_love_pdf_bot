@@ -392,13 +392,13 @@ async def _EXTRACT(bot, callbackQuery):
                                                                      )
                         try:
                             await callbackQuery.message.reply_media_group(
-                                                           mediaDoc[chat_id]
-                                                           )
+                                                         mediaDoc[chat_id]
+                                                         )
                         except FloodWait as e:
-                            await asyncio.sleep(e.value)
+                            await asyncio.sleep(e.x)
                             await callbackQuery.message.reply_media_group(
-                                                           mediaDoc[chat_id]
-                                                           )
+                                                         mediaDoc[chat_id]
+                                                         )
                     shutil.rmtree(f'{message_id}/pgs')
                 PROCESS.remove(chat_id); doc.close()
                 await downloadMessage.edit(
@@ -424,7 +424,7 @@ async def _EXTRACT(bot, callbackQuery):
                     return
                 await downloadMessage.edit(
                                           text = f"`Total pages: {len(totalPgList)}..⏳`",
-                                          reply_markup=cancel
+                                          reply_markup = cancel
                                           )
                 cnvrtpg = 0
                 for i in range(0, len(totalPgList), 10):
@@ -515,14 +515,14 @@ async def _EXTRACT(bot, callbackQuery):
                                                                      )
                         try:
                             await callbackQuery.message.reply_media_group(
-                                                           media[chat_id]
-                                                           )
+                                                            media[chat_id]
+                                                            )
                         except FloodWait as e:
-                            await asyncio.sleep(e.value)
+                            await asyncio.sleep(e.x)
                             await callbackQuery.message.reply_media_group(
-                                                           media[chat_id]
-                                                           )
-                    if data=="DS":
+                                                            media[chat_id]
+                                                            )
+                    if data == "DS":
                         if chat_id not in PROCESS:
                             try:
                                 shutil.rmtree(f'{message_id}'); doc.close()
@@ -534,13 +534,13 @@ async def _EXTRACT(bot, callbackQuery):
                                                                      )
                         try:
                             await callbackQuery.message.reply_media_group(
-                                                           mediaDoc[chat_id]
-                                                           )
+                                                         mediaDoc[chat_id]
+                                                         )
                         except FloodWait as e:
-                            await asyncio.sleep(e.value)
+                            await asyncio.sleep(e.x)
                             await callbackQuery.message.reply_media_group(
-                                                           mediaDoc[chat_id]
-                                                           )
+                                                         mediaDoc[chat_id]
+                                                         )
                     shutil.rmtree(f'{message_id}/pgs')
                 PROCESS.remove(chat_id); doc.close()
                 await downloadMessage.edit(
@@ -823,13 +823,13 @@ async def _KEXTRACT(bot, callbackQuery):
                                                                      )
                         try:
                             await callbackQuery.message.reply_media_group(
-                                                           media[chat_id]
-                                                           )
+                                                            media[chat_id]
+                                                            )
                         except FloodWait as e:
-                            await asyncio.sleep(e.value)
+                            await asyncio.sleep(e.x)
                             await callbackQuery.message.reply_media_group(
-                                                           media[chat_id]
-                                                           )
+                                                            media[chat_id]
+                                                            )
                     if data in ["KDA", "KDR"]:
                         if chat_id not in PROCESS:
                             try:
@@ -843,13 +843,13 @@ async def _KEXTRACT(bot, callbackQuery):
                                                                      )
                         try:
                             await callbackQuery.message.reply_media_group(
-                                                           mediaDoc[chat_id]
-                                                           )
+                                                         mediaDoc[chat_id]
+                                                         )
                         except FloodWait as e:
-                            await asyncio.sleep(e.value)
+                            await asyncio.sleep(e.x)
                             await callbackQuery.message.reply_media_group(
-                                                           mediaDoc[chat_id]
-                                                           )
+                                                         mediaDoc[chat_id]
+                                                         )
                     shutil.rmtree(f'{message_id}/pgs')
                 PROCESS.remove(chat_id)
                 doc.close()
@@ -965,13 +965,13 @@ async def _KEXTRACT(bot, callbackQuery):
                                                                      )
                         try:
                             await callbackQuery.message.reply_media_group(
-                                                           media[chat_id]
-                                                           )
+                                                            media[chat_id]
+                                                            )
                         except FloodWait as e:
-                            await asyncio.sleep(e.value)
+                            await asyncio.sleep(e.x)
                             await callbackQuery.message.reply_media_group(
-                                                           media[chat_id]
-                                                           )
+                                                            media[chat_id]
+                                                            )
                     if data == "KDS":
                         if chat_id not in PROCESS:
                             try:
@@ -985,13 +985,13 @@ async def _KEXTRACT(bot, callbackQuery):
                                                                      )
                         try:
                             await callbackQuery.message.reply_media_group(
-                                                           mediaDoc[chat_id]
-                                                           )
+                                                         mediaDoc[chat_id]
+                                                         )
                         except FloodWait as e:
-                            await asyncio.sleep(e.value)
+                            await asyncio.sleep(e.x)
                             await callbackQuery.message.reply_media_group(
-                                                           mediaDoc[chat_id]
-                                                           )
+                                                         mediaDoc[chat_id]
+                                                         )
                     shutil.rmtree(f'{message_id}/pgs')
                 PROCESS.remove(chat_id)
                 doc.close()
