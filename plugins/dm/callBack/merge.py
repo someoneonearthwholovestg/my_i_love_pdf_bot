@@ -61,7 +61,7 @@ async def _merge(bot, callbackQuery):
             return await callbackQuery.answer(
                                              "Work in progress..🙇"
                                              )
-        # ADD TO PROCESS
+        await callbackQuery.answer()
         PROCESS.append(chat_id)
         fileId = callbackQuery.message.reply_to_message.document.file_id
         fileSize = callbackQuery.message.reply_to_message.document.file_size
