@@ -361,8 +361,8 @@ async def _color(bot, callbackQuery):
                                                      )
         c_time = time.time()
         await callbackQuery.message.reply_document(
-                                                  file_name = {fileName},
-                                                  document = open(output_file, "rb"),
+                                                  file_name = fileName,
+                                                  document = output_file,
                                                   thumb = thumbnail,
                                                   quote = True,
                                                   caption = "stamped pdf",
