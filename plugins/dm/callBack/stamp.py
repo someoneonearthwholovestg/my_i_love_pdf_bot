@@ -85,7 +85,7 @@ async def _stamp(bot, callbackQuery):
     try:
         if await header(bot, callbackQuery):
             return
-        
+        await callbackQuery.answer()
         await callbackQuery.edit_message_text(
                                              "__Add Stamp » Select Stamp:\n"
                                              "Total pages: unknown__ 😐",
@@ -139,7 +139,7 @@ async def _Kstamp(bot, callbackQuery):
     try:
         if await header(bot, callbackQuery):
             return
-        
+        await callbackQuery.answer()
         _, number_of_pages = callbackQuery.data.split("|")
         await callbackQuery.edit_message_text(
                                              f"__Add Stamp » Select Stamp:\n"
@@ -194,7 +194,7 @@ async def _stmp(bot, callbackQuery):
     try:
         if await header(bot, callbackQuery):
             return
-        
+        await callbackQuery.answer()
         _, annot = callbackQuery.data.split("|")
         await callbackQuery.edit_message_text(
             "__Add Stamp » Select Color:\nTotal pages: unknown__ 😐",
@@ -232,7 +232,7 @@ async def _Kstmp(bot, callbackQuery):
     try:
         if await header(bot, callbackQuery):
             return
-        
+        await callbackQuery.answer()
         _, number_of_pages, annot = callbackQuery.data.split("|")
         await callbackQuery.edit_message_text(
             f"__Add Stamp » Select Color:\nTotal pages: {number_of_pages}__ 🌟",
@@ -282,7 +282,7 @@ async def _color(bot, callbackQuery):
                                       )
             return
         _, annot, colr = callbackQuery.data.split("|")
-        
+        await callbackQuery.answer()
         # ↓ ADD TO PROCESS       ↓ CALLBACK DATA
         PROCESS.append(chat_id); data = callbackQuery.data
         # STARTED DOWNLOADING
