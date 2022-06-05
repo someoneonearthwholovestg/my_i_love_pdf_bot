@@ -282,7 +282,7 @@ async def _delThumb(bot, callbackQuery):
                                      callbackQuery.message.chat.id
                                      )
         else:
-            await CallbackQuery.edit_message_reply_markup(
+            await callbackQuery.edit_message_reply_markup(
                   InlineKeyboardMarkup([[
                       InlineKeyboardButton("🤜🏻 DELETED 🤛🏻",
                           callback_data = "nabilanavab")]]))
