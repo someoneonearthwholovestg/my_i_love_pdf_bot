@@ -92,7 +92,7 @@ async def _preview(bot, callbackQuery):
         number_of_pages = doc.pageCount
         pglist = list(range(number_of_pages + 1))
         if number_of_pages <= 10:
-            totalPgList = range(1, number_of_pages)
+            totalPgList = range(1, number_of_pages + 1)
             caption = f"PDF only have {number_of_pages} pages 🤓\n\n"
         elif number_of_pages % 2 == 1:
             totalPgList = pglist[1:4] + \
