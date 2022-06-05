@@ -270,10 +270,10 @@ async def _delThumb(bot, callbackQuery):
         await callbackQuery.answer(
                                   "Deleted.. 😎"
                                   )
-        await callbackQuery.edit_message_media(InputMediaPhoto(WELCOME_PIC))
-        await _back(bot, callbackQuery)
         
         if chat_type == "private":
+            await callbackQuery.edit_message_media(InputMediaPhoto(WELCOME_PIC))
+            await _back(bot, callbackQuery)
             await db.set_thumbnail(
                                   callbackQuery.message.chat.id,
                                   None
@@ -282,6 +282,7 @@ async def _delThumb(bot, callbackQuery):
                                      callbackQuery.message.chat.id
                                      )
         else:
+            await CallbackQuery.edit_message_reply_markup()
             await db.set_group_thumb(
                                   callbackQuery.message.chat.id,
                                   None
