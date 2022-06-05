@@ -323,8 +323,10 @@ async def _splitProcess(bot, callbackQuery):
             await callbackQuery.message.reply_chat_action(
                                                          "upload_document"
                                                          )
-            caption = f"{newList}" if data.startswith(tuple(["splitS", "KsplitS"])) \
-                      else caption = f"from `{pageStartAndEnd[0]}` to `{pageStartAndEnd[1]}`"
+            if data.startswith(tuple(["splitS", "KsplitS"])):
+                caption = f"{newList}"
+            else:
+                caption = f"from `{pageStartAndEnd[0]}` to `{pageStartAndEnd[1]}`"
             c_time = time.time()
             await callbackQuery.message.reply_document(
                                                       file_name = fileName,
