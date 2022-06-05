@@ -32,6 +32,11 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 #--------> LOCAL VARIABLES
 #------------------->
 
+cancel = InlineKeyboardMarkup(
+                             [[InlineKeyboardButton("💤 CANCEL 💤",
+                                     callback_data = "cancelP2I")]]
+                             )
+
 """
 ____VARIABLES____
 
@@ -349,7 +354,7 @@ async def _color(bot, callbackQuery):
         
         await downloadMessage.edit(
                                   "⚙️ `Started Uploading..` 📤",
-                                  reply_markup = cancelBtn
+                                  reply_markup = cancel
                                   )
         await callbackQuery.message.reply_chat_action(
                                                      "upload_document"
