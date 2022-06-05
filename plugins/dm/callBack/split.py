@@ -188,7 +188,7 @@ async def _splitProcess(bot, callbackQuery):
                 elif len(pageStartAndEnd) == 2:
                     start = pageStartAndEnd[0]; end = pageStartAndEnd[1]
                     if start.isdigit() and end.isdigit():
-                        if (int(1) <= int(start) and int(start) < number_of_pages):
+                        if (int(1) <= int(start) and int(start) < int(number_of_pages)):
                             if (int(start) < int(end) and int(end) <= number_of_pages):
                                 nabilanavab = False
                                 break
