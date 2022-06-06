@@ -90,7 +90,7 @@ async def _watermarkPDF(bot, callbackQuery):
         # GET /merge, REACHES MAX FILE SIZE OR MAX NO OF PDF
         if nabilanavab == False:
             # START DOWNLOAD
-            downloadMessagedownloadMessage = await callbackQuery.message.reply_text(
+            downloadMessage = await callbackQuery.message.reply_text(
                                                                                    "`Downloding your pdf..` 📥", 
                                                                                    quote = True
                                                                                    )
