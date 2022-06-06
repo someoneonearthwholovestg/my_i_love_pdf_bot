@@ -173,7 +173,7 @@ async def _watermarkPDF(bot, callbackQuery):
             c_time = time.time()
             # SEND DOCUMENT
             with open(output_pdf, "rb") as outPut:
-                await askPDF.reply_document(
+                await callbackQuery.message.reply_document(
                                            file_name = fileName,
                                            quote = True,
                                            document = output_pdf,
