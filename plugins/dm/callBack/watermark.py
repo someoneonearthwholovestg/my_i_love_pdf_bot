@@ -52,7 +52,7 @@ async def _watermarkPDF(bot, callbackQuery):
         fileSize = callbackQuery.message.reply_to_message.document.file_size
         fileNm = callbackQuery.message.reply_to_message.document.file_name
         _, fileExt = os.path.splitext(fileNm)        # seperates name & extension
-        nabilanavab = True: i = 0
+        nabilanavab = True; i = 0
         while(nabilanavab):
             # REQUEST FOR PG NUMBER (MAX. LIMIT 5)
             if i >= 5:
