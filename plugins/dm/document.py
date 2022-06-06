@@ -127,6 +127,8 @@ pdfReply = InlineKeyboardMarkup(
             InlineKeyboardButton("📝 OCR 📝", callback_data="ocr"),
             InlineKeyboardButton("🥷 A4 FORMAT 🥷", callback_data="format")
         ],[
+            InlineKeyboardButton("WATERMARK", callback_data="wa"),
+        ],[
             InlineKeyboardButton("🚫 CLOSE 🚫", callback_data="closeALL")
         ]]
     )
