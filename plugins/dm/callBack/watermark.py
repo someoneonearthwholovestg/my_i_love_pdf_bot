@@ -150,7 +150,7 @@ async def _watermarkPDF(bot, callbackQuery):
             # add the image
             first_page.insert_image(
                                    image_rectangle,
-                                   fileName = wa_file
+                                   filename = wa_file
                                    )
             
             file_handle.save(output_pdf)
