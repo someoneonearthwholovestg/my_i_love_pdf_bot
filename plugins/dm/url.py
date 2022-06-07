@@ -105,9 +105,9 @@ async def _url(bot, message):
                                   f"**ABOUT MEDIA ↓**\n"
                                   f"Media     : {file.media}\n"
                                   f"File Name : {file.document.file_name}\n"
-                                  f"File Size : {await gSF(file.document.file_size)}\n\n"
+                                  f"File Size : {await gSF(file.document.file_size)}\n\n" + 
                                   "🔒 Protected 🔒" if file.sender_chat.has_protected_content else "👀 Public 👀",
-                                  reply_markup=reply_markup if file.document.file_name[-4:]==".pdf" else None,
+                                  reply_markup=reply_markup if (file.document and file.document.file_name[-4:]==".pdf") else None,
                                   disable_web_page_preview=True
                                   )
         return await data.edit(
