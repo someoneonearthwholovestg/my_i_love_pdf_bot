@@ -77,6 +77,7 @@ async def _url(bot, message):
                 chat_id = int("-100" + f"{chat_id}")
             except Exception:
                 chat_id = part[-2]
+            logger.debug(chat_id)
             try:
                 file = await bot.get_messages(
                                              chat_id = chat_id,
