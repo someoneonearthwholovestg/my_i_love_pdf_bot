@@ -22,6 +22,12 @@ from plugins.footer import header, footer
 from plugins.fileSize import get_size_format as gSF
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+reply_markup = InlineKeyboardMarkup(
+                     [[
+                             InlineKeyboardButton("🧭 Get PDF File 🧭",
+                                             callback_data = "getFile")
+                     ]]
+               )
 
 # url Example: https://t.me/channel/message
 #              https://t.me/nabilanavab/1
@@ -36,10 +42,13 @@ async def getPDF(current, t, message, total=0, typ="DOWNLOADED"):
         edit = "📤 UPLOADED: {:.2f}% 📤"
     percentage = current * 100 / total
     await message.edit_reply_markup(
-          InlineKeyboardMarkup([[InlineKeyboardButton(
-                      edit.format(percentage),
-                      callback_data = "nabilanavab")]]
-        ))
+          InlineKeyboardMarkup(
+                              [[
+                                  InlineKeyboardButton(
+                                                    edit.format(percentage),
+                                                    callback_data="nabilanavab")
+                              ]]
+          ))
 
 @ILovePDF.on_message(
                     filters.private &
@@ -53,7 +62,7 @@ async def _url(bot, message):
                                        "typing"
                                        )
         data = await message.reply(
-                                  "`Started Fetching Datas..` 📥",
+                                  "__Started Fetching Datas..__ 📥",
                                   quote = True
                                   )
         
@@ -81,7 +90,7 @@ async def _url(bot, message):
                                       reply_markup = InlineKeyboardMarkup(
                                            [[
                                                  InlineKeyboardButton("🚫 Close 🚫",
-                                                           callback_data="closeALL")
+                                                         callback_data = "closeALL")
                                            ]]
                                       ))
             await sleep(1)
@@ -96,15 +105,11 @@ async def _url(bot, message):
                                   f"**ABOUT MEDIA ↓**\n"
                                   f"Media     : {file.media}\n"
                                   f"File Name : {file.document.file_name}\n"
-                                  f"File Size : {await gSF(file.document.file_size)}\n\n",
-                                  # f"{"🔒 Protected 🔒" if file.sender_chat.has_protected_content else "👀 Public 👀"}",
-                                  reply_markup = InlineKeyboardMarkup(
-                                                 [[
-                                                           InlineKeyboardButton("🛡️ Get PDF File 🛡️",
-                                                                           callback_data = "getFile")
-                                                 ]]
-                                  ))
-        await sleep(1)
+                                  f"File Size : {await gSF(file.document.file_size)}\n\n"
+                                  "🔒 Protected 🔒" if file.sender_chat.has_protected_content else "👀 Public 👀",
+                                  reply_markup=reply_markup if file.document.file_name[-4]==".pdf" else reply_markup=None,
+                                  disable_web_page_preview=True
+                                  )
         return await data.edit(
                               "Please Send Me A Direct Telegram PDF Url"
                               )
@@ -143,12 +148,17 @@ async def _getFile(bot, callbackQuery):
         # if not a protected channel/group [just forward]
         if not file.sender_chat.has_protected_content:
             return await file.copy(
-                           chat_id = callbackQuery.message.chat.id,
-                           caption = file.caption
-                           )
+                                  chat_id = callbackQuery.message.chat.id,
+                                  caption = file.caption
+                                  )
         await callbackQuery.edit_message_reply_markup(
-              InlineKeyboardMarkup([[InlineKeyboardButton("📥 ..DOWNLOADING.. 📥", callback_data = "nabilanavab")]])
-        )
+              InlineKeyboardMarkup(
+                                  [[
+                                      InlineKeyboardButton(
+                                                          "📥 ..DOWNLOADING.. 📥",
+                                                          callback_data = "nabilanavab")
+                                  ]]
+              ))
         location = await bot.download_media(
                                            message = file.document.file_id,
                                            file_name = file.document.file_name,
@@ -158,8 +168,13 @@ async def _getFile(bot, callbackQuery):
                                                            )
                                            )
         await callbackQuery.edit_message_reply_markup(
-              InlineKeyboardMarkup([[InlineKeyboardButton("📤 ..UPLOADING..  📤", callback_data = "nabilanavab")]])
-        )
+              InlineKeyboardMarkup(
+                                  [[
+                                      InlineKeyboardButton(
+                                                          "📤 ..UPLOADING..  📤",
+                                                          callback_data = "nabilanavab")
+                                  ]]
+        ))
         logFile = await callbackQuery.message.reply_document(
                                               document = location,
                                               caption = file.caption,
@@ -170,9 +185,13 @@ async def _getFile(bot, callbackQuery):
                                                               )
                                               )
         await callbackQuery.edit_message_reply_markup(
-            InlineKeyboardMarkup([[InlineKeyboardButton("😎 COMPLETED 😎",
-                       url = "https://github.com/nabilanavab/ILovePDF")]])
-        )
+              InlineKeyboardMarkup(
+                                  [[
+                                      InlineKeyboardButton(
+                                                          "😎 COMPLETED 😎",
+                                                          url = "https://github.com/nabilanavab/ILovePDF")
+                                  ]]
+        ))
         PROCESS.remove(callbackQuery.from_user.id)
         footer(callbackQuery.message, logFile)
         os.remove(location)
