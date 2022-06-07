@@ -133,6 +133,7 @@ async def _getFile(bot, callbackQuery):
             if await header(bot, callbackQuery):
                 return
         PROCESS.append(callbackQuery.from_user.id)
+        await callbackQuery.answer("Wait.. Let me.. 😜")
         url = callbackQuery.message.reply_to_message.text
         part = url.split("/")
         message_ids = int(part[-1])
@@ -148,6 +149,7 @@ async def _getFile(bot, callbackQuery):
                                      )
         # if not a protected channel/group [just forward]
         if not file.sender_chat.has_protected_content:
+            PROCESS.remove(callbackQuery.from_user.id)
             return await file.copy(
                                   chat_id = callbackQuery.message.chat.id,
                                   caption = file.caption
