@@ -264,11 +264,15 @@ async def _delThumb(bot, callbackQuery):
                                               )
         if (callbackQuery.message.chat.id not in CUSTOM_THUMBNAIL_U) and (
             callbackQuery.message.chat.id not in CUSTOM_THUMBNAIL_C):
-            return await callbackQuery.answer(
-                                             "Currently, you don't set a thumbnail yet.. 🤧"
-                                             )
+            await callbackQuery.answer(
+                                      "Currently, you don't set a thumbnail yet.. 🤧"
+                                      )
+            return await callbackQuery.edit_message_reply_markup(
+                  InlineKeyboardMarkup([[
+                      InlineKeyboardButton("🤜🏻 DELETED 🤛🏻",
+                          callback_data = "nabilanavab")]]))
         await callbackQuery.answer(
-                                  "Deleted.. 😎"
+                                  "Deleting.. 🤬"
                                   )
         
         if chat_type == "private":
@@ -287,9 +291,9 @@ async def _delThumb(bot, callbackQuery):
                       InlineKeyboardButton("🤜🏻 DELETED 🤛🏻",
                           callback_data = "nabilanavab")]]))
             await db.set_group_thumb(
-                                  callbackQuery.message.chat.id,
-                                  None
-                                  )
+                                    callbackQuery.message.chat.id,
+                                    None
+                                    )
             CUSTOM_THUMBNAIL_C.remove(
                                      callbackQuery.message.chat.id
                                      )
