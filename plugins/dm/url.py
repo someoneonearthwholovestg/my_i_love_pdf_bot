@@ -94,8 +94,6 @@ async def _url(bot, message):
                                            ]]
                                       ))
             await sleep(1)
-            if not file.document:
-                return await data.edit("__Not a PDF File__ 🥲")
             isProtect = "🔒 Protected 🔒" if file.sender_chat.has_protected_content else "👀 Public 👀"
             return await data.edit(
                                   f"[Open Chat]({url})\n\n"
@@ -117,6 +115,7 @@ async def _url(bot, message):
                               "Please Send Me A Direct Telegram PDF Url"
                               )
     except Exception as e:
+        return await data.edit("__Check Url, Not a PDF File__ 🥲")
         logger.exception(
                         "URL:CAUSES %(e)s ERROR",
                         exc_info=True
