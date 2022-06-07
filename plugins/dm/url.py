@@ -77,7 +77,6 @@ async def _url(bot, message):
                 chat_id = int("-100" + f"{chat_id}")
             except Exception:
                 chat_id = part[-2]
-            logger.debug(chat_id)
             try:
                 file = await bot.get_messages(
                                              chat_id = chat_id,
@@ -94,6 +93,7 @@ async def _url(bot, message):
                                                          callback_data = "closeALL")
                                            ]]
                                       ))
+            logger.debug(file)
             await sleep(1)
             isProtect = "🔒 Protected 🔒" if file.sender_chat.has_protected_content else "👀 Public 👀"
             return await data.edit(
