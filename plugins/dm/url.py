@@ -95,7 +95,7 @@ async def _url(bot, message):
                                       ))
             await sleep(1)
             if not file.document:
-                return await data.edit("__Not a PDF File__" 🥲)
+                return await data.edit("__Not a PDF File__ 🥲")
             isProtect = "🔒 Protected 🔒" if file.sender_chat.has_protected_content else "👀 Public 👀"
             return await data.edit(
                                   f"[Open Chat]({url})\n\n"
