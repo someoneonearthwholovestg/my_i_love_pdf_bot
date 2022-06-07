@@ -14,6 +14,7 @@ from pyrogram import filters
 from configs.dm import Config
 from plugins.footer import header
 from plugins.dm.photo import images
+from configs.images import FEEDBACK
 from pyrogram import Client as ILovePDF
 from plugins.dm.document import documents
 from pyrogram.types import InlineKeyboardButton
@@ -87,7 +88,7 @@ button = InlineKeyboardMarkup(
             InlineKeyboardButton("🤖 CHANNEL 🤖",
                   url="https://telegram.dog/ilovepdf_bot"),
             InlineKeyboardButton("📝 FEEDBACK 📝",
-         url="https://t.me/ilovepdf_bot/14?comment=10000")
+                                        url=f"{FEEDBACK}")
         ],[
             InlineKeyboardButton("➕ ADD TO GROUP ➕",
                                  url="https://t.me/complete_pdf_bot?startgroup=true")
