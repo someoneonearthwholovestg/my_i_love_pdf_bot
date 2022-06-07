@@ -94,7 +94,7 @@ async def _url(bot, message):
                                            ]]
                                       ))
             await sleep(1)
-            isProtect = "🔒 Protected 🔒" file.sender_chat.has_protected_content else "👀 Public 👀"
+            isProtect = "🔒 Protected 🔒" if file.sender_chat.has_protected_content else "👀 Public 👀"
             return await data.edit(
                                   f"[Open Chat]({url})\n\n"
                                   f"**ABOUT CHAT ↓**\n"
