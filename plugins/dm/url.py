@@ -94,6 +94,7 @@ async def _url(bot, message):
                                            ]]
                                       ))
             await sleep(1)
+            isProtect = "🔒 Protected 🔒" file.sender_chat.has_protected_content else "👀 Public 👀"
             return await data.edit(
                                   f"[Open Chat]({url})\n\n"
                                   f"**ABOUT CHAT ↓**\n"
@@ -106,7 +107,7 @@ async def _url(bot, message):
                                   f"Media     : {file.media}\n"
                                   f"File Name : {file.document.file_name}\n"
                                   f"File Size : {await gSF(file.document.file_size)}\n\n" + 
-                                  "🔒 Protected 🔒" if file.sender_chat.has_protected_content else "👀 Public 👀",
+                                  f"File Type : {isProtect},
                                   reply_markup=reply_markup if (file.document and file.document.file_name[-4:]==".pdf") else None,
                                   disable_web_page_preview=True
                                   )
