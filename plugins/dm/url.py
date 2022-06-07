@@ -71,7 +71,7 @@ async def _url(bot, message):
         # get_messages(chat_id, message_ids)
         if url.startswith(tuple(links)):
             part = url.split("/")
-            try: message_ids = int(part[-1]); except: pass
+            message_ids = int(part[-1])
             try:
                 chat_id = int(part[-2])
                 chat_id = int("-100" + f"{chat_id}")
