@@ -17,6 +17,7 @@ from plugins.dm.photo import images
 from configs.images import FEEDBACK
 from pyrogram import Client as ILovePDF
 from plugins.dm.document import documents
+from pyrogram.types import InputMediaPhoto
 from pyrogram.types import InlineKeyboardButton
 from pyrogram.types import InlineKeyboardMarkup
 from configs.db import isMONGOexist, LOG_CHANNEL
@@ -300,7 +301,9 @@ async def _back(bot, callbackQuery):
               ),
               reply_markup = button
               )
+        await callbackQuery.edit_message_media(InputMediaPhoto(WELCOME_PIC))
     except Exception as e:
+        # error if back followed by help message
         logger.exception(
                         "BACK:CAUSES %(e)s ERROR",
                         exc_info=True
