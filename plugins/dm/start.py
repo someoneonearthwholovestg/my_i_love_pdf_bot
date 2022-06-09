@@ -294,6 +294,9 @@ async def _back(bot, callbackQuery):
                 return await callbackQuery.answer("Message Not For You.. 😏")
         
         await callbackQuery.answer()
+        try:
+            await callbackQuery.edit_message_media(InputMediaPhoto(WELCOME_PIC))
+        except Exception: pass
         await callbackQuery.edit_message_caption(
               caption = welcomeMsg.format(
                         callbackQuery.from_user.first_name,
@@ -301,7 +304,6 @@ async def _back(bot, callbackQuery):
               ),
               reply_markup = button
               )
-        await callbackQuery.edit_message_media(InputMediaPhoto(WELCOME_PIC))
     except Exception as e:
         # error if back followed by help message
         logger.exception(
@@ -341,8 +343,8 @@ async def _refresh(bot, callbackQuery):
             messageId = callbackQuery.message.reply_to_message
             await callbackQuery.message.delete()
             return await images(
-                         bot, messageId
-                         )
+                               bot, messageId
+                               )
     except Exception as e:
         try:
             # IF NOT USER ALERT MESSAGE (AFTER CALLBACK)
