@@ -296,7 +296,7 @@ async def formatterPDF(message, message_id):
     try:
         input_file = f"{message_id}/inPut.pdf"
         output_file = f"{message_id}/outPut.pdf"
-        unFormated = output_file
+        unFormated = f"{message_id}/unFormated.jpeg"
         # OPEN INPUT PDF
         r = fitz.Rect(0, 0, 0, 0)
         with fitz.open(input_file) as inPDF:
