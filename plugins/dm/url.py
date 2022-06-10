@@ -93,25 +93,42 @@ async def _url(bot, message):
                                                          callback_data = "closeALL")
                                            ]]
                                       ))
-            logger.debug(file)
             await sleep(1)
             isProtect = "🔒 Protected 🔒" if file.sender_chat.has_protected_content else "👀 Public 👀"
+            if file.sender_chat:
+                return await data.edit(
+                                      f"[Open Chat]({url})\n\n"
+                                      f"**ABOUT CHAT ↓**\n"
+                                      f"Chat Type   : {file.chat.type}\n"
+                                      f"Chat Name : {file.sender_chat.title}\n"
+                                      f"Chat Usr    : @{file.sender_chat.username}\n"
+                                      f"Chat ID        : {file.sender_chat.id}\n"
+                                      f"Date : {file.date}\n\n"
+                                      f"**ABOUT MEDIA ↓**\n"
+                                      f"Media       : {file.media}\n"
+                                      f"File Name : {file.document.file_name}\n"
+                                      f"File Size   : {await gSF(file.document.file_size)}\n\n" + 
+                                      f"File Type : {isProtect}",
+                                      reply_markup = reply_markup if file.document.file_name[-4:] == ".pdf" else None,
+                                      disable_web_page_preview = True
+                                      )
             return await data.edit(
                                   f"[Open Chat]({url})\n\n"
                                   f"**ABOUT CHAT ↓**\n"
                                   f"Chat Type   : {file.chat.type}\n"
-                                  f"Chat Name : {file.sender_chat.title}\n"
-                                  f"Chat Usr    : @{file.sender_chat.username}\n"
-                                  f"Chat ID        : {file.sender_chat.id}\n"
+                                  f"Chat Name : {file.chat.title}\n"
+                                  f"Chat Usr    : @{file.chat.username}\n"
+                                  f"Chat ID        : {file.chat.id}\n"
                                   f"Date : {file.date}\n\n"
                                   f"**ABOUT MEDIA ↓**\n"
                                   f"Media       : {file.media}\n"
                                   f"File Name : {file.document.file_name}\n"
-                                  f"File Size   : {await gSF(file.document.file_size)}\n\n" + 
+                                  f"File Size   : {await gSF(file.document.file_size)}\n\n"
                                   f"File Type : {isProtect}",
-                                  reply_markup=reply_markup if file.document.file_name[-4:]==".pdf" else None,
-                                  disable_web_page_preview=True
+                                  reply_markup = reply_markup if file.document.file_name[-4:] == ".pdf" else None,
+                                  disable_web_page_preview = True
                                   )
+            
         return await data.edit(
                               "Please Send Me A Direct Telegram PDF Url"
                               )
