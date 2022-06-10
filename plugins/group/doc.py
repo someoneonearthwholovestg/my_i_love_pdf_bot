@@ -1,4 +1,4 @@
-# fileName : plugins/group/analyse.py
+# fileName : plugins/group/doc.py
 # copyright ©️ 2021 nabilanavab
 
 # LOGGING INFO: DEBUG
@@ -95,6 +95,8 @@ Due To The Huge Traffic Only Channel Members Can Use this Bot 🚶
 This Means You Need To Join The Below Mentioned Channel for Using Me!
 
 hit on "retry ♻️" after joining.. 😅"""
+
+foolRefresh = "വിളച്ചിലെടുക്കല്ലേ കേട്ടോ 😐"
 
 #--------------->
 #--------> PDF REPLY BUTTON
@@ -200,7 +202,7 @@ async def documents(bot, message):
                                                            url = invite_link.invite_link)
                                          ],[
                                                InlineKeyboardButton("Refresh ♻️",
-                                                    callback_data = "refreshDoc")
+                                                    callback_data = "refreshAnalyse")
                                          ]]
                                     ))
         
@@ -212,8 +214,9 @@ async def documents(bot, message):
                                                        quote = True,
                                                        reply_markup = InlineKeyboardMarkup(
                                                              [[
-                                                                 InlineKeyboardButton("♻️ Try Again ♻️",
-                                                                 callback_data="asnewDoc")
+                                                                 InlineKeyboardButton(
+                                                                          "♻️ Try Again ♻️",
+                                                                 callback_data = "newGrupDoc")
                                                              ]]
                                                        ))
         
@@ -479,7 +482,64 @@ async def documents(bot, message):
                 pass
     except Exception as e:
         logger.exception(
+                        "»»GROUP:DOC:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
+
+newGrupDoc = filters.create(lambda _, __, query: query.data == "newGrupDoc")
+refreshAnalyse = filters.create(lambda _, __, query: query.data == "refreshAnalyse")
+
+@ILovePDF.on_callback_query(refreshAnalyse)
+async def _refreshGrup(bot, callbackQuery):
+    try:
+        if callbackQuery.from_user.id != callbackQuery.message.reply_to_message.from_user.id:
+            return await callbackQuery.answer("Message Not For You.. 😏")
+        
+        # CHECK USER IN CHANNEL (REFRESH CALLBACK)
+        userStatus = await bot.get_chat_member(
+                                              str(UPDATE_CHANNEL),
+                                              callbackQuery.from_user.id
+                                              )
+        await callbackQuery.answer()
+        # IF USER NOT MEMBER (ERROR FROM TG, EXECUTE EXCEPTION)
+        if callbackQuery.data == "refreshAnalyse":
+            messageId = callbackQuery.message.reply_to_message
+            await callbackQuery.message.delete()
+            return await analyse(bot, messageId)
+    except Exception as e:
+        try:
+            logger.exception(
                         "»»GROUP:DOCUMENTS:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
+            # IF NOT USER ALERT MESSAGE (AFTER CALLBACK)
+            await bot.answer_callback_query(
+                                           callbackQuery.id,
+                                           text = foolRefresh,
+                                           show_alert = True,
+                                           cache_time = 0
+                                           )
+        except Exception: pass
+
+@ILovePDF.on_callback_query(newGrupDoc)
+async def _asDoc(bot, callbackQuery):
+    try:
+        if callbackQuery.from_user.id in PROCESS:
+            return await callbackQuery.answer(
+                                             "WORK IN PROGRESS..🙇"
+                                             )
+        await callbackQuery.answer(
+                                  "⚙️ PROCESSING.."
+                                  )
+        if await header(bot, callbackQuery):
+            return
+        await callbackQuery.message.delete()
+        await documents(
+                       bot, callbackQuery.message.reply_to_message
+                       )
+    except Exception:
+        logger.exception(
+                        "»»GROUP:DOC:CAUSES %(e)s ERROR",
                         exc_info=True
                         )
 
