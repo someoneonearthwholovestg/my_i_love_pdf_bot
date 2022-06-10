@@ -86,8 +86,8 @@ async def _url(bot, message):
             except Exception as e:
                 return await data.edit(
                                       "🐉 SOMETHING WENT WRONG 🐉\n\n"
-                                      f"ERROR: `{e}`\n"
-                                      "NB: In Groups, Bots Can Only fetch documents Send After Joining Group",
+                                      f"ERROR: `{e}`\n\n"
+                                      "NB: In Groups, Bots Can Only fetch documents Send After Joining Group =)",
                                       reply_markup = InlineKeyboardMarkup(
                                            [[
                                                  InlineKeyboardButton("🚫 Close 🚫",
@@ -171,7 +171,9 @@ async def _getFile(bot, callbackQuery):
                                      message_ids = message_ids
                                      )
         # if not a protected channel/group [just forward]
-        if not file.sender_chat.has_protected_content:
+        if not (
+               (file.sender_chat and file.sender_chat.has_protected_content) or (
+               file.chat and file.chat.has_protected_content)):
             PROCESS.remove(callbackQuery.from_user.id)
             return await file.copy(
                                   chat_id = callbackQuery.message.chat.id,
