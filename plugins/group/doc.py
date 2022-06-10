@@ -127,7 +127,7 @@ pdfReply = InlineKeyboardMarkup(
             InlineKeyboardButton("✂️ SPLIT ✂️",
                                callback_data="split"),
             InlineKeyboardButton("🧬 MERGE 🧬",
-                               callback_data="merge")
+                               callback_data="underDev")
         ],[
             InlineKeyboardButton("™️ STAMP ™️",
                                callback_data="stamp"),
