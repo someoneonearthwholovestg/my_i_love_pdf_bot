@@ -739,9 +739,8 @@ async def _closeALL(bot, callbackQuery):
         if await header(bot, callbackQuery):
             return
         await callbackQuery.message.delete()
-        if callbackQuery.message.chat.type != "private":
-            return
-        await callbackQuery.message.reply_to_message.delete()
+        if callbackQuery.message.chat.type == "private":
+            await callbackQuery.message.reply_to_message.delete()
     except Exception as e:
         logger.exception(
                         "CB/21:CAUSES %(e)s ERROR",
