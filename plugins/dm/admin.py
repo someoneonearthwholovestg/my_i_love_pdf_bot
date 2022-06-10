@@ -341,7 +341,7 @@ async def _message(bot, message):
 async def server(bot, message):
     try:
         total, used, free = shutil.disk_usage(".")
-        total = await gSF(total);used=await gSF(used); free=await gSF(free)
+        total = await gSF(total); used = await gSF(used); free = await gSF(free)
         cpu_usage = psutil.cpu_percent()
         ram_usage = psutil.virtual_memory().percent
         disk_usage = psutil.disk_usage('/').percent
