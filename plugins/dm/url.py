@@ -95,9 +95,9 @@ async def _url(bot, message):
                                            ]]
                                       ))
             await sleep(1)
+            logger.debug(file)
             isProtect = "🔒 Protected 🔒" if (
                                  file.sender_chat.has_protected_content or file.chat.has_protected_content) else "👀 Public 👀"
-            logger.debug(file)
             if file.chat.type == "channel":
                 return await data.edit(
                                       f"[Open Chat]({url})\n\n"
