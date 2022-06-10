@@ -113,7 +113,7 @@ async def _url(bot, message):
                                       disable_web_page_preview = True
                                       )
             return await data.edit(
-                                  f"[Open Chat]({url})\n\n"
+                                  f"[Open Chat]({url})\n\n "
                                   f"**ABOUT CHAT ↓**\n"
                                   f"Chat Type   : {file.chat.type}\n"
                                   f"Chat Name : {file.chat.title}\n"
