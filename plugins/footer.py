@@ -25,7 +25,7 @@ ONLY_GROUP_ADMIN = groupConfig.ONLY_GROUP_ADMIN
 async def header(bot, callbackQuery):
     # callBack Message delete if User Deletes pdf
     try:
-        fileExist = callbackQuery.message.reply_to_message.document.file_name
+        fileExist = callbackQuery.message.reply_to_message
         
         if callbackQuery.message.chat.type != "private":
             if callbackQuery.from_user.id != callbackQuery.message.reply_to_message.from_user.id:
