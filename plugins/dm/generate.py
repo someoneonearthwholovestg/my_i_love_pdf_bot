@@ -15,11 +15,14 @@ import os
 import shutil
 import asyncio
 from pdf import PDF
+from .url import getPDF
+from pyromod import listen
 from pyrogram import filters
 from plugins.thumbName import (
                               thumbName,
                               formatThumb
                               )
+from pyrogram.types import ForceReply
 from pyrogram import Client as ILovePDF
 from configs.images import PDF_THUMBNAIL
 from plugins.footer import footer, header
@@ -119,4 +122,107 @@ async def generate(bot, message):
         except Exception:
             pass
 
-#                                                                                  Telegram: @nabilanavab
+
+GEN = filters.create(lambda _, __, query: query.data.startswith("generate"))
+
+@ILovePDF.on_callback_query(GEN)
+async def _GEN(bot, callbackQuery):
+    try:
+        chat_id = callbackQuery.from_user.id
+        
+        images = PDF.get(chat_id)
+        if isinstance(images, list):
+            pgnmbr = len(PDF[chat_id])
+            del PDF[chat_id]
+        
+        if not images :
+            return await callbackQuery.answer(
+                                             "No image founded.!! 😒"
+                                             )
+        await callbackQuery.answer()
+        
+        if callbackQuery.data[-3:].lower() == "REN":
+            fileName = await bot.ask(
+                                    chat_id = chat_id,
+                                    reply_to_message_id = message_id,
+                                    text = f"Now Send Me a New File Name 😒: ",
+                                    reply_markup = ForceReply(True)
+                                    )
+            if (not fileName.text) or len(fileName.text)>50:
+                fileName = f"{chat_id}.pdf"
+            else:
+                if fileName.text[-4:] != ".pdf":
+                    fileName = fileName.text + ".pdf"
+                else:
+                    fileName = fileName.text
+        else:
+            fileName = f"{chat_id}.pdf"
+        
+        await callbackQuery.edit_message_reply_markup(
+              InlineKeyboardMarkup(
+                                  [[
+                                      InlineKeyboardButton(
+                                                          "📚 GENERATING PDF..",
+                                                          callback_data = "nabilanavab")
+                                  ]]
+        ))
+        filePath = f"{message.chat.id}/{message.chat.id}.pdf"
+        images[0].save(
+                      filePath,
+                      save_all = True,
+                      append_images = images[1:]
+                      )
+        
+        # Getting thumbnail
+        thumbnail, fileName = await thumbName(message, fileName)
+        if PDF_THUMBNAIL != thumbnail:
+            location = await bot.download_media(
+                                    message = thumbnail,
+                                    file_name = f"{message.message_id}.jpeg"
+                                    )
+            thumbnail = await formatThumb(location)
+        
+        await callbackQuery.edit_message_reply_markup(
+              InlineKeyboardMarkup(
+                                  [[
+                                      InlineKeyboardButton(
+                                                          "📤 ..UPLOADING..  📤",
+                                                          callback_data = "nabilanavab")
+                                  ]]
+        ))
+        await callbackQuery.message.reply_chat_action(
+                                                     "upload_document"
+                                                     )
+        logFile = await callbackQuery.message.reply_document(
+                                                            document = filePath,
+                                                            caption = file.caption,
+                                                            progress = getPDF,
+                                                            progress_args = (
+                                                                            callbackQuery.message, 0, 
+                                                                            "UPLOADED"
+                                                                            )
+                                                            )
+        await callbackQuery.edit_message_reply_markup(
+              InlineKeyboardMarkup(
+                                  [[
+                                      InlineKeyboardButton(
+                                                          "🧭 SOURCE CODE 🧭",
+                                                    url = "https://github.com/nabilanavab/ILovePDF")
+                                  ]]
+        ))
+        shutil.rmtree(f"{chat_id}")
+        try:
+            os.remove(location)
+        except Exception: pass
+        await footer(message, logFile)
+    except Exception as e:
+        logger.exception(
+                        "GENERATE/CALLBACK:CAUSES %s ERROR" %e,
+                        exc_info=True
+                        )
+        try:
+            shutil.rmtree(f"{chat_id}")
+        except Exception:
+            pass
+
+#                                                                                 Telegram: @nabilanavab
