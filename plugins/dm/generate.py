@@ -198,6 +198,7 @@ async def _GEN(bot, callbackQuery):
                                                             caption = f"file Name: `{fileName}`\n"
                                                                       f"`Total pg's: {pgnmbr}`",
                                                             progress = getPDF,
+                                                            thumb = thumbnail,
                                                             progress_args = (
                                                                             callbackQuery.message, 0, 
                                                                             "UPLOADED"
