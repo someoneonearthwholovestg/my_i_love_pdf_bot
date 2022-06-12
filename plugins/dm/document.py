@@ -20,7 +20,6 @@ from time import sleep
 from pdf import PROCESS
 from pyrogram import filters
 from configs.dm import Config
-from .photo import generateMSG
 from pdf import PDF, invite_link
 from plugins.thumbName import (
                               thumbName,
@@ -254,14 +253,6 @@ async def documents(bot, message):
                                                                            ]]
                                                        )
                                         )
-                if generateMSG.get(message.chat.id, False):
-                    await bot.edit_message_reply_markup(
-                                                       chat_id = message.chat.id,
-                                                       message_id = generateMSG.get(message.chat.id),
-                                                       reply_markup = None
-                                                       )
-                generateMSG[message.chat.id] = imageReply.message_id
-    
             except Exception as e:
                 await imageDocReply.edit(
                                         errorEditMsg.format(e)
