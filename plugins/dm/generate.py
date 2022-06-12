@@ -26,7 +26,7 @@ from pyrogram.types import ForceReply
 from pyrogram import Client as ILovePDF
 from configs.images import PDF_THUMBNAIL
 from plugins.footer import footer, header
-
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 #--------------->
 #--------> REPLY TO /generate MESSAGE
 #------------------->
@@ -195,7 +195,8 @@ async def _GEN(bot, callbackQuery):
                                                      )
         logFile = await callbackQuery.message.reply_document(
                                                             document = filePath,
-                                                            caption = file.caption,
+                                                            caption = f"file Name: `{fileName}`\n"
+                                                                      f"`Total pg's: {pgnmbr}`",
                                                             progress = getPDF,
                                                             progress_args = (
                                                                             callbackQuery.message, 0, 
