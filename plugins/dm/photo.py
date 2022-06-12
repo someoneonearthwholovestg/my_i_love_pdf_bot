@@ -23,9 +23,6 @@ from configs.images import WELCOME_PIC, BANNED_PIC
 
 UPDATE_CHANNEL = Config.UPDATE_CHANNEL
 
-# last send image-added message edit
-generateMSG = {}
-
 #--------------->
 #--------> LOCAL VARIABLES
 #------------------->
@@ -128,13 +125,6 @@ async def images(bot, message):
                                                                 ]]
                                             )
                              )
-        if generateMSG.get(message.chat.id, False):
-            await bot.edit_message_reply_markup(
-                                               chat_id = message.chat.id,
-                                               message_id = generateMSG.get(message.chat.id),
-                                               reply_markup = None
-                                               )
-        generateMSG[message.chat.id] = imageReply.message_id
     
     except Exception as e:
         logger.exception(
