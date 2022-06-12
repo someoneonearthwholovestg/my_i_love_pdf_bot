@@ -144,7 +144,7 @@ async def _GEN(bot, callbackQuery):
         if callbackQuery.data[-3:] == "REN":
             fileName = await bot.ask(
                                     chat_id = chat_id,
-                                    reply_to_message_id = message_id,
+                                    reply_to_message_id = callbackQuery.message.message_id,
                                     text = f"Now Send Me a New File Name 😒: ",
                                     reply_markup = ForceReply(True)
                                     )
