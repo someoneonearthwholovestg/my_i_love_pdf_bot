@@ -240,7 +240,7 @@ async def documents(bot, message):
                                                          len(PDF[message.from_user.id]),
                                                          message.from_user.id
                                                          ),
-                                        reply_markup = InlineKeyboardButton(
+                                        reply_markup = InlineKeyboardMarkup(
                                                                            [[
                                                                                InlineKeyboardButton(
                                                                                                    "GENERATE 📚",
