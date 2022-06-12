@@ -11,14 +11,20 @@ logging.basicConfig(
 
 import os
 from PIL import Image
+from pyrogram.types import (
+                           InlineKeyboardButton,
+                           InlineKeyboardMarkup
+                           )
 from pyrogram import filters
 from configs.dm import Config
 from pdf import PDF, invite_link
 from pyrogram import Client as ILovePDF
 from configs.images import WELCOME_PIC, BANNED_PIC
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 UPDATE_CHANNEL = Config.UPDATE_CHANNEL
+
+# last send image-added message edit
+generateMSG = {}
 
 #--------------->
 #--------> LOCAL VARIABLES
@@ -26,7 +32,7 @@ UPDATE_CHANNEL = Config.UPDATE_CHANNEL
 
 imageAdded = """`Added {} page/'s to your pdf..`🤓
 
-/generate to generate PDF 🤞"""
+fileName: `{}.pdf` 🤞"""
 
 forceSubMsg = """Wait [{}](tg://user?id={})..!!
 
@@ -64,8 +70,13 @@ async def images(bot, message):
                                                      caption = "For Some Reason You Can't Use This Bot"
                                                                "\n\nContact Bot Owner 🤐",
                                                      reply_markup = InlineKeyboardMarkup(
-                                                            [[InlineKeyboardButton("Owner 🎊", url="https://t.me/nabilanavab")]]
-                                                     ))
+                                                                          [[
+                                                                                 InlineKeyboardButton(
+                                                                                                     "Owner 🎊",
+                                                                                 url="https://t.me/nabilanavab")
+                                                                          ]]
+                                                                    )
+                                                     )
             except Exception:
                 if invite_link == None:
                     invite_link = await bot.create_chat_invite_link(
@@ -101,13 +112,34 @@ async def images(bot, message):
         PDF[message.chat.id].append(img)
         await imageReply.edit(
                              imageAdded.format(
-                                              len(PDF[message.chat.id])
-                                              )
-        )
+                                              len(PDF[message.chat.id]),
+                                              message.chat.id
+                                              ),
+                             reply_markup = InlineKeyboardMarkup(
+                                                                [[
+                                                                    InlineKeyboardButton(
+                                                                                        "GENERATE 📚",
+                                                                                        callback_data="generate"
+                                                                                        ),
+                                                                    InlineKeyboardButton(
+                                                                                        "RENAME ✍️",
+                                                                                        callback_data="generateREN"
+                                                                                        )
+                                                                ]]
+                                            )
+                             )
+        if generateMSG.get(message.chat.id, False):
+            await bot.edit_message_reply_markup(
+                                               chat_id = message.chat.id,
+                                               message_id = generateMSG.get(message.chat.id),
+                                               reply_markup = None
+                                               )
+        generateMSG[message.chat.id] = imageReply.message_id
+    
     except Exception as e:
         logger.exception(
                         "PHOTO:CAUSES %(e)s ERROR",
                         exc_info=True
                         )
 
-#                                                                                  Telegram: @nabilanavab
+#                                                                                              Telegram: @nabilanavab
