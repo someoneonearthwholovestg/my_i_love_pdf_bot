@@ -240,7 +240,7 @@ async def documents(bot, message):
                                         imageAdded.format(
                                                          len(PDF[message.from_user.id]),
                                                          message.from_user.id
-                                                         )
+                                                         ),
                                         reply_markup = InlineKeyboardButton(
                                                                            [[
                                                                                InlineKeyboardButton(
