@@ -141,7 +141,7 @@ async def _GEN(bot, callbackQuery):
                                              )
         await callbackQuery.answer()
         
-        if callbackQuery.data[-3:].lower() == "REN":
+        if callbackQuery.data[-3:] == "REN":
             fileName = await bot.ask(
                                     chat_id = chat_id,
                                     reply_to_message_id = message_id,
@@ -151,7 +151,7 @@ async def _GEN(bot, callbackQuery):
             if (not fileName.text) or len(fileName.text)>50:
                 fileName = f"{chat_id}.pdf"
             else:
-                if fileName.text[-4:] != ".pdf":
+                if fileName.text[-4:].lower() != ".pdf":
                     fileName = fileName.text + ".pdf"
                 else:
                     fileName = fileName.text
