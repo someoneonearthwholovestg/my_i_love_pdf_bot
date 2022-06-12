@@ -166,7 +166,7 @@ async def _GEN(bot, callbackQuery):
                                                           callback_data = "nabilanavab")
                                   ]]
         ))
-        filePath = f"{message.chat.id}/{message.chat.id}.pdf"
+        filePath = f"{chat_id}/{callbackQuery.message.message_id}.pdf"
         images[0].save(
                       filePath,
                       save_all = True,
