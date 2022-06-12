@@ -174,11 +174,11 @@ async def _GEN(bot, callbackQuery):
                       )
         
         # Getting thumbnail
-        thumbnail, fileName = await thumbName(message, fileName)
+        thumbnail, fileName = await thumbName(callbackQuery.message, fileName)
         if PDF_THUMBNAIL != thumbnail:
             location = await bot.download_media(
                                     message = thumbnail,
-                                    file_name = f"{message.message_id}.jpeg"
+                                    file_name = f"{callbackQuery.message.message_id}.jpeg"
                                     )
             thumbnail = await formatThumb(location)
         
