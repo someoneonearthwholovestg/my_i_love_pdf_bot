@@ -215,7 +215,7 @@ async def _GEN(bot, callbackQuery):
         try:
             os.remove(location)
         except Exception: pass
-        await footer(message, logFile)
+        await footer(callbackQuery.message, logFile)
     except Exception as e:
         logger.exception(
                         "GENERATE/CALLBACK:CAUSES %s ERROR" %e,
