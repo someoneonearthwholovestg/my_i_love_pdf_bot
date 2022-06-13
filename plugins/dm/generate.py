@@ -158,7 +158,8 @@ async def _GEN(bot, callbackQuery):
         else:
             fileName = f"{chat_id}.pdf"
         
-        await callbackQuery.edit_message_reply_markup(
+        gen = await callbackQuery.message.reply_text(
+              f"FILE NAME: `{fileName}`\nPAGES: `{pgnmbr}`",
               InlineKeyboardMarkup(
                                   [[
                                       InlineKeyboardButton(
@@ -182,7 +183,7 @@ async def _GEN(bot, callbackQuery):
                                     )
             thumbnail = await formatThumb(location)
         
-        await callbackQuery.edit_message_reply_markup(
+        await gen.edit_reply_markup(
               InlineKeyboardMarkup(
                                   [[
                                       InlineKeyboardButton(
@@ -201,11 +202,11 @@ async def _GEN(bot, callbackQuery):
                                                             file_name = fileName,
                                                             thumb = thumbnail,
                                                             progress_args = (
-                                                                            callbackQuery.message, 0, 
+                                                                            gen, 0, 
                                                                             "UPLOADED"
                                                                             )
                                                             )
-        await callbackQuery.edit_message_reply_markup(
+        await gen.edit_reply_markup(
               InlineKeyboardMarkup(
                                   [[
                                       InlineKeyboardButton(
