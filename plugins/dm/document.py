@@ -274,7 +274,7 @@ async def documents(bot, message):
                                ),
                                reply_markup = pdfReply
                                )
-            await footer(message, message.document)
+            await footer(message, message)
         
         # FILES TO PDF (PYMUPDF/FITZ)
         elif fileExt.lower() in suprtedPdfFile:
