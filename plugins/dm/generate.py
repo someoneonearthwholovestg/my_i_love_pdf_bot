@@ -158,14 +158,16 @@ async def _GEN(bot, callbackQuery):
             fileName = f"{chat_id}.pdf"
         
         gen = await callbackQuery.message.reply_text(
-              f"FILE NAME: `{fileName}`\nPAGES: `{pgnmbr}`",
+              f"File Name: `{fileName}`\nPages: `{pgnmbr}`",
               reply_markup = InlineKeyboardMarkup(
                                   [[
                                       InlineKeyboardButton(
                                                           "📚 GENERATING PDF..",
                                                           callback_data = "nabilanavab")
                                   ]]
-        ))
+             ),
+             quote = False
+             )
         filePath = f"{chat_id}/{callbackQuery.message.message_id}.pdf"
         images[0].save(
                       filePath,
