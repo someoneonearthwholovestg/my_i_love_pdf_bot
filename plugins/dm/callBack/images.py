@@ -80,7 +80,7 @@ async def _EXTRACT(bot, callbackQuery):
         if await header(bot, callbackQuery):
             return
         
-        chat_id = callbackQuery.message.from_user.id
+        chat_id = callbackQuery.from_user.id
         message_id = callbackQuery.message.message_id
         
         if chat_id in PROCESS:
@@ -567,7 +567,7 @@ async def _KEXTRACT(bot, callbackQuery):
         if await header(bot, callbackQuery):
             return
         
-        chat_id = callbackQuery.message.from_user.id
+        chat_id = callbackQuery.from_user.id
         message_id = callbackQuery.message.message_id
         
         if chat_id in PROCESS:
