@@ -219,7 +219,7 @@ async def _getFile(bot, callbackQuery):
                                   ]]
         ))
         PROCESS.remove(callbackQuery.from_user.id)
-        footer(callbackQuery.message, logFile)
+        await footer(callbackQuery.message, logFile)
         os.remove(location)
     except Exception as e:
         PROCESS.remove(callbackQuery.from_user.id); os.remove(location)
