@@ -122,7 +122,6 @@ async def generate(bot, message):
         except Exception:
             pass
 
-
 GEN = filters.create(lambda _, __, query: query.data.startswith("generate"))
 
 @ILovePDF.on_callback_query(GEN)
@@ -160,7 +159,7 @@ async def _GEN(bot, callbackQuery):
         
         gen = await callbackQuery.message.reply_text(
               f"FILE NAME: `{fileName}`\nPAGES: `{pgnmbr}`",
-              InlineKeyboardMarkup(
+              reply_markup = InlineKeyboardMarkup(
                                   [[
                                       InlineKeyboardButton(
                                                           "📚 GENERATING PDF..",
