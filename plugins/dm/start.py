@@ -46,28 +46,21 @@ This Means You Need To Join The Below Mentioned Channel for Using Me!
 
 Hit on `"♻️retry♻️"` after joining.. 😅"""
 
-helpMessage = """Hey  [{}](tg://user?id={}).! this is a HELP MESSAGE:
-__Ones the Bot was developed for Creating PDF's from Telegram Images
-Now, This Bot Support Hundreds of Other PDF Manipulation.. 🦥
-Some of the main features are:__
+helpMessage = """Hey  [{}](tg://user?id={}).!
+Some of the main features are:
 
 - Images to PDF:
-    Images to PDF, [JPEG, png, JPG] files to PDF,
-Rename PDF at the Time Of Creation, Rename By Name
+    Images to PDF, [JPEG, png, JPG] files to PDF, Rename PDF at the Time Of Creation, Rename By Name
 
 - PDF Manipulation:
-    PDF to Images, PDF to JPEG, Fetch metaData, Merge Multiple PDF's,
-Split PDF's to parts, PDF to (messages, text, html, json),
-Zip / Rar PDF pages, Encrypt/Decrypt PDF, Add Stamps, OCR PDF,
-A4 Fotmatter, text to PDF, Get PDF Preview, Fetch Data From Protected Channels & Groups
+    PDF to Images, PDF to JPEG, Fetch metaData, Merge Multiple PDF's, Split PDF's to parts, PDF to (messages, text, html, json), Zip / Rar PDF pages, Encrypt/Decrypt PDF, Add Stamps, OCR PDF, A4 Fotmatter, text to PDF, Get PDF Preview, Fetch Data From Protected Channels & Groups
 
 - Convert Different Codecs to PDF
     ~ .epub, .fb2, .cbz, etc [with no limits]
     ~ 45 Other Codecs by Using convertAPI [linmited]
 
 ⚠️ WARNING ⚠️
-◍ This Bot is Completely Free to Use. So, please dont spam here.
-Spamming is strictly prohibited and leads to permanent ban.🚶
+◍ This Bot is Completely Free to Use. So, please dont spam here. Spamming is strictly prohibited and leads to permanent ban.🚶
 """
 
 foolRefresh = "വിളച്ചിലെടുക്കല്ലേ കേട്ടോ 😐"
