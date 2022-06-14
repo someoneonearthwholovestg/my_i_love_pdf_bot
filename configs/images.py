@@ -18,19 +18,19 @@ PDF_THUMBNAIL = "./IMAGES/thumbnail.jpeg"
 # ❌ WELCOME IMAGE ❌ [EDITABLE]
 # from Configs.images import WELCOME_PIC
 # WELCOME_IMAGE="./images/start.jpeg"
-WELCOME_PIC = "https://te.legra.ph/file/abe093fdc0375315b043b.jpg"
+WELCOME_PIC = "https://te.legra.ph/file/8dfa3760df91a218a629c.jpg"
 
 
 # ❌ BANNED IMAGE ❌ [EDITABLE]
 # from Configs.images import BANNED_PIC
 # BANNED_MESSAGE="./images/banned.jpeg"
-BANNED_PIC = "https://te.legra.ph/file/abe093fdc0375315b043b.jpg"
+BANNED_PIC = "https://te.legra.ph/file/8dfa3760df91a218a629c.jpg"
 
 
 # ❌ BIG FILE ❌ [EDITABLE]
 # from Configs.images import BIG_FILE
 #  = "./images/bigFile.jpeg"
-BIG_FILE = "https://te.legra.ph/file/abe093fdc0375315b043b.jpg"
+BIG_FILE = "https://te.legra.ph/file/8dfa3760df91a218a629c.jpg"
 
 
 # ❌ Load UsersId with custom thumbnail ❌
