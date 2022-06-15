@@ -207,14 +207,7 @@ async def _GEN(bot, callbackQuery):
                                                                             "UPLOADED"
                                                                             )
                                                             )
-        await gen.edit_reply_markup(
-              InlineKeyboardMarkup(
-                                  [[
-                                      InlineKeyboardButton(
-                                                          "🧭 SOURCE CODE 🧭",
-                                                    url = "https://github.com/nabilanavab/ILovePDF")
-                                  ]]
-        ))
+        await gen.delete()
         shutil.rmtree(f"{chat_id}")
         try:
             os.remove(location)
