@@ -13,6 +13,7 @@ import os
 from pdf import PROCESS
 from asyncio import sleep
 from pyrogram import filters
+from configs.dm import Config
 from plugins.thumbName import (
                               thumbName,
                               formatThumb
@@ -28,6 +29,14 @@ reply_markup = InlineKeyboardMarkup(
                                              callback_data = "getFile")
                      ]]
                )
+
+
+if Config.MAX_FILE_SIZE:
+    MAX_FILE_SIZE = int(os.getenv("MAX_FILE_SIZE"))
+    MAX_FILE_SIZE_IN_kiB = MAX_FILE_SIZE * (10 **6 )
+else:
+    MAX_FILE_SIZE = False
+
 
 # url Example: https://t.me/channel/message
 #              https://t.me/nabilanavab/1
@@ -146,6 +155,10 @@ getFile = filters.create(lambda _, __, query: query.data == "getFile")
 @ILovePDF.on_callback_query(getFile)
 async def _getFile(bot, callbackQuery):
     try:
+        # REPLY TO LAGE FILES/DOCUMENTS
+        if MAX_FILE_SIZE and fileSize >= int(MAX_FILE_SIZE_IN_kiB):
+            return await callbackQuery.answer("Big File.. 🏃")
+        
         if callbackQuery.from_user.id in PROCESS:
             return await callbackQuery.answer(
                                              "Work in progress.. 🙇"
