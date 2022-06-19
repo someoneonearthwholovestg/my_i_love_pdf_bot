@@ -63,7 +63,6 @@ async def thumbName(message, fileName):
     try:
         chat_type = message.chat.type
         fileNm, fileExt = os.path.splitext(fileName)
-        logger.debug(DEFAULT_NAME)
         if changeNAME:
             SET_DEFAULT_NAME = str(DEFAULT_NAME) + str(fileExt)
         
