@@ -63,8 +63,9 @@ async def thumbName(message, fileName):
     try:
         chat_type = message.chat.type
         fileNm, fileExt = os.path.splitext(fileName)
+        logger.debug(DEFAULT_NAME)
         if changeNAME:
-            DEFAULT_NAME = DEFAULT_NAME + fileExt
+            DEFAULT_NAME = str(DEFAULT_NAME) + str(fileExt)
         
         # if no mongoDB return False [default thumbnail ]
         if not isMONGOexist:
