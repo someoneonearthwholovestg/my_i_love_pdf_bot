@@ -65,13 +65,13 @@ async def thumbName(message, fileName):
         fileNm, fileExt = os.path.splitext(fileName)
         logger.debug(DEFAULT_NAME)
         if changeNAME:
-            DEFAULT_NAME = str(DEFAULT_NAME) + str(fileExt)
+            SET_DEFAULT_NAME = str(DEFAULT_NAME) + str(fileExt)
         
         # if no mongoDB return False [default thumbnail ]
         if not isMONGOexist:
             # id no DEFAULT_NAME, use current file name 
             if changeNAME:
-                return PDF_THUMBNAIL, DEFAULT_NAME
+                return PDF_THUMBNAIL, SET_DEFAULT_NAME
             else:
                 return PDF_THUMBNAIL, fileName
         
@@ -84,7 +84,7 @@ async def thumbName(message, fileName):
             thumbnail = PDF_THUMBNAIL
         
         if changeNAME:
-            return thumbnail, DEFAULT_NAME
+            return thumbnail, SET_DEFAULT_NAME
         else:
             return thumbnail, fileName
     
