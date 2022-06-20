@@ -76,7 +76,7 @@ pyTgLovePDF = AsyncTeleBot(
                            Config.API_TOKEN,
                            parse_mode = "Markdown"
                            )
-asyncio.run(pyTgLovePDF())
+asyncio.run(pyTgLovePDF)
 
 
 # PYROGRAM
