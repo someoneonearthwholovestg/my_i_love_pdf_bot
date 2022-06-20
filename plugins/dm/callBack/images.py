@@ -367,8 +367,7 @@ async def _EXTRACT(bot, callbackQuery):
                                                               chat_id,
                                                               media[chat_id]
                                                               )
-                        except FloodWait as e:
-                            await asyncio.sleep(e)
+                        except Exception as e:
                             await pyTgLovePDF.send_media_group(
                                                               chat_id,
                                                               media[chat_id]
@@ -390,8 +389,7 @@ async def _EXTRACT(bot, callbackQuery):
                                                               chat_id,
                                                               mediaDoc[chat_id]
                                                               )
-                        except FloodWait as e:
-                            await asyncio.sleep(e)
+                        except Exception as e:
                             await pyTgLovePDF.send_media_group(
                                                               chat_id,
                                                               mediaDoc[chat_id]
@@ -515,8 +513,7 @@ async def _EXTRACT(bot, callbackQuery):
                                                               chat_id,
                                                               media[chat_id]
                                                               )
-                        except FloodWait as e:
-                            await asyncio.sleep(e)
+                        except Exception as e:
                             await pyTgLovePDF.send_media_group(
                                                               chat_id,
                                                               media[chat_id]
@@ -536,8 +533,7 @@ async def _EXTRACT(bot, callbackQuery):
                                                               chat_id,
                                                               mediaDoc[chat_id]
                                                               )
-                        except FloodWait as e:
-                            await asyncio.sleep(e)
+                        except Exception as e:
                             await pyTgLovePDF.send_media_group(
                                                               chat_id,
                                                               mediaDoc[chat_id]
@@ -823,8 +819,7 @@ async def _KEXTRACT(bot, callbackQuery):
                                                               chat_id,
                                                               media[chat_id]
                                                               )
-                        except FloodWait as e:
-                            await asyncio.sleep(e)
+                        except Exception as e:
                             await pyTgLovePDF.send_media_group(
                                                               chat_id,
                                                               media[chat_id]
@@ -845,8 +840,7 @@ async def _KEXTRACT(bot, callbackQuery):
                                                               chat_id,
                                                               mediaDoc[chat_id]
                                                               )
-                        except FloodWait as e:
-                            await asyncio.sleep(e)
+                        except Exception as e:
                             await pyTgLovePDF.send_media_group(
                                                               chat_id,
                                                               media[chat_id]
@@ -965,8 +959,7 @@ async def _KEXTRACT(bot, callbackQuery):
                                                               chat_id,
                                                               media[chat_id]
                                                               )
-                        except FloodWait as e:
-                            await asyncio.sleep(e)
+                        except Exception as e:
                             await pyTgLovePDF.send_media_group(
                                                               chat_id,
                                                               media[chat_id]
@@ -987,8 +980,7 @@ async def _KEXTRACT(bot, callbackQuery):
                                                               chat_id,
                                                               mediaDoc[chat_id]
                                                               )
-                        except FloodWait as e:
-                            await asyncio.sleep(e)
+                        except Exception as e:
                             await pyTgLovePDF.send_media_group(
                                                               chat_id,
                                                               mediaDoc[chat_id]
