@@ -39,7 +39,6 @@ iLovePDF = '''
 '''
 
 
-import telebot
 import asyncio
 import logging
 from pyromod import listen
@@ -63,9 +62,6 @@ logging.basicConfig(
                    )
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
 # SOMEONE TOLD ME PRO DEV. NEVER USE PRINT FOR TRACKING ERRORS. SO, import logging :|
-
-pyTgBOTlog = telebot.logger
-telebot.pyTgBOTlog.setLevel(logging.ERROR) # Outputs debug messages to console.
 
 # GLOBAL VARIABLES
 
