@@ -15,17 +15,16 @@ import time
 import shutil
 import asyncio
 from PIL import Image
-from pdf import PROCESS
 from pyromod import listen
 from pyrogram import filters
-from pyrogram.errors import FloodWait
+from pdf import PROCESS, pyTgLovePDF
 from plugins.checkPdf import checkPdf
 from plugins.progress import progress
 from pyrogram.types import ForceReply
 from pyrogram import Client as ILovePDF
 from plugins.footer import footer, header
 from plugins.fileSize import get_size_format as gSF
-from pyrogram.types import InputMediaPhoto, InputMediaDocument
+from telebot.types import InputMediaPhoto, InputMediaDocument
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 #--------------->
@@ -332,13 +331,9 @@ async def _EXTRACT(bot, callbackQuery):
                                 qualityRate -= 5; asyncio.sleep(1)
                             else:
                                 if data in ["IA", "IR"]:
-                                    media[chat_id].append(
-                                                         InputMediaPhoto(media = file)
-                                                         )
+                                    media[chat_id].append(InputMediaPhoto(file))
                                 else:
-                                    mediaDoc[chat_id].append(
-                                                            InputMediaDocument(media = file)
-                                                            )
+                                    mediaDoc[chat_id].append(InputMediaDocument(file))
                                 break
                     if await notInPROCESS(
                                          chat_id,
@@ -367,17 +362,17 @@ async def _EXTRACT(bot, callbackQuery):
                         await callbackQuery.message.reply_chat_action(
                                                                      "upload_photo"
                                                                      )
-                        for i in range(1,100):
-                            try:
-                                await callbackQuery.message.reply_media_group(
-                                                           media[chat_id]
-                                                           )
-                                break
-                            except FloodWait as e:
-                                await asyncio.sleep(e.x)
-                                await callbackQuery.message.reply_media_group(
-                                                               media[chat_id]
-                                                               )
+                        try:
+                            await pyTgLovePDF.send_media_group(
+                                                              chat_id,
+                                                              media[chat_id]
+                                                              )
+                        except FloodWait as e:
+                            await asyncio.sleep(e)
+                            await pyTgLovePDF.send_media_group(
+                                                              chat_id,
+                                                              media[chat_id]
+                                                              )
                     
                     if data in ["DA", "DR"]:
                         if chat_id not in PROCESS:
@@ -391,14 +386,16 @@ async def _EXTRACT(bot, callbackQuery):
                                                                      "upload_document"
                                                                      )
                         try:
-                            await callbackQuery.message.reply_media_group(
-                                                         mediaDoc[chat_id]
-                                                         )
+                            await pyTgLovePDF.send_media_group(
+                                                              chat_id,
+                                                              mediaDoc[chat_id]
+                                                              )
                         except FloodWait as e:
-                            await asyncio.sleep(e.x)
-                            await callbackQuery.message.reply_media_group(
-                                                         mediaDoc[chat_id]
-                                                         )
+                            await asyncio.sleep(e)
+                            await pyTgLovePDF.send_media_group(
+                                                              chat_id,
+                                                              mediaDoc[chat_id]
+                                                              )
                     shutil.rmtree(f'{message_id}/pgs')
                 PROCESS.remove(chat_id); doc.close()
                 await downloadMessage.edit(
@@ -514,14 +511,16 @@ async def _EXTRACT(bot, callbackQuery):
                                                                      "upload_photo"
                                                                      )
                         try:
-                            await callbackQuery.message.reply_media_group(
-                                                            media[chat_id]
-                                                            )
+                            await pyTgLovePDF.send_media_group(
+                                                              chat_id,
+                                                              media[chat_id]
+                                                              )
                         except FloodWait as e:
-                            await asyncio.sleep(e.x)
-                            await callbackQuery.message.reply_media_group(
-                                                            media[chat_id]
-                                                            )
+                            await asyncio.sleep(e)
+                            await pyTgLovePDF.send_media_group(
+                                                              chat_id,
+                                                              media[chat_id]
+                                                              )
                     if data == "DS":
                         if chat_id not in PROCESS:
                             try:
@@ -533,14 +532,16 @@ async def _EXTRACT(bot, callbackQuery):
                                                                      "upload_document"
                                                                      )
                         try:
-                            await callbackQuery.message.reply_media_group(
-                                                         mediaDoc[chat_id]
-                                                         )
+                            await pyTgLovePDF.send_media_group(
+                                                              chat_id,
+                                                              mediaDoc[chat_id]
+                                                              )
                         except FloodWait as e:
-                            await asyncio.sleep(e.x)
-                            await callbackQuery.message.reply_media_group(
-                                                         mediaDoc[chat_id]
-                                                         )
+                            await asyncio.sleep(e)
+                            await pyTgLovePDF.send_media_group(
+                                                              chat_id,
+                                                              mediaDoc[chat_id]
+                                                              )
                     shutil.rmtree(f'{message_id}/pgs')
                 PROCESS.remove(chat_id); doc.close()
                 await downloadMessage.edit(
@@ -798,13 +799,9 @@ async def _KEXTRACT(bot, callbackQuery):
                                 asyncio.sleep(1)
                             else:
                                 if data in ["KIA", "KIR"]:
-                                    media[chat_id].append(
-                                                         InputMediaPhoto(media = file)
-                                                         )
+                                    media[chat_id].append(InputMediaPhoto(file))
                                 else:
-                                    mediaDoc[chat_id].append(
-                                                            InputMediaDocument(media = file)
-                                                            )
+                                    mediaDoc[chat_id].append(InputMediaDocument(file))
                                 break
                     await downloadMessage.edit(
                                               text = f"`Uploading: {cnvrtpg}/{int(pageStartAndEnd[1])+1 - int(pageStartAndEnd[0])} pages.. 🐬`",
@@ -822,14 +819,16 @@ async def _KEXTRACT(bot, callbackQuery):
                                                                      "upload_photo"
                                                                      )
                         try:
-                            await callbackQuery.message.reply_media_group(
-                                                            media[chat_id]
-                                                            )
+                            await pyTgLovePDF.send_media_group(
+                                                              chat_id,
+                                                              media[chat_id]
+                                                              )
                         except FloodWait as e:
-                            await asyncio.sleep(e.x)
-                            await callbackQuery.message.reply_media_group(
-                                                            media[chat_id]
-                                                            )
+                            await asyncio.sleep(e)
+                            await pyTgLovePDF.send_media_group(
+                                                              chat_id,
+                                                              media[chat_id]
+                                                              )
                     if data in ["KDA", "KDR"]:
                         if chat_id not in PROCESS:
                             try:
@@ -842,14 +841,16 @@ async def _KEXTRACT(bot, callbackQuery):
                                                                      "upload_document"
                                                                      )
                         try:
-                            await callbackQuery.message.reply_media_group(
-                                                         mediaDoc[chat_id]
-                                                         )
+                            await pyTgLovePDF.send_media_group(
+                                                              chat_id,
+                                                              mediaDoc[chat_id]
+                                                              )
                         except FloodWait as e:
-                            await asyncio.sleep(e.x)
-                            await callbackQuery.message.reply_media_group(
-                                                         mediaDoc[chat_id]
-                                                         )
+                            await asyncio.sleep(e)
+                            await pyTgLovePDF.send_media_group(
+                                                              chat_id,
+                                                              media[chat_id]
+                                                              )
                     shutil.rmtree(f'{message_id}/pgs')
                 PROCESS.remove(chat_id)
                 doc.close()
@@ -940,13 +941,9 @@ async def _KEXTRACT(bot, callbackQuery):
                                 asyncio.sleep(1)
                             else:
                                 if data == "KIS":
-                                    media[chat_id].append(
-                                                         InputMediaPhoto(media = file)
-                                                         )
+                                    media[chat_id].append(InputMediaPhoto(file))
                                 else:
-                                    mediaDoc[chat_id].append(
-                                                            InputMediaDocument(media=file)
-                                                            )
+                                    mediaDoc[chat_id].append(InputMediaDocument(file))
                                 break
                     await downloadMessage.edit(
                                               text = f"`Uploading: {cnvrtpg}/{len(totalPgList)} pages.. 🐬`",
@@ -964,14 +961,16 @@ async def _KEXTRACT(bot, callbackQuery):
                                                                      "upload_photo"
                                                                      )
                         try:
-                            await callbackQuery.message.reply_media_group(
-                                                            media[chat_id]
-                                                            )
+                            await pyTgLovePDF.send_media_group(
+                                                              chat_id,
+                                                              media[chat_id]
+                                                              )
                         except FloodWait as e:
-                            await asyncio.sleep(e.x)
-                            await callbackQuery.message.reply_media_group(
-                                                            media[chat_id]
-                                                            )
+                            await asyncio.sleep(e)
+                            await pyTgLovePDF.send_media_group(
+                                                              chat_id,
+                                                              media[chat_id]
+                                                              )
                     if data == "KDS":
                         if chat_id not in PROCESS:
                             try:
@@ -984,14 +983,16 @@ async def _KEXTRACT(bot, callbackQuery):
                                                                      "upload_document"
                                                                      )
                         try:
-                            await callbackQuery.message.reply_media_group(
-                                                         mediaDoc[chat_id]
-                                                         )
+                            await pyTgLovePDF.send_media_group(
+                                                              chat_id,
+                                                              mediaDoc[chat_id]
+                                                              )
                         except FloodWait as e:
-                            await asyncio.sleep(e.x)
-                            await callbackQuery.message.reply_media_group(
-                                                         mediaDoc[chat_id]
-                                                         )
+                            await asyncio.sleep(e)
+                            await pyTgLovePDF.send_media_group(
+                                                              chat_id,
+                                                              mediaDoc[chat_id]
+                                                              )
                     shutil.rmtree(f'{message_id}/pgs')
                 PROCESS.remove(chat_id)
                 doc.close()
