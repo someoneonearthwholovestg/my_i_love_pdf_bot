@@ -15,14 +15,14 @@ import fitz
 import time
 import shutil
 from PIL import Image
-from pdf import PROCESS
 from pyrogram import filters
+from pdf import PROCESS, pyTgLovePDF
 from plugins.checkPdf import checkPdf
 from plugins.progress import progress
 from pyrogram.types import ForceReply
 from pyrogram import Client as ILovePDF
 from plugins.footer import footer, header
-from pyrogram.types import InputMediaPhoto
+from telebot.types import InputMediaPhoto
 
 media = {}
 
@@ -159,17 +159,12 @@ async def _preview(bot, callbackQuery):
                 # ADDING TO GROUP MEDIA IF POSSIBLE
                 else:
                     if len(media[chat_id]) == 1:
-                        media[chat_id].append(
-                                             InputMediaPhoto(
-                                                            media = file,
+                        media[chat_id].append(InputMediaPhoto(
+                                                            file,
                                                             caption = caption
-                                                            )
-                                             )
+                                                            ))
                     else:
-                        media[chat_id].append(
-                                             InputMediaPhoto(
-                                                            media = file)
-                                                            )
+                        media[chat_id].append(InputMediaPhoto(file))
                     break
         await downloadMessage.edit(
                                   f"`Uploading: preview pages.. 🐬`"
@@ -177,9 +172,10 @@ async def _preview(bot, callbackQuery):
         await callbackQuery.message.reply_chat_action(
                                                      "upload_photo"
                                                      )
-        await callbackQuery.message.reply_media_group(
-                                                     media[chat_id], quote = True
-                                                     )
+        await pyTgLovePDF.send_media_group(
+                                          chat_id,
+                                          media[chat_id]
+                                          )
         await downloadMessage.delete()
         doc.close; del media[chat_id]
         PROCESS.remove(chat_id)
