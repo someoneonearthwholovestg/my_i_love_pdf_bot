@@ -39,6 +39,7 @@ iLovePDF = '''
 '''
 
 
+import telebot
 import asyncio
 import logging
 from pyromod import listen
