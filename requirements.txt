@@ -12,3 +12,4 @@ motor==2.5.1
 pymongo[srv]
 hachoir
 pytelegrambotapi
+aiohttp
