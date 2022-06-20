@@ -136,7 +136,6 @@ async def start(bot, message):
                                                                  callback_data = f"banC|{message.chat.id}")]]
                                                    ))
                         except Exception: pass
-                try:
                     return await message.reply(
                                    f"Hi There.! 🖐️\n"
                                    f"Im new here {message.chat.title}\n\n"
@@ -152,7 +151,6 @@ async def start(bot, message):
                                                                       [InlineKeyboardButton("🌟 SOURCE CODE 🌟",
                                                                           url = "https://github.com/nabilanavab/iLovePDF")]]
                                   ))
-                except Exception: pass
             if message.chat.type == "private":
                 if not await db.is_user_exist(message.from_user.id):
                     await db.add_user(
