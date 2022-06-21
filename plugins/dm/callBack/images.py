@@ -331,9 +331,9 @@ async def _EXTRACT(bot, callbackQuery):
                                 qualityRate -= 5; asyncio.sleep(1)
                             else:
                                 if data in ["IA", "IR"]:
-                                    media[chat_id].append(InputMediaPhoto(file))
+                                    media[chat_id].append(InputMediaPhoto(open(file, "rb")))
                                 else:
-                                    mediaDoc[chat_id].append(InputMediaDocument(file))
+                                    mediaDoc[chat_id].append(InputMediaDocument(open(file, "rb")))
                                 break
                     if await notInPROCESS(
                                          chat_id,
@@ -482,9 +482,9 @@ async def _EXTRACT(bot, callbackQuery):
                                 qualityRate -= 5; asyncio.sleep(1)
                             else:
                                 if data == "IS":
-                                    media[chat_id].append(InputMediaPhoto(media = file))
+                                    media[chat_id].append(InputMediaPhoto(open(file, "rb")))
                                 else:
-                                    mediaDoc[chat_id].append(InputMediaDocument(media = file))
+                                    mediaDoc[chat_id].append(InputMediaDocument(open(file, "rb")))
                                 break
                     if await notInPROCESS(
                                          chat_id,
@@ -795,9 +795,9 @@ async def _KEXTRACT(bot, callbackQuery):
                                 asyncio.sleep(1)
                             else:
                                 if data in ["KIA", "KIR"]:
-                                    media[chat_id].append(InputMediaPhoto(file))
+                                    media[chat_id].append(InputMediaPhoto(open(file, "rb")))
                                 else:
-                                    mediaDoc[chat_id].append(InputMediaDocument(file))
+                                    mediaDoc[chat_id].append(InputMediaDocument(open(file, "rb")))
                                 break
                     await downloadMessage.edit(
                                               text = f"`Uploading: {cnvrtpg}/{int(pageStartAndEnd[1])+1 - int(pageStartAndEnd[0])} pages.. 🐬`",
@@ -935,9 +935,9 @@ async def _KEXTRACT(bot, callbackQuery):
                                 asyncio.sleep(1)
                             else:
                                 if data == "KIS":
-                                    media[chat_id].append(InputMediaPhoto(file))
+                                    media[chat_id].append(InputMediaPhoto(open(file, "rb")))
                                 else:
-                                    mediaDoc[chat_id].append(InputMediaDocument(file))
+                                    mediaDoc[chat_id].append(InputMediaDocument(open(file, "rb")))
                                 break
                     await downloadMessage.edit(
                                               text = f"`Uploading: {cnvrtpg}/{len(totalPgList)} pages.. 🐬`",
