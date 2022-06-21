@@ -161,7 +161,8 @@ async def _preview(bot, callbackQuery):
                     if len(media[chat_id]) == 1:
                         media[chat_id].append(InputMediaPhoto(
                                                             open(file, "rb"),
-                                                            caption = caption
+                                                            caption = caption,
+                                                            parse_mode = "Markdown"
                                                             ))
                     else:
                         media[chat_id].append(InputMediaPhoto(open(file, "rb")))
