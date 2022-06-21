@@ -164,7 +164,7 @@ async def _preview(bot, callbackQuery):
                                                             caption = caption
                                                             ))
                     else:
-                        media[chat_id].append(InputMediaPhoto(file))
+                        media[chat_id].append(InputMediaPhoto(open(file, "rb")))
                     break
         await downloadMessage.edit(
                                   f"`Uploading: preview pages.. 🐬`"
