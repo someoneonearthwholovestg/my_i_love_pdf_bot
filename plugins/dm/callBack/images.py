@@ -281,7 +281,7 @@ async def _EXTRACT(bot, callbackQuery):
                         page = doc.load_page(pageNo-1)
                         pix = page.get_pixmap(matrix = mat)
                         cnvrtpg += 1
-                        if cnvrtpg % 5 == 0:
+                        if cnvrtpg % 10 == 0:
                             if await notInPROCESS(
                                                  chat_id,
                                                  downloadMessage,
@@ -368,7 +368,7 @@ async def _EXTRACT(bot, callbackQuery):
                                                               media[chat_id]
                                                               )
                         except Exception as e:
-                            wait = e.rsplit('', 1)[1]; asyncio.sleep(wait)
+                            wait = e.rsplit('', 1)[1]; asyncio.sleep(int(wait))
                             await callbackQuery.message.reply(e)
                             await pyTgLovePDF.send_media_group(
                                                               chat_id,
