@@ -368,8 +368,9 @@ async def _EXTRACT(bot, callbackQuery):
                                                               media[chat_id]
                                                               )
                         except Exception as e:
-                            wait = e.rsplit('', 1)[1]; asyncio.sleep(int(wait))
                             await callbackQuery.message.reply(e)
+                            wait = e.rsplit('', 1)[1]; asyncio.sleep(int(wait))
+                            
                             await pyTgLovePDF.send_media_group(
                                                               chat_id,
                                                               media[chat_id]
