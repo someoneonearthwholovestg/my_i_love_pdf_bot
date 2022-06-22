@@ -290,10 +290,10 @@ async def _EXTRACT(bot, callbackQuery):
                                                  message_id
                                                  ):
                                 return
-                            await downloadMessage.edit(
-                                                      text = f"`Converted: {cnvrtpg}/{int(pageStartAndEnd[1])+1 - int(pageStartAndEnd[0])} pages.. 🤞`",
-                                                      reply_markup = cancel
-                                                      )
+                            # await downloadMessage.edit(
+                            #                           text = f"`Converted: {cnvrtpg}/{int(pageStartAndEnd[1])+1 - int(pageStartAndEnd[0])} pages.. 🤞`",
+                            #                           reply_markup = cancel
+                            #                           )
                         with open(
                             f'{message_id}/pgs/{pageNo}.jpg','wb'
                         ):
@@ -306,10 +306,10 @@ async def _EXTRACT(bot, callbackQuery):
                                          message_id
                                          ):
                         return
-                    await downloadMessage.edit(
-                                              text = f"`Preparing an Album..` 🤹",
-                                              reply_markup = cancel
-                                              )
+                    # await downloadMessage.edit(
+                    #                           text = f"`Preparing an Album..` 🤹",
+                    #                           reply_markup = cancel
+                    #                           )
                     directory = f'{message_id}/pgs'
                     imag = [os.path.join(directory, file) for file in os.listdir(directory)]
                     imag.sort(key = os.path.getctime)
