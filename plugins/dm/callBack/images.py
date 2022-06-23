@@ -368,7 +368,7 @@ async def _EXTRACT(bot, callbackQuery):
                                                               media[chat_id]
                                                               )
                         except Exception as e:
-                            wait = str(e).rsplit(' ', 1)[1]; asyncio.sleep(int(wait)); print("nabilanavab")
+                            wait = str(e).rsplit(' ', 1)[1]; await asyncio.sleep(int(wait)); print("nabilanavab")
                             media[chat_id] = []
                             for file in imag:
                                 media[chat_id].append(InputMediaPhoto(open(file, "rb")))
