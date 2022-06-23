@@ -732,8 +732,6 @@ async def _KEXTRACT(bot, callbackQuery):
                                                  totalPgList,
                                                  message_id
                                                  ):
-                            except Exception:
-                                return
                         with open(
                             f'{message_id}/pgs/{pageNo}.jpg','wb'
                         ):
