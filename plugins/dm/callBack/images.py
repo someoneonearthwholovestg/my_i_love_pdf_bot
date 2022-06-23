@@ -367,8 +367,8 @@ async def _EXTRACT(bot, callbackQuery):
                                                               chat_id,
                                                               media[chat_id]
                                                               )
-                        except ApiTelegramException as api:
-                            wait = str(api.description).rsplit(' ', 1)[1]; asyncio.sleep(int(wait)); print("nabilanavab")
+                        except Exception as e:
+                            wait = str(e).rsplit(' ', 1)[1]; asyncio.sleep(int(wait)); print("nabilanavab")
                             media[chat_id] = []
                             for file in imag:
                                 media[chat_id].append(InputMediaPhoto(open(file, "rb")))
