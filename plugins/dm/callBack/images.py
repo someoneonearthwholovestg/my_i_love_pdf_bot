@@ -21,7 +21,6 @@ from pdf import PROCESS, pyTgLovePDF
 from plugins.checkPdf import checkPdf
 from plugins.progress import progress
 from pyrogram.types import ForceReply
-from pyrogram.errors import FloodWait
 from pyrogram import Client as ILovePDF
 from plugins.footer import footer, header
 from plugins.fileSize import get_size_format as gSF
@@ -368,9 +367,9 @@ async def _EXTRACT(bot, callbackQuery):
                                                               chat_id,
                                                               media[chat_id]
                                                               )
-                        except FloodWait as e:
+                        except Exception as e:
+                            wait = str(e).rsplit('', 1)[1]; asyncio.sleep(int(wait))
                             await callbackQuery.message.reply(e)
-                            asyncio.sleep(e.x)
                             await pyTgLovePDF.send_media_group(
                                                               chat_id,
                                                               media[chat_id]
