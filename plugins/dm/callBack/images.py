@@ -282,7 +282,7 @@ async def _EXTRACT(bot, callbackQuery):
                             #                           text = f"`Converted: {cnvrtpg}/{int(pageStartAndEnd[1])+1 - int(pageStartAndEnd[0])} pages.. 🤞`",
                             #                           reply_markup = cancel
                             #                           )
-                        with open(
+                    with open(
                             f'{message_id}/pgs/{pageNo}.jpg','wb'
                         ):
                             pix.save(f'{message_id}/pgs/{pageNo}.jpg')
