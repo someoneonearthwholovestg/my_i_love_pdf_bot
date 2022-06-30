@@ -72,20 +72,11 @@ button = InlineKeyboardMarkup(
         [[
             InlineKeyboardButton("📌 SET THUMB 📌",
                                  callback_data="getThumb"),
-        ],[
             InlineKeyboardButton("⚠️ HELP AND RULES ⚠️",
                                      callback_data="help")
         ],[
             InlineKeyboardButton("🌟 SOURCE CODE 🌟",
             url="https://github.com/nabilanavab/ilovepdf")
-        ],[
-            InlineKeyboardButton("🤖 CHANNEL 🤖",
-                  url="https://telegram.dog/ilovepdf_bot"),
-            InlineKeyboardButton("📝 FEEDBACK 📝",
-                                        url=f"{FEEDBACK}")
-        ],[
-            InlineKeyboardButton("➕ ADD TO GROUP ➕",
-                                  callback_data="underDev")
         ],[
             InlineKeyboardButton("🚶 CLOSE 🚶",
                                     callback_data="close")
