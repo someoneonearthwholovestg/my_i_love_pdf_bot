@@ -109,7 +109,7 @@ async def encryptPDF(message_id, password):
                         )
         return False
 
-❌ COMPRESS PDF FILES ❌
+# ❌ COMPRESS PDF FILES ❌
 async def compressPDF(message, message_id):
     try:
         input_file = f"{message_id}/inPut.pdf"
