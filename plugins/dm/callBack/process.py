@@ -127,6 +127,28 @@ async def compressPDF(message, message_id):
                               cantCompressMore 
                               )
             return False
+        
+        # FILE SIZE COMPARISON (RATIO)
+        initialSize = os.path.getsize(
+                                     input_file
+                                     )
+        compressedSize = os.path.getsize(
+                                        output_file
+                                        )
+        ratio = (1 - (compressedSize / initialSize)) * 100
+        # sends only if compressed more than 10mb or ratio >= 5%
+        if (initialSize-compressedSize) > 1000000 or ratio >= 5:
+            return compressedCaption.format(
+                                           await gSF(initialSize),
+                                           await gSF(compressedSize),
+                                           ratio
+                )
+        else:
+            await message.edit(
+                              cantCompressMore 
+                              )
+            return False
+    
     except Exception as e:
         logger.exception(
                         "COMPRESS[PROCESS]:CAUSES %(e)s ERROR",
