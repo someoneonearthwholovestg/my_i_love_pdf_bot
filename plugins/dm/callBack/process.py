@@ -109,6 +109,7 @@ async def encryptPDF(message_id, password):
                         )
         return False
 
+❌ COMPRESS PDF FILES ❌
 async def compressPDF(message, message_id):
     try:
         input_file = f"{message_id}/inPut.pdf"
@@ -162,6 +163,9 @@ async def compressPDF(message, message_id):
 """
 HEROKU STACK:22 NOT SUPPORTED =(
 # ❌ COMPRESS PDF FILES ❌
+
+from PDFNetPython3.PDFNetPython import PDFDoc, Optimizer, SDFDoc, PDFNet
+
 async def compressPDF(message, message_id):
     try:
         input_file = f"{message_id}/inPut.pdf"
