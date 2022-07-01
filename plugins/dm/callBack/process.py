@@ -19,6 +19,9 @@ from PyPDF2 import PdfFileWriter, PdfFileReader
 from plugins.fileSize import get_size_format as gSF
 from PDFNetPython3.PDFNetPython import PDFDoc, Optimizer, SDFDoc, PDFNet
 
+# compress
+import shlex
+from subprocess import PIPE, Popen
 
 nabilanavab = False # Change to False else never work
 try:
@@ -107,6 +110,36 @@ async def encryptPDF(message_id, password):
                         )
         return False
 
+async def compressPDF(message, message_id):
+    try:
+        input_file = f"{message_id}/inPut.pdf"
+        output_file = f"{message_id}/outPut.pdf"
+        
+        command = (
+            "gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default "
+            f'-dNOPAUSE -dQUIET -dBATCH -sOutputFile="{output_file}" "{input_file}"'
+        )
+        proc = Popen(shlex.split(command), stdout=PIPE, stderr=PIPE, shell=False)
+        out, err = proc.communicate()
+
+        if proc.returncode != 0:
+            await message.edit(
+                              cantCompressMore 
+                              )
+            return False
+    except Exception as e:
+        logger.exception(
+                        "COMPRESS[PROCESS]:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
+        await message.edit(
+                          f"❌SOMETHING WENT WRONG❌"
+                          f"\n\nError: {e}"
+                          )
+        return False
+
+"""
+HEROKU STACK:22 NOT SUPPORTED =(
 # ❌ COMPRESS PDF FILES ❌
 async def compressPDF(message, message_id):
     try:
@@ -156,6 +189,7 @@ async def compressPDF(message, message_id):
                           f"\n\nError: {e}"
                           )
         return False
+"""
 
 # ❌ OCR PDF FILES ❌
 async def ocrPDF(message, message_id):
