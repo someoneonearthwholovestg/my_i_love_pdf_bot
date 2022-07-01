@@ -116,7 +116,7 @@ async def compressPDF(message, message_id):
         output_file = f"{message_id}/outPut.pdf"
         
         command = (
-            "gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default "
+            "gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook "
             f'-dNOPAUSE -dQUIET -dBATCH -sOutputFile="{output_file}" "{input_file}"'
         )
         proc = Popen(shlex.split(command), stdout=PIPE, stderr=PIPE, shell=False)
