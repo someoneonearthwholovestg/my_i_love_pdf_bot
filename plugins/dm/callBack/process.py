@@ -17,7 +17,6 @@ from pyrogram.types import Message
 from pyrogram.errors import FloodWait
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from plugins.fileSize import get_size_format as gSF
-from PDFNetPython3.PDFNetPython import PDFDoc, Optimizer, SDFDoc, PDFNet
 
 # compress
 import shlex
