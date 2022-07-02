@@ -44,6 +44,7 @@ import logging
 from pyromod import listen
 from configs.dm import Config
 from configs.db import isMONGOexist
+from pyrogram.types import BotCommand
 from pyrogram import Client as ILovePDF
 from telebot.async_telebot import AsyncTeleBot
 from configs.db import BANNED_USR_DB, BANNED_GRP_DB
@@ -113,6 +114,11 @@ class Bot(ILovePDF):
         # Pyrogram Client Starting
         await super().start()
         myID = await app.get_me()
+        # Set new commands
+        await app.set_bot_commands([
+                                   BotCommand("start", "Start the bot"),
+                                   BotCommand("settings", "Bot settings")]
+                                   )
         logger.debug(
                     f"BOT ID : {myID.id} | BOT NAME: {myID.first_name} |"
                     f" BOT USERNAME: {myID.username}\n\n"
