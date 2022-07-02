@@ -84,7 +84,6 @@ class Bot(ILovePDF):
     
     def __init__(self):
         super().__init__(
-            session_name = "ILovePDF",
             api_id = Config.API_ID,
             api_hash = Config.API_HASH,
             bot_token = Config.API_TOKEN,
