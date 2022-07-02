@@ -90,7 +90,6 @@ UPDATE_CHANNEL = Config.UPDATE_CHANNEL
 #------------------->
 
 @ILovePDF.on_message(
-                    ~filters.edited &
                     filters.incoming &
                     filters.command(
                                    ["start", "ping"]
