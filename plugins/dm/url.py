@@ -61,7 +61,6 @@ async def getPDF(current, t, message, total=0, typ="DOWNLOADED"):
 
 @ILovePDF.on_message(
                     filters.private &
-                    ~filters.edited &
                     filters.incoming &
                     filters.text
                     )
