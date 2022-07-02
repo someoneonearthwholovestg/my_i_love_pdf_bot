@@ -154,7 +154,6 @@ ONLY_GROUP_ADMIN = groupConfig.ONLY_GROUP_ADMIN
 
 @ILovePDF.on_message(
                     filters.group &
-                    ~filters.edited &
                     filters.incoming &
                     filters.command(
                           ["analyse", "check",
