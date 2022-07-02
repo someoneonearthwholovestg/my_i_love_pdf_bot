@@ -118,7 +118,7 @@ class Bot(ILovePDF):
         await app.set_bot_commands([
                                    BotCommand("start", "Start the bot"),
                                    BotCommand("settings", "Bot settings")],
-                                   lang_code = "en"
+                                   # lang_code = "en"
                                    )
         logger.debug(
                     f"BOT ID : {myID.id} | BOT NAME: {myID.first_name} |"
