@@ -20,7 +20,6 @@ from pyrogram import Client as ILovePDF
 
 @ILovePDF.on_message(
                     filters.private &
-                    ~filters.edited &
                     filters.incoming &
                     ~filters.user(Config.ADMINS)
                     )
