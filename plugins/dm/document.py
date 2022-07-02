@@ -311,7 +311,7 @@ async def documents(bot, message):
                 pdf.save(
                         f"{message.message_id}/{fileNm}.pdf",
                         garbage = 4,
-                        deflate = True,
+                        deflate = False,
                         )
                 pdf.close()
                 
