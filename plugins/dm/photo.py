@@ -46,7 +46,6 @@ hit on "retry ♻️" after joining.. 😅"""
 @ILovePDF.on_message(
                     filters.photo &
                     filters.private &
-                    ~filters.edited &
                     filters.incoming
                     )
 async def images(bot, message):
