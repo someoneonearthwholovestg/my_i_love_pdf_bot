@@ -24,7 +24,7 @@ TXT={}
 #--------> REPLY TO /txt2pdf
 #------------------->
 
-@ILovePDF.on_message(filters.private & filters.command(["txt2pdf"]) & ~filters.edited & filters.incoming)
+@ILovePDF.on_message(filters.private & filters.command(["txt2pdf"]) & filters.incoming)
 async def feedback(bot, message):
     try:
         await message.reply_chat_action("typing")
