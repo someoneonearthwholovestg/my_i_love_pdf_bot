@@ -180,7 +180,6 @@ async def broadcast_messages(user_id, message, info):
                     filters.command("broadcast") &
                     filters.user(ADMINS) &
                     filters.private &
-                    ~filters.edited &
                     filters.incoming
                     )
 async def _broadcast(bot, message):
@@ -269,7 +268,6 @@ async def _broadcast(bot, message):
                     filters.command("message") &
                     filters.user(ADMINS) &
                     filters.private &
-                    ~filters.edited &
                     filters.incoming
                     )
 async def _message(bot, message):
@@ -378,8 +376,8 @@ async def server(bot, message):
                     filters.command("admin") &
                     filters.user(ADMINS) &
                     filters.private &
-                    ~filters.edited &
-                    filters.incoming)
+                    filters.incoming
+                    )
 async def _adminList(bot, message):
     try:
         procs = await message.reply(
