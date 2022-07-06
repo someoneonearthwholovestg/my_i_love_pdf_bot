@@ -77,6 +77,6 @@ async def checkPdf(file_path, callbackQuery):
             shutil.rmtree(f'{message_id}')
         except Exception:
             pass
-        return "notPdf"
+        return "notPdf", 0
 
 #                                                                                  Telegram: @nabilanavab
