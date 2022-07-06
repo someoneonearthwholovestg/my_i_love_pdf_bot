@@ -316,7 +316,7 @@ async def _EXTRACT(bot, callbackQuery):
                                             optimize = True,
                                             quality = qualityRate
                                             )
-                                qualityRate -= 5; asyncio.sleep(1)
+                                qualityRate -= 5; await asyncio.sleep(0.5)
                             else:
                                 if data in ["IA", "IR"]:
                                     media[chat_id].append(InputMediaPhoto(open(file, "rb")))
@@ -471,7 +471,7 @@ async def _EXTRACT(bot, callbackQuery):
                                             optimize = True,
                                             quality = qualityRate
                                             )
-                                qualityRate -= 5; asyncio.sleep(1)
+                                qualityRate -= 5; await asyncio.sleep(0.5)
                             else:
                                 if data == "IS":
                                     media[chat_id].append(InputMediaPhoto(open(file, "rb")))
@@ -760,7 +760,7 @@ async def _KEXTRACT(bot, callbackQuery):
                                             quality = qualityRate 
                                             )
                                 qualityRate -= 5
-                                asyncio.sleep(1)
+                                await asyncio.sleep(0.5)
                             else:
                                 if data in ["KIA", "KIR"]:
                                     media[chat_id].append(InputMediaPhoto(open(file, "rb")))
@@ -901,7 +901,7 @@ async def _KEXTRACT(bot, callbackQuery):
                                             quality = qualityRate 
                                             )
                                 qualityRate -= 5
-                                asyncio.sleep(1)
+                                await asyncio.sleep(0.5)
                             else:
                                 if data == "KIS":
                                     media[chat_id].append(InputMediaPhoto(open(file, "rb")))
