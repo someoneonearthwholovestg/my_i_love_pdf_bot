@@ -245,7 +245,7 @@ async def _pdf(bot, callbackQuery):
         if (data[0] != 'K') or not (data in ["rot180", "rot90", "rot270"]):
             # check file encryption, codec.
             checked, number_of_pages = await checkPdf(input_file, callbackQuery)
-            if data.startswith("decrypt"):
+            if data.startswith(tuple(["decrypt", "Kdecrypt"])):
                 if not(checked == "encrypted"):
                     await downloadMessage.edit(
                                               "`File Not Encrypted..`🙏🏻"
