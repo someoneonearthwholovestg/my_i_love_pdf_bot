@@ -1,14 +1,6 @@
 # fileName : plugins/checkPdf.py
 # copyright ©️ 2021 nabilanavab
 
-# LOGGING INFO: DEBUG
-import logging
-logger=logging.getLogger(__name__)
-logging.basicConfig(
-                   level=logging.DEBUG,
-                   format="%(levelname)s:%(name)s:%(message)s" # %(asctime)s:
-                   )
-
 import fitz
 import shutil
 from pdf import PROCESS
@@ -72,11 +64,7 @@ async def checkPdf(file_path, callbackQuery):
                 await toKnown(callbackQuery, number_of_pages)
                 return "pass", number_of_pages
     # CODEC ERROR
-    except Exception as e:
-        logger.exception(
-                        "CB/_MAIN_:CAUSES %(e)s ERROR",
-                        exc_info=True
-                        )
+    except Exception:
         await callbackQuery.edit_message_text(
             text = codecMsg,
             reply_markup = InlineKeyboardMarkup(
