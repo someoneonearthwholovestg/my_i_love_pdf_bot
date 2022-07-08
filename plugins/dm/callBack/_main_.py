@@ -236,7 +236,7 @@ async def _pdf(bot, callbackQuery):
         if downloadLoc is None:
             PROCESS.remove(chat_id)
             return
-        await downloadMessage.edit(f"work {if chat_id in PROCESS}")
+        await downloadMessage.edit(f"work {"True" if chat_id in PROCESS else "False"}")
         await downloadMessage.edit(
                                   "⚙️ `Started Processing.. \nIt might take some time..`💛",
                                   reply_markup = cancelBtn
