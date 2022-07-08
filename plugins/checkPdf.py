@@ -46,7 +46,7 @@ async def checkPdf(file_path, callbackQuery):
                         ),
                         reply_markup = InlineKeyboardMarkup(
                             [[
-                                InlineKeyboardButton("🔓 DECRYPT 🔓",callback_data=f"Kdecrypt|{number_of_pages}")
+                                InlineKeyboardButton("🔓 DECRYPT 🔓", callback_data=f"Kdecrypt")
                             ]]
                         )
                     )
