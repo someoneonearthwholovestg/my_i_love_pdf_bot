@@ -236,14 +236,14 @@ async def _pdf(bot, callbackQuery):
         if downloadLoc is None:
             PROCESS.remove(chat_id)
             return
-        
+        await downloadMessage.edit(f"work {if chat_id in PROCESS}")
         await downloadMessage.edit(
                                   "⚙️ `Started Processing.. \nIt might take some time..`💛",
                                   reply_markup = cancelBtn
                                   )
         # CHECK PDF OR NOT(HERE compressed, SO PG UNKNOWN)
         if (data.startswith("Kdecrypt")) or (data[0] != 'K') or not (data in ["rot180", "rot90", "rot270"]):
-            await downloadMessage.edit("entered") # check file encryption, codec.
+            # check file encryption, codec.
             checked, number_of_pages = await checkPdf(input_file, callbackQuery)
             if data.startswith(tuple(["decrypt", "Kdecrypt"])):
                 if not(checked == "encrypted"):
