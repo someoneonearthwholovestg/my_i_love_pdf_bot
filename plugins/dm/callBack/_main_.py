@@ -236,7 +236,6 @@ async def _pdf(bot, callbackQuery):
         if downloadLoc is None:
             PROCESS.remove(chat_id)
             return
-        await downloadMessage.edit(f"work {"True" if chat_id in PROCESS else "False"}")
         await downloadMessage.edit(
                                   "⚙️ `Started Processing.. \nIt might take some time..`💛",
                                   reply_markup = cancelBtn
@@ -257,7 +256,7 @@ async def _pdf(bot, callbackQuery):
                     await downloadMessage.delete()
                     return
         
-        if chat_id in PROCESS:
+        if (chat_id in PROCESS) or (data.startswith("Kdecrypt")):
             if data.startswith(tuple(["compress", "Kcompress"])):
                 await downloadMessage.edit(
                                           "⚙️ `Started Compressing.. 🌡️\nIt might take some time..`💛", 
