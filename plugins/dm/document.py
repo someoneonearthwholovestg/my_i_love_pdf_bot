@@ -59,7 +59,7 @@ suprtedFile = [
 
 suprtedPdfFile = [
     ".epub", ".xps", ".oxps",
-    ".cbz", ".fb2", ".cbr"
+    ".cbz", ".fb2"
 ]                                      # files to pdf (zero limits)
 
 suprtedPdfFile2 = [
