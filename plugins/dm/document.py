@@ -331,7 +331,7 @@ async def documents(bot, message):
                                                )
         
         # FILES TO PDF
-        elif fileExt.lower() in (pymu2PDF, cnvrt_api_2PDF, comic):
+        elif fileExt.lower() in (pymu2PDF or cnvrt_api_2PDF or comic):
             # if no convert api token
             if fileExt.lower() in cnvrt_api_2PDF and not Config.CONVERT_API:
                 return await message.reply_text(
