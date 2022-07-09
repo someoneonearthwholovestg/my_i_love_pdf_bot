@@ -368,16 +368,18 @@ async def documents(bot, message):
             
             # WHERE REAL CODEC CONVERSATION OCCURS
             if fileExt.lower() in pymu2PDF:
-                if not await pymuConvert2PDF(message, pdfMsgId, input_file):
-                    return
+                isError = await pymuConvert2PDF(message, pdfMsgId, input_file):
             
             elif fileExt.lower() in cnvrt_api_2PDF:
-                if not await cvApi2PDF(message, pdfMsgId, input_file):
-                    return
+                isError = await cvApi2PDF(message, pdfMsgId, input_file):
             
             elif fileExt.lower() in comic:
-                if not await comic2PDF(message.message_id, pdfMsgId, input_file):
-                    return
+                isError = await comic2PDF(message.message_id, pdfMsgId, input_file):
+            
+            if not isError:
+                PROCESS.remove(message.from_user.id)
+                shutil.rmtree(f"{message.message_id}")
+                return
             
             # Getting thumbnail
             thumbnail, fileName = await thumbName(message, org_file_name)
