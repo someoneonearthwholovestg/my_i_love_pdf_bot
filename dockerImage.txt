@@ -14,3 +14,4 @@ pymongo[srv]
 hachoir
 pytelegrambotapi
 aiohttp
+comic2pdf
