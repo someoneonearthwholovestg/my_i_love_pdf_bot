@@ -141,94 +141,6 @@ pdfReply = InlineKeyboardMarkup(
 
 UPDATE_CHANNEL = Config.UPDATE_CHANNEL
 
-
-# FORCE SUB (IF THERE EXIST A CHANNEL)
-async def forcSub(bot, message, refresh="refresh") -> bool:
-    try:
-        userStatus = await bot.get_chat_member(
-                         str(UPDATE_CHANNEL),
-                         message.from_user.id
-                     )
-        # IF USER BANNED FROM CHANNEL
-        if userStatus.status == 'kicked':
-            await message.reply_photo(
-                                     photo = BANNED_PIC,
-                                     caption = "For Some Reason You Can't Use This Bot"
-                                               "\n\nContact Bot Owner 🤐",
-                                     reply_markup = InlineKeyboardMarkup(
-                                                        [[
-                                                            InlineKeyboardButton("Owner 🎊",
-                                                            url = "https://t.me/nabilanavab")
-                                                        ]]
-                                                    ))
-            return False   # False == not a participant
-        return True        # True == participant
-    except Exception:
-        if invite_link is None:
-            invite_link = await bot.create_chat_invite_link(
-                                                           int(UPDATE_CHANNEL)
-                                                           )
-            await message.reply_photo(
-                                     photo = WELCOME_PIC, quote = True,
-                                     caption = forceSubMsg.format(
-                                                                 message.from_user.first_name,
-                                                                 message.from_user.id
-                                                                 ),
-                                     reply_markup = InlineKeyboardMarkup(
-                                                       [[
-                                                           InlineKeyboardButton("🌟 JOIN CHANNEL 🌟",
-                                                           url = invite_link.invite_link)
-                                                       ],[
-                                                           InlineKeyboardButton("Refresh ♻️",
-                                                           callback_data = refresh)
-                                                       ]]
-                                                    ))
-            return False
-
-async def pymuConvert2PDF(message: pdfMsgId, input_file):
-    try:
-        with fitz.open(input_file) as doc:
-            pdf = fitz.open("pdf", doc.convert_to_pdf())
-            pdf.save(
-                    f"{message.message_id}/outPut.pdf",
-                    garbage = 4, deflate = True,
-                    )
-        return True
-    except Exception as e:
-        await message.edit(errorEditMsg.format(e))
-        return False
-
-async def cvApi2PDF(message: pdfMsgId, input_file):
-    try:
-        convertapi.convert(
-                          "pdf",
-                               {
-                               "File": f"{input_file}"
-                               },
-                               from_format = fileExt[1:],
-                           ).save_files(
-                                       f"{message.message_id}/outPut.pdf"
-                                       )
-        return True
-    except Exception as e:
-        await message.edit(f"ConvertAPI limit reaches.. contact Owner\n\n`{e}`")
-        return False
-
-async def comic2PDF(Dir, message: pdfMsgId, input_file):
-    try:
-        command = (f"comic2pdf.py -o {Dir}/outPut.pdf path {input_file}")
-        proc = Popen(shlex.split(command), stdout=PIPE, stderr=PIPE, shell=False)
-        out, err = proc.communicate()
-
-        if proc.returncode != 0:
-            await message.edit(errorEditMsg.format(e))
-            return False
-        
-        return True
-    except Exception as e:
-        await message.edit(errorEditMsg.format(e))
-        return False
-
 #--------------->
 #--------> REPLY TO DOCUMENTS/FILES
 #------------------->
@@ -424,6 +336,93 @@ async def documents(bot, message):
         except Exception:
             try: PROCESS.remove(message.from_user.id)
             except Exception: pass
+
+# FORCE SUB (IF THERE EXIST A CHANNEL)
+async def forcSub(bot, message, refresh="refresh") -> bool:
+    try:
+        userStatus = await bot.get_chat_member(
+                         str(UPDATE_CHANNEL),
+                         message.from_user.id
+                     )
+        # IF USER BANNED FROM CHANNEL
+        if userStatus.status == 'kicked':
+            await message.reply_photo(
+                                     photo = BANNED_PIC,
+                                     caption = "For Some Reason You Can't Use This Bot"
+                                               "\n\nContact Bot Owner 🤐",
+                                     reply_markup = InlineKeyboardMarkup(
+                                                        [[
+                                                            InlineKeyboardButton("Owner 🎊",
+                                                            url = "https://t.me/nabilanavab")
+                                                        ]]
+                                                    ))
+            return False   # False == not a participant
+        return True        # True == participant
+    except Exception:
+        if invite_link is None:
+            invite_link = await bot.create_chat_invite_link(
+                                                           int(UPDATE_CHANNEL)
+                                                           )
+            await message.reply_photo(
+                                     photo = WELCOME_PIC, quote = True,
+                                     caption = forceSubMsg.format(
+                                                                 message.from_user.first_name,
+                                                                 message.from_user.id
+                                                                 ),
+                                     reply_markup = InlineKeyboardMarkup(
+                                                       [[
+                                                           InlineKeyboardButton("🌟 JOIN CHANNEL 🌟",
+                                                           url = invite_link.invite_link)
+                                                       ],[
+                                                           InlineKeyboardButton("Refresh ♻️",
+                                                           callback_data = refresh)
+                                                       ]]
+                                                    ))
+            return False
+
+async def pymuConvert2PDF(message: pdfMsgId, input_file):
+    try:
+        with fitz.open(input_file) as doc:
+            pdf = fitz.open("pdf", doc.convert_to_pdf())
+            pdf.save(
+                    f"{message.message_id}/outPut.pdf",
+                    garbage = 4, deflate = True,
+                    )
+        return True
+    except Exception as e:
+        await message.edit(errorEditMsg.format(e))
+        return False
+
+async def cvApi2PDF(message: pdfMsgId, input_file):
+    try:
+        convertapi.convert(
+                          "pdf",
+                               {
+                               "File": f"{input_file}"
+                               },
+                               from_format = fileExt[1:],
+                           ).save_files(
+                                       f"{message.message_id}/outPut.pdf"
+                                       )
+        return True
+    except Exception as e:
+        await message.edit(f"ConvertAPI limit reaches.. contact Owner\n\n`{e}`")
+        return False
+
+async def comic2PDF(Dir, message: pdfMsgId, input_file):
+    try:
+        command = (f"comic2pdf.py -o {Dir}/outPut.pdf path {input_file}")
+        proc = Popen(shlex.split(command), stdout=PIPE, stderr=PIPE, shell=False)
+        out, err = proc.communicate()
+
+        if proc.returncode != 0:
+            await message.edit(errorEditMsg.format(e))
+            return False
+        
+        return True
+    except Exception as e:
+        await message.edit(errorEditMsg.format(e))
+        return False
 
 @ILovePDF.on_callback_query(asNewDoc)
 async def _asNewDoc(bot, callbackQuery):
