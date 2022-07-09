@@ -184,7 +184,7 @@ async def forcSub(bot, message, refresh="refresh") -> bool:
                                                     ))
             return False
 
-async def pymuConvert2PDF(message, input_file):
+async def pymuConvert2PDF(message, edit, input_file):
     try:
         with fitz.open(input_file) as doc:
             with fitz.open("pdf", doc.convert_to_pdf()) as pdf:
@@ -194,10 +194,10 @@ async def pymuConvert2PDF(message, input_file):
                         )
         return True
     except Exception as e:
-        await message.edit(errorEditMsg.format(e))
+        await edit.edit(errorEditMsg.format(e))
         return False
 
-async def cvApi2PDF(message, input_file):
+async def cvApi2PDF(message, edit, input_file):
     try:
         convertapi.convert(
                           "pdf",
@@ -210,7 +210,7 @@ async def cvApi2PDF(message, input_file):
                                        )
         return True
     except Exception as e:
-        await message.edit(f"ConvertAPI limit reaches.. contact Owner\n\n`{e}`")
+        await edit.edit(f"ConvertAPI limit reaches.. contact Owner\n\n`{e}`")
         return False
 
 async def comic2PDF(Dir, message, input_file):
@@ -368,11 +368,11 @@ async def documents(bot, message):
             
             # WHERE REAL CODEC CONVERSATION OCCURS
             if fileExt.lower() in pymu2PDF:
-                if not await pymuConvert2PDF(pdfMsgId, input_file):
+                if not await pymuConvert2PDF(message, pdfMsgId, input_file):
                     return
             
             elif fileExt.lower() in cnvrt_api_2PDF:
-                if not await cvApi2PDF(pdfMsgId, input_file):
+                if not await cvApi2PDF(message, pdfMsgId, input_file):
                     return
             
             elif fileExt.lower() in comic:
