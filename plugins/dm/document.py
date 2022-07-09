@@ -187,12 +187,11 @@ async def forcSub(bot, message, refresh="refresh") -> bool:
 async def pymuConvert2PDF(message, input_file):
     try:
         with fitz.open(input_file) as doc:
-            Doc = doc.convert_to_pdf()
-            pdf = fitz.open("pdf", Doc)
-            pdf.save(
-                    f"{message.message_id}/outPut.pdf",
-                    garbage = 4, deflate = True,
-                    )
+            with fitz.open("pdf", doc.convert_to_pdf()) as pdf:
+                pdf.save(
+                        f"{message.message_id}/outPut.pdf",
+                        garbage = 4, deflate = True,
+                        )
         return True
     except Exception as e:
         await message.edit(errorEditMsg.format(e))
