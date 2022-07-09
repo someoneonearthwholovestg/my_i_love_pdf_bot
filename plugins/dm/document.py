@@ -368,13 +368,13 @@ async def documents(bot, message):
             
             # WHERE REAL CODEC CONVERSATION OCCURS
             if fileExt.lower() in pymu2PDF:
-                isError = await pymuConvert2PDF(message, pdfMsgId, input_file):
+                isError = await pymuConvert2PDF(message, pdfMsgId, input_file)
             
             elif fileExt.lower() in cnvrt_api_2PDF:
-                isError = await cvApi2PDF(message, pdfMsgId, input_file):
+                isError = await cvApi2PDF(message, pdfMsgId, input_file)
             
             elif fileExt.lower() in comic:
-                isError = await comic2PDF(message.message_id, pdfMsgId, input_file):
+                isError = await comic2PDF(message.message_id, pdfMsgId, input_file)
             
             if not isError:
                 PROCESS.remove(message.from_user.id)
