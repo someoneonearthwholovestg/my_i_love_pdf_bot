@@ -222,7 +222,7 @@ async def comic2PDF(message, edit, input_file):
         await comicPDF(newfile, tmp_dir)
         return True
     except Exception as e:
-        await message.edit(errorEditMsg.format(e))
+        await edit.edit(errorEditMsg.format(e))
         return False
 
 async def comicPDF(filename, newdir, ii = 7):
