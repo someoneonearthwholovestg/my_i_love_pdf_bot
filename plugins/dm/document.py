@@ -364,7 +364,7 @@ async def documents(bot, message):
                                                "`Downloading your file..` 📥",
                                                quote = True
                                                )
-            if fileExt.lower() in comic:
+            if fileExt.lower() not in comic:
                 input_file = f"{message.message_id}/input_file{fileExt}"
             else:
                 input_file = f"{message.message_id}/input_file.rar"    # comic file saves as rar
