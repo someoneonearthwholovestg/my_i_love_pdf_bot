@@ -14,5 +14,3 @@ pymongo[srv]
 hachoir
 pytelegrambotapi
 aiohttp
-patool
-unrar
