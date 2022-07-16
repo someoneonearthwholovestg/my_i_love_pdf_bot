@@ -32,9 +32,9 @@ from plugins.progress import progress, uploadProgress
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from configs.images import WELCOME_PIC, BANNED_PIC, BIG_FILE, PDF_THUMBNAIL
 
-# run command
-import shlex
-from subprocess import PIPE, Popen
+# comic
+import os, sys, zipfile, patoolib
+from PIL import Image
 
 #--------------->
 #--------> convertAPI INSTANCE
@@ -213,20 +213,41 @@ async def cvApi2PDF(message, edit, input_file):
         await edit.edit(f"ConvertAPI limit reaches.. contact Owner\n\n`{e}`")
         return False
 
-async def comic2PDF(Dir, message, input_file):
+async def comic2PDF(message, edit, input_file):
     try:
-        command = (f"comic2pdf.py -o {Dir}/outPut.pdf path {input_file}")
-        proc = Popen(shlex.split(command), stdout=PIPE, stderr=PIPE, shell=False)
-        out, err = proc.communicate()
-
-        if proc.returncode != 0:
-            await message.edit(errorEditMsg.format(e))
-            return False
-        
+        tmp_dir = f"{message.message_id}/\\Temp\\"
+        original = sys.stdout
+        patoolib.extract_archive(filein, outdir = tmp_dir)
+        newfile = filein.replace(filein[-4:],".pdf")
+        await comicPDF(newfile, tmp_dir)
         return True
     except Exception as e:
         await message.edit(errorEditMsg.format(e))
         return False
+
+async def comicPDF(filename, newdir, ii = 7):
+	ffiles = os.listdir(newdir)
+	if (len(ffiles) == 1):
+		comicPDF(filename,newdir+ffiles[0]+"\\",ii)
+	else:
+		# imagelist is the list with all image filenames
+		im_list = list()
+		firstP = True
+		im = None
+		for image in ffiles:
+			if (image.endswith(".jpg") or image.endswith(".JPG") or image.endswith(".jpeg") or image.endswith(".JPEG")):
+				im1 = Image.open(newdir+image)
+				try:
+					im1.save(newdir+image,dpi=(96,96))
+				except:
+					aaaaa = 4
+				
+				if (firstP):
+					im = im1
+					firstP = False
+				else: im_list.append(im1)
+			else: continue
+		im.save(filename, "PDF" ,resolution=100.0, save_all=True, append_images=im_list)
 
 #--------------->
 #--------> REPLY TO DOCUMENTS/FILES
@@ -374,7 +395,7 @@ async def documents(bot, message):
                 isError = await cvApi2PDF(message, pdfMsgId, input_file)
             
             elif fileExt.lower() in comic:
-                isError = await comic2PDF(message.message_id, pdfMsgId, input_file)
+                isError = await comic2PDF(message, pdfMsgId, input_file)
             
             if not isError:
                 PROCESS.remove(message.from_user.id)
