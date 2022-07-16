@@ -15,4 +15,3 @@ hachoir
 pytelegrambotapi
 aiohttp
 patool
-zipfile
