@@ -13,5 +13,3 @@ pymongo[srv]
 hachoir
 pytelegrambotapi
 aiohttp
-patool
-zipfile
