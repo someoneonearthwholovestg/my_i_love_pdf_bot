@@ -365,7 +365,11 @@ async def documents(bot, message):
                                                "`Downloading your file..` 📥",
                                                quote = True
                                                )
-            input_file = f"{message.message_id}/input_file{fileExt}"
+            if fileExt.lower() in comic:
+                input_file = f"{message.message_id}/input_file{fileExt}"
+            else:
+                input_file = f"{message.message_id}/input_file.rar"    # comic file saves as rar
+
             # DOWNLOAD PROGRESS
             c_time = time.time()
             downloadLoc = await bot.download_media(
