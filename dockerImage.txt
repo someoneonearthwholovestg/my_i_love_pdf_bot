@@ -15,3 +15,4 @@ hachoir
 pytelegrambotapi
 aiohttp
 patool
+unrar
