@@ -215,10 +215,9 @@ async def cvApi2PDF(message, edit, input_file):
 
 async def comic2PDF(message, edit, input_file):
     try:
-        tmp_dir = f"{message.message_id}/\\Temp\\"
-        original = sys.stdout
-        patoolib.extract_archive(input_file, outdir = tmp_dir)
-        newfile = filein.replace(filein[-4:],".pdf")
+        logger.debug(input_file)
+        patoolib.extract_archive(input_file)
+        newfile = input_file.replace(filein[-4:],".pdf")
         await comicPDF(newfile, tmp_dir)
         return True
     except Exception as e:
