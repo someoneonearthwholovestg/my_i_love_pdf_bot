@@ -18,6 +18,7 @@ import convertapi
 from PIL import Image
 from time import sleep
 from pdf import PROCESS
+import aspose.words as word
 from pyrogram import filters
 from configs.dm import Config
 from pdf import PDF, invite_link
@@ -62,8 +63,11 @@ pymu2PDF = [
     ".cbz", ".fb2"
 ]                                      # files to pdf (zero limits)
 
+wordFiles = [
+    ".docx"
+]
 cnvrt_api_2PDF = [
-    ".csv", ".doc", ".docx", ".dot",
+    ".csv", ".doc", ".dot",
     ".dotx", ".log", ".mpp", ".mpt",
     ".odt", ".pot", ".potx", ".pps",
     ".ppsx", ".ppt", ".pptx", ".pub",
@@ -203,6 +207,15 @@ async def cvApi2PDF(message, edit, input_file):
         return True
     except Exception as e:
         await edit.edit(f"ConvertAPI limit reaches.. contact Owner\n\n`{e}`")
+        return False
+
+async def word2PDF(message, edit, input_file):
+    try:
+        with word.Document(input_file) as doc:
+            doc.save(f"{message.message_id}/outPut.pdf")
+        return True
+    except Exception as e:
+        await edit.edit(errorEditMsg.format(e))
         return False
 
 #--------------->
@@ -349,6 +362,9 @@ async def documents(bot, message):
             
             elif fileExt.lower() in cnvrt_api_2PDF:
                 isError = await cvApi2PDF(message, pdfMsgId, input_file)
+            
+            elif fileExt.lower() in wordFiles:
+                isError = await word2PDF(message, pdfMsgId, input_file)
             
             if not isError:
                 PROCESS.remove(message.from_user.id)
