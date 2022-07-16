@@ -211,10 +211,11 @@ async def cvApi2PDF(message, edit, input_file):
 
 async def word2PDF(message, edit, input_file):
     try:
-        with word.Document(input_file) as doc:
-            doc.save(f"{message.message_id}/outPut.pdf")
+        doc = word.Document(input_file)
+        doc.save(f"{message.message_id}/outPut.pdf")
         return True
     except Exception as e:
+        logger.debug(f"word : {e}", exc_info=True)
         await edit.edit(errorEditMsg.format(e))
         return False
 
