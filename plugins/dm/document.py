@@ -32,10 +32,6 @@ from plugins.progress import progress, uploadProgress
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from configs.images import WELCOME_PIC, BANNED_PIC, BIG_FILE, PDF_THUMBNAIL
 
-# comic
-import os, sys, zipfile, patoolib
-from PIL import Image
-
 #--------------->
 #--------> convertAPI INSTANCE
 #------------------->
@@ -56,10 +52,6 @@ else:
 #--------------->
 #--------> FILES TO PDF [SUPPORTED CODECS]
 #------------------->
-
-comic = [
-    ".cbz", ".cbr"
-]
 
 img2pdf = [
     ".jpg", ".jpeg", ".png"
@@ -213,41 +205,6 @@ async def cvApi2PDF(message, edit, input_file):
         await edit.edit(f"ConvertAPI limit reaches.. contact Owner\n\n`{e}`")
         return False
 
-async def comic2PDF(message, edit, input_file):
-    try:
-        logger.debug(input_file)
-        patoolib.extract_archive(input_file)
-        newfile = input_file.replace(filein[-4:],".pdf")
-        await comicPDF(newfile, tmp_dir)
-        return True
-    except Exception as e:
-        await edit.edit(errorEditMsg.format(e))
-        return False
-
-async def comicPDF(filename, newdir, ii = 7):
-	ffiles = os.listdir(newdir)
-	if (len(ffiles) == 1):
-		comicPDF(filename,newdir+ffiles[0]+"\\",ii)
-	else:
-		# imagelist is the list with all image filenames
-		im_list = list()
-		firstP = True
-		im = None
-		for image in ffiles:
-			if (image.endswith(".jpg") or image.endswith(".JPG") or image.endswith(".jpeg") or image.endswith(".JPEG")):
-				im1 = Image.open(newdir+image)
-				try:
-					im1.save(newdir+image,dpi=(96,96))
-				except:
-					aaaaa = 4
-				
-				if (firstP):
-					im = im1
-					firstP = False
-				else: im_list.append(im1)
-			else: continue
-		im.save(filename, "PDF" ,resolution=100.0, save_all=True, append_images=im_list)
-
 #--------------->
 #--------> REPLY TO DOCUMENTS/FILES
 #------------------->
@@ -364,11 +321,7 @@ async def documents(bot, message):
                                                "`Downloading your file..` 📥",
                                                quote = True
                                                )
-            if fileExt.lower() not in comic:
-                input_file = f"{message.message_id}/input_file{fileExt}"
-            else:
-                input_file = f"{message.message_id}/input_file.rar"    # comic file saves as rar
-
+            input_file = f"{message.message_id}/input_file{fileExt}"
             # DOWNLOAD PROGRESS
             c_time = time.time()
             downloadLoc = await bot.download_media(
@@ -396,9 +349,6 @@ async def documents(bot, message):
             
             elif fileExt.lower() in cnvrt_api_2PDF:
                 isError = await cvApi2PDF(message, pdfMsgId, input_file)
-            
-            elif fileExt.lower() in comic:
-                isError = await comic2PDF(message, pdfMsgId, input_file)
             
             if not isError:
                 PROCESS.remove(message.from_user.id)
