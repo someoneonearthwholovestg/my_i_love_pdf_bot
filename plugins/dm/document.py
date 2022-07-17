@@ -64,7 +64,7 @@ pymu2PDF = [
 ]                                      # files to pdf (zero limits)
 
 wordFiles = [
-    ".docx", "doc", ".dot",
+    ".docx", ".doc", ".dot",
     ".dotx", ".dotm", ".flatOpc",
 ]
 
