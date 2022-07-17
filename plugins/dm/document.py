@@ -59,12 +59,12 @@ img2pdf = [
 ]                                       # Img to pdf file support
 
 pymu2PDF = [
-    ".epub", ".xps", ".oxps",
+    ".xps", ".oxps",
     ".cbz", ".fb2"
 ]                                      # files to pdf (zero limits)
 
 wordFiles = [
-    ".docx", ".doc", ".dot",
+    ".docx", ".doc", ".dot", ".epub",
     ".dotx", ".dotm", ".flatOpc",
 ]
 
