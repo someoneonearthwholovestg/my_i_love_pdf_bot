@@ -64,8 +64,10 @@ pymu2PDF = [
 ]                                      # files to pdf (zero limits)
 
 wordFiles = [
-    ".docx"
+    ".docx", "doc", ".dot",
+    ".dotx", ".dotm", ".flatOpc",
 ]
+
 cnvrt_api_2PDF = [
     ".csv", ".doc", ".dot",
     ".dotx", ".log", ".mpp", ".mpt",
@@ -215,7 +217,6 @@ async def word2PDF(message, edit, input_file):
         doc.save(f"{message.message_id}/outPut.pdf")
         return True
     except Exception as e:
-        logger.debug(f"word : {e}", exc_info=True)
         await edit.edit(errorEditMsg.format(e))
         return False
 
