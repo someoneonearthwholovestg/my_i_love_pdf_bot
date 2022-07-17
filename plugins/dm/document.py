@@ -69,8 +69,7 @@ wordFiles = [
 ]
 
 cnvrt_api_2PDF = [
-    ".csv", ".doc", ".dot",
-    ".dotx", ".log", ".mpp", ".mpt",
+    ".csv", ".log", ".mpp", ".mpt",
     ".odt", ".pot", ".potx", ".pps",
     ".ppsx", ".ppt", ".pptx", ".pub",
     ".rtf", ".txt", ".vdx", ".vsd",
