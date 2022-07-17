@@ -213,22 +213,6 @@ async def start(bot, message):
                                      reply_markup = button
                                      )
             await message.delete()
-        else:
-            await message.reply(
-                               "THIS IS A WELCOME MESSAGE 😂\n\n"
-                               "/help FOR HELP MESSAGE 🤧",
-                               quote = True,
-                               reply_markup = InlineKeyboardMarkup(
-                                   [[
-                                       InlineKeyboardButton("🌟 SOURCE CODE 🌟",
-                                              url="https://github.com/nabilanavab/ILovePDF"),
-                                       InlineKeyboardButton("🔍 ABOUT BOT 🔎",
-                                                     url="https://telegram.dog/nabilanavab")
-                                   ],[
-                                       InlineKeyboardButton("📌 SET THUMB 📌",
-                                                                   callback_data="getThumb")
-                                   ]]
-                               ))
     except Exception as e:
         logger.exception(
                         "PHOTO:CAUSES %(e)s ERROR",
