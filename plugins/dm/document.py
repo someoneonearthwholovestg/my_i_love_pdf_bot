@@ -160,6 +160,7 @@ async def forcSub(bot, message, refresh="refresh") -> bool:
             return False   # False == not a participant
         return True        # True == participant
     except Exception:
+        global invite_link
         if invite_link is None:
             invite_link = await bot.create_chat_invite_link(
                                                            int(UPDATE_CHANNEL)
