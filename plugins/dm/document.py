@@ -18,7 +18,6 @@ import convertapi
 from PIL import Image
 from time import sleep
 from pdf import PROCESS
-import aspose.words as word
 from pyrogram import filters
 from configs.dm import Config
 from pdf import PDF, invite_link
@@ -32,6 +31,11 @@ from plugins.fileSize import get_size_format as gSF
 from plugins.progress import progress, uploadProgress
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from configs.images import WELCOME_PIC, BANNED_PIC, BIG_FILE, PDF_THUMBNAIL
+
+try:
+    import aspose.words as word
+except Exception:
+    wordSupport is True
 
 #--------------->
 #--------> convertAPI INSTANCE
@@ -328,6 +332,12 @@ async def documents(bot, message):
             if fileExt.lower() in cnvrt_api_2PDF and not Config.CONVERT_API:
                 return await message.reply_text(
                                                "`Owner Forgot to add ConvertAPI.. contact Owner 😒`",
+                                               quote = True
+                                               )
+            
+            if fileExt.lower() in wordFiles and wordSupport is False:
+                return await message.reply_text(
+                                               f"`{File Not Supported, deploy bot using docker}`",
                                                quote = True
                                                )
             
