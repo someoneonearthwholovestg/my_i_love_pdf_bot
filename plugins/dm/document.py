@@ -35,7 +35,7 @@ from configs.images import WELCOME_PIC, BANNED_PIC, BIG_FILE, PDF_THUMBNAIL
 try:
     import aspose.words as word
 except Exception:
-    wordSupport is True
+    wordSupport is False
 
 #--------------->
 #--------> convertAPI INSTANCE
