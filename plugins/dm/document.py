@@ -335,7 +335,7 @@ async def documents(bot, message):
                                                quote = True
                                                )
             
-            if (fileExt.lower() in wordFiles) and ("wordSupport" not in globals()):
+            if (fileExt.lower() in wordFiles) and ("wordSupport" in globals()):
                 return await message.reply_text(
                                                "`File Not Supported, deploy bot using docker`",
                                                quote = True
