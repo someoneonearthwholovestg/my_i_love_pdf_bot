@@ -13,4 +13,3 @@ pymongo[srv]
 hachoir
 pytelegrambotapi
 aiohttp
-aspose-words
