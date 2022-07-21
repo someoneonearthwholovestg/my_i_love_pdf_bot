@@ -171,10 +171,14 @@ async def ocrPDF(message, message_id):
                         output_file = open(
                                           output_file, "wb"
                                           ),
-                        deskew = True
+                        deskew = True, force_ocr = True
                         )
             return "OCR PDF"
-        except Exception:
+        except Exception as e:
+            logger.exception(
+                        "COMPRESS[PROCESS]:CAUSES %(e)s ERROR",
+                        exc_info=True
+                        )
             await message.edit(
                               "`Already Have A Text Layer.. `😏"
                               )
