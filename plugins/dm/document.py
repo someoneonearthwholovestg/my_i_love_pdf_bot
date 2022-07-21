@@ -337,7 +337,7 @@ async def documents(bot, message):
             
             if fileExt.lower() in wordFiles and wordSupport is False:
                 return await message.reply_text(
-                                               f"`{File Not Supported, deploy bot using docker}`",
+                                               "`File Not Supported, deploy bot using docker`",
                                                quote = True
                                                )
             
