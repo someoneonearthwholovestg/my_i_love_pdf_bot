@@ -63,15 +63,14 @@ img2pdf = [
 ]                                       # Img to pdf file support
 
 pymu2PDF = [
-    ".xps", ".oxps",
-    ".cbz", ".fb2"
+    ".xps", ".oxps", ".cbz", ".fb2", ".epub"
 ]                                      # files to pdf (zero limits)
 
 wordFiles = [
     ".docx", ".doc", ".dot", ".bmp", ".gif"
     ".dotx", ".dotm", ".flatOpc", ".html",
     ".mhtml", ".md", ".xps", ".svg", ".tiff",
-    ".txt", ".mobi", ".chm", ".emf, ".ps", ".pcl"
+    ".txt", ".mobi", ".chm", ".emf", ".ps", ".pcl"
 ]
 
 cnvrt_api_2PDF = [
@@ -81,7 +80,7 @@ cnvrt_api_2PDF = [
     ".rtf", ".txt", ".vdx", ".vsd",
     ".vsdx", ".vst", ".vstx", ".wpd",
     ".wps", ".wri", ".xls", ".xlsb",
-    ".xlsx", ".xlt", ".xltx", ".xml", ".epub"
+    ".xlsx", ".xlt", ".xltx", ".xml"
 ]                                       # file to pdf (ConvertAPI limit)
 
 #--------------->
