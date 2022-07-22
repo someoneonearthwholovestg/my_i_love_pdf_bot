@@ -68,8 +68,10 @@ pymu2PDF = [
 ]                                      # files to pdf (zero limits)
 
 wordFiles = [
-    ".docx", ".doc", ".dot", ".epub",
-    ".dotx", ".dotm", ".flatOpc",
+    ".docx", ".doc", ".dot", ".bmp", ".gif"
+    ".dotx", ".dotm", ".flatOpc", ".html",
+    ".mhtml", ".md", ".xps", ".svg", ".tiff",
+    ".txt", ".mobi", ".chm", ".emf, ".ps", ".pcl"
 ]
 
 cnvrt_api_2PDF = [
@@ -79,7 +81,7 @@ cnvrt_api_2PDF = [
     ".rtf", ".txt", ".vdx", ".vsd",
     ".vsdx", ".vst", ".vstx", ".wpd",
     ".wps", ".wri", ".xls", ".xlsb",
-    ".xlsx", ".xlt", ".xltx", ".xml"
+    ".xlsx", ".xlt", ".xltx", ".xml", ".epub"
 ]                                       # file to pdf (ConvertAPI limit)
 
 #--------------->
